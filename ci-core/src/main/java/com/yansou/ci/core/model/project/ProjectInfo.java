@@ -1,4 +1,4 @@
-package com.yansou.ci.core.model.ci;
+package com.yansou.ci.core.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yansou.ci.core.model.AbstractModel;
