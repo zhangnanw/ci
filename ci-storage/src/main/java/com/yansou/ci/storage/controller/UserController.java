@@ -1,6 +1,6 @@
 package com.yansou.ci.storage.controller;
 
-import com.yansou.ci.core.model.User;
+import com.yansou.ci.core.model.system.User;
 import com.yansou.ci.storage.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;

@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
+ * 招标、中标信息
+ *
  * @author liutiejun
  * @create 2017-05-07 16:23
  */
@@ -62,6 +64,9 @@ public class BiddingDataInfo extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
+	private Integer purchasingMethod;// 采购方式，公开招标、竞争性谈判、市场询价、单一来源、其它
+
+	@Column
 	private String monocrystallineSpecification;// 单晶硅规格
 
 	@Column
@@ -82,7 +87,24 @@ public class BiddingDataInfo extends AbstractModel<Long> {
 	private Date biddingTime;// 招标时间
 
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date winTime;// 中标时间
+
+	@Column
 	private Double biddingBudget;// 招标预算
+
+	@Column
+	private Double winAmount;// 中标金额
+
+	@Column
+	private Double winPrice;// 中标单价
+
+	@Column
+	private Double winCapacity;// 中标容量，单位：MW（兆瓦）
+
+	@Column
+	private String winCompany;// 中标单位
 
 	@Column
 	private String fundSource;// 资金来源
@@ -220,6 +242,14 @@ public class BiddingDataInfo extends AbstractModel<Long> {
 		this.parentCompany = parentCompany;
 	}
 
+	public Integer getPurchasingMethod() {
+		return purchasingMethod;
+	}
+
+	public void setPurchasingMethod(Integer purchasingMethod) {
+		this.purchasingMethod = purchasingMethod;
+	}
+
 	public String getMonocrystallineSpecification() {
 		return monocrystallineSpecification;
 	}
@@ -268,12 +298,52 @@ public class BiddingDataInfo extends AbstractModel<Long> {
 		this.biddingTime = biddingTime;
 	}
 
+	public Date getWinTime() {
+		return winTime;
+	}
+
+	public void setWinTime(Date winTime) {
+		this.winTime = winTime;
+	}
+
 	public Double getBiddingBudget() {
 		return biddingBudget;
 	}
 
 	public void setBiddingBudget(Double biddingBudget) {
 		this.biddingBudget = biddingBudget;
+	}
+
+	public Double getWinAmount() {
+		return winAmount;
+	}
+
+	public void setWinAmount(Double winAmount) {
+		this.winAmount = winAmount;
+	}
+
+	public Double getWinPrice() {
+		return winPrice;
+	}
+
+	public void setWinPrice(Double winPrice) {
+		this.winPrice = winPrice;
+	}
+
+	public Double getWinCapacity() {
+		return winCapacity;
+	}
+
+	public void setWinCapacity(Double winCapacity) {
+		this.winCapacity = winCapacity;
+	}
+
+	public String getWinCompany() {
+		return winCompany;
+	}
+
+	public void setWinCompany(String winCompany) {
+		this.winCompany = winCompany;
 	}
 
 	public String getFundSource() {

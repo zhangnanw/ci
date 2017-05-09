@@ -1,6 +1,6 @@
 package com.yansou.ci.storage.repository;
 
-import com.yansou.ci.core.model.User;
+import com.yansou.ci.core.model.system.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

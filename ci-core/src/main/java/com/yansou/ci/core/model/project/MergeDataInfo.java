@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
+ * 并网信息
+ *
  * @author liutiejun
  * @create 2017-05-07 16:35
  */
