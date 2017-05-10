@@ -96,6 +96,9 @@ public class RecordDataInfo extends AbstractModel<Long> {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date approvalTime;// 审批时间
 
+	@Column
+	private String url;// 数据的原始地址
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -278,6 +281,14 @@ public class RecordDataInfo extends AbstractModel<Long> {
 
 	public void setApprovalTime(Date approvalTime) {
 		this.approvalTime = approvalTime;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
 

@@ -80,6 +80,9 @@ public class PlanBuildDataInfo extends AbstractModel<Long> {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date planStartTime;// 计划开工时间
 
+	@Column
+	private String url;// 数据的原始地址
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -230,6 +233,14 @@ public class PlanBuildDataInfo extends AbstractModel<Long> {
 
 	public void setPlanStartTime(Date planStartTime) {
 		this.planStartTime = planStartTime;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
 

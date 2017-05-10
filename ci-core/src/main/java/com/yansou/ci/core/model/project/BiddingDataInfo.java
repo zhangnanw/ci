@@ -130,6 +130,9 @@ public class BiddingDataInfo extends AbstractModel<Long> {
 	@Column
 	private String remarks;// 备注
 
+	@Column
+	private String url;// 数据的原始地址
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -408,6 +411,14 @@ public class BiddingDataInfo extends AbstractModel<Long> {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
 

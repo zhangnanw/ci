@@ -68,6 +68,9 @@ public class MergeDataInfo extends AbstractModel<Long> {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date mergeTime;// 并网时间
 
+	@Column
+	private String url;// 数据的原始地址
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -186,5 +189,13 @@ public class MergeDataInfo extends AbstractModel<Long> {
 
 	public void setMergeTime(Date mergeTime) {
 		this.mergeTime = mergeTime;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
