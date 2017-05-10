@@ -1,0 +1,11 @@
+#开发环境
+server:
+  port: 11111
+
+eureka:
+  client:
+    register-with-eureka: false #禁用Eureka作为客户端来注册自己
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: http://localhost:${server.port}/eureka/
+

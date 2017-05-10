@@ -1,8 +1,8 @@
 spring:
   profiles:
     active: dev #指定加载哪一个配置文件
-  freemarker:
-    cache: false
+  application:
+    name: ci-storage
 
 management:
   security:
