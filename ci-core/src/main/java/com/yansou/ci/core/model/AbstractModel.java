@@ -25,22 +25,36 @@ public abstract class AbstractModel<ID extends Serializable> implements Serializ
 
 	private static final long serialVersionUID = -6775115139445614046L;
 
+	public enum Status {
+		NORMAL(0), DELETE(1);
+
+		private Integer value;
+
+		Status(Integer value) {
+			this.value = value;
+		}
+
+		public Integer getValue() {
+			return value;
+		}
+	}
+
 	@Id
 	@GeneratedValue
 	private ID id;// 主键
 
-	@Column(nullable = false)
+	@Column
 	@ColumnDefault("0")
 	private Integer status;// 状态，0-正常，1-删除
 
-	@Column(updatable = false)
+	@Column
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;// 数据创建时间
 
-	@Column(nullable = false)
+	@Column
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

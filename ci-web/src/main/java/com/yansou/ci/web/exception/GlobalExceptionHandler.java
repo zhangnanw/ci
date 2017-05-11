@@ -2,6 +2,7 @@ package com.yansou.ci.web.exception;
 
 import com.yansou.ci.common.exception.DaoException;
 import com.yansou.ci.common.model.error.ErrorInfo;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,9 +33,13 @@ public class GlobalExceptionHandler {
 	@ResponseBody
 	public ErrorInfo<String> jsonErrorHandler(HttpServletRequest request, DaoException e) {
 		ErrorInfo<String> errorInfo = new ErrorInfo<>();
-		errorInfo.setCode(500);
+
+		errorInfo.setTimestamp(System.currentTimeMillis());
+		errorInfo.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		errorInfo.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+		errorInfo.setException(e.getClass().getSimpleName());
 		errorInfo.setMessage(e.getMessage());
-		errorInfo.setUrl(request.getRequestURL().toString());
+		errorInfo.setPath(request.getRequestURL().toString());
 		errorInfo.setData("Some Data");
 
 		return errorInfo;

@@ -1,13 +1,15 @@
 package com.yansou.ci.storage.controller;
 
+import com.yansou.ci.core.model.AbstractModel;
+import com.yansou.ci.core.model.rest.request.RestRequest;
+import com.yansou.ci.core.model.rest.response.RestResponse;
 import com.yansou.ci.core.model.system.User;
-import com.yansou.ci.storage.repository.UserRepository;
+import com.yansou.ci.storage.repository.system.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,52 +30,57 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@ApiOperation(value = "获取用户列表")
+	@ApiOperation(value = "分页获取用户列表")
 	@GetMapping(value = "/list")
-	public List<User> getUserList() {
+	public RestResponse<User[]> list() {
 		List<User> userList = userRepository.findAll();
 
 		LOG.info("userList: {}", userList);
 
-		return userList;
+		return RestResponse.ok(userList.toArray(new User[0]));
 	}
 
-	@ApiOperation(value = "创建用户", notes = "根据User对象创建用户")
-	@PostMapping(value = "/add")
-	public String addUser(@RequestBody User user) {
-		System.out.println("addUser--->" + user.toString());
+	@ApiOperation(value = "创建用户")
+	@PostMapping(value = "/save")
+	public RestResponse<User> save(@RequestBody RestRequest restRequest) {
+		User user = restRequest.getUser();
+		user = userRepository.save(user);
 
-		userRepository.save(user);
-
-		return user.toString();
+		return RestResponse.ok(user);
 	}
 
-	@ApiOperation(value = "更新用户详细信息", notes = "根据User对象更新用户")
+	@ApiOperation(value = "更新用户详细信息")
 	@PostMapping(value = "/update")
-	public String updateUser(@RequestBody User user) {
-		userRepository.save(user);
+	public RestResponse<User> update(@RequestBody RestRequest restRequest) {
+		User user = restRequest.getUser();
+		user = userRepository.save(user);
 
-		return user.toString();
+		return RestResponse.ok(user);
 	}
 
-	@ApiOperation(value = "获取用户详细信息", notes = "根据URL中的id来获取用户详细信息")
-	@GetMapping(value = "/get/{id}")
-	public User getUser(@PathVariable Long id) {
-		User user = userRepository.findOne(id);
+	@ApiOperation(value = "获取用户详细信息")
+	@PostMapping(value = "/find")
+	public RestResponse<User> find(@RequestBody RestRequest restRequest) {
+		User user = restRequest.getUser();
+		Long id = user.getId();
 
-		return user;
+		User otherUser = userRepository.findOne(id);
+
+		return RestResponse.ok(otherUser);
 	}
 
-	@ApiOperation(value = "删除用户", notes = "根据url的id来指定删除对象")
-	@GetMapping(value = "/delete/{id}")
-	public String deleteUser(@PathVariable Long id) {
-		User user = userRepository.findOne(id);
+	@ApiOperation(value = "删除用户，不做物理删除")
+	@PostMapping(value = "/delete")
+	public RestResponse<String> delete(@RequestBody RestRequest restRequest) {
+		User user = restRequest.getUser();
+		LOG.info("delete user: {}", user);
 
-		String result = user.toString();
+		Long id = user.getId();
 
-		userRepository.delete(id);
+		int result = userRepository.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+		LOG.info("result: {}", result);
 
-		return user.toString();
+		return RestResponse.ok();
 	}
 
 }
