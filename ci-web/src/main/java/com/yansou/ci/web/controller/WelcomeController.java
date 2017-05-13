@@ -1,24 +1,20 @@
 package com.yansou.ci.web.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Date;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author liutiejun
  * @create 2017-04-14 11:09
  */
 @Controller
+@RequestMapping(value = "/welcome")
 public class WelcomeController {
 
-	@GetMapping("/welcome")
-	public String welcome(ModelMap modelMap) {
-		modelMap.put("time", new Date());
-		modelMap.put("message", "北京欢迎你");
-
-		return "welcome";
+	@GetMapping("/index")
+	public String index() {
+		return "index";
 	}
 
 }

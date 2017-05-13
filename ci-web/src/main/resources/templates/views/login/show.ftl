@@ -25,7 +25,7 @@
 			<h3 class="logo-name">YanSou</h3>
 		</div>
 
-		<h3>竞争情报系统</h3>
+		<h3>企业竞争情报系统</h3>
 		<p>Login in. To see it in action.</p>
 		<form class="m-t" role="form" action="${base}/login/show" method="post">
 			<input type="hidden" name="${(_csrf.parameterName)!''}" value="${(_csrf.token)!''}"/>

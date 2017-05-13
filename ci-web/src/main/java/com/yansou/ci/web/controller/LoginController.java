@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -23,17 +22,11 @@ public class LoginController {
 		return "views/login/show";
 	}
 
-	@PostMapping("/verify")
-	public String verify(String username, String password) {
-		LOG.info("username: {}, password: {}", username, password);
-
-		return "login";
-	}
-
 	@GetMapping("/success")
 	public String success() {
-		LOG.info("show login success page-------------------");
-		return "views/login/success";
+		LOG.info("Login Success");
+
+		return "redirect:/welcome/index";
 	}
 
 	@GetMapping("/failure")
