@@ -5,3 +5,6 @@ spring:
     name: ci-web
   freemarker:
     cache: false
+    charset: utf-8
+    request-context-attribute: request
+

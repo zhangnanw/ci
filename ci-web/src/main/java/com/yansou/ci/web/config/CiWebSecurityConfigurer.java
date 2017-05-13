@@ -34,7 +34,7 @@ public class CiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// 配置无需安全检查的路径
-		web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/**/favicon.ico");
+		web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/font-awesome/**", "/**/favicon.ico");
 	}
 
 	@Override

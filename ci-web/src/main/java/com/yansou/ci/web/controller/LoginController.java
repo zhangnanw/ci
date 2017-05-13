@@ -20,7 +20,7 @@ public class LoginController {
 	@GetMapping("/show")
 	public String show() {
 		LOG.info("show login page-------------------");
-		return "login/show";
+		return "views/login/show";
 	}
 
 	@PostMapping("/verify")
@@ -33,13 +33,13 @@ public class LoginController {
 	@GetMapping("/success")
 	public String success() {
 		LOG.info("show login success page-------------------");
-		return "login/success";
+		return "views/login/success";
 	}
 
 	@GetMapping("/failure")
 	public String failure() {
 		LOG.info("show login failure page-------------------");
-		return "login/failure";
+		return "views/login/failure";
 	}
 
 }
