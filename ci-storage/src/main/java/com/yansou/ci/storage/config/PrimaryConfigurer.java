@@ -26,7 +26,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef="entityManagerFactoryPrimary",
         transactionManagerRef="transactionManagerPrimary",
-        basePackages= { "com.yansou.ci.storage.repository" }) //设置Repository所在位置
+        basePackages= {"com.yansou.ci.storage.dao"}) //设置Repository所在位置
 public class PrimaryConfigurer {
 
 	@Qualifier("primaryDataSource")

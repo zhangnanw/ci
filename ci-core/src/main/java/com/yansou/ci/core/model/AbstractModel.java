@@ -47,7 +47,7 @@ public abstract class AbstractModel<ID extends Serializable> implements Serializ
 	@ColumnDefault("0")
 	private Integer status;// 状态，0-正常，1-删除
 
-	@Column
+	@Column(updatable = false)
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

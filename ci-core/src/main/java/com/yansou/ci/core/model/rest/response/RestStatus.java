@@ -300,7 +300,7 @@ public enum RestStatus {
 	 * <p/>
 	 * <p>
 	 * Note: HTTP/1.1 servers are allowed to return responses which are not acceptable according to the accept headers
-	 * sent in the request. In some cases, this may even be preferable to sending a 406 response. User agents are
+	 * sent in the request. In some cases, this may even be preferable to sending a 406 response. Account agents are
 	 * encouraged to inspect the headers of an incoming response to determine if it is acceptable.
 	 * <p/>
 	 * <p>

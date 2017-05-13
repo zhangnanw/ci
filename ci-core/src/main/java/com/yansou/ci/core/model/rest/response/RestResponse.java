@@ -4,6 +4,11 @@ import com.yansou.ci.common.utils.GsonUtils;
 
 import java.io.Serializable;
 
+/**
+ * API请求返回数据封装
+ *
+ * @param <T>
+ */
 public class RestResponse<T> implements Serializable {
 
 	private static final long serialVersionUID = 8694878353724315950L;
@@ -38,45 +43,45 @@ public class RestResponse<T> implements Serializable {
 		this.result = result;
 	}
 
-	public static RestResponse<String> ok() {
-		return ok(RestStatus.OK.name());
-	}
-
-	public static <R> RestResponse<R> ok(R result) {
-		RestResponse<R> restResponse = new RestResponse<>();
-
-		restResponse.setStatus(RestStatus.OK.getValue());
-		restResponse.setResult(result);
-
-		return restResponse;
-	}
-
-	public static RestResponse<String> exception() {
-		return exception(RestStatus.INTERNAL_SERVER_ERROR.name());
-	}
-
-	public static RestResponse<String> exception(Exception e) {
-		String errors = null;
-		if (e != null) {
-			errors = e.getMessage();
-
-			if (errors == null) {
-				errors = e.getClass().getSimpleName();
-			}
-		}
-
-		return exception(errors);
-	}
-
-	public static RestResponse<String> exception(String errors) {
-		RestResponse<String> restResponse = new RestResponse<>();
-
-		restResponse.setStatus(RestStatus.INTERNAL_SERVER_ERROR.getValue());
-		restResponse.setErrors(errors);
-		restResponse.setResult(errors);
-
-		return restResponse;
-	}
+//	public static RestResponse<String> ok() {
+//		return ok(RestStatus.OK.name());
+//	}
+//
+//	public static <R> RestResponse<R> ok(R result) {
+//		RestResponse<R> restResponse = new RestResponse<>();
+//
+//		restResponse.setStatus(RestStatus.OK.getValue());
+//		restResponse.setResult(result);
+//
+//		return restResponse;
+//	}
+//
+//	public static RestResponse<String> exception() {
+//		return exception(RestStatus.INTERNAL_SERVER_ERROR.name());
+//	}
+//
+//	public static RestResponse<String> exception(Exception e) {
+//		String errors = null;
+//		if (e != null) {
+//			errors = e.getMessage();
+//
+//			if (errors == null) {
+//				errors = e.getClass().getSimpleName();
+//			}
+//		}
+//
+//		return exception(errors);
+//	}
+//
+//	public static RestResponse<String> exception(String errors) {
+//		RestResponse<String> restResponse = new RestResponse<>();
+//
+//		restResponse.setStatus(RestStatus.INTERNAL_SERVER_ERROR.getValue());
+//		restResponse.setErrors(errors);
+//		restResponse.setResult(errors);
+//
+//		return restResponse;
+//	}
 
 	@Override
 	public String toString() {
