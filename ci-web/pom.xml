@@ -88,17 +88,17 @@
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
-        <!-- Feign -->
+        <!-- Feign
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
-        </dependency>
+        </dependency> -->
 
-        <!-- Ribbon
+        <!-- Ribbon -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-ribbon</artifactId>
-        </dependency> -->
+        </dependency>
 
     </dependencies>
 
