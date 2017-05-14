@@ -21,6 +21,32 @@ public class BiddingData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -8168998504697731751L;
 
+	/**
+	 * 数据类型
+	 */
+	public enum DataType {
+		/**
+		 * 招标数据
+		 */
+		BIDDING(1), /**
+		 * 中标数据
+		 */
+		WIN(2);
+
+		private Integer value;
+
+		DataType(Integer value) {
+			this.value = value;
+		}
+
+		public Integer getValue() {
+			return value;
+		}
+	}
+
+	@Column
+	private Integer dataType;// 1-招标数据，2-中标数据
+
 	@Column
 	private String projectName;// 项目名称（工程名称）
 
@@ -95,16 +121,7 @@ public class BiddingData extends AbstractModel<Long> {
 	private Double biddingBudget;// 招标预算
 
 	@Column
-	private Double winAmount;// 中标金额
-
-	@Column
-	private Double winPrice;// 中标单价
-
-	@Column
-	private Double winCapacity;// 中标容量，单位：MW（兆瓦）
-
-	@Column
-	private String winCompany;// 中标单位
+	private Double winTotalAmount;// 中标总金额
 
 	@Column
 	private String fundSource;// 资金来源
@@ -132,6 +149,14 @@ public class BiddingData extends AbstractModel<Long> {
 
 	@Column
 	private String url;// 数据的原始地址
+
+	public Integer getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(Integer dataType) {
+		this.dataType = dataType;
+	}
 
 	public String getProjectName() {
 		return projectName;
@@ -317,36 +342,12 @@ public class BiddingData extends AbstractModel<Long> {
 		this.biddingBudget = biddingBudget;
 	}
 
-	public Double getWinAmount() {
-		return winAmount;
+	public Double getWinTotalAmount() {
+		return winTotalAmount;
 	}
 
-	public void setWinAmount(Double winAmount) {
-		this.winAmount = winAmount;
-	}
-
-	public Double getWinPrice() {
-		return winPrice;
-	}
-
-	public void setWinPrice(Double winPrice) {
-		this.winPrice = winPrice;
-	}
-
-	public Double getWinCapacity() {
-		return winCapacity;
-	}
-
-	public void setWinCapacity(Double winCapacity) {
-		this.winCapacity = winCapacity;
-	}
-
-	public String getWinCompany() {
-		return winCompany;
-	}
-
-	public void setWinCompany(String winCompany) {
-		this.winCompany = winCompany;
+	public void setWinTotalAmount(Double winTotalAmount) {
+		this.winTotalAmount = winTotalAmount;
 	}
 
 	public String getFundSource() {
