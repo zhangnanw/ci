@@ -11,18 +11,30 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>ci-web</module>
-        <module>ci-crawler</module>
-        <module>ci-integrate</module>
+        <!-- 对外API，需要提供权限验证-->
         <module>ci-api</module>
-        <module>ci-monitor</module>
-        <module>ci-real-time</module>
-        <module>ci-off-line</module>
-        <module>ci-data-mining</module>
-        <module>ci-storage</module>
+        <!-- 工具类 -->
         <module>ci-common</module>
+        <!-- 核心包，包含实体类 -->
         <module>ci-core</module>
+        <!-- 采集 -->
+        <module>ci-crawler</module>
+        <!-- 数据挖掘 -->
+        <module>ci-data-mining</module>
+        <!-- 服务管理 -->
         <module>ci-eureka-server</module>
+        <!-- 数据整合 -->
+        <module>ci-integrate</module>
+        <!-- 系统监控 -->
+        <module>ci-monitor</module>
+        <!-- 离线计算 -->
+        <module>ci-off-line</module>
+        <!-- 实时计算 -->
+        <module>ci-real-time</module>
+        <!-- 数据存储 -->
+        <module>ci-storage</module>
+        <!-- 前端访问页面 -->
+        <module>ci-web</module>
     </modules>
 
     <parent>
