@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
+ * JSON数据处理工具类
+ *
  * @author liutiejun
  * @create 2017-05-05 11:40
  */
