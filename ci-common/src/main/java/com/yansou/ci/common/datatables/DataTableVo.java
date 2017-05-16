@@ -12,9 +12,9 @@ public class DataTableVo<T> {
 
 	private Integer draw;
 	// Total records, before filtering (i.e. the total number of records in the database)
-	private Integer recordsTotal;
+	private Long recordsTotal;
 	// Total records, after filtering
-	private Integer recordsFiltered;
+	private Long recordsFiltered;
 	// The data to be displayed in the table
 	private T[] data;
 	private String error;
@@ -27,19 +27,19 @@ public class DataTableVo<T> {
 		this.draw = draw;
 	}
 
-	public Integer getRecordsTotal() {
+	public Long getRecordsTotal() {
 		return recordsTotal;
 	}
 
-	public void setRecordsTotal(Integer recordsTotal) {
+	public void setRecordsTotal(Long recordsTotal) {
 		this.recordsTotal = recordsTotal;
 	}
 
-	public Integer getRecordsFiltered() {
+	public Long getRecordsFiltered() {
 		return recordsFiltered;
 	}
 
-	public void setRecordsFiltered(Integer recordsFiltered) {
+	public void setRecordsFiltered(Long recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
 	}
 
@@ -58,5 +58,4 @@ public class DataTableVo<T> {
 	public void setError(String error) {
 		this.error = error;
 	}
-
 }

@@ -1,8 +1,10 @@
 package com.yansou.ci.web.business.project.impl;
 
+import com.yansou.ci.common.datatables.DataTableUtils;
 import com.yansou.ci.common.datatables.DataTableVo;
 import com.yansou.ci.common.page.PageCriteria;
 import com.yansou.ci.common.page.Pagination;
+import com.yansou.ci.common.utils.GsonUtils;
 import com.yansou.ci.core.model.project.BiddingData;
 import com.yansou.ci.core.rest.request.RestRequest;
 import com.yansou.ci.core.rest.response.CountResponse;
@@ -76,9 +78,8 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	public DataTableVo<BiddingData> pagination(HttpServletRequest request) {
 		String requestUrl = "http://" + CI_STORAGE + "/biddingData/pagination";
 
-		PageCriteria pageCriteria = new PageCriteria();
-		pageCriteria.setCurrentPageNo(1);
-		pageCriteria.setPageSize(10);
+		PageCriteria pageCriteria = DataTableUtils.parseRequest(request);
+		LOG.info("pageCriteria: {}", GsonUtils._gson.toJson(pageCriteria));
 
 		RestRequest restRequest = new RestRequest();
 		restRequest.setPageCriteria(pageCriteria);
@@ -92,7 +93,12 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		return null;
+		DataTableVo<BiddingData> dataTableVo = DataTableUtils.parseResponse(pagination, pageCriteria.getDraw(),
+				restResponse.getErrors());
+
+		LOG.info("dataTableVo: {}", dataTableVo);
+
+		return dataTableVo;
 	}
 
 	@Override
