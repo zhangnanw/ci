@@ -50,27 +50,9 @@ function delHtmlTag(str) {
 function updatePageContent(clickObj) {
     var path = $(clickObj).attr("res");
 
-    $("#page-content").empty();
-    $("#page-content").load(path);
+    $("#page-container").empty();
+    $("#page-container").load(path);
 }
-
-
-function exchangeGoods(clickObj) {
-    var path = $(clickObj).attr("res");
-
-
-    $.alertable.confirm('您确定要兑换商品吗?').then(function () {
-        debugger;
-        $("#page-content").empty();
-        $("#page-content").load(path);
-    }, function () {
-        debugger;
-        // Confirmation canceled
-    });
-
-
-}
-
 
 /**
  * 根据不同的请求更新右侧主界面的内容
@@ -78,8 +60,8 @@ function exchangeGoods(clickObj) {
  * @param path
  */
 function updatePageContentForPath(path) {
-    $("#page-content").empty();
-    $("#page-content").load(path);
+    $("#page-container").empty();
+    $("#page-container").load(path);
 }
 
 /**

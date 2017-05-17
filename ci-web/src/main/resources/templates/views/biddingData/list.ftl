@@ -87,9 +87,8 @@
 
 		<div class="row">
 			<div class="ibox-content">
-				<button type="button" class="btn btn-w-m btn-primary">搜索</button>
-				<button type="button" class="btn btn-w-m btn-success">导出CSV</button>
-				<button type="button" class="btn btn-w-m btn-info">导出Excel</button>
+				<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
+				<a class="btn btn-w-m btn-success" href="javascript:;">新增</a>
 			</div>
 		</div>
 	</div>
@@ -133,7 +132,6 @@
 	$(document).ready(function () {
 		$('.dataTables-example').DataTable({
 			"dom": '<"html5buttons"B>lTfgitp',
-			"info": false,
 			"searching": false,
 			"lengthChange": false,
 			buttons: [
@@ -150,49 +148,63 @@
 			"columnDefs": [
 				{
 					"targets": 0,
-					"data": "projectName"
+					"data": "projectName",
+					"orderable": false
 				},
 				{
 					"targets": 1,
-					"data": "projectScale"
+					"data": "projectScale",
+					"orderable": false
 				},
 				{
 					"targets": 2,
-					"data": "projectTotalInvestment"
+					"data": "projectTotalInvestment",
+					"orderable": false
 				},
 				{
 					"targets": 3,
-					"data": "projectProvince"
+					"data": "projectProvince",
+					"orderable": false
 				},
 				{
 					"targets": 4,
-					"data": "projcetOwner"
+					"data": "projcetOwner",
+					"orderable": false
 				},
 				{
 					"targets": 5,
-					"data": "parentCompany"
+					"data": "parentCompany",
+					"orderable": false
 				},
 				{
 					"targets": 6,
-					"data": "monocrystallineSpecification"
+					"data": "monocrystallineSpecification",
+					"orderable": false
 				},
 				{
 					"targets": 7,
-					"data": "monocrystallineCapacity"
+					"data": "monocrystallineCapacity",
+					"orderable": false
 				},
 				{
 					"targets": 8,
-					"data": "polysiliconSpecification"
+					"data": "polysiliconSpecification",
+					"orderable": false
 				},
 				{
 					"targets": 9,
-					"data": "polysiliconCapacity"
+					"data": "polysiliconCapacity",
+					"orderable": false
 				},
 				{
 					"targets": 10,
 					"data": "id",
+					"orderable": false,
 					"render": function (data, type, full, meta) {
-						return '<div class="btn-group"><button class="btn-white btn btn-xs">View</button><button class="btn-white btn btn-xs">Edit</button></div>';
+						return '<a href="javascript:;" onclick="updatePageContent(this)" ' +
+								'res="/biddingData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>' +
+								'&nbsp;&nbsp;<a href="javascript:;" onclick="deleteForDataTable(this)" ' +
+								'res="/biddingData/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
 					},
 				}
 			],
@@ -207,9 +219,6 @@
 			}
 
 		});
-
-		var oTable = $('#editable').DataTable();
-
 
 	});
 

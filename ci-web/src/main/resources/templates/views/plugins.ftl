@@ -19,6 +19,12 @@
 <script src="${base}/js/inspinia.js"></script>
 <script src="${base}/js/plugins/pace/pace.min.js"></script>
 
+
+<script src="${base}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- Jquery Validate -->
+<script src="${base}/js/plugins/validate/jquery.validate.min.js"></script>
+
 <!-- Sparkline -->
 <script src="${base}/js/plugins/sparkline/jquery.sparkline.min.js"></script>
 

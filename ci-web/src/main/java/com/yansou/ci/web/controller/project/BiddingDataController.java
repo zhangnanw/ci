@@ -84,6 +84,9 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		BiddingData biddingData = biddingDataBusiness.findById(id);
+		model.addAttribute("biddingData", biddingData);
+
 		return "views/biddingData/edit";
 	}
 
