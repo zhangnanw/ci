@@ -1,4 +1,4 @@
-package com.yansou.ci.storage.ciimp;
+package com.yansou.ci.storage.dao.project;
 
 import org.springframework.stereotype.Repository;
 

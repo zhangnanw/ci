@@ -8,6 +8,7 @@ import org.yansou.common.util.JSONArrayHandler;
 import org.yansou.common.util.JSONUtils;
 
 import com.alibaba.fastjson.JSONArray;
+import com.yansou.ci.storage.dao.project.BiddingDataDao;
 
 /**
  * 
@@ -24,8 +25,8 @@ public class CorvToBidding extends AbsStatistics {
 			JSONArray arr = qr.query(
 					"select * from tab_raw_bidd where url not in(SELECT url from intelligence.ci_bidding_data_info) limit 1000",
 					JSONArrayHandler.create());
-			JSONUtils.streamJSONObject(arr).map(RawBidd2CiBiddingData::new).map(info -> info.get())
-					.map(dao::save).forEach(System.out::println);
+			JSONUtils.streamJSONObject(arr).map(RawBidd2CiBiddingData::new).map(info -> info.get()).map(dao::save)
+					.forEach(System.out::println);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}

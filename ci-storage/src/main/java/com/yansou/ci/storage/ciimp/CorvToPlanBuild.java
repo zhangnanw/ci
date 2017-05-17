@@ -8,6 +8,7 @@ import org.yansou.common.util.JSONArrayHandler;
 import org.yansou.common.util.JSONUtils;
 
 import com.alibaba.fastjson.JSONArray;
+import com.yansou.ci.storage.dao.project.PlanBuildDataDao;
 
 /**
  * 
@@ -24,8 +25,8 @@ public class CorvToPlanBuild extends AbsStatistics {
 			JSONArray arr = qr.query(
 					"select * from tab_rcc_source where rowkey not in(SELECT rowkey from intelligence.ci_plan_build_data_info) limit 1000",
 					JSONArrayHandler.create());
-			JSONUtils.streamJSONObject(arr).map(RccSource2PlanBuildDataInfo::new).map(info -> info.get())
-					.map(dao::save).forEach(System.out::println);
+			JSONUtils.streamJSONObject(arr).map(RccSource2PlanBuildDataInfo::new).map(info -> info.get()).map(dao::save)
+					.forEach(System.out::println);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}
