@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.nlpir.impl;
+package wang.biaoshu.analyzer.nlpir.impl;
 
 import java.util.Arrays;
 import java.util.List;

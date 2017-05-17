@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer;
+package wang.biaoshu.analyzer;
 
 import java.util.Iterator;
 import java.util.List;

@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.util;
+package wang.biaoshu.analyzer.util;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.startsWith;

@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.iio;
+package wang.biaoshu.analyzer.iio;
 
 import java.io.File;
 import java.io.FileInputStream;

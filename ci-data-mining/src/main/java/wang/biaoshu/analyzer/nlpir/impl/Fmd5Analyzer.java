@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.nlpir.impl;
+package wang.biaoshu.analyzer.nlpir.impl;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.startsWith;

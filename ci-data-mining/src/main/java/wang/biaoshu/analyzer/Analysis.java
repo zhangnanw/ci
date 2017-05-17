@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer;
+package wang.biaoshu.analyzer;
 
 /**
  * 命名实体识别接口

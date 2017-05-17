@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.util;
+package wang.biaoshu.analyzer.util;
 public class Crc64 {
 
 	private static final long INITIALCRC = 0xFFFFFFFFFFFFFFFFL;

@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.util;
+package wang.biaoshu.analyzer.util;
 
 import java.io.File;
 import java.io.IOException;

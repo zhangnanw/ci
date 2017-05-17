@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.dao;
+package wang.biaoshu.analyzer.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;

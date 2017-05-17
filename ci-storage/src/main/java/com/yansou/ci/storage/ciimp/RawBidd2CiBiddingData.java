@@ -1,4 +1,4 @@
-﻿package com.yansou.ci.storage.ciimp;
+package com.yansou.ci.storage.ciimp;
 
 import java.util.Date;
 
@@ -127,7 +127,7 @@ public class RawBidd2CiBiddingData {
 		Integer status = 0;
 		// URL
 		String url = obj.getString("url");
-
+		
 		info.setUrl(url);
 		info.setWinTime(winTime);
 		info.setStatus(status);

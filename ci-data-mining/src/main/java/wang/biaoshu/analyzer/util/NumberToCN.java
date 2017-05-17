@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.util;
+package wang.biaoshu.analyzer.util;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

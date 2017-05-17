@@ -1,4 +1,4 @@
-﻿package wang.biaoshu.analyzer.ansj;
+package wang.biaoshu.analyzer.ansj;
 
 import java.util.ArrayList;
 import java.util.List;
