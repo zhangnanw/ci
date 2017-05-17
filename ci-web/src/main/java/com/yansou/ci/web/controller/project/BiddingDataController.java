@@ -37,7 +37,7 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "biddingData/list";
+		return "views/biddingData/list";
 	}
 
 	/**
@@ -53,9 +53,9 @@ public class BiddingDataController {
 	@ResponseBody
 	public DataTableVo<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		biddingDataBusiness.pagination(request);
+		DataTableVo<BiddingData> dataTableVo = biddingDataBusiness.pagination(request);
 
-		return null;
+		return dataTableVo;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "biddingData/add";
+		return "views/biddingData/add";
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "biddingData/edit";
+		return "views/biddingData/edit";
 	}
 
 	/**

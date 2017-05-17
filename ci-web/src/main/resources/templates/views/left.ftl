@@ -15,45 +15,54 @@
 			IN+
 		</div>
 	</li>
-	<li class="active">
+
+	<li id="menu_1" class="active">
 		<a href="index"><i class="fa fa-th-large"></i> <span class="nav-label">首页</span></a>
 	</li>
-	<li>
+
+	<li id="menu_2">
 		<a href="layouts.html"><i class="fa fa-edit"></i> <span class="nav-label">拟在建数据</span><span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level collapse">
 			<li><a href="table_basic.html">数据预览</a></li>
 			<li><a href="table_data_tables.html">数据报表</a></li>
 		</ul>
 	</li>
-	<li>
-		<a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">招标数据</span><span class="fa arrow"></span></a>
+
+	<li id="menu_3">
+		<a href="javascript:;">
+			<i class="fa fa-diamond"></i> <span class="nav-label">招中标数据</span><span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level collapse">
-			<li><a href="table_basic.html">数据预览</a></li>
+			<li><a href="javascript:;" onclick="gotoPageContent(this)" res="${base}/biddingData/list" menu_id="menu_3">数据预览</a>
+			</li>
 			<li><a href="table_data_tables.html">数据报表</a></li>
 		</ul>
 	</li>
-	<li>
+
+	<li id="menu_4">
 		<a href="layouts.html"><i class="fa fa-magic"></i> <span class="nav-label">中标数据</span><span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level collapse">
 			<li><a href="table_basic.html">数据预览</a></li>
 			<li><a href="table_data_tables.html">数据报表</a></li>
 		</ul>
 	</li>
-	<li>
+
+	<li id="menu_5">
 		<a href="layouts.html"><i class="fa fa-files-o"></i> <span class="nav-label">项目追踪</span><span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level collapse">
 			<li><a href="table_basic.html">数据预览</a></li>
 			<li><a href="table_data_tables.html">数据报表</a></li>
 		</ul>
 	</li>
-	<li>
+
+	<li id="menu_6">
 		<a href="layouts.html"><i class="fa fa-flask"></i> <span class="nav-label">价格追踪</span><span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level collapse">
 			<li><a href="table_basic.html">数据预览</a></li>
 			<li><a href="table_data_tables.html">数据报表</a></li>
 		</ul>
 	</li>
-	<li>
+
+	<li id="menu_7">
 		<a href="layouts.html"><i class="fa fa-table"></i> <span class="nav-label">竞争对手</span><span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level collapse">
 			<li><a href="table_basic.html">数据预览</a></li>

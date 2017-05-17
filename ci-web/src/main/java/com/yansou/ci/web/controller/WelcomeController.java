@@ -14,7 +14,7 @@ public class WelcomeController {
 
 	@GetMapping("/index")
 	public String index() {
-		return "index";
+		return "views/index";
 	}
 
 }
