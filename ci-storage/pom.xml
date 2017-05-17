@@ -30,12 +30,10 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -107,6 +105,11 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>com.yansou.ci</groupId>
+        	<artifactId>ci-data-mining</artifactId>
+        	<version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
