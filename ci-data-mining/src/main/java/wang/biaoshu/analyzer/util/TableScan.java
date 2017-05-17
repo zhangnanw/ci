@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
  * 表格扫描。 <BR>
  * 将表格内容变为键值对文本
  * 
- * @author zhang
+ * @author n.zhang
  *
  */
 public class TableScan {
