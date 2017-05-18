@@ -3,9 +3,11 @@ package com.yansou.ci.storage.controller.project;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.ActuatorMetricWriter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.yansou.ci.core.rest.response.SimpleRestResponse;
 import com.yansou.ci.storage.ciimp.CorvToBidding;
@@ -22,6 +24,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/importdata")
 public class ImportDataController {
 	private static final Logger LOG = LogManager.getLogger(ImportDataController.class);
+	@Autowired
+	private RestTemplate restTemplate;
 	@Autowired
 	private CorvToBidding corvBidding;
 	@Autowired

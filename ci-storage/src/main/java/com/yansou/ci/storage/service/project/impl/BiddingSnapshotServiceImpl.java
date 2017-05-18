@@ -16,7 +16,7 @@ import com.yansou.ci.storage.service.project.BiddingSnapshotService;
 
 @Service("biddingSnapshotService")
 @Transactional
-public class BiddingSnapshotServiceImpl extends GeneralServiceImpl<BiddingSnapshot, Long>
+public class BiddingSnapshotServiceImpl extends GeneralServiceImpl<BiddingSnapshot, String>
 		implements BiddingSnapshotService {
 	@Autowired
 	private BiddingSnapshotDao dao;
@@ -24,12 +24,12 @@ public class BiddingSnapshotServiceImpl extends GeneralServiceImpl<BiddingSnapsh
 	@Autowired
 	@Qualifier("biddingSnapshotDao")
 	@Override
-	public void setGeneralDao(GeneralDao<BiddingSnapshot, Long> generalDao) {
+	public void setGeneralDao(GeneralDao<BiddingSnapshot, String> generalDao) {
 		this.generalDao = generalDao;
 	}
 
 	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
+	public int updateStatus(Integer status, String id) throws DaoException {
 		return 0;
 	}
 

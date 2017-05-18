@@ -82,6 +82,17 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	@Column
 	private String url;// 数据的原始地址
+	
+	@Column
+	private String snapshotId;//快照id
+
+	public String getSnapshotId() {
+		return snapshotId;
+	}
+
+	public void setSnapshotId(String snapshotId) {
+		this.snapshotId = snapshotId;
+	}
 
 	public String getProjectName() {
 		return projectName;

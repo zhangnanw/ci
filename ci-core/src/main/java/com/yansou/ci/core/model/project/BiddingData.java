@@ -149,6 +149,12 @@ public class BiddingData extends AbstractModel<Long> {
 
 	@Column
 	private String url;// 数据的原始地址
+	@Column
+	private String snapshotId;//快照id
+	
+	public String getSnapshotId() {
+		return snapshotId;
+	}
 
 	public Integer getDataType() {
 		return dataType;
@@ -420,6 +426,11 @@ public class BiddingData extends AbstractModel<Long> {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public void setSnapshotId(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
