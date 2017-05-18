@@ -14,20 +14,20 @@ import com.yansou.ci.storage.dao.project.PlanBuildSnapshotDao;
 import com.yansou.ci.storage.service.project.PlanBuildSnapshotService;
 
 @Service
-public class PlanBuildSnapshotServiceImpl extends GeneralServiceImpl<PlanBuildSnapshot, String>
+public class PlanBuildSnapshotServiceImpl extends GeneralServiceImpl<PlanBuildSnapshot, Long>
 		implements PlanBuildSnapshotService {
 	@Autowired
 	PlanBuildSnapshotDao dao;
 
 	@Override
-	public int updateStatus(Integer status, String id) throws DaoException {
+	public int updateStatus(Integer status, Long id) throws DaoException {
 		return 0;
 	}
 
 	@Autowired
 	@Qualifier("planBuildSnapshotDao")
 	@Override
-	public void setGeneralDao(GeneralDao<PlanBuildSnapshot, String> generalDao) {
+	public void setGeneralDao(GeneralDao<PlanBuildSnapshot, Long> generalDao) {
 		this.generalDao = generalDao;
 		this.dao = (PlanBuildSnapshotDao) generalDao;
 	}
@@ -37,4 +37,7 @@ public class PlanBuildSnapshotServiceImpl extends GeneralServiceImpl<PlanBuildSn
 		return null;
 	}
 
+	public PlanBuildSnapshot getSnapshot(String snapshotId) {
+		return dao.getSnapshot(snapshotId);
+	}
 }

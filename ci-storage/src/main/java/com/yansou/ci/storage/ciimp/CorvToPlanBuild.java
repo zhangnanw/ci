@@ -1,6 +1,7 @@
 package com.yansou.ci.storage.ciimp;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import org.yansou.common.util.JSONUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.yansou.ci.common.exception.DaoException;
+import com.yansou.ci.core.model.project.PlanBuildData;
 import com.yansou.ci.core.model.project.PlanBuildSnapshot;
 import com.yansou.ci.storage.dao.project.PlanBuildDataDao;
 import com.yansou.ci.storage.service.project.impl.PlanBuildSnapshotServiceImpl;
@@ -33,15 +35,17 @@ public class CorvToPlanBuild extends AbsStatistics {
 			JSONUtils.streamJSONObject(arr).map(info -> {
 				PlanBuildSnapshot ent = new PlanBuildSnapshot();
 				ent.setContext(info.getString("page_source"));
+				ent.setSnapshotId(UUID.randomUUID().toString());
 				try {
-					service.save(ent);
+					ent = service.save(ent);
+					PlanBuildData df = new RccSource2PlanBuildDataInfo(info).get();
+					df.setSnapshotId(ent.getSnapshotId());
+					df.setUrl("/snapshot/planbuild/" + ent.getId());
+					return df;
 				} catch (DaoException e) {
 					throw new IllegalStateException(e);
 				}
-				new RccSource2PlanBuildDataInfo(info).get();
-				return info;
-			}).map(RccSource2PlanBuildDataInfo::new).map(info -> info.get()).map(dao::save)
-					.forEach(System.out::println);
+			}).map(dao::save).forEach(System.out::println);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}

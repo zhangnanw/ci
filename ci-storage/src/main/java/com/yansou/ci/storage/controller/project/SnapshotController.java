@@ -33,7 +33,7 @@ public class SnapshotController {
 
 	@ApiOperation("招中标快照")
 	@GetMapping("/bidding/{id}")
-	public SimpleRestResponse bidding(@PathVariable String id) {
+	public SimpleRestResponse bidding(@PathVariable Long id) {
 		try {
 			BiddingSnapshot ent = biddingSnapshotService.findById(id);
 			return SimpleRestResponse.ok("context", ent.getContext());
@@ -56,7 +56,7 @@ public class SnapshotController {
 
 	@ApiOperation("拟在建快照写入")
 	@GetMapping("/planbuild/{id}")
-	public SimpleRestResponse planBuild(@PathVariable String id) {
+	public SimpleRestResponse planBuild(@PathVariable Long id) {
 		try {
 			PlanBuildSnapshot ent = planBuildSnapshotService.findById(id);
 			return SimpleRestResponse.ok("context", ent.getContext());
