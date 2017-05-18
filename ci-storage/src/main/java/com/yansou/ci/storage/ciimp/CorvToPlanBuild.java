@@ -23,7 +23,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 	public void run() {
 		try {
 			JSONArray arr = qr.query(
-					"select * from tab_rcc_source where rowkey not in(SELECT rowkey from intelligence.ci_plan_build_data_info) limit 1000",
+					"select * from tab_rcc_source where rowkey not in(SELECT rowkey from intelligence.ci_plan_build_data) limit 200",
 					JSONArrayHandler.create());
 			JSONUtils.streamJSONObject(arr).map(RccSource2PlanBuildDataInfo::new).map(info -> info.get()).map(dao::save)
 					.forEach(System.out::println);

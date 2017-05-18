@@ -23,7 +23,7 @@ public class CorvToBidding extends AbsStatistics {
 	public void run() {
 		try {
 			JSONArray arr = qr.query(
-					"select * from tab_raw_bidd where url not in(SELECT url from intelligence.ci_bidding_data_info) limit 1000",
+					"select * from tab_raw_bidd where url not in(SELECT url from intelligence.ci_bidding_data) limit 1000",
 					JSONArrayHandler.create());
 			JSONUtils.streamJSONObject(arr).map(RawBidd2CiBiddingData::new).map(info -> info.get()).map(dao::save)
 					.forEach(System.out::println);

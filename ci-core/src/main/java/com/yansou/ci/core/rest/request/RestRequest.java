@@ -2,6 +2,7 @@ package com.yansou.ci.core.rest.request;
 
 import com.yansou.ci.common.page.PageCriteria;
 import com.yansou.ci.core.model.project.BiddingData;
+import com.yansou.ci.core.model.project.BiddingSnapshot;
 import com.yansou.ci.core.model.project.MergeData;
 import com.yansou.ci.core.model.project.PlanBuildData;
 import com.yansou.ci.core.model.project.ProjectInfo;
@@ -39,6 +40,8 @@ public class RestRequest implements Serializable {
 
 	private RecordData recordData;
 	private RecordData[] recordDatas;
+	
+	private BiddingSnapshot biddingSnapshot;
 
 	public PageCriteria getPageCriteria() {
 		return pageCriteria;
@@ -142,5 +145,13 @@ public class RestRequest implements Serializable {
 
 	public void setRecordDatas(RecordData[] recordDatas) {
 		this.recordDatas = recordDatas;
+	}
+
+	public BiddingSnapshot getBiddingSnapshot() {
+		return biddingSnapshot;
+	}
+
+	public void setBiddingSnapshot(BiddingSnapshot biddingSnapshot) {
+		this.biddingSnapshot = biddingSnapshot;
 	}
 }
