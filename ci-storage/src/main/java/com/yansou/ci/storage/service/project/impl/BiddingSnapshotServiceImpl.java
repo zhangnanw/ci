@@ -38,4 +38,8 @@ public class BiddingSnapshotServiceImpl extends GeneralServiceImpl<BiddingSnapsh
 		return null;
 	}
 
+	@Override
+	public BiddingSnapshot getSnapshot(String snapshotId) {
+		return dao.getSnapshot(snapshotId);
+	}
 }
