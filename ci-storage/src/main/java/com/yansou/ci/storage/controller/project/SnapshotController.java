@@ -32,14 +32,10 @@ public class SnapshotController {
 	private PlanBuildSnapshotService planBuildSnapshotService;
 
 	@ApiOperation("招中标快照")
-	@GetMapping("/bidding/{id}")
-	public SimpleRestResponse bidding(@PathVariable Long id) {
-		try {
-			BiddingSnapshot ent = biddingSnapshotService.findById(id);
-			return SimpleRestResponse.ok("context", ent.getContext());
-		} catch (DaoException e) {
-			return SimpleRestResponse.exception(e);
-		}
+	@GetMapping("/bidding/{snapshotId}")
+	public SimpleRestResponse bidding(@PathVariable String snapshotId) {
+		BiddingSnapshot ent = biddingSnapshotService.getSnapshot(snapshotId);
+		return SimpleRestResponse.ok("context", ent.getContext());
 	}
 
 	@ApiOperation("招中标快照写入")
@@ -55,14 +51,10 @@ public class SnapshotController {
 	}
 
 	@ApiOperation("拟在建快照写入")
-	@GetMapping("/planbuild/{id}")
-	public SimpleRestResponse planBuild(@PathVariable Long id) {
-		try {
-			PlanBuildSnapshot ent = planBuildSnapshotService.findById(id);
-			return SimpleRestResponse.ok("context", ent.getContext());
-		} catch (DaoException e) {
-			return SimpleRestResponse.exception(e);
-		}
+	@GetMapping("/planbuild/{snapshotId}")
+	public SimpleRestResponse planBuild(@PathVariable String snapshotId) {
+		PlanBuildSnapshot ent = planBuildSnapshotService.getSnapshot(snapshotId);
+		return SimpleRestResponse.ok("context", ent.getContext());
 	}
 
 	@ApiOperation("招中标快照写入")

@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import com.yansou.ci.core.model.AbstractModel;
 
 @Entity
-@Table(name = "plan_build_snapshot")
+@Table(name = "ci_plan_build_snapshot")
 public class PlanBuildSnapshot extends AbstractModel<Long> {
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class PlanBuildSnapshot extends AbstractModel<Long> {
 	private static final long serialVersionUID = 8040264519723859712L;
 	@Column
 	private String snapshotId;// 快照id
-	@Column
+	@Column(length = Integer.MAX_VALUE)
 	private String context;
 
 	public String getSnapshotId() {

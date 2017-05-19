@@ -40,7 +40,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 					ent = service.save(ent);
 					PlanBuildData df = new RccSource2PlanBuildDataInfo(info).get();
 					df.setSnapshotId(ent.getSnapshotId());
-					df.setUrl("/snapshot/planbuild/" + ent.getId());
+					df.setUrl("/snapshot/planbuild/" + ent.getSnapshotId());
 					return df;
 				} catch (DaoException e) {
 					throw new IllegalStateException(e);

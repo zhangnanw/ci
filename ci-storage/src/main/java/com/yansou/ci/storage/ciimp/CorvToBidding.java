@@ -44,11 +44,12 @@ public class CorvToBidding extends AbsStatistics {
 		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj);
 		BiddingSnapshot ent = new BiddingSnapshot();
 		ent.setSnapshotId(UUID.randomUUID().toString());
+		ent.setContext(obj.getString("context"));
 		try {
 			ent = biddingSnapshotService.save(ent);
 			BiddingData res = rd.get();
 			res.setSnapshotId(ent.getSnapshotId());
-			res.setUrl("/snapshot/bidding/" + ent.getId());
+			res.setUrl("/snapshot/bidding/" + ent.getSnapshotId());
 			return res;
 		} catch (DaoException e) {
 			throw new IllegalStateException(e);

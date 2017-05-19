@@ -97,7 +97,7 @@ public class RccSource2PlanBuildDataInfo {
 	private String toProvince() {
 		JSONObject res = AREA_ANALYZER.analy(obj);
 		JSONArray arr = res.getJSONArray("area");
-		if (arr.isEmpty()) {
+		if (null == arr || arr.isEmpty()) {
 			return null;
 		}
 		return arr.getString(0);
@@ -106,7 +106,7 @@ public class RccSource2PlanBuildDataInfo {
 	private String toCity() {
 		JSONObject res = AREA_ANALYZER.analy(obj);
 		JSONArray arr = res.getJSONArray("area");
-		if (arr.size() <= 1) {
+		if (null == arr || arr.size() <= 1) {
 			return null;
 		}
 		return arr.getString(1);
@@ -115,7 +115,7 @@ public class RccSource2PlanBuildDataInfo {
 	private String toDistrict() {
 		JSONObject res = AREA_ANALYZER.analy(obj);
 		JSONArray arr = res.getJSONArray("area");
-		if (arr.size() <= 2) {
+		if (null == arr || arr.size() <= 2) {
 			return null;
 		}
 		return arr.getString(2);
