@@ -1,5 +1,6 @@
-/target/
-/.classpath
+ci-storage.iml
 /.project
 /.settings/
-ci-storage.iml
+/.classpath
+/target/
+/logs/

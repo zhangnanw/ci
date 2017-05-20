@@ -45,8 +45,10 @@ public class RequestUtils {
 	 * 根据参数名称的前缀获取相应的参数值
 	 *
 	 * @param parameterMap
-	 * @param namePrefix 参数名称的前缀
-	 * @param length 参数的个数
+	 * @param namePrefix
+	 *            参数名称的前缀
+	 * @param length
+	 *            参数的个数
 	 *
 	 * @return
 	 */
@@ -57,7 +59,7 @@ public class RequestUtils {
 
 		String[] result = new String[length];
 
-		int[] count = {0};
+		int[] count = { 0 };
 
 		parameterMap.forEach((name, values) -> {
 			if (name.startsWith(namePrefix)) {
@@ -130,8 +132,10 @@ public class RequestUtils {
 	 * 根据参数名称的前缀获取相应的参数值
 	 *
 	 * @param parameterMap
-	 * @param namePrefix 参数名称的前缀
-	 * @param length 参数的个数
+	 * @param namePrefix
+	 *            参数名称的前缀
+	 * @param length
+	 *            参数的个数
 	 *
 	 * @return
 	 */
@@ -142,7 +146,7 @@ public class RequestUtils {
 
 		int[] result = new int[length];
 
-		int[] count = {0};
+		int[] count = { 0 };
 
 		parameterMap.forEach((name, values) -> {
 			if (name.startsWith(namePrefix)) {
@@ -183,20 +187,22 @@ public class RequestUtils {
 	 * 根据参数名称的前缀获取相应的参数值
 	 *
 	 * @param parameterMap
-	 * @param namePrefix 参数名称的前缀
-	 * @param length 参数的个数
+	 * @param namePrefix
+	 *            参数名称的前缀
+	 * @param length
+	 *            参数的个数
 	 *
 	 * @return
 	 */
-	public static boolean[] getBooleanArrayParameter(Map<String, String[]> parameterMap, String namePrefix, int
-			length) {
+	public static boolean[] getBooleanArrayParameter(Map<String, String[]> parameterMap, String namePrefix,
+			int length) {
 		if (MapUtils.isEmpty(parameterMap) || StringUtils.isBlank(namePrefix) || length <= 0) {
 			return null;
 		}
 
 		boolean[] result = new boolean[length];
 
-		int[] count = {0};
+		int[] count = { 0 };
 
 		parameterMap.forEach((name, values) -> {
 			if (name.startsWith(namePrefix)) {
@@ -303,8 +309,8 @@ public class RequestUtils {
 					netip = ip.getHostAddress();
 					finded = true;
 					break;
-				} else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") ==
-						-1) {// 内网IP
+				} else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress()
+						&& ip.getHostAddress().indexOf(":") == -1) {// 内网IP
 					localip = ip.getHostAddress();
 				}
 			}
