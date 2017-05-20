@@ -6,6 +6,8 @@
 
 <script src="${base}/js/plugins/dataTables/datatables.min.js"></script>
 
+<script src="${base}/js/plugins/form/jquery.form.min.js"></script>
+
 <!-- Flot -->
 <script src="${base}/js/plugins/flot/jquery.flot.js"></script>
 <script src="${base}/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
@@ -24,6 +26,10 @@
 
 <!-- Jquery Validate -->
 <script src="${base}/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="${base}/js/plugins/validate/messages_zh.js"></script>
+
+<!-- Sweet alert -->
+<script src="${base}/js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Sparkline -->
 <script src="${base}/js/plugins/sparkline/jquery.sparkline.min.js"></script>

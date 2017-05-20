@@ -119,7 +119,7 @@ public abstract class GeneralServiceImpl<T extends Serializable, ID extends Seri
 
 	@Override
 	public List<T> update(List<T> entities) throws DaoException {
-		return update(entities);
+		return save(entities);
 	}
 
 	@Override

@@ -15,38 +15,10 @@
 
 <body>
 <div id="wrapper">
-	<nav class="navbar-default navbar-static-side" role="navigation">
-		<div class="sidebar-collapse">
-			<!-- BEGIN SIDEBAR MENU -->
-        <#include "/views/left.ftl"/>
-			<!-- END SIDEBAR MENU -->
-
-		</div>
-	</nav>
+<#include "/views/left.ftl"/>
 
 	<div id="page-wrapper" class="gray-bg">
-		<div class="row border-bottom">
-			<nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-				<div class="navbar-header">
-					&nbsp;
-				</div>
-				<ul class="nav navbar-top-links navbar-right">
-					<li>
-						<span class="m-r-sm text-muted welcome-message">欢迎您访问企业竞争情报系统</span>
-					</li>
-
-					<li>
-						<a href="login.html">
-							<i class="fa fa-sign-out"></i> 退出登录
-						</a>
-					</li>
-					<li>
-						&nbsp;
-					</li>
-				</ul>
-
-			</nav>
-		</div>
+    <#include "/views/header.ftl"/>
 
 		<!-- BEGIN PAGE CONTAINER-->
 		<div id="page-container">
@@ -54,14 +26,7 @@
 		</div>
 		<!-- END PAGE CONTAINER-->
 
-		<div class="footer">
-			<div class="pull-right">
-				&nbsp;
-			</div>
-			<div>
-				<strong>Copyright</strong> Example Company &copy; 2014-2015
-			</div>
-		</div>
+    <#include "/views/footer.ftl"/>
 	</div>
 
 </div>

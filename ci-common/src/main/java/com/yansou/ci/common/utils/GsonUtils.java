@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
  */
 public class GsonUtils {
 
-	public static Gson _gson = initGson();
+	public static final Gson _gson = initGson();
 
 	private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 

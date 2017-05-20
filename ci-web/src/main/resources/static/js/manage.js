@@ -64,6 +64,10 @@ function updatePageContentForPath(path) {
     $("#page-container").load(path);
 }
 
+function updateForPath(path) {
+    window.location.href = path;
+}
+
 /**
  * 从dataTable表格中删除数据
  *

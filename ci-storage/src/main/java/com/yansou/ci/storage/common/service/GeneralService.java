@@ -112,7 +112,7 @@ public interface GeneralService<T extends Serializable, ID extends Serializable>
 	 *
 	 * @throws DaoException
 	 */
-	int updateStatus(Integer status, Long id) throws DaoException;
+	int updateStatus(Integer status, ID id) throws DaoException;
 
 	/**
 	 * 根据ID查询
