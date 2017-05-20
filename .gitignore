@@ -1,5 +1,7 @@
-/.project
 /.idea
+/.project
+/logs/
+/.settings/
 ci.iml
 ci-api/ci-api.iml
 ci-common/ci-common.iml
@@ -13,6 +15,3 @@ ci-off-line/ci-off-line.iml
 ci-real-time/ci-real-time.iml
 ci-storage/ci-storage.iml
 ci-web/ci-web.iml
-
-/logs/
-/.settings/

@@ -137,7 +137,8 @@ public interface GeneralService<T extends Serializable, ID extends Serializable>
 	/**
 	 * 分页查询
 	 *
-	 * @param currentPageNo 从1开始
+	 * @param currentPageNo
+	 *            从1开始
 	 * @param pageSize
 	 *
 	 * @return
@@ -157,8 +158,8 @@ public interface GeneralService<T extends Serializable, ID extends Serializable>
 	 *
 	 * @throws DaoException
 	 */
-	Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification) throws
-			DaoException;
+	Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification)
+			throws DaoException;
 
 	/**
 	 * 分页查询
