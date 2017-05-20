@@ -2,15 +2,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>ci</artifactId>
-        <groupId>com.yansou.ci</groupId>
+        <groupId>org.yansou.ci</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ci-storage</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
-    <name>ci-storage Maven Webapp</name>
+    <name>ci-storage</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -19,14 +19,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.yansou.ci</groupId>
+            <groupId>org.yansou.ci</groupId>
             <artifactId>ci-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>com.yansou.ci</groupId>
+            <groupId>org.yansou.ci</groupId>
             <artifactId>ci-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yansou.ci</groupId>
+            <artifactId>ci-data-mining</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -34,6 +40,7 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -106,11 +113,7 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
-        <dependency>
-        	<groupId>com.yansou.ci</groupId>
-        	<artifactId>ci-data-mining</artifactId>
-        	<version>1.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <build>

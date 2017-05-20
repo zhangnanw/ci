@@ -1,27 +1,26 @@
 package org.yansou.ci.data.mining.nlpir.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.lang3.StringUtils;
+import org.yansou.ci.common.utils.JSONArrayHandler;
+import org.yansou.ci.common.utils.JSONUtils;
+import org.yansou.ci.data.mining.AResult;
+import org.yansou.ci.data.mining.ATerm;
+import org.yansou.ci.data.mining.Analysis;
+import org.yansou.ci.data.mining.Analyzer;
+import org.yansou.ci.data.mining.ansj.AnsjAnalysis;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.lang3.StringUtils;
-import org.yansou.ci.data.mining.AResult;
-import org.yansou.ci.data.mining.ATerm;
-import org.yansou.ci.data.mining.Analysis;
-import org.yansou.ci.data.mining.Analyzer;
-import org.yansou.ci.data.mining.ansj.AnsjAnalysis;
-import org.yansou.common.util.JSONArrayHandler;
-import org.yansou.common.util.JSONUtils;
-
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 /**
  * 项目名

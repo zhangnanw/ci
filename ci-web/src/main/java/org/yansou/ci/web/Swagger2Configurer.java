@@ -22,8 +22,7 @@ public class Swagger2Configurer {
 	public Docket createRestApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
-				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.yansou.ci.web.controller"))
+				.select().apis(RequestHandlerSelectors.basePackage("org.yansou.ci.web.controller"))
 				.paths(PathSelectors.any()).build();
 	}
 

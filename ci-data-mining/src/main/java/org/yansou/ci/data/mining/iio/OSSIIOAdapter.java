@@ -1,5 +1,12 @@
 package org.yansou.ci.data.mining.iio;
 
+import com.google.common.base.Preconditions;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,20 +22,10 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-
-import com.google.common.base.Preconditions;
-import com.hankcs.hanlp.corpus.io.IIOAdapter;
-
 /**
  * OSS词库适配器。
- * 
- * @author zhang
  *
+ * @author zhang
  */
 public class OSSIIOAdapter implements IIOAdapter {
 	public OSSIIOAdapter() {
@@ -42,7 +39,8 @@ public class OSSIIOAdapter implements IIOAdapter {
 	}
 
 	// **默认 基本URL
-	final static private String DEFAULT_BASE_URL = "http://yansoudic.oss-cn-qingdao.aliyuncs.com/hanlp/data-for-1.3.2/";
+	final static private String DEFAULT_BASE_URL = "http://yansoudic.oss-cn-qingdao.aliyuncs" + "" +
+			".com/hanlp/data-for-1.3.2/";
 	// 缓存根路径，加上URL的路径，组成缓存路径。
 	final static private String CACHE_ROOT_PATH = SystemUtils.getUserDir() + "/IOOCache/";
 	/**
@@ -56,21 +54,21 @@ public class OSSIIOAdapter implements IIOAdapter {
 
 	/**
 	 * 线上词库到本地。
-	 * 
+	 *
 	 * @param path
 	 */
 	private void onlineToLocal(String path) {
 		try {
 			System.err.println("online to local...");
 			CloseableHttpResponse response = HttpClients.createDefault().execute(new HttpGet(baseURL + path));
-			Preconditions.checkArgument(response.getStatusLine().getStatusCode() == 200,
-					"StatusCode:" + response.getStatusLine().getStatusCode());
+			Preconditions.checkArgument(response.getStatusLine().getStatusCode() == 200, "StatusCode:" + response
+					.getStatusLine().getStatusCode());
 			long remoteLength = response.getEntity().getContentLength();
 			// Arrays.asList(response.getAllHeaders()).forEach(System.out::println);
-			byte[] rMd5 = Optional.ofNullable(response.getFirstHeader("Content-MD5")).map(base -> base.getValue())
-					.map(Base64.getDecoder()::decode).orElse(null);
-			BigInteger rCrc = Optional.ofNullable(response.getFirstHeader("x-oss-hash-crc64ecma"))
-					.map(h -> h.getValue()).map(str -> new BigInteger(str)).orElse(null);
+			byte[] rMd5 = Optional.ofNullable(response.getFirstHeader("Content-MD5")).map(base -> base.getValue()).map
+					(Base64.getDecoder()::decode).orElse(null);
+			BigInteger rCrc = Optional.ofNullable(response.getFirstHeader("x-oss-hash-crc64ecma")).map(h -> h.getValue
+					()).map(str -> new BigInteger(str)).orElse(null);
 			long total = response.getEntity().getContentLength();
 			boolean isPrintProgress = false;
 			if (total / 4096 > 150) {
@@ -95,8 +93,8 @@ public class OSSIIOAdapter implements IIOAdapter {
 			long localLength = absolutePath(path).length();
 			// 验证文件长度
 			if (remoteLength > 0) {
-				Preconditions.checkArgument(remoteLength == localLength,
-						"File length inconsistency.[rl=" + remoteLength + ",ll=" + localLength + "]");
+				Preconditions.checkArgument(remoteLength == localLength, "File length inconsistency.[rl=" +
+						remoteLength + ",ll=" + localLength + "]");
 			}
 			// 验证文件MD5
 			if (Objects.nonNull(rMd5)) {
@@ -126,8 +124,9 @@ public class OSSIIOAdapter implements IIOAdapter {
 
 	/**
 	 * 获得绝对路径
-	 * 
+	 *
 	 * @param path
+	 *
 	 * @return
 	 */
 	private File absolutePath(String path) {

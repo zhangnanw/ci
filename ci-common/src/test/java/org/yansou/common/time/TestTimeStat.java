@@ -1,7 +1,8 @@
 package org.yansou.common.time;
 
 import org.junit.Test;
-import org.yansou.common.util.SleepUtils;
+import org.yansou.ci.common.time.TimeStat;
+import org.yansou.ci.common.utils.SleepUtils;
 
 public class TestTimeStat {
 	@Test
