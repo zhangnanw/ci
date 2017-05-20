@@ -5,12 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yansou.ci.common.exception.DaoException;
+import org.yansou.ci.common.utils.JSONArrayHandler;
+import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.BiddingSnapshot;
 import org.yansou.ci.storage.dao.project.BiddingDataDao;
 import org.yansou.ci.storage.service.project.BiddingSnapshotService;
-import org.yansou.common.utils.JSONArrayHandler;
-import org.yansou.common.utils.JSONUtils;
 
 import java.sql.SQLException;
 import java.util.UUID;
