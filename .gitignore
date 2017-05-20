@@ -14,3 +14,5 @@ ci-real-time/ci-real-time.iml
 ci-storage/ci-storage.iml
 ci-web/ci-web.iml
 
+/logs/
+/.settings/
