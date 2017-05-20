@@ -175,7 +175,11 @@ public class Pagination<T> implements Serializable {
 	}
 
 	private Integer calTotalPage(Long totalCount, Integer pageSize) {
-		return pageSize == 0 ? 1 : (int) Math.ceil(totalCount.doubleValue() / pageSize.doubleValue());
+		if (totalCount == 0L || pageSize == 0) {
+			return 1;
+		}
+
+		return (int) Math.ceil(totalCount.doubleValue() / pageSize.doubleValue());
 	}
 
 	public Long getTotalCount() {

@@ -15,6 +15,7 @@ public class CiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable();
 		http
 				.authorizeRequests()
 					.antMatchers("/login/**").permitAll()
@@ -34,7 +35,8 @@ public class CiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// 配置无需安全检查的路径
-		web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/font-awesome/**", "/**/favicon.ico");
+		web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/font-awesome/**", "/fonts/**", "/**/favicon" +
+				".ico");
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.yansou.ci.web.controller.project;
 
 import com.yansou.ci.common.datatables.DataTableVo;
 import com.yansou.ci.core.model.project.BiddingData;
+import com.yansou.ci.core.rest.model.IdRo;
 import com.yansou.ci.core.rest.response.CountResponse;
 import com.yansou.ci.core.rest.response.IdResponse;
 import com.yansou.ci.web.business.project.BiddingDataBusiness;
@@ -37,7 +38,7 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "biddingData/list";
+		return "views/biddingData/list";
 	}
 
 	/**
@@ -53,9 +54,9 @@ public class BiddingDataController {
 	@ResponseBody
 	public DataTableVo<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		biddingDataBusiness.pagination(request);
+		DataTableVo<BiddingData> dataTableVo = biddingDataBusiness.pagination(request);
 
-		return null;
+		return dataTableVo;
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "biddingData/add";
+		return "views/biddingData/add";
 	}
 
 	/**
@@ -84,7 +85,10 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "biddingData/edit";
+		BiddingData biddingData = biddingDataBusiness.findById(id);
+		model.addAttribute("biddingData", biddingData);
+
+		return "views/biddingData/edit";
 	}
 
 	/**
@@ -101,7 +105,14 @@ public class BiddingDataController {
 	@ResponseBody
 	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		return null;
+		IdResponse restResponse = biddingDataBusiness.save(biddingData);
+
+		IdRo idRo = restResponse.getResult();
+		if (idRo != null) {
+			idRo.setUrl("/biddingData/list");
+		}
+
+		return restResponse;
 	}
 
 	/**
@@ -118,7 +129,14 @@ public class BiddingDataController {
 	@ResponseBody
 	public IdResponse update(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		return null;
+		IdResponse restResponse = biddingDataBusiness.update(biddingData);
+
+		IdRo idRo = restResponse.getResult();
+		if (idRo != null) {
+			idRo.setUrl("/biddingData/list");
+		}
+
+		return restResponse;
 	}
 
 	/**

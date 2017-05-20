@@ -3,6 +3,8 @@ package com.yansou.ci.common.utils;
 import java.lang.reflect.Array;
 
 /**
+ * 数组工具类
+ *
  * @author liutiejun
  * @create 2017-05-10 22:37
  */
