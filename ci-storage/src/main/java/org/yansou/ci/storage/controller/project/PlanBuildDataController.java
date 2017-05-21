@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.model.AbstractModel;
-import org.yansou.ci.core.model.project.NewsData;
+import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
-import org.yansou.ci.storage.service.project.NewsDataService;
+import org.yansou.ci.storage.service.project.PlanBuildDataService;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ import java.util.List;
  * @create 2017-05-14 0:28
  */
 @RestController
-@RequestMapping(value = "/newsData")
-public class NewsDataController {
+@RequestMapping(value = "/planBuildData")
+public class PlanBuildDataController {
 
-	private static final Logger LOG = LogManager.getLogger(NewsDataController.class);
+	private static final Logger LOG = LogManager.getLogger(PlanBuildDataController.class);
 
 	@Autowired
-	private NewsDataService newsDataService;
+	private PlanBuildDataService planBuildDataService;
 
 	@ApiOperation(value = "分页获取数据详细信息")
 	@PostMapping(value = "/pagination")
@@ -41,7 +41,7 @@ public class NewsDataController {
 
 		PageCriteria pageCriteria = restRequest.getPageCriteria();
 
-		Pagination<NewsData> pagination = newsDataService.pagination(pageCriteria);
+		Pagination<PlanBuildData> pagination = planBuildDataService.pagination(pageCriteria);
 
 		return SimpleRestResponse.ok(pagination);
 	}
@@ -53,19 +53,19 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
+		PlanBuildData planBuildData = restRequest.getPlanBuildData();
 
-		if (newsData == null) {// 查询所有的数据
-			List<NewsData> newsDataList = newsDataService.findAll();
+		if (planBuildData == null) {// 查询所有的数据
+			List<PlanBuildData> planBuildDataList = planBuildDataService.findAll();
 
-			return SimpleRestResponse.ok(newsDataList.toArray(new NewsData[0]));
+			return SimpleRestResponse.ok(planBuildDataList.toArray(new PlanBuildData[0]));
 		}
 
-		Long id = newsData.getId();
+		Long id = planBuildData.getId();
 		if (id != null) {// 根据ID查询
-			NewsData otherNewsData = newsDataService.findById(id);
+			PlanBuildData otherPlanBuildData = planBuildDataService.findById(id);
 
-			return SimpleRestResponse.ok(otherNewsData);
+			return SimpleRestResponse.ok(otherPlanBuildData);
 		}
 
 		return SimpleRestResponse.exception();
@@ -78,21 +78,21 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
+		PlanBuildData planBuildData = restRequest.getPlanBuildData();
 
-		LOG.info("newsData: {}", newsData);
+		LOG.info("planBuildData: {}", planBuildData);
 
-		if (newsData != null) {// 单个新增
-			newsData = newsDataService.save(newsData);
+		if (planBuildData != null) {// 单个新增
+			planBuildData = planBuildDataService.save(planBuildData);
 
-			return SimpleRestResponse.id(newsData.getId());
+			return SimpleRestResponse.id(planBuildData.getId());
 		}
 
-		NewsData[] newsDatas = restRequest.getNewsDatas();
-		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量新增
-			newsDatas = newsDataService.save(newsDatas);
+		PlanBuildData[] planBuildDatas = restRequest.getPlanBuildDatas();
+		if (ArrayUtils.isNotEmpty(planBuildDatas)) {// 批量新增
+			planBuildDatas = planBuildDataService.save(planBuildDatas);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok(planBuildDatas);
 		}
 
 		return SimpleRestResponse.exception();
@@ -105,18 +105,18 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
-		if (newsData != null) {// 单个更新
-			newsData = newsDataService.update(newsData);
+		PlanBuildData planBuildData = restRequest.getPlanBuildData();
+		if (planBuildData != null) {// 单个更新
+			planBuildData = planBuildDataService.update(planBuildData);
 
-			return SimpleRestResponse.id(newsData.getId());
+			return SimpleRestResponse.id(planBuildData.getId());
 		}
 
-		NewsData[] newsDatas = restRequest.getNewsDatas();
-		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量更新
-			newsDatas = newsDataService.update(newsDatas);
+		PlanBuildData[] planBuildDatas = restRequest.getPlanBuildDatas();
+		if (ArrayUtils.isNotEmpty(planBuildDatas)) {// 批量更新
+			planBuildDatas = planBuildDataService.update(planBuildDatas);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok(planBuildDatas);
 		}
 
 		return SimpleRestResponse.exception();
@@ -129,10 +129,10 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
-		Long id = newsData.getId();
+		PlanBuildData planBuildData = restRequest.getPlanBuildData();
+		Long id = planBuildData.getId();
 
-		newsDataService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+		planBuildDataService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
 
 		return SimpleRestResponse.ok();
 	}

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.model.AbstractModel;
-import org.yansou.ci.core.model.project.NewsData;
+import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
-import org.yansou.ci.storage.service.project.NewsDataService;
+import org.yansou.ci.storage.service.project.WinCompanyService;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ import java.util.List;
  * @create 2017-05-14 0:28
  */
 @RestController
-@RequestMapping(value = "/newsData")
-public class NewsDataController {
+@RequestMapping(value = "/winCompany")
+public class WinCompanyController {
 
-	private static final Logger LOG = LogManager.getLogger(NewsDataController.class);
+	private static final Logger LOG = LogManager.getLogger(WinCompanyController.class);
 
 	@Autowired
-	private NewsDataService newsDataService;
+	private WinCompanyService winCompanyService;
 
 	@ApiOperation(value = "分页获取数据详细信息")
 	@PostMapping(value = "/pagination")
@@ -41,7 +41,7 @@ public class NewsDataController {
 
 		PageCriteria pageCriteria = restRequest.getPageCriteria();
 
-		Pagination<NewsData> pagination = newsDataService.pagination(pageCriteria);
+		Pagination<WinCompany> pagination = winCompanyService.pagination(pageCriteria);
 
 		return SimpleRestResponse.ok(pagination);
 	}
@@ -53,19 +53,19 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
+		WinCompany winCompany = restRequest.getWinCompany();
 
-		if (newsData == null) {// 查询所有的数据
-			List<NewsData> newsDataList = newsDataService.findAll();
+		if (winCompany == null) {// 查询所有的数据
+			List<WinCompany> winCompanyList = winCompanyService.findAll();
 
-			return SimpleRestResponse.ok(newsDataList.toArray(new NewsData[0]));
+			return SimpleRestResponse.ok(winCompanyList.toArray(new WinCompany[0]));
 		}
 
-		Long id = newsData.getId();
+		Long id = winCompany.getId();
 		if (id != null) {// 根据ID查询
-			NewsData otherNewsData = newsDataService.findById(id);
+			WinCompany otherWinCompany = winCompanyService.findById(id);
 
-			return SimpleRestResponse.ok(otherNewsData);
+			return SimpleRestResponse.ok(otherWinCompany);
 		}
 
 		return SimpleRestResponse.exception();
@@ -78,21 +78,21 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
+		WinCompany winCompany = restRequest.getWinCompany();
 
-		LOG.info("newsData: {}", newsData);
+		LOG.info("winCompany: {}", winCompany);
 
-		if (newsData != null) {// 单个新增
-			newsData = newsDataService.save(newsData);
+		if (winCompany != null) {// 单个新增
+			winCompany = winCompanyService.save(winCompany);
 
-			return SimpleRestResponse.id(newsData.getId());
+			return SimpleRestResponse.id(winCompany.getId());
 		}
 
-		NewsData[] newsDatas = restRequest.getNewsDatas();
-		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量新增
-			newsDatas = newsDataService.save(newsDatas);
+		WinCompany[] winCompanies = restRequest.getWinCompanies();
+		if (ArrayUtils.isNotEmpty(winCompanies)) {// 批量新增
+			winCompanies = winCompanyService.save(winCompanies);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok(winCompanies);
 		}
 
 		return SimpleRestResponse.exception();
@@ -105,18 +105,18 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
-		if (newsData != null) {// 单个更新
-			newsData = newsDataService.update(newsData);
+		WinCompany winCompany = restRequest.getWinCompany();
+		if (winCompany != null) {// 单个更新
+			winCompany = winCompanyService.update(winCompany);
 
-			return SimpleRestResponse.id(newsData.getId());
+			return SimpleRestResponse.id(winCompany.getId());
 		}
 
-		NewsData[] newsDatas = restRequest.getNewsDatas();
-		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量更新
-			newsDatas = newsDataService.update(newsDatas);
+		WinCompany[] winCompanies = restRequest.getWinCompanies();
+		if (ArrayUtils.isNotEmpty(winCompanies)) {// 批量更新
+			winCompanies = winCompanyService.update(winCompanies);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok(winCompanies);
 		}
 
 		return SimpleRestResponse.exception();
@@ -129,10 +129,10 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
-		Long id = newsData.getId();
+		WinCompany winCompany = restRequest.getWinCompany();
+		Long id = winCompany.getId();
 
-		newsDataService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+		winCompanyService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
 
 		return SimpleRestResponse.ok();
 	}

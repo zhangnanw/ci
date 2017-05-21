@@ -3,18 +3,18 @@ package org.yansou.ci.storage.dao.project;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.storage.common.dao.GeneralDao;
 
 /**
  * @author liutiejun
- * @create 2017-05-14 0:15
+ * @create 2017-05-21 12:17
  */
-@Repository("biddingDataDao")
-public interface BiddingDataDao extends GeneralDao<BiddingData, Long> {
+@Repository("winCompanyDao")
+public interface WinCompanyDao extends GeneralDao<WinCompany, Long> {
 
 	@Modifying
-	@Query("update BiddingData bean set bean.status = ?1 where bean.id = ?2")
+	@Query("update WinCompany bean set bean.status = ?1 where bean.id = ?2")
 	int updateStatus(Integer status, Long id);
 
 }

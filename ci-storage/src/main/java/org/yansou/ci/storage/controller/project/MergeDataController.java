@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.model.AbstractModel;
-import org.yansou.ci.core.model.project.NewsData;
+import org.yansou.ci.core.model.project.MergeData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
-import org.yansou.ci.storage.service.project.NewsDataService;
+import org.yansou.ci.storage.service.project.MergeDataService;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ import java.util.List;
  * @create 2017-05-14 0:28
  */
 @RestController
-@RequestMapping(value = "/newsData")
-public class NewsDataController {
+@RequestMapping(value = "/mergeData")
+public class MergeDataController {
 
-	private static final Logger LOG = LogManager.getLogger(NewsDataController.class);
+	private static final Logger LOG = LogManager.getLogger(MergeDataController.class);
 
 	@Autowired
-	private NewsDataService newsDataService;
+	private MergeDataService mergeDataService;
 
 	@ApiOperation(value = "分页获取数据详细信息")
 	@PostMapping(value = "/pagination")
@@ -41,7 +41,7 @@ public class NewsDataController {
 
 		PageCriteria pageCriteria = restRequest.getPageCriteria();
 
-		Pagination<NewsData> pagination = newsDataService.pagination(pageCriteria);
+		Pagination<MergeData> pagination = mergeDataService.pagination(pageCriteria);
 
 		return SimpleRestResponse.ok(pagination);
 	}
@@ -53,19 +53,19 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
+		MergeData mergeData = restRequest.getMergeData();
 
-		if (newsData == null) {// 查询所有的数据
-			List<NewsData> newsDataList = newsDataService.findAll();
+		if (mergeData == null) {// 查询所有的数据
+			List<MergeData> mergeDataList = mergeDataService.findAll();
 
-			return SimpleRestResponse.ok(newsDataList.toArray(new NewsData[0]));
+			return SimpleRestResponse.ok(mergeDataList.toArray(new MergeData[0]));
 		}
 
-		Long id = newsData.getId();
+		Long id = mergeData.getId();
 		if (id != null) {// 根据ID查询
-			NewsData otherNewsData = newsDataService.findById(id);
+			MergeData otherMergeData = mergeDataService.findById(id);
 
-			return SimpleRestResponse.ok(otherNewsData);
+			return SimpleRestResponse.ok(otherMergeData);
 		}
 
 		return SimpleRestResponse.exception();
@@ -78,21 +78,21 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
+		MergeData mergeData = restRequest.getMergeData();
 
-		LOG.info("newsData: {}", newsData);
+		LOG.info("mergeData: {}", mergeData);
 
-		if (newsData != null) {// 单个新增
-			newsData = newsDataService.save(newsData);
+		if (mergeData != null) {// 单个新增
+			mergeData = mergeDataService.save(mergeData);
 
-			return SimpleRestResponse.id(newsData.getId());
+			return SimpleRestResponse.id(mergeData.getId());
 		}
 
-		NewsData[] newsDatas = restRequest.getNewsDatas();
-		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量新增
-			newsDatas = newsDataService.save(newsDatas);
+		MergeData[] mergeDatas = restRequest.getMergeDatas();
+		if (ArrayUtils.isNotEmpty(mergeDatas)) {// 批量新增
+			mergeDatas = mergeDataService.save(mergeDatas);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok(mergeDatas);
 		}
 
 		return SimpleRestResponse.exception();
@@ -105,18 +105,18 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
-		if (newsData != null) {// 单个更新
-			newsData = newsDataService.update(newsData);
+		MergeData mergeData = restRequest.getMergeData();
+		if (mergeData != null) {// 单个更新
+			mergeData = mergeDataService.update(mergeData);
 
-			return SimpleRestResponse.id(newsData.getId());
+			return SimpleRestResponse.id(mergeData.getId());
 		}
 
-		NewsData[] newsDatas = restRequest.getNewsDatas();
-		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量更新
-			newsDatas = newsDataService.update(newsDatas);
+		MergeData[] mergeDatas = restRequest.getMergeDatas();
+		if (ArrayUtils.isNotEmpty(mergeDatas)) {// 批量更新
+			mergeDatas = mergeDataService.update(mergeDatas);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok(mergeDatas);
 		}
 
 		return SimpleRestResponse.exception();
@@ -129,10 +129,10 @@ public class NewsDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		NewsData newsData = restRequest.getNewsData();
-		Long id = newsData.getId();
+		MergeData mergeData = restRequest.getMergeData();
+		Long id = mergeData.getId();
 
-		newsDataService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+		mergeDataService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
 
 		return SimpleRestResponse.ok();
 	}

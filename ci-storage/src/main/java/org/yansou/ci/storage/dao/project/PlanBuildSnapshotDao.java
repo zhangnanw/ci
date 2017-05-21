@@ -8,6 +8,7 @@ import org.yansou.ci.storage.common.dao.GeneralDao;
 
 @Repository("planBuildSnapshotDao")
 public interface PlanBuildSnapshotDao extends GeneralDao<PlanBuildSnapshot, Long> {
+
 	@Query("select ps from PlanBuildSnapshot ps where ps.snapshotId = :snapshotId")
 	PlanBuildSnapshot getSnapshot(@Param("snapshotId") String snapshotId);
 
