@@ -25,10 +25,10 @@
 			</li>
 
 			<li>
-				<a href="layouts.html"><i class="fa fa-edit"></i> <span class="nav-label">拟在建数据</span><span
+				<a href="/planBuildData/list"><i class="fa fa-edit"></i> <span class="nav-label">拟在建数据</span><span
 						class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="table_basic.html">数据预览</a></li>
+					<li><a href="/planBuildData/list">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>
@@ -39,15 +39,6 @@
 				<ul class="nav nav-second-level collapse">
 					<li><a href="/biddingData/list">数据预览</a>
 					</li>
-					<li><a href="table_data_tables.html">数据报表</a></li>
-				</ul>
-			</li>
-
-			<li>
-				<a href="layouts.html"><i class="fa fa-magic"></i> <span class="nav-label">中标数据</span><span
-						class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="table_basic.html">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>
