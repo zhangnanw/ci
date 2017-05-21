@@ -90,7 +90,6 @@ public class BiddingDataController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		BiddingData biddingData = biddingDataBusiness.findById(id);
-		LOG.info("biddingData: {}", biddingData);
 
 		model.addAttribute("biddingData", biddingData);
 

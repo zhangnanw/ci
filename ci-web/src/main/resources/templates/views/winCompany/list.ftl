@@ -17,19 +17,19 @@
 <#include "/views/left.ftl"/>
 
 	<div id="page-wrapper" class="gray-bg">
-	<#include "/views/header.ftl"/>
+    <#include "/views/header.ftl"/>
 
 		<!-- BEGIN PAGE CONTAINER-->
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>招中标数据</h2>
+					<h2>${biddingData.projectName} - 中标单位信息</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome/index">首页</a>
 						</li>
 						<li>
-							<a>招中标数据</a>
+							<a>中标单位信息</a>
 						</li>
 						<li class="active">
 							<strong>数据预览</strong>
@@ -48,7 +48,7 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="control-label" for="product_name">项目名称</label>
+								<label class="control-label" for="product_name">中标单位</label>
 								<input type="text" id="product_name" name="product_name" value=""
 									   placeholder="Product Name"
 									   class="form-control">
@@ -56,54 +56,21 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="price">项目地址</label>
+								<label class="control-label" for="price">中标金额</label>
 								<input type="text" id="price" name="price" value="" placeholder="Price"
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="quantity">采购人</label>
+								<label class="control-label" for="quantity">中标单价</label>
 								<input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="control-label" for="status">采购方式</label>
-								<select name="status" id="status" class="form-control">
-									<option value="1" selected>Enabled</option>
-									<option value="0">Disabled</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="product_name">Product Name</label>
-								<input type="text" id="product_name" name="product_name" value=""
-									   placeholder="Product Name"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="price">Price</label>
-								<input type="text" id="price" name="price" value="" placeholder="Price"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="quantity">Quantity</label>
-								<input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="status">Status</label>
+								<label class="control-label" for="status">中标容量（兆瓦）</label>
 								<select name="status" id="status" class="form-control">
 									<option value="1" selected>Enabled</option>
 									<option value="0">Disabled</option>
@@ -115,7 +82,8 @@
 					<div class="row">
 						<div class="ibox-content">
 							<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
-							<a class="btn btn-w-m btn-success" href="/biddingData/add">新增</a>
+							<a class="btn btn-w-m btn-success" href="/winCompany/add?biddingDataId=${biddingData
+                            .id}">新增</a>
 						</div>
 					</div>
 				</div>
@@ -131,17 +99,10 @@
 										<thead>
 										<tr>
 											<th>#</th>
-											<th>项目名称</th>
-											<th>项目规模（MW）</th>
-											<th>项目总投资（元）</th>
-											<th>项目地址（省）</th>
-											<th>采购人</th>
-											<th>母公司</th>
-											<th>单晶硅规格</th>
-											<th>单晶硅采购容量（MW）</th>
-											<th>多晶硅规格</th>
-											<th>多晶硅的采购容量（MW）</th>
 											<th>中标单位</th>
+											<th>中标金额</th>
+											<th>中标单价</th>
+											<th>中标容量（兆瓦）</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -161,7 +122,7 @@
 		</div>
 		<!-- END PAGE CONTAINER-->
 
-	<#include "/views/footer.ftl"/>
+    <#include "/views/footer.ftl"/>
 	</div>
 
 </div>
@@ -181,8 +142,11 @@
 			"processing": false,
 			"serverSide": true,
 			"ajax": {
-				"url": "/biddingData/showList",
-				"type": "POST"
+				"url": "/winCompany/showList",
+				"type": "POST",
+				"data": {
+					"biddingDataId": ${biddingData.id}
+				}
 			},
 			"columnDefs": [
 				{
@@ -194,77 +158,39 @@
 				},
 				{
 					"targets": 1,
-					"data": "projectName",
+					"data": "companyName",
 					"orderable": false
 				},
 				{
 					"targets": 2,
-					"data": "projectScale",
+					"data": "winAmount",
 					"orderable": false
 				},
 				{
 					"targets": 3,
-					"data": "projectTotalInvestment",
+					"data": "winPrice",
 					"orderable": false
 				},
 				{
 					"targets": 4,
-					"data": "projectProvince",
+					"data": "winCapacity",
 					"orderable": false
 				},
 				{
 					"targets": 5,
-					"data": "projcetOwner",
-					"orderable": false
+					"data": "id",
+					"orderable": false,
+					"render": function (data, type, full, meta) {
+						return '<a href="/winCompany/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
+					},
 				},
 				{
 					"targets": 6,
-					"data": "parentCompany",
-					"orderable": false
-				},
-				{
-					"targets": 7,
-					"data": "monocrystallineSpecification",
-					"orderable": false
-				},
-				{
-					"targets": 8,
-					"data": "monocrystallineCapacity",
-					"orderable": false
-				},
-				{
-					"targets": 9,
-					"data": "polysiliconSpecification",
-					"orderable": false
-				},
-				{
-					"targets": 10,
-					"data": "polysiliconCapacity",
-					"orderable": false
-				},
-				{
-					"targets": 11,
-					"data": "id",
-					"orderable": false,
-					"render": function (data, type, full, meta) {
-						return '<a href="/winCompany/list?biddingDataId=' + data + '" class="btn btn-primary btn-xs">查看中标单位</a>';
-					},
-				},
-				{
-					"targets": 12,
-					"data": "id",
-					"orderable": false,
-					"render": function (data, type, full, meta) {
-						return '<a href="/biddingData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
-					},
-				},
-				{
-					"targets": 13,
 					"data": "id",
 					"orderable": false,
 					"render": function (data, type, full, meta) {
 						return '<a href="javascript:;" onclick="deleteForDataTable(this)" ' +
-								'res="/biddingData/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
+								'res="/winCompany/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
 					},
 				}
 			],
@@ -280,8 +206,8 @@
 
 		});
 
-		dataTablesExample.on('order.dt search.dt', function() {
-			dataTablesExample.column(0, {search: 'applied', order: 'applied'}).nodes().each(function(cell, i) {
+		dataTablesExample.on('order.dt search.dt', function () {
+			dataTablesExample.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
 				cell.innerHTML = i + 1;
 			});
 		}).draw();

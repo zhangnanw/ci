@@ -101,9 +101,6 @@
 										<input type="text" placeholder="中标总金额" class="form-control"
 											   name="winTotalAmount" value="${biddingData.winTotalAmount}">
 									</div>
-									<div class="form-group"><label>中标单位信息</label>
-										<input type="text" placeholder="中标单位信息" class="form-control" name="winCompany">
-									</div>
 
 								</div>
 							</div>

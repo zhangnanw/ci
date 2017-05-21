@@ -17,7 +17,7 @@
 <#include "/views/left.ftl"/>
 
 	<div id="page-wrapper" class="gray-bg">
-	<#include "/views/header.ftl"/>
+    <#include "/views/header.ftl"/>
 
 		<!-- BEGIN PAGE CONTAINER-->
 		<div id="page-container">
@@ -29,7 +29,7 @@
 							<a href="/welcome/index">首页</a>
 						</li>
 						<li>
-							<a href="/biddingData/list">招中标数据</a>
+							<a href="/winCompany/list?biddingDataId=${biddingData.id}">中标单位信息</a>
 						</li>
 						<li class="active">
 							<strong>新增</strong>
@@ -41,64 +41,34 @@
 			<div class="wrapper wrapper-content  animated fadeInRight">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" id="form" action="/biddingData/save" method="post">
+						<form role="form" id="form" action="/winCompany/save" method="post">
+							<input type="hidden" name="biddingDataId" value="${biddingData.id}">
+
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>项目信息</h5>
+									<h5>${biddingData.projectName} - 中标单位信息</h5>
 								</div>
 								<div class="ibox-content">
 
-									<div class="form-group"><label>项目名称（工程名称）</label>
-										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
-											   name="projectName">
+									<div class="form-group"><label>中标单位</label>
+										<input type="text" class="form-control" placeholder="中标单位"
+											   name="companyName">
 									</div>
-									<div class="form-group"><label>项目规模（兆瓦）</label>
+									<div class="form-group"><label>中标金额</label>
 										<input type="text" class="form-control" placeholder="1000000"
-											   name="projectScale">
+											   name="winAmount">
 									</div>
-									<div class="form-group"><label>项目描述</label>
-										<input type="text" class="form-control" placeholder="项目描述"
-											   name="projectDescription">
+									<div class="form-group"><label>中标单价</label>
+										<input type="text" class="form-control" placeholder="1000000"
+											   name="winPrice">
 									</div>
-									<div class="form-group"><label>项目详细地址</label>
-										<input type="text" class="form-control" placeholder="北京市海淀区"
-											   name="projectAddress">
+									<div class="form-group"><label>中标容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder="100"
+											   name="winCapacity">
 									</div>
-									<div class="form-group"><label>采购人</label>
-										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner">
-									</div>
-									<div class="form-group"><label>母公司</label>
-										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
-									</div>
-
-
 								</div>
 							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>招标信息</h5>
-								</div>
-								<div class="ibox-content">
 
-									<div class="form-group"><label>招标预算</label>
-										<input type="text" class="form-control" placeholder="100" name="biddingBudget">
-									</div>
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>中标信息</h5>
-								</div>
-								<div class="ibox-content">
-
-									<div class="form-group"><label>中标总金额</label>
-										<input type="text" class="form-control" placeholder="100" name="winTotalAmount">
-									</div>
-
-
-								</div>
-							</div>
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
@@ -118,7 +88,7 @@
 		</div>
 		<!-- END PAGE CONTAINER-->
 
-	<#include "/views/footer.ftl"/>
+    <#include "/views/footer.ftl"/>
 	</div>
 
 </div>
@@ -135,11 +105,7 @@
 
 				form1.validate({
 					rules: {
-						projectName: {
-							required: true,
-							minlength: 3
-						},
-						projectDescription: {
+						companyName: {
 							required: true,
 							minlength: 3
 						}

@@ -11,6 +11,7 @@ import org.yansou.ci.common.datatables.DataTableVo;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.utils.GsonUtils;
+import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -115,6 +116,23 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 	}
 
 	@Override
+	public IdResponse save(Long biddingDataId, WinCompany entity) {
+		if (biddingDataId == null) {
+			IdResponse response = new IdResponse();
+			response.exceptionT();
+
+			return response;
+		}
+
+		BiddingData biddingData = new BiddingData();
+		biddingData.setId(biddingDataId);
+
+		entity.setBiddingData(biddingData);
+
+		return save(entity);
+	}
+
+	@Override
 	public IdResponse update(WinCompany entity) {
 		String requestUrl = "http://" + CI_STORAGE + "/winCompany/update";
 
@@ -126,6 +144,23 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		IdResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, IdResponse.class);
 
 		return restResponse;
+	}
+
+	@Override
+	public IdResponse update(Long biddingDataId, WinCompany entity) {
+		if (biddingDataId == null) {
+			IdResponse response = new IdResponse();
+			response.exceptionT();
+
+			return response;
+		}
+
+		BiddingData biddingData = new BiddingData();
+		biddingData.setId(biddingDataId);
+
+		entity.setBiddingData(biddingData);
+
+		return update(entity);
 	}
 
 	@Override
