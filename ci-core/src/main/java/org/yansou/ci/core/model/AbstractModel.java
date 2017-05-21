@@ -1,7 +1,6 @@
 package org.yansou.ci.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,7 +26,9 @@ public abstract class AbstractModel<ID extends Serializable> implements Serializ
 	private static final long serialVersionUID = -6775115139445614046L;
 
 	public enum Status {
-		NORMAL(0), DELETE(1);
+		NORMAL(0), // 正常
+		DELETE(1), // 删除
+		UPDATE(2); // 更新
 
 		private Integer value;
 
@@ -46,7 +47,7 @@ public abstract class AbstractModel<ID extends Serializable> implements Serializ
 
 	@Column
 	@ColumnDefault("0")
-	private Integer status;// 状态，0-正常，1-删除
+	private Integer status;// 状态，0-正常，1-删除，2-更新
 
 	@Column(updatable = false)
 	@CreationTimestamp
