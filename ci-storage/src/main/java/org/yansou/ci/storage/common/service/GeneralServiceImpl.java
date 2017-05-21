@@ -11,6 +11,7 @@ import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.utils.SimpleArrayUtils;
+import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.storage.common.dao.GeneralDao;
 
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import java.util.List;
  * @create 2017-05-10 18:19
  */
 @Transactional
-public abstract class GeneralServiceImpl<T extends Serializable, ID extends Serializable> implements
+public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends Serializable> implements
 		GeneralService<T, ID> {
 
 	private String entityName;
@@ -114,17 +115,31 @@ public abstract class GeneralServiceImpl<T extends Serializable, ID extends Seri
 
 	@Override
 	public T update(T entity) throws DaoException {
+		entity.setStatus(AbstractModel.Status.UPDATE.getValue());
+
 		return save(entity);
 	}
 
 	@Override
 	public List<T> update(List<T> entities) throws DaoException {
-		return save(entities);
+		if (CollectionUtils.isNotEmpty(entities)) {
+			entities.forEach(entity -> entity.setStatus(AbstractModel.Status.UPDATE.getValue()));
+
+			return save(entities);
+		}
+
+		throw new IllegalArgumentException("Entities is empty");
 	}
 
 	@Override
 	public T[] update(T[] entities) throws DaoException {
-		return save(entities);
+		if (ArrayUtils.isNotEmpty(entities)) {
+			Arrays.stream(entities).forEach(entity -> entity.setStatus(AbstractModel.Status.UPDATE.getValue()));
+
+			return save(entities);
+		}
+
+		throw new IllegalArgumentException("Entities is empty");
 	}
 
 	@Override
