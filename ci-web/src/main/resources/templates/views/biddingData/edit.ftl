@@ -17,7 +17,7 @@
 <#include "/views/left.ftl"/>
 
 	<div id="page-wrapper" class="gray-bg">
-	<#include "/views/header.ftl"/>
+    <#include "/views/header.ftl"/>
 
 		<!-- BEGIN PAGE CONTAINER-->
 		<div id="page-container">
@@ -41,8 +41,8 @@
 			<div class="wrapper wrapper-content  animated fadeInRight">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" id="form" action="/biddingData/save" method="post">
-							<input type="hidden" name="id" value=${biddingData.id}/>
+						<form role="form" id="form" action="/biddingData/update" method="post">
+							<input type="hidden" name="id" value="${biddingData.id}">
 
 							<div class="ibox ">
 								<div class="ibox-title">
@@ -52,25 +52,27 @@
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
-											   name="projectName">
+											   name="projectName" value="${biddingData.projectName}">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder="1000000"
-											   name="projectScale">
+											   name="projectScale" value="${biddingData.projectScale}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder="项目描述"
-											   name="projectDescription">
+											   name="projectDescription" value="${biddingData.projectDescription}">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
 										<input type="text" placeholder="项目详细地址" class="form-control"
-											   name="projectAddress">
+											   name="projectAddress" value="${biddingData.projectAddress}">
 									</div>
 									<div class="form-group"><label>采购人</label>
-										<input type="text" placeholder="采购人" class="form-control" name="projcetOwner">
+										<input type="text" placeholder="采购人" class="form-control" name="projcetOwner"
+											   value="${biddingData.projcetOwner}">
 									</div>
 									<div class="form-group"><label>母公司</label>
-										<input type="text" placeholder="母公司" class="form-control" name="parentCompany">
+										<input type="text" placeholder="母公司" class="form-control" name="parentCompany"
+											   value="${biddingData.parentCompany}">
 									</div>
 
 
@@ -83,7 +85,8 @@
 								<div class="ibox-content">
 
 									<div class="form-group"><label>招标预算</label>
-										<input type="text" placeholder="招标预算" class="form-control" name="biddingBudget">
+										<input type="text" placeholder="招标预算" class="form-control" name="biddingBudget"
+											   value="${biddingData.biddingBudget}">
 									</div>
 
 								</div>
@@ -96,7 +99,7 @@
 
 									<div class="form-group"><label>中标总金额</label>
 										<input type="text" placeholder="中标总金额" class="form-control"
-											   name="winTotalAmount">
+											   name="winTotalAmount" value="${biddingData.winTotalAmount}">
 									</div>
 									<div class="form-group"><label>中标单位信息</label>
 										<input type="text" placeholder="中标单位信息" class="form-control" name="winCompany">
@@ -123,7 +126,7 @@
 		</div>
 		<!-- END PAGE CONTAINER-->
 
-	<#include "/views/footer.ftl"/>
+    <#include "/views/footer.ftl"/>
 	</div>
 
 </div>
@@ -154,19 +157,15 @@
 						$(form).ajaxSubmit({
 							"success": function (data) {
 								if (data.status === 200) {
-									updateForPath(data.result.url);
-								} else {
-									swal({
-										title: "错误信息",
-										text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+									$.alertable.alert("更新数据成功").always(function() {
+										updateForPath(data.result.url);
 									});
+								} else {
+									$.alertable.alert(data.errors);
 								}
 							},
 							"error": function (jqXHR, textStatus, errorThrown) {
-								swal({
-									title: "错误信息",
-									text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-								});
+								$.alertable.alert(jqXHR.responseText);
 							},
 							"dataType": "json"
 						});

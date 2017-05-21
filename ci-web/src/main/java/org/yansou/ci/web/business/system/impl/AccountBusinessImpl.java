@@ -48,7 +48,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		Account result = restResponse.getResult();
 
-		return account;
+		return result;
 	}
 
 	@Override

@@ -31,6 +31,8 @@
 <!-- Sweet alert -->
 <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
 
+<script src="/js/plugins/alertable/jquery.alertable.min.js"></script>
+
 <!-- Sparkline -->
 <script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
 

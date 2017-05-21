@@ -44,14 +44,14 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setBiddingData(biddingData);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		BiddingDataResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, BiddingDataResponse
 				.class);
 
 		BiddingData result = restResponse.getResult();
 
-		return biddingData;
+		return result;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		RestRequest restRequest = new RestRequest();
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		BiddingDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
 				BiddingDataArrayResponse.class);
@@ -84,7 +84,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setPageCriteria(pageCriteria);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		BiddingDataPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
 				BiddingDataPaginationResponse.class);
@@ -108,7 +108,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setBiddingData(entity);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		IdResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, IdResponse.class);
 
@@ -122,7 +122,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setBiddingData(entity);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		IdResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, IdResponse.class);
 
