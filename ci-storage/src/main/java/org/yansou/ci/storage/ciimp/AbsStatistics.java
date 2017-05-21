@@ -1,12 +1,11 @@
 package org.yansou.ci.storage.ciimp;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.net.InetAddress;
-
-import org.apache.commons.dbutils.QueryRunner;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * 
