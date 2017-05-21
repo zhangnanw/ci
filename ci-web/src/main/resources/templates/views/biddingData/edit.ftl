@@ -1,4 +1,3 @@
-<#assign base = request.contextPath />
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +29,7 @@
 							<a href="/welcome/index">首页</a>
 						</li>
 						<li>
-							<a>招中标数据</a>
+							<a href="/biddingData/list">招中标数据</a>
 						</li>
 						<li class="active">
 							<strong>编辑</strong>
@@ -155,7 +154,7 @@
 						$(form).ajaxSubmit({
 							"success": function (data) {
 								if (data.status === 200) {
-									updateForPath("${base}" + data.result.url);
+									updateForPath(data.result.url);
 								} else {
 									swal({
 										title: "错误信息",

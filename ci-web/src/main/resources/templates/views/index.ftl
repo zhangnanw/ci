@@ -1,4 +1,3 @@
-<#assign base = request.contextPath />
 <!DOCTYPE html>
 <html>
 

@@ -1,4 +1,3 @@
-<#assign base = request.contextPath />
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +29,7 @@
 							<a href="/welcome/index">首页</a>
 						</li>
 						<li>
-							<a>招中标数据</a>
+							<a href="/biddingData/list">招中标数据</a>
 						</li>
 						<li class="active">
 							<strong>新增</strong>
@@ -106,8 +105,8 @@
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-sm btn-primary m-t-n-xs"
-												type="submit"><strong>&nbsp;&nbsp;保存&nbsp;&nbsp;</strong></button>
+										<button class="btn btn-w-m btn-primary"
+												type="submit"><strong>保存</strong></button>
 									</div>
 								</div>
 							</div>
@@ -153,7 +152,7 @@
 						$(form).ajaxSubmit({
 							"success": function (data) {
 								if (data.status === 200) {
-									updateForPath("${base}" + data.result.url);
+									updateForPath(data.result.url);
 								} else {
 									swal({
 										title: "错误信息",

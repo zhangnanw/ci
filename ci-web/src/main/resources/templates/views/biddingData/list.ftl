@@ -1,4 +1,3 @@
-<#assign base = request.contextPath />
 <!DOCTYPE html>
 <html>
 
@@ -131,6 +130,7 @@
 									<table class="table table-striped table-bordered table-hover dataTables-example">
 										<thead>
 										<tr>
+											<th>#</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
 											<th>项目总投资（元）</th>
@@ -170,7 +170,7 @@
 <!-- Page-Level Scripts -->
 <script>
 	$(document).ready(function () {
-		$('.dataTables-example').DataTable({
+		var dataTablesExample = $('.dataTables-example').DataTable({
 			"dom": '<"html5buttons"B>lTfgitp',
 			"searching": false,
 			"lengthChange": false,
@@ -184,60 +184,66 @@
 				"url": "/biddingData/showList",
 				"type": "POST"
 			},
-
 			"columnDefs": [
 				{
 					"targets": 0,
-					"data": "projectName",
+					"data": null,
+					"defaultContent": "",
+					"searchable": false,
 					"orderable": false
 				},
 				{
 					"targets": 1,
-					"data": "projectScale",
+					"data": "projectName",
 					"orderable": false
 				},
 				{
 					"targets": 2,
-					"data": "projectTotalInvestment",
+					"data": "projectScale",
 					"orderable": false
 				},
 				{
 					"targets": 3,
-					"data": "projectProvince",
+					"data": "projectTotalInvestment",
 					"orderable": false
 				},
 				{
 					"targets": 4,
-					"data": "projcetOwner",
+					"data": "projectProvince",
 					"orderable": false
 				},
 				{
 					"targets": 5,
-					"data": "parentCompany",
+					"data": "projcetOwner",
 					"orderable": false
 				},
 				{
 					"targets": 6,
-					"data": "monocrystallineSpecification",
+					"data": "parentCompany",
 					"orderable": false
 				},
 				{
 					"targets": 7,
-					"data": "monocrystallineCapacity",
+					"data": "monocrystallineSpecification",
 					"orderable": false
 				},
 				{
 					"targets": 8,
-					"data": "polysiliconSpecification",
+					"data": "monocrystallineCapacity",
 					"orderable": false
 				},
 				{
 					"targets": 9,
-					"data": "polysiliconCapacity",
+					"data": "polysiliconSpecification",
 					"orderable": false
 				},
 				{
 					"targets": 10,
+					"data": "polysiliconCapacity",
+					"orderable": false
+				},
+				{
+					"targets": 11,
 					"data": "id",
 					"orderable": false,
 					"render": function (data, type, full, meta) {
@@ -245,7 +251,7 @@
 					},
 				},
 				{
-					"targets": 11,
+					"targets": 12,
 					"data": "id",
 					"orderable": false,
 					"render": function (data, type, full, meta) {
@@ -253,7 +259,7 @@
 					},
 				},
 				{
-					"targets": 12,
+					"targets": 13,
 					"data": "id",
 					"orderable": false,
 					"render": function (data, type, full, meta) {
@@ -274,6 +280,12 @@
 
 		});
 
+		dataTablesExample.on('order.dt search.dt', function() {
+			dataTablesExample.column(0, {search: 'applied', order: 'applied'}).nodes().each(function(cell, i) {
+				cell.innerHTML = i + 1;
+			});
+		}).draw();
+
 	});
 
 
@@ -281,3 +293,26 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
