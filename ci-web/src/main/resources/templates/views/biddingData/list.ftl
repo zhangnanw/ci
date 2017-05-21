@@ -141,6 +141,7 @@
 											<th>单晶硅采购容量（MW）</th>
 											<th>多晶硅规格</th>
 											<th>多晶硅的采购容量（MW）</th>
+											<th>中标单位</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -240,11 +241,19 @@
 					"data": "id",
 					"orderable": false,
 					"render": function (data, type, full, meta) {
-						return '<a href="/biddingData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
+						return '<a href="/biddingData/edit?id=' + data + '" class="btn btn-primary btn-xs">查看中标单位</a>';
 					},
 				},
 				{
 					"targets": 11,
+					"data": "id",
+					"orderable": false,
+					"render": function (data, type, full, meta) {
+						return '<a href="/biddingData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
+					},
+				},
+				{
+					"targets": 12,
 					"data": "id",
 					"orderable": false,
 					"render": function (data, type, full, meta) {
