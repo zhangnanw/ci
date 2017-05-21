@@ -1,5 +1,19 @@
 package org.yansou.ci.data.mining.nlpir.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Longs;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.yansou.ci.common.utils.RegexUtils;
+import org.yansou.ci.data.mining.analyzer.Analyzer;
+import org.yansou.ci.data.mining.utils.ErrUtils;
+import org.yansou.ci.data.mining.utils.Readability;
+import org.yansou.ci.data.mining.utils.TableScanSikpRC;
+import org.yansou.ci.data.mining.utils.TextTools;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -10,30 +24,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.yansou.ci.data.mining.Analyzer;
-import org.yansou.ci.data.mining.util.ErrUtils;
-import org.yansou.ci.data.mining.util.Readability;
-import org.yansou.ci.data.mining.util.RegexUtils;
-import org.yansou.ci.data.mining.util.TableScanSikpRC;
-import org.yansou.ci.data.mining.util.TextTools;
-
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.google.common.primitives.Longs;
-
 /**
  * 抽取预算,中标金额
- * 
- * @author zhang
  *
+ * @author zhang
  */
 final public class AmountAnalyzer implements Analyzer {
 
-	static final Logger LOG = LoggerFactory.getLogger(AmountAnalyzer.class);
+	private static final Logger LOG = LogManager.getLogger(AmountAnalyzer.class);
 
 	private static final void addRegexMapTop(List<String> list, String regex) {
 		list.add(regex + ".{1,7}?(?<unit>[千万亿元￥]+).{0,7}?(?<num>[0-9,.]+)");
@@ -54,34 +52,31 @@ final public class AmountAnalyzer implements Analyzer {
 	 * 匹配价格单位为后缀的正则
 	 */
 	final static String SUFFIX_AOMUNT_PATTERN = "(?<price>[0-9,.]+.{0,3}[千万亿元￥]*?|[千万亿元￥]*?.{0,3}[0-9,.]+)";
-	final static List<String> budget_regex_list = Lists.newArrayList("[预概]算.{0,7}?" + SUFFIX_AOMUNT_PATTERN,
-			"预算总?金额.{0,7}?(?<price>[千万亿元￥]元.{0,6}?[0-9,.]+)", "投资(?:额及来源)?.{0,5}?" + SUFFIX_AOMUNT_PATTERN,
-			"批复金额.{0,4}?" + SUFFIX_AOMUNT_PATTERN, "控制(?:金额|价格?).{0,4}?" + SUFFIX_AOMUNT_PATTERN,
-			"项目估算总投资.{0,4}?" + SUFFIX_AOMUNT_PATTERN, "招标控?制?价为?.{0,4}?" + SUFFIX_AOMUNT_PATTERN,
-			"工程暂?估价.{0,4}?" + SUFFIX_AOMUNT_PATTERN, "投资总额.{0,19}?(?<price>[0-9,.]+.{0,3}?[万元]+)",
-			"最高限价.{1,10}?" + SUFFIX_AOMUNT_PATTERN, "项目概算.{1,10}?" + SUFFIX_AOMUNT_PATTERN);
-	final static List<String> budget_regex_list_map = Lists.newArrayList(
-			"(?:预算).{0,5}?(?:金额)?.{0,7}?(?<num>[0-9,.]+)\\s*(?<unit>[千万亿元￥])",
-			"(?:预算).{0,5}?(?:金额)?.{0,7}?(?<unit>[千万亿元￥]).{0,7}?(?<num>[0-9,.]+)",
-			"预算金额\\s*[:：;]\\s*(?<num>[0-9,.]+).{0,5}?(?<unit>[千万亿元￥]?)", "财政批复(?:资金|金额).{0,15}?" + NUM_TOP,
-			"财政批复(?:资金|金额).{0,15}?" + UNIT_TOP, "暂估价.{0,8}?" + NUM_TOP, "暂估价.{0,8}?" + UNIT_TOP,
-			"控制(?:资金|金额|价格?).{0,8}?" + NUM_TOP, "控制(?:资金|金额|价格?).{0,8}?" + UNIT_TOP, "资金来源.{0,8}?" + NUM_TOP,
-			"资金来源.{0,8}?" + UNIT_TOP);
-	final static List<String> bid_amount_regex_list = Arrays.asList(
-			"(?is)(?:中标|成交|合同).{0,5}?金额.{1,3}?\\pP.{1,7}?" + SUFFIX_AOMUNT_PATTERN,
-			"(?:中标).{0,5}?总报价.{1,7}?" + SUFFIX_AOMUNT_PATTERN,
-			"(?is)合同总?金额.{0,3}?[\\pP].{1,7}?(?<price>[0-9,.]+.{0,3}[万元]+?)",
-			"(?:中标结果).{1,7}?(?<price>[0-9,.]+.{0,3}[万元]+?)");
+	final static List<String> budget_regex_list = Lists.newArrayList("[预概]算.{0,7}?" + SUFFIX_AOMUNT_PATTERN, "预算总?金额"
+			+ ".{0,7}?(?<price>[千万亿元￥]元.{0,6}?[0-9,.]+)", "投资(?:额及来源)?.{0,5}?" + SUFFIX_AOMUNT_PATTERN, "批复金额.{0,4}?"
+			+ SUFFIX_AOMUNT_PATTERN, "控制(?:金额|价格?).{0,4}?" + SUFFIX_AOMUNT_PATTERN, "项目估算总投资.{0,4}?" +
+			SUFFIX_AOMUNT_PATTERN, "招标控?制?价为?.{0,4}?" + SUFFIX_AOMUNT_PATTERN, "工程暂?估价.{0,4}?" +
+			SUFFIX_AOMUNT_PATTERN, "投资总额.{0,19}?(?<price>[0-9,.]+.{0,3}?[万元]+)", "最高限价.{1,10}?" +
+			SUFFIX_AOMUNT_PATTERN, "项目概算.{1,10}?" + SUFFIX_AOMUNT_PATTERN);
+	final static List<String> budget_regex_list_map = Lists.newArrayList("(?:预算).{0,5}?(?:金额)?.{0,7}?(?<num>[0-9,.]+)"
+			+ "\\s*(?<unit>[千万亿元￥])", "(?:预算).{0,5}?(?:金额)?.{0,7}?(?<unit>[千万亿元￥]).{0,7}?(?<num>[0-9,.]+)",
+			"预算金额\\s*[:：;]\\s*(?<num>[0-9,.]+).{0,5}?(?<unit>[千万亿元￥]?)", "财政批复(?:资金|金额).{0,15}?" + NUM_TOP, "财政批复" + "" +
+					"(?:资金|金额).{0,15}?" + UNIT_TOP, "暂估价.{0,8}?" + NUM_TOP, "暂估价.{0,8}?" + UNIT_TOP, "控制(?:资金|金额|价格?)"
+					+ ".{0,8}?" + NUM_TOP, "控制(?:资金|金额|价格?).{0,8}?" + UNIT_TOP, "资金来源.{0,8}?" + NUM_TOP, "资金来源.{0,8}?"
+					+ UNIT_TOP);
+	final static List<String> bid_amount_regex_list = Arrays.asList("(?is)(?:中标|成交|合同).{0,5}?金额.{1,3}?\\pP.{1,7}?" +
+			SUFFIX_AOMUNT_PATTERN, "(?:中标).{0,5}?总报价.{1,7}?" + SUFFIX_AOMUNT_PATTERN, "(?is)合同总?金额.{0,3}?[\\pP].{1," +
+			"7}?" + "(?<price>[0-9,.]+.{0,3}[万元]+?)", "(?:中标结果).{1,7}?(?<price>[0-9,.]+.{0,3}[万元]+?)");
 
 	/**
 	 * 直接采用捕获组名
 	 */
-	final static List<String> bid_amount_regex_list_map = Lists.newArrayList(
-			"(?:中标|成交).{0,5}?金额.{0,7}?(?<num>[0-9,.]+).{0,7}?(?<unit>[千万亿元￥])",
-			"(?:中标|成交).{0,5}?金额.{0,7}?(?<unit>[千万亿元￥]).{0,7}?(?<num>[0-9,.]+)",
+	final static List<String> bid_amount_regex_list_map = Lists.newArrayList("(?:中标|成交).{0,5}?金额.{0,7}?(?<num>[0-9," +
+			".]+).{0,7}?(?<unit>[千万亿元￥])", "(?:中标|成交).{0,5}?金额.{0,7}?(?<unit>[千万亿元￥]).{0,7}?(?<num>[0-9,.]+)", "" + "" +
 			"(?:中标|成交)金额\\s*[:：;]\\s*(?<num>[0-9,.]+).{0,4}?(?<unit>[千万亿元￥]?)", "中标单?价(?:总和)?.{0,8}?" + NUM_TOP,
-			"中标单?价(?:总和)?.{0,8}?" + UNIT_TOP, "最终报价.{1,7}?(?<unit>[千万亿元￥]+).{0,7}?(?<num>[0-9,.]+)",
-			"最终报价.{1,7}?(?<num>[0-9,.]+).{0,7}?(?<unit>[千万亿元￥]+)", "成交结果.{1,3}?(?<num>[0-9,.]+)");
+			"中标单?价(?:总和)?.{0,8}?" + UNIT_TOP, "最终报价.{1,7}?(?<unit>[千万亿元￥]+).{0,7}?(?<num>[0-9,.]+)", "最终报价.{1,7}?" + "" +
+					"(?<num>[0-9,.]+).{0,7}?(?<unit>[千万亿元￥]+)", "成交结果.{1,3}?(?<num>[0-9,.]+)");
+
 	static {
 		addRegexMapTop(bid_amount_regex_list_map, "成交价");
 		addRegexMapTop(bid_amount_regex_list_map, "中标总价");
@@ -90,13 +85,14 @@ final public class AmountAnalyzer implements Analyzer {
 	}
 
 	// 按照公告类型算的金额
-	final static List<String> price_regex_list = Lists.newArrayList("小[計计].{0,5}?" + SUFFIX_AOMUNT_PATTERN,
-			RegexUtils.NUM_CHAR + "{1,2}\\s*包.{0,5}?" + SUFFIX_AOMUNT_PATTERN, "项目总?金额.{0,6}?" + SUFFIX_AOMUNT_PATTERN,
+	final static List<String> price_regex_list = Lists.newArrayList("小[計计].{0,5}?" + SUFFIX_AOMUNT_PATTERN, RegexUtils
+			.NUM_CHAR + "{1,2}\\s*包.{0,5}?" + SUFFIX_AOMUNT_PATTERN, "项目总?金额.{0,6}?" + SUFFIX_AOMUNT_PATTERN,
 			RegexUtils.NUM_CHAR + "{1,2}\\s*包[^;；]{0,20}?" + SUFFIX_AOMUNT_PATTERN);
 	// final static List<String> price_regex_list_map =
 	// Lists.newArrayList("(金额|总价).{0,8}?" + NUM_TOP,
 	// "(金额|总价).{0,8}?" + UNIT_TOP);
 	final static List<String> price_regex_list_map = Lists.newArrayList();
+
 	static {
 		// 统一修改正则表达式状态（不区分大小写，英文句号可以匹配换行）
 		String top = "(?is)";
@@ -110,8 +106,8 @@ final public class AmountAnalyzer implements Analyzer {
 	final static void regex1(JSONObject res, String key, String context, List<String> regexList) {
 		for (String regex : regexList) {
 			List<String> valList = RegexUtils.regexList(regex, context, "price");
-			long[] jiageArr = valList.stream().filter(txt -> StringUtils.isNotBlank(txt.replace(',', ' ')))
-					.mapToLong(AmountAnalyzer::textToPrice).toArray();
+			long[] jiageArr = valList.stream().filter(txt -> StringUtils.isNotBlank(txt.replace(',', ' '))).mapToLong
+					(AmountAnalyzer::textToPrice).toArray();
 			Long price = checkMax(jiageArr);
 			if (null != price) {
 				setPrice(res, key, price);
@@ -155,9 +151,9 @@ final public class AmountAnalyzer implements Analyzer {
 		// System.out.println("发现中文数字");
 		// System.out.println(text);
 		// }
-		Pattern[] YuanRegexs = { Pattern.compile("(?<num>[0-9,.]+).{0,5}?(?<unit>[千万亿元￥])"),
-				Pattern.compile("(?<unit>[千万亿元￥]).{0,5}?[￥元].{0,5}?(?<num>[0-9,.]+)"),
-				Pattern.compile("(?<unit>￥).{0,3}?(?<num>[0-9,.]+)") };
+		Pattern[] YuanRegexs = {Pattern.compile("(?<num>[0-9,.]+).{0,5}?(?<unit>[千万亿元￥])"), Pattern.compile("" + "" +
+				"(?<unit>[千万亿元￥]).{0,5}?[￥元].{0,5}?(?<num>[0-9,.]+)"), Pattern.compile("(?<unit>￥).{0,3}?(?<num>[0-9,"
+				+ ".]+)")};
 		// text = text.replaceAll("[^0-9\\.十百千万亿元￥拾佰仟]+", "");
 		List<Long> list = Lists.newArrayList();
 		for (Pattern pattern : YuanRegexs) {
@@ -177,7 +173,7 @@ final public class AmountAnalyzer implements Analyzer {
 
 	/**
 	 * 按照行处理预算资金
-	 * 
+	 *
 	 * @param res
 	 * @param context
 	 */
@@ -212,7 +208,7 @@ final public class AmountAnalyzer implements Analyzer {
 
 	/**
 	 * 按行处理中标价格
-	 * 
+	 *
 	 * @param res
 	 * @param context
 	 */
@@ -227,8 +223,8 @@ final public class AmountAnalyzer implements Analyzer {
 			long price = 0;
 			for (int i = 0; i < list.size(); i++) {
 				String line = list.get(i);
-				if (line.matches(
-						".{0,4}(?:中标|成交)(?:" + PRICE_WORD.stream().reduce((a, b) -> a + '|' + b) + ")?.{0,4}")) {
+				if (line.matches(".{0,4}(?:中标|成交)(?:" + PRICE_WORD.stream().reduce((a, b) -> a + '|' + b) + ")?.{0," +
+						"4}")) {
 					isBud = true;
 					continue;
 				}
@@ -260,23 +256,23 @@ final public class AmountAnalyzer implements Analyzer {
 
 			long num = new BigDecimal(numStr).multiply(new BigDecimal(100)).longValue();
 			switch (unit) {
-			case "千":
-				num *= 1000;
-				break;
-			case "万":
-				num *= 10000;
-				break;
-			case "百万":
-				num *= 1000000;
-				break;
-			case "千万":
-				num *= 10000000;
-				break;
-			case "亿":
-				num *= 100000000;
-				break;
-			default:
-				break;
+				case "千":
+					num *= 1000;
+					break;
+				case "万":
+					num *= 10000;
+					break;
+				case "百万":
+					num *= 1000000;
+					break;
+				case "千万":
+					num *= 10000000;
+					break;
+				case "亿":
+					num *= 100000000;
+					break;
+				default:
+					break;
 			}
 			// 单位还原成元
 			num /= 100;
@@ -341,10 +337,10 @@ final public class AmountAnalyzer implements Analyzer {
 				regexMap(res, "bid_amount", context, bid_amount_regex_list_map);
 			}
 			// 如果没能获取到响应的价格，判断公告类型，来决定是公告是预算还是中标金额。
-			if (StringUtils.contains(title, "中标公告") || StringUtils.contains(title, "结果公告")
-					|| StringUtils.contains(title, "成交公告")) {
-				if (StringUtils.isBlank(res.getString("budget")) & isBid_amount
-						&& StringUtils.isBlank(res.getString("bid_amount"))) {
+			if (StringUtils.contains(title, "中标公告") || StringUtils.contains(title, "结果公告") || StringUtils.contains
+					(title, "成交公告")) {
+				if (StringUtils.isBlank(res.getString("budget")) & isBid_amount && StringUtils.isBlank(res.getString
+						("bid_amount"))) {
 					regex1(res, "bid_amount", context, price_regex_list);
 					regexMap(res, "bid_amount", context, price_regex_list_map);
 				}
@@ -376,16 +372,17 @@ final public class AmountAnalyzer implements Analyzer {
 		long budget = res.getLongValue("budget");
 		long bid_amount = res.getLongValue("bid_amount");
 		long price = LongStream.of(budget, bid_amount).max().getAsLong();
-		ErrUtils.checkAdd(obj, bid_amount > 0 && budget > 0 && bid_amount > budget, "中标价格大于预算",
-				WeightZH.PRICE_ABOVE_BUDGET);
+		ErrUtils.checkAdd(obj, bid_amount > 0 && budget > 0 && bid_amount > budget, "中标价格大于预算", WeightZH
+				.PRICE_ABOVE_BUDGET);
 		ErrUtils.checkAdd(obj, price > 100000000, "价格上亿", WeightZH.PRICE_1E);
 		ErrUtils.checkAdd(obj, price > 10000000 && price < 100000000, "价格上千万", WeightZH.PRICE_1QW);
 	}
 
 	/**
 	 * 清除干扰
-	 * 
+	 *
 	 * @param context
+	 *
 	 * @return
 	 */
 	private String clearInterfere(String context) {
@@ -397,8 +394,9 @@ final public class AmountAnalyzer implements Analyzer {
 
 	/**
 	 * 删除中文价格
-	 * 
+	 *
 	 * @param text
+	 *
 	 * @return
 	 */
 	final static private String removeChPrice(String text) {
@@ -413,8 +411,9 @@ final public class AmountAnalyzer implements Analyzer {
 
 	/**
 	 * 处理中间带空格的单词
-	 * 
+	 *
 	 * @param context
+	 *
 	 * @return
 	 */
 	private String wordFilter(String context) {

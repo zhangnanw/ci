@@ -39,7 +39,7 @@ public class OSSIIOAdapter implements IIOAdapter {
 	}
 
 	// **默认 基本URL
-	final static private String DEFAULT_BASE_URL = "http://yansoudic.oss-cn-qingdao.aliyuncs" + "" +
+	final static private String DEFAULT_BASE_URL = "http://yansoudic.oss-cn-qingdao.aliyuncs" + "" + "" +
 			".com/hanlp/data-for-1.3.2/";
 	// 缓存根路径，加上URL的路径，组成缓存路径。
 	final static private String CACHE_ROOT_PATH = SystemUtils.getUserDir() + "/IOOCache/";

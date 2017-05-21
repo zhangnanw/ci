@@ -13,7 +13,7 @@ import org.yansou.ci.data.mining.iio.OSSIIOAdapter;
 
 /**
  * ANSJ逻辑。
- * 
+ *
  * @author zhang
  *
  */
@@ -44,7 +44,7 @@ public class Ansj {
 
 	/**
 	 * ANSJ导入机构名词库
-	 * 
+	 *
 	 * @author shi
 	 *
 	 */

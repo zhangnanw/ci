@@ -9,10 +9,10 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.StringUtils;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
-import org.yansou.ci.data.mining.AResult;
-import org.yansou.ci.data.mining.ATerm;
-import org.yansou.ci.data.mining.Analysis;
-import org.yansou.ci.data.mining.Analyzer;
+import org.yansou.ci.data.mining.analyzer.AResult;
+import org.yansou.ci.data.mining.analyzer.ATerm;
+import org.yansou.ci.data.mining.analyzer.Analysis;
+import org.yansou.ci.data.mining.analyzer.Analyzer;
 import org.yansou.ci.data.mining.ansj.AnsjAnalysis;
 
 import java.sql.SQLException;
@@ -24,9 +24,8 @@ import java.util.stream.Collectors;
 
 /**
  * 项目名
- * 
- * @author n.zhang
  *
+ * @author n.zhang
  */
 public class AreaAnalyzer implements Analyzer {
 	private final Map<String, List<String>> cityMap = Maps.newLinkedHashMap();
@@ -41,14 +40,13 @@ public class AreaAnalyzer implements Analyzer {
 		QueryRunner qr = new QueryRunner(ds);
 		if (cityMap.isEmpty()) {
 			try {
-				List<JSONObject> cityList = JSONUtils
-						.streamJSONObject(qr.query("select * from tab_city where style=0", new JSONArrayHandler()))
-						.collect(Collectors.toList());
+				List<JSONObject> cityList = JSONUtils.streamJSONObject(qr.query("select * from tab_city where " +
+						"style=0", new JSONArrayHandler())).collect(Collectors.toList());
 				for (JSONObject city : cityList) {
 					String cityName = city.getString("name");
 					long pid = city.getLongValue("pid");
-					String pCityName = cityList.stream().filter(c -> c.getLongValue("id") == pid)
-							.map(c -> c.getString("name")).findFirst().orElse("");
+					String pCityName = cityList.stream().filter(c -> c.getLongValue("id") == pid).map(c -> c.getString
+							("name")).findFirst().orElse("");
 					pCityName = pCityName.replaceAll("\\s+", "");
 					cityName = cityName.replaceAll("\\s+", "");
 					List<String> pList = cityMap.get(cityName);
@@ -85,25 +83,25 @@ public class AreaAnalyzer implements Analyzer {
 		String province = obj.getString("province");
 		String allText = title + anchorText + context;
 		AResult result = analy.recognition(allText);
-		List<ATerm> nsList = result.getTerms().stream().filter(at -> "ns".equals(at.getNature()))
-				.collect(Collectors.toList());
+		List<ATerm> nsList = result.getTerms().stream().filter(at -> "ns".equals(at.getNature())).collect(Collectors
+				.toList());
 		Map<String, List<ATerm>> nsMap = nsList.stream().collect(Collectors.groupingBy(at -> at.getWord()));
 		// 第一次出现该地名的位置。
 		Map<String, Integer> nsIndex = Maps.newHashMap();
-		nsMap.forEach((name, atList) -> nsIndex.put(name,
-				atList.stream().mapToInt(at -> at.getOffset()).min().orElse(Integer.MAX_VALUE)));
+		nsMap.forEach((name, atList) -> nsIndex.put(name, atList.stream().mapToInt(at -> at.getOffset()).min().orElse
+				(Integer.MAX_VALUE)));
 		// 区域序列，省-> 市-> 县
 		List<List<String>> lineList = nsMap.keySet().stream().
-		// 过滤名称不在中国地名库里的地名（比如，中国，巴黎。）
-				filter(cityName -> null != cityMap.get(cityName)).map(this::getLine).flatMap(lines -> lines.stream())
-				.collect(Collectors.toList());
+				// 过滤名称不在中国地名库里的地名（比如，中国，巴黎。）
+						filter(cityName -> null != cityMap.get(cityName)).map(this::getLine).flatMap(lines -> lines
+						.stream()).collect(Collectors.toList());
 		String topArea = null;
 		int minCityNameIdx = Integer.MAX_VALUE;
 		/*
 		 * 没有识别到任何地名，直接采用省市信息。
 		 */
-		Optional.ofNullable(province).filter(p -> !lineList.isEmpty()).filter(p -> null != cityMap.get(p))
-				.ifPresent(p -> res.put("area", Lists.newArrayList(p)));
+		Optional.ofNullable(province).filter(p -> !lineList.isEmpty()).filter(p -> null != cityMap.get(p)).ifPresent(p
+				-> res.put("area", Lists.newArrayList(p)));
 		/*
 		 * 如果只有唯一结果，就没啥说的了。
 		 */
@@ -148,8 +146,7 @@ public class AreaAnalyzer implements Analyzer {
 			return res;
 		}
 		if (!res.isEmpty()) {
-			@SuppressWarnings("unchecked")
-			List<String> tmpList = (List<String>) res.get("area");
+			@SuppressWarnings("unchecked") List<String> tmpList = (List<String>) res.get("area");
 			ArrayList<String> _rs = new ArrayList<>();
 			for (int i = 0; i < tmpList.size(); i++) {
 				String qm = quanming.get(tmpList.get(i));
@@ -173,9 +170,7 @@ public class AreaAnalyzer implements Analyzer {
 	}
 
 	/**
-	 * 
 	 * 用于表示地名可能关系的对象
-	 *
 	 */
 	private class CityData {
 		CityData(String name, CityData zCity, int deply) {
