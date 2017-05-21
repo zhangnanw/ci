@@ -1,5 +1,10 @@
 package org.yansou.ci.web.controller.project;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,9 +18,6 @@ import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * @author liutiejun
  * @create 2017-05-14 0:38
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/biddingData")
 public class BiddingDataController {
+
+	private static final Logger LOG = LogManager.getLogger(BiddingDataController.class);
 
 	@Autowired
 	private BiddingDataBusiness biddingDataBusiness;
@@ -52,8 +56,7 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableVo<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
+	public DataTableVo<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		DataTableVo<BiddingData> dataTableVo = biddingDataBusiness.pagination(request);
 
 		return dataTableVo;
@@ -103,8 +106,10 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
+	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
+		LOG.info("biddingData: {}", biddingData);
+		
 		IdResponse restResponse = biddingDataBusiness.save(biddingData);
 
 		IdRo idRo = restResponse.getResult();
@@ -127,8 +132,8 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse update(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
+	public IdResponse update(BiddingData biddingData, ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
 		IdResponse restResponse = biddingDataBusiness.update(biddingData);
 
 		IdRo idRo = restResponse.getResult();

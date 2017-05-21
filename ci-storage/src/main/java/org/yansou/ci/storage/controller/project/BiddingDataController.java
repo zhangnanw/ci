@@ -79,6 +79,9 @@ public class BiddingDataController {
 		}
 
 		BiddingData biddingData = restRequest.getBiddingData();
+
+		LOG.info("biddingData: {}", biddingData);
+
 		if (biddingData != null) {// 单个新增
 			biddingData = biddingDataService.save(biddingData);
 

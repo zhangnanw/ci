@@ -47,15 +47,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <springfox.version>2.6.1</springfox.version>
-
-        <compiler.plugin.version>3.5.1</compiler.plugin.version>
+        <compiler.plugin.version>3.6.1</compiler.plugin.version>
         <source.plugin.version>3.0.1</source.plugin.version>
         <!-- surefire.plugin.version 2.18 yields http://jira.codehaus.org/browse/SUREFIRE-1121, which is fixed in 2.18.1 -->
         <!-- surefire.plugin.version 2.19 yields https://issues.apache.org/jira/browse/SUREFIRE-1193. -->
         <surefire.plugin.version>2.19.1</surefire.plugin.version>
-
         <java.version>1.8</java.version>
     </properties>
 
@@ -107,7 +104,7 @@
             <dependency>
                 <groupId>org.ansj</groupId>
                 <artifactId>ansj_seg</artifactId>
-                <version>5.0.2</version>
+                <version>5.0.4</version>
             </dependency>
 
             <dependency>
