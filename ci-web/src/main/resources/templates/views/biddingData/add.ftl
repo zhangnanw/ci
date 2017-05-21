@@ -152,19 +152,15 @@
 						$(form).ajaxSubmit({
 							"success": function (data) {
 								if (data.status === 200) {
-									updateForPath(data.result.url);
-								} else {
-									swal({
-										title: "错误信息",
-										text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+									$.alertable.alert("新增数据成功").always(function () {
+										updateForPath(data.result.url);
 									});
+								} else {
+									$.alertable.alert(data.errors);
 								}
 							},
 							"error": function (jqXHR, textStatus, errorThrown) {
-								swal({
-									title: "错误信息",
-									text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-								});
+								$.alertable.alert(jqXHR.responseText);
 							},
 							"dataType": "json"
 						});
