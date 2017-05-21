@@ -74,29 +74,10 @@
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany"
 											   value="${biddingData.parentCompany}">
 									</div>
-
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>招标信息</h5>
-								</div>
-								<div class="ibox-content">
-
 									<div class="form-group"><label>招标预算</label>
 										<input type="text" class="form-control" placeholder="100" name="biddingBudget"
 											   value="${biddingData.biddingBudget}">
 									</div>
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>中标信息</h5>
-								</div>
-								<div class="ibox-content">
-
 									<div class="form-group"><label>中标总金额</label>
 										<input type="text" class="form-control" placeholder="100"
 											   name="winTotalAmount" value="${biddingData.winTotalAmount}">
@@ -104,6 +85,7 @@
 
 								</div>
 							</div>
+
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>

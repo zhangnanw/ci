@@ -44,7 +44,7 @@
 						<form role="form" id="form" action="/biddingData/save" method="post">
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>项目信息</h5>
+									<h5>招中标数据</h5>
 								</div>
 								<div class="ibox-content">
 
@@ -70,35 +70,16 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
 									</div>
-
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>招标信息</h5>
-								</div>
-								<div class="ibox-content">
-
 									<div class="form-group"><label>招标预算</label>
 										<input type="text" class="form-control" placeholder="100" name="biddingBudget">
 									</div>
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>中标信息</h5>
-								</div>
-								<div class="ibox-content">
-
 									<div class="form-group"><label>中标总金额</label>
 										<input type="text" class="form-control" placeholder="100" name="winTotalAmount">
 									</div>
 
-
 								</div>
 							</div>
+
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
