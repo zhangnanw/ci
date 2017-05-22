@@ -23,13 +23,13 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>招中标数据</h2>
+					<h2>拟在建数据</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome/index">首页</a>
 						</li>
 						<li>
-							<a href="/biddingData/list">招中标数据</a>
+							<a href="/planBuildData/list">拟在建数据</a>
 						</li>
 						<li class="active">
 							<strong>编辑</strong>
@@ -41,46 +41,54 @@
 			<div class="wrapper wrapper-content  animated fadeInRight">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" id="form" action="/biddingData/update" method="post">
-							<input type="hidden" name="id" value="${biddingData.id}">
+						<form role="form" id="form" action="/planBuildData/update" method="post">
+							<input type="hidden" name="id" value="${planBuildData.id}">
 
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>项目信息</h5>
+									<h5>拟在建数据</h5>
 								</div>
 								<div class="ibox-content">
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
-											   name="projectName" value="${biddingData.projectName}">
+											   name="projectName" value="${planBuildData.projectName}">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder="1000000"
-											   name="projectScale" value="${biddingData.projectScale}">
+											   name="projectScale" value="${planBuildData.projectScale}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder="项目描述"
-											   name="projectDescription" value="${biddingData.projectDescription}">
+											   name="projectDescription" value="${planBuildData.projectDescription}">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
 										<input type="text" class="form-control" placeholder="北京市海淀区"
-											   name="projectAddress" value="${biddingData.projectAddress}">
+											   name="projectAddress" value="${planBuildData.projectAddress}">
 									</div>
 									<div class="form-group"><label>采购人</label>
 										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner"
-											   value="${biddingData.projcetOwner}">
+											   value="${planBuildData.projcetOwner}">
 									</div>
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany"
-											   value="${biddingData.parentCompany}">
+											   value="${planBuildData.parentCompany}">
 									</div>
-									<div class="form-group"><label>招标预算</label>
-										<input type="text" class="form-control" placeholder="100" name="biddingBudget"
-											   value="${biddingData.biddingBudget}">
+									<div class="form-group"><label>拟在建项目阶段</label>
+										<input type="text" class="form-control" placeholder="1" name="planBuildStatus"
+											   value="${planBuildData.planBuildStatus}">
 									</div>
-									<div class="form-group"><label>中标总金额</label>
-										<input type="text" class="form-control" placeholder="100"
-											   name="winTotalAmount" value="${biddingData.winTotalAmount}">
+									<div class="form-group"><label>设备购置情况</label>
+										<input type="text" class="form-control" placeholder="设备购置情况"
+											   name="purchaseSituation" value="${planBuildData.purchaseSituation}">
+									</div>
+									<div class="form-group"><label>设计师</label>
+										<input type="text" class="form-control" placeholder="设计师" name="designer"
+											   value="${planBuildData.designer}">
+									</div>
+									<div class="form-group"><label>状态更新</label>
+										<input type="text" class="form-control" placeholder="状态更新" name="statusUpdate"
+											   value="${planBuildData.statusUpdate}">
 									</div>
 
 								</div>
@@ -89,8 +97,8 @@
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-sm btn-primary m-t-n-xs"
-												type="submit"><strong>&nbsp;&nbsp;保存&nbsp;&nbsp;</strong></button>
+										<button class="btn btn-w-m btn-primary"
+												type="submit"><strong>保存</strong></button>
 									</div>
 								</div>
 							</div>

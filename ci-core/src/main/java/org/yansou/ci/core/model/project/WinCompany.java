@@ -1,12 +1,12 @@
 package org.yansou.ci.core.model.project;
 
+import org.yansou.ci.core.model.AbstractModel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.yansou.ci.core.model.AbstractModel;
 
 /**
  * 中标单位信息
@@ -18,7 +18,7 @@ import org.yansou.ci.core.model.AbstractModel;
 @Table(name = "ci_win_company")
 public class WinCompany extends AbstractModel<Long> {
 
-	private static final long serialVersionUID = 8666936055610400819L;
+	private static final long serialVersionUID = 7411998194685782325L;
 
 	@ManyToOne
 	@JoinColumn(name = "bidding_data_id")
@@ -34,7 +34,7 @@ public class WinCompany extends AbstractModel<Long> {
 	private Double winCapacity;// 中标单位-中标容量，单位：MW（兆瓦）
 
 	@Column
-	private String winCompany;// 中标单位
+	private String companyName;// 中标单位名称
 
 	public BiddingData getBiddingData() {
 		return biddingData;
@@ -68,11 +68,11 @@ public class WinCompany extends AbstractModel<Long> {
 		this.winCapacity = winCapacity;
 	}
 
-	public String getWinCompany() {
-		return winCompany;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setWinCompany(String winCompany) {
-		this.winCompany = winCompany;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 }

@@ -7,4 +7,6 @@ spring:
     cache: false
     charset: utf-8
     request-context-attribute: request
+    settings:
+      number_format: 0.##
 

@@ -1,4 +1,3 @@
-<#assign base = request.contextPath />
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +29,7 @@
 							<a href="/welcome/index">首页</a>
 						</li>
 						<li>
-							<a>招中标数据</a>
+							<a href="/biddingData/list">招中标数据</a>
 						</li>
 						<li class="active">
 							<strong>新增</strong>
@@ -45,7 +44,7 @@
 						<form role="form" id="form" action="/biddingData/save" method="post">
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>项目信息</h5>
+									<h5>招中标数据</h5>
 								</div>
 								<div class="ibox-content">
 
@@ -62,52 +61,30 @@
 											   name="projectDescription">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
-										<input type="text" placeholder="项目详细地址" class="form-control"
+										<input type="text" class="form-control" placeholder="北京市海淀区"
 											   name="projectAddress">
 									</div>
 									<div class="form-group"><label>采购人</label>
-										<input type="text" placeholder="采购人" class="form-control" name="projcetOwner">
+										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner">
 									</div>
 									<div class="form-group"><label>母公司</label>
-										<input type="text" placeholder="母公司" class="form-control" name="parentCompany">
+										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
 									</div>
-
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>招标信息</h5>
-								</div>
-								<div class="ibox-content">
-
 									<div class="form-group"><label>招标预算</label>
-										<input type="text" placeholder="招标预算" class="form-control" name="biddingBudget">
+										<input type="text" class="form-control" placeholder="100" name="biddingBudget">
 									</div>
-
-								</div>
-							</div>
-							<div class="ibox ">
-								<div class="ibox-title">
-									<h5>中标信息</h5>
-								</div>
-								<div class="ibox-content">
-
 									<div class="form-group"><label>中标总金额</label>
-										<input type="text" placeholder="中标总金额" class="form-control"
-											   name="winTotalAmount">
-									</div>
-									<div class="form-group"><label>中标单位信息</label>
-										<input type="text" placeholder="中标单位信息" class="form-control" name="winCompany">
+										<input type="text" class="form-control" placeholder="100" name="winTotalAmount">
 									</div>
 
 								</div>
 							</div>
+
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-sm btn-primary m-t-n-xs"
-												type="submit"><strong>&nbsp;&nbsp;保存&nbsp;&nbsp;</strong></button>
+										<button class="btn btn-w-m btn-primary"
+												type="submit"><strong>保存</strong></button>
 									</div>
 								</div>
 							</div>
@@ -153,19 +130,15 @@
 						$(form).ajaxSubmit({
 							"success": function (data) {
 								if (data.status === 200) {
-									updateForPath("${base}" + data.result.url);
-								} else {
-									swal({
-										title: "错误信息",
-										text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+									$.alertable.alert("新增数据成功").always(function () {
+										updateForPath(data.result.url);
 									});
+								} else {
+									$.alertable.alert(data.errors);
 								}
 							},
 							"error": function (jqXHR, textStatus, errorThrown) {
-								swal({
-									title: "错误信息",
-									text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-								});
+								$.alertable.alert(jqXHR.responseText);
 							},
 							"dataType": "json"
 						});

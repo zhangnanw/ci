@@ -15,3 +15,5 @@ ci-off-line/ci-off-line.iml
 ci-real-time/ci-real-time.iml
 ci-storage/ci-storage.iml
 ci-web/ci-web.iml
+ci-data-mining/src/main/resources/
+ci-eureka-server/logs/

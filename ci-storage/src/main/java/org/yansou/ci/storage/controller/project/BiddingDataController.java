@@ -65,6 +65,8 @@ public class BiddingDataController {
 		if (id != null) {// 根据ID查询
 			BiddingData otherBiddingData = biddingDataService.findById(id);
 
+			LOG.info("biddingData: {}", otherBiddingData);
+
 			return SimpleRestResponse.ok(otherBiddingData);
 		}
 

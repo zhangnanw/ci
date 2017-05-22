@@ -1,8 +1,8 @@
 package org.yansou.ci.core.rest.response;
 
-import java.io.Serializable;
-
 import org.yansou.ci.common.utils.GsonUtils;
+
+import java.io.Serializable;
 
 /**
  * API请求返回数据封装
@@ -43,45 +43,32 @@ public class RestResponse<T> implements Serializable {
 		this.result = result;
 	}
 
-//	public static RestResponse<String> ok() {
-//		return ok(RestStatus.OK.name());
-//	}
-//
-//	public static <R> RestResponse<R> ok(R result) {
-//		RestResponse<R> restResponse = new RestResponse<>();
-//
-//		restResponse.setStatus(RestStatus.OK.getValue());
-//		restResponse.setResult(result);
-//
-//		return restResponse;
-//	}
-//
-//	public static RestResponse<String> exception() {
-//		return exception(RestStatus.INTERNAL_SERVER_ERROR.name());
-//	}
-//
-//	public static RestResponse<String> exception(Exception e) {
-//		String errors = null;
-//		if (e != null) {
-//			errors = e.getMessage();
-//
-//			if (errors == null) {
-//				errors = e.getClass().getSimpleName();
-//			}
-//		}
-//
-//		return exception(errors);
-//	}
-//
-//	public static RestResponse<String> exception(String errors) {
-//		RestResponse<String> restResponse = new RestResponse<>();
-//
-//		restResponse.setStatus(RestStatus.INTERNAL_SERVER_ERROR.getValue());
-//		restResponse.setErrors(errors);
-//		restResponse.setResult(errors);
-//
-//		return restResponse;
-//	}
+	public void okT(T result) {
+		setStatus(RestStatus.OK.getValue());
+		setResult(result);
+	}
+
+	public void exceptionT() {
+		exceptionT(RestStatus.INTERNAL_SERVER_ERROR.name());
+	}
+
+	public void exceptionT(Exception e) {
+		String errors = null;
+		if (e != null) {
+			errors = e.getMessage();
+
+			if (errors == null) {
+				errors = e.getClass().getSimpleName();
+			}
+		}
+
+		exceptionT(errors);
+	}
+
+	public void exceptionT(String errors) {
+		setStatus(RestStatus.INTERNAL_SERVER_ERROR.getValue());
+		setErrors(errors);
+	}
 
 	@Override
 	public String toString() {

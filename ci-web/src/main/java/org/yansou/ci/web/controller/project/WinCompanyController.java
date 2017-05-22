@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.DataTableVo;
 import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.rest.model.IdRo;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
+import org.yansou.ci.web.business.project.WinCompanyBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,17 +25,21 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2017-05-14 0:38
  */
 @Controller
-@RequestMapping(value = "/biddingData")
-public class BiddingDataController {
+@RequestMapping(value = "/winCompany")
+public class WinCompanyController {
 
-	private static final Logger LOG = LogManager.getLogger(BiddingDataController.class);
+	private static final Logger LOG = LogManager.getLogger(WinCompanyController.class);
 
 	@Autowired
 	private BiddingDataBusiness biddingDataBusiness;
 
+	@Autowired
+	private WinCompanyBusiness winCompanyBusiness;
+
 	/**
 	 * 进入列表页面
 	 *
+	 * @param biddingDataId
 	 * @param model
 	 * @param request
 	 * @param response
@@ -41,8 +47,12 @@ public class BiddingDataController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "views/biddingData/list";
+	public String list(Long biddingDataId, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		BiddingData biddingData = biddingDataBusiness.findById(biddingDataId);
+
+		model.addAttribute("biddingData", biddingData);
+
+		return "views/winCompany/list";
 	}
 
 	/**
@@ -56,9 +66,8 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableVo<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		DataTableVo<BiddingData> dataTableVo = biddingDataBusiness.pagination(request);
+	public DataTableVo<WinCompany> showList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		DataTableVo<WinCompany> dataTableVo = winCompanyBusiness.pagination(request);
 
 		return dataTableVo;
 	}
@@ -66,6 +75,7 @@ public class BiddingDataController {
 	/**
 	 * 进入新增页面
 	 *
+	 * @param biddingDataId
 	 * @param model
 	 * @param request
 	 * @param response
@@ -73,8 +83,12 @@ public class BiddingDataController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "views/biddingData/add";
+	public String add(Long biddingDataId, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		BiddingData biddingData = biddingDataBusiness.findById(biddingDataId);
+
+		model.addAttribute("biddingData", biddingData);
+
+		return "views/winCompany/add";
 	}
 
 	/**
@@ -89,17 +103,21 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		BiddingData biddingData = biddingDataBusiness.findById(id);
+		WinCompany winCompany = winCompanyBusiness.findById(id);
+		BiddingData biddingData = winCompany.getBiddingData();
 
+		LOG.info("winCompany: {}", winCompany);
+
+		model.addAttribute("winCompany", winCompany);
 		model.addAttribute("biddingData", biddingData);
 
-		return "views/biddingData/edit";
+		return "views/winCompany/edit";
 	}
 
 	/**
 	 * 新增
 	 *
-	 * @param biddingData
+	 * @param winCompany
 	 * @param model
 	 * @param request
 	 * @param response
@@ -108,15 +126,13 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		LOG.info("biddingData: {}", biddingData);
-
-		IdResponse restResponse = biddingDataBusiness.save(biddingData);
+	public IdResponse save(Long biddingDataId, WinCompany winCompany, ModelMap model, HttpServletRequest request,
+						   HttpServletResponse response) {
+		IdResponse restResponse = winCompanyBusiness.save(biddingDataId, winCompany);
 
 		IdRo idRo = restResponse.getResult();
 		if (idRo != null) {
-			idRo.setUrl("/biddingData/list");
+			idRo.setUrl("/winCompany/list?biddingDataId=" + biddingDataId);
 		}
 
 		return restResponse;
@@ -125,7 +141,7 @@ public class BiddingDataController {
 	/**
 	 * 更新
 	 *
-	 * @param biddingData
+	 * @param winCompany
 	 * @param model
 	 * @param request
 	 * @param response
@@ -134,13 +150,13 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse update(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		IdResponse restResponse = biddingDataBusiness.update(biddingData);
+	public IdResponse update(Long biddingDataId, WinCompany winCompany, ModelMap model, HttpServletRequest request,
+							 HttpServletResponse response) {
+		IdResponse restResponse = winCompanyBusiness.update(biddingDataId, winCompany);
 
 		IdRo idRo = restResponse.getResult();
 		if (idRo != null) {
-			idRo.setUrl("/biddingData/list");
+			idRo.setUrl("/winCompany/list?biddingDataId=" + biddingDataId);
 		}
 
 		return restResponse;

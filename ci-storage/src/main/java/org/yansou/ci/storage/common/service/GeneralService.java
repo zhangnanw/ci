@@ -4,6 +4,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.core.model.AbstractModel;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author liutiejun
  * @create 2017-05-10 17:35
  */
-public interface GeneralService<T extends Serializable, ID extends Serializable> {
+public interface GeneralService<T extends AbstractModel<ID>, ID extends Serializable> {
 
 	/**
 	 * 新增
@@ -137,8 +138,7 @@ public interface GeneralService<T extends Serializable, ID extends Serializable>
 	/**
 	 * 分页查询
 	 *
-	 * @param currentPageNo
-	 *            从1开始
+	 * @param currentPageNo 从1开始
 	 * @param pageSize
 	 *
 	 * @return
@@ -158,8 +158,8 @@ public interface GeneralService<T extends Serializable, ID extends Serializable>
 	 *
 	 * @throws DaoException
 	 */
-	Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification)
-			throws DaoException;
+	Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification) throws
+			DaoException;
 
 	/**
 	 * 分页查询

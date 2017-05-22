@@ -11,14 +11,14 @@ import org.yansou.ci.common.datatables.DataTableVo;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.utils.GsonUtils;
-import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.core.rest.response.project.BiddingDataArrayResponse;
-import org.yansou.ci.core.rest.response.project.BiddingDataPaginationResponse;
-import org.yansou.ci.core.rest.response.project.BiddingDataResponse;
-import org.yansou.ci.web.business.project.BiddingDataBusiness;
+import org.yansou.ci.core.rest.response.project.PlanBuildDataArrayResponse;
+import org.yansou.ci.core.rest.response.project.PlanBuildDataPaginationResponse;
+import org.yansou.ci.core.rest.response.project.PlanBuildDataResponse;
+import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,57 +26,57 @@ import javax.servlet.http.HttpServletRequest;
  * @author liutiejun
  * @create 2017-05-14 0:42
  */
-@Component("biddingDataBusiness")
-public class BiddingDataBusinessImpl implements BiddingDataBusiness {
+@Component("planBuildDataBusiness")
+public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
-	private static final Logger LOG = LogManager.getLogger(BiddingDataBusinessImpl.class);
+	private static final Logger LOG = LogManager.getLogger(PlanBuildDataBusinessImpl.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
-	public BiddingData findById(Long id) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
+	public PlanBuildData findById(Long id) {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/find";
 
-		BiddingData biddingData = new BiddingData();
-		biddingData.setId(id);
+		PlanBuildData planBuildData = new PlanBuildData();
+		planBuildData.setId(id);
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setBiddingData(biddingData);
+		restRequest.setPlanBuildData(planBuildData);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, BiddingDataResponse
+		PlanBuildDataResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, PlanBuildDataResponse
 				.class);
 
-		BiddingData result = restResponse.getResult();
+		PlanBuildData result = restResponse.getResult();
 
 		return result;
 	}
 
 	@Override
-	public BiddingData[] findAll() {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
+	public PlanBuildData[] findAll() {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/find";
 
 		RestRequest restRequest = new RestRequest();
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				BiddingDataArrayResponse.class);
+		PlanBuildDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				PlanBuildDataArrayResponse.class);
 
-		BiddingData[] biddingDatas = restResponse.getResult();
+		PlanBuildData[] planBuildDatas = restResponse.getResult();
 
-		if (biddingDatas == null) {
-			biddingDatas = new BiddingData[0];
+		if (planBuildDatas == null) {
+			planBuildDatas = new PlanBuildData[0];
 		}
 
-		return biddingDatas;
+		return planBuildDatas;
 	}
 
 	@Override
-	public DataTableVo<BiddingData> pagination(HttpServletRequest request) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/pagination";
+	public DataTableVo<PlanBuildData> pagination(HttpServletRequest request) {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/pagination";
 
 		PageCriteria pageCriteria = DataTableUtils.parseRequest(request);
 		LOG.info("pageCriteria: {}", GsonUtils._gson.toJson(pageCriteria));
@@ -86,14 +86,14 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				BiddingDataPaginationResponse.class);
+		PlanBuildDataPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				PlanBuildDataPaginationResponse.class);
 
-		Pagination<BiddingData> pagination = restResponse.getResult();
+		Pagination<PlanBuildData> pagination = restResponse.getResult();
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTableVo<BiddingData> dataTableVo = DataTableUtils.parseResponse(pagination, pageCriteria.getDraw(),
+		DataTableVo<PlanBuildData> dataTableVo = DataTableUtils.parseResponse(pagination, pageCriteria.getDraw(),
 				restResponse.getErrors());
 
 		LOG.info("dataTableVo: {}", dataTableVo);
@@ -102,11 +102,11 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public IdResponse save(BiddingData entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/save";
+	public IdResponse save(PlanBuildData entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/save";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setBiddingData(entity);
+		restRequest.setPlanBuildData(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -116,11 +116,11 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public IdResponse update(BiddingData entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/update";
+	public IdResponse update(PlanBuildData entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/update";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setBiddingData(entity);
+		restRequest.setPlanBuildData(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 

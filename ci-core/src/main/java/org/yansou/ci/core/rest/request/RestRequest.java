@@ -1,16 +1,18 @@
 package org.yansou.ci.core.rest.request;
 
-import java.io.Serializable;
-
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.BiddingSnapshot;
 import org.yansou.ci.core.model.project.MergeData;
+import org.yansou.ci.core.model.project.NewsData;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.model.project.PlanBuildSnapshot;
 import org.yansou.ci.core.model.project.ProjectInfo;
 import org.yansou.ci.core.model.project.RecordData;
+import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.model.system.Account;
+
+import java.io.Serializable;
 
 /**
  * API请求参数封装
@@ -33,6 +35,9 @@ public class RestRequest implements Serializable {
 	private MergeData mergeData;
 	private MergeData[] mergeDatas;
 
+	private NewsData newsData;
+	private NewsData[] newsDatas;
+
 	private PlanBuildData planBuildData;
 	private PlanBuildData[] planBuildDatas;
 
@@ -41,17 +46,12 @@ public class RestRequest implements Serializable {
 
 	private RecordData recordData;
 	private RecordData[] recordDatas;
-	
+
+	private WinCompany winCompany;
+	private WinCompany[] winCompanies;
+
 	private BiddingSnapshot biddingSnapshot;
 	private PlanBuildSnapshot planBuildSnapshot;
-
-	public PlanBuildSnapshot getPlanBuildSnapshot() {
-		return planBuildSnapshot;
-	}
-
-	public void setPlanBuildSnapshot(PlanBuildSnapshot planBuildSnapshot) {
-		this.planBuildSnapshot = planBuildSnapshot;
-	}
 
 	public PageCriteria getPageCriteria() {
 		return pageCriteria;
@@ -109,6 +109,22 @@ public class RestRequest implements Serializable {
 		this.mergeDatas = mergeDatas;
 	}
 
+	public NewsData getNewsData() {
+		return newsData;
+	}
+
+	public void setNewsData(NewsData newsData) {
+		this.newsData = newsData;
+	}
+
+	public NewsData[] getNewsDatas() {
+		return newsDatas;
+	}
+
+	public void setNewsDatas(NewsData[] newsDatas) {
+		this.newsDatas = newsDatas;
+	}
+
 	public PlanBuildData getPlanBuildData() {
 		return planBuildData;
 	}
@@ -157,11 +173,35 @@ public class RestRequest implements Serializable {
 		this.recordDatas = recordDatas;
 	}
 
+	public WinCompany getWinCompany() {
+		return winCompany;
+	}
+
+	public void setWinCompany(WinCompany winCompany) {
+		this.winCompany = winCompany;
+	}
+
+	public WinCompany[] getWinCompanies() {
+		return winCompanies;
+	}
+
+	public void setWinCompanies(WinCompany[] winCompanies) {
+		this.winCompanies = winCompanies;
+	}
+
 	public BiddingSnapshot getBiddingSnapshot() {
 		return biddingSnapshot;
 	}
 
 	public void setBiddingSnapshot(BiddingSnapshot biddingSnapshot) {
 		this.biddingSnapshot = biddingSnapshot;
+	}
+
+	public PlanBuildSnapshot getPlanBuildSnapshot() {
+		return planBuildSnapshot;
+	}
+
+	public void setPlanBuildSnapshot(PlanBuildSnapshot planBuildSnapshot) {
+		this.planBuildSnapshot = planBuildSnapshot;
 	}
 }

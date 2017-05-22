@@ -1,4 +1,3 @@
-<#assign base = request.contextPath />
 <!DOCTYPE html>
 <html>
 
@@ -9,11 +8,11 @@
 
 	<title>用户登录</title>
 
-	<link href="${base}/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${base}/font-awesome/css/font-awesome.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-	<link href="${base}/css/animate.css" rel="stylesheet">
-	<link href="${base}/css/style.css" rel="stylesheet">
+	<link href="/css/animate.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -27,7 +26,7 @@
 
 		<h3>企业竞争情报系统</h3>
 		<p>Login in. To see it in action.</p>
-		<form class="m-t" role="form" action="${base}/login/show" method="post">
+		<form class="m-t" role="form" action="/login/show" method="post">
 			<input type="hidden" name="${(_csrf.parameterName)!''}" value="${(_csrf.token)!''}"/>
 			<div class="form-group">
 				<input type="text" name="username" class="form-control" placeholder="用户名" required="">
@@ -44,8 +43,8 @@
 </div>
 
 <!-- Mainly scripts -->
-<script src="${base}/js/jquery-2.1.1.js"></script>
-<script src="${base}/js/bootstrap.min.js"></script>
+<script src="/js/jquery-2.1.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 </body>
 
