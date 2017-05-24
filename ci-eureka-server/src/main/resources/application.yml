@@ -1,4 +1,4 @@
 spring:
   profiles:
-    active: dev #指定加载哪一个配置文件
+    active: prod #指定加载哪一个配置文件
 

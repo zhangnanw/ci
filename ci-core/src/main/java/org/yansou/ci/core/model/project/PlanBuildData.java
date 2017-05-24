@@ -26,6 +26,9 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private String projectName;// 项目名称（工程名称）
 
 	@Column
+	private String rowkey;// 源数据的唯一标识
+
+	@Column
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
 	@Column
@@ -83,9 +86,9 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	@Column
 	private String url;// 数据的原始地址
-	
+
 	@Column
-	private String snapshotId;//快照id
+	private String snapshotId;// 快照id
 
 	public String getSnapshotId() {
 		return snapshotId;
@@ -93,6 +96,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	public void setSnapshotId(String snapshotId) {
 		this.snapshotId = snapshotId;
+	}
+
+	public String getRowkey() {
+		return rowkey;
+	}
+
+	public void setRowkey(String rowkey) {
+		this.rowkey = rowkey;
 	}
 
 	public String getProjectName() {
@@ -255,39 +266,3 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.url = url;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

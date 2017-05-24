@@ -24,6 +24,10 @@ public class Readability {
 		mDocument = Jsoup.parse(html);
 	}
 
+	public static Readability createAndInit(String html) {
+		return new Readability(html).init();
+	}
+
 	public Readability(String html, String baseUri) {
 		super();
 		mDocument = Jsoup.parse(html, baseUri);
@@ -100,8 +104,9 @@ public class Readability {
 	/**
 	 * Runs readability.
 	 */
-	public final void init() {
+	public Readability init() {
 		init(false);
+		return this;
 	}
 
 	/**
@@ -173,8 +178,8 @@ public class Readability {
 		 * TODO: this is pretty costly as far as processing goes. Maybe optimize
 		 * later.
 		 */
-		mDocument.body().html(mDocument.body().html().replaceAll(Patterns.REGEX_REPLACE_BRS, "</p><p>").replaceAll
-				(Patterns.REGEX_REPLACE_FONTS, "<$1span>"));
+		mDocument.body().html(mDocument.body().html().replaceAll(Patterns.REGEX_REPLACE_BRS, "</p><p>")
+				.replaceAll(Patterns.REGEX_REPLACE_FONTS, "<$1span>"));
 	}
 
 	/**
@@ -217,8 +222,8 @@ public class Readability {
 			int embedCount = getElementsByTag(articleParagraph, "embed").size();
 			int objectCount = getElementsByTag(articleParagraph, "object").size();
 
-			if (imgCount == 0 && embedCount == 0 && objectCount == 0 && isEmpty(getInnerText(articleParagraph, false)
-			)) {
+			if (imgCount == 0 && embedCount == 0 && objectCount == 0
+					&& isEmpty(getInnerText(articleParagraph, false))) {
 				articleParagraph.remove();
 			}
 		}
@@ -242,12 +247,13 @@ public class Readability {
 		String tagName = node.tagName();
 		if ("div".equalsIgnoreCase(tagName)) {
 			incrementContentScore(node, 5);
-		} else if ("pre".equalsIgnoreCase(tagName) || "td".equalsIgnoreCase(tagName) || "blockquote".equalsIgnoreCase
-				(tagName)) {
+		} else if ("pre".equalsIgnoreCase(tagName) || "td".equalsIgnoreCase(tagName)
+				|| "blockquote".equalsIgnoreCase(tagName)) {
 			incrementContentScore(node, 3);
-		} else if ("address".equalsIgnoreCase(tagName) || "ol".equalsIgnoreCase(tagName) || "ul".equalsIgnoreCase
-				(tagName) || "dl".equalsIgnoreCase(tagName) || "dd".equalsIgnoreCase(tagName) || "dt".equalsIgnoreCase
-				(tagName) || "li".equalsIgnoreCase(tagName) || "form".equalsIgnoreCase(tagName)) {
+		} else if ("address".equalsIgnoreCase(tagName) || "ol".equalsIgnoreCase(tagName)
+				|| "ul".equalsIgnoreCase(tagName) || "dl".equalsIgnoreCase(tagName) || "dd".equalsIgnoreCase(tagName)
+				|| "dt".equalsIgnoreCase(tagName) || "li".equalsIgnoreCase(tagName)
+				|| "form".equalsIgnoreCase(tagName)) {
 			incrementContentScore(node, -3);
 		} else if ("h1".equalsIgnoreCase(tagName) || "h2".equalsIgnoreCase(tagName) || "h3".equalsIgnoreCase(tagName)
 				|| "h4".equalsIgnoreCase(tagName) || "h5".equalsIgnoreCase(tagName) || "h6".equalsIgnoreCase(tagName)
@@ -282,12 +288,12 @@ public class Readability {
 			/* Remove unlikely candidates */
 			if (!preserveUnlikelyCandidates) {
 				String unlikelyMatchString = node.className() + node.id();
-				Matcher unlikelyCandidatesMatcher = Patterns.get(Patterns.RegEx.UNLIKELY_CANDIDATES).matcher
-						(unlikelyMatchString);
-				Matcher maybeCandidateMatcher = Patterns.get(Patterns.RegEx.OK_MAYBE_ITS_A_CANDIDATE).matcher
-						(unlikelyMatchString);
-				if (unlikelyCandidatesMatcher.find() && maybeCandidateMatcher.find() && !"body".equalsIgnoreCase(node
-						.tagName())) {
+				Matcher unlikelyCandidatesMatcher = Patterns.get(Patterns.RegEx.UNLIKELY_CANDIDATES)
+						.matcher(unlikelyMatchString);
+				Matcher maybeCandidateMatcher = Patterns.get(Patterns.RegEx.OK_MAYBE_ITS_A_CANDIDATE)
+						.matcher(unlikelyMatchString);
+				if (unlikelyCandidatesMatcher.find() && maybeCandidateMatcher.find()
+						&& !"body".equalsIgnoreCase(node.tagName())) {
 					node.remove();
 					dbg("Removing unlikely candidate - " + unlikelyMatchString);
 					continue;
@@ -378,8 +384,8 @@ public class Readability {
 			 */
 			scaleContentScore(candidate, 1 - getLinkDensity(candidate));
 
-			dbg("Candidate: (" + candidate.className() + ":" + candidate.id() + ") with score " + getContentScore
-					(candidate));
+			dbg("Candidate: (" + candidate.className() + ":" + candidate.id() + ") with score "
+					+ getContentScore(candidate));
 
 			if (topCandidate == null || getContentScore(candidate) > getContentScore(topCandidate)) {
 				topCandidate = candidate;
@@ -594,8 +600,8 @@ public class Readability {
 	 */
 	private static void clean(Element e, String tag) {
 		Elements targetList = getElementsByTag(e, tag);
-		boolean isEmbed = "object".equalsIgnoreCase(tag) || "embed".equalsIgnoreCase(tag) || "iframe".equalsIgnoreCase
-				(tag);
+		boolean isEmbed = "object".equalsIgnoreCase(tag) || "embed".equalsIgnoreCase(tag)
+				|| "iframe".equalsIgnoreCase(tag);
 
 		for (Element target : targetList) {
 			Matcher matcher = Patterns.get(Patterns.RegEx.VIDEO).matcher(target.outerHtml());
@@ -711,8 +717,8 @@ public class Readability {
 	 */
 	protected void dbg(String msg, Throwable t) {
 		if (null != t) {
-			System.out.println(msg + (t != null ? ("\n" + t.getMessage()) : "") + (t != null ? ("\n" + t.getStackTrace
-					()) : ""));
+			System.out.println(
+					msg + (t != null ? ("\n" + t.getMessage()) : "") + (t != null ? ("\n" + t.getStackTrace()) : ""));
 		}
 	}
 
@@ -736,49 +742,47 @@ public class Readability {
 
 		public static Pattern get(RegEx re) {
 			switch (re) {
-				case UNLIKELY_CANDIDATES: {
-					if (sUnlikelyCandidatesRe == null) {
-						sUnlikelyCandidatesRe = Pattern.compile
-								("combx|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor",
-										Pattern.CASE_INSENSITIVE);
-					}
-					return sUnlikelyCandidatesRe;
+			case UNLIKELY_CANDIDATES: {
+				if (sUnlikelyCandidatesRe == null) {
+					sUnlikelyCandidatesRe = Pattern.compile(
+							"combx|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor",
+							Pattern.CASE_INSENSITIVE);
 				}
-				case OK_MAYBE_ITS_A_CANDIDATE: {
-					if (sOkMaybeItsACandidateRe == null) {
-						sOkMaybeItsACandidateRe = Pattern.compile("and|article|body|column|main", Pattern
-								.CASE_INSENSITIVE);
-					}
-					return sOkMaybeItsACandidateRe;
+				return sUnlikelyCandidatesRe;
+			}
+			case OK_MAYBE_ITS_A_CANDIDATE: {
+				if (sOkMaybeItsACandidateRe == null) {
+					sOkMaybeItsACandidateRe = Pattern.compile("and|article|body|column|main", Pattern.CASE_INSENSITIVE);
 				}
-				case POSITIVE: {
-					if (sPositiveRe == null) {
-						sPositiveRe = Pattern.compile("article|body|content|entry|hentry|page|pagination|post|text",
-								Pattern.CASE_INSENSITIVE);
-					}
-					return sPositiveRe;
+				return sOkMaybeItsACandidateRe;
+			}
+			case POSITIVE: {
+				if (sPositiveRe == null) {
+					sPositiveRe = Pattern.compile("article|body|content|entry|hentry|page|pagination|post|text",
+							Pattern.CASE_INSENSITIVE);
 				}
-				case NEGATIVE: {
-					if (sNegativeRe == null) {
-						sNegativeRe = Pattern.compile("combx|comment|contact|foot|footer|footnote|link|media|meta" +
-								"|promo|related|scroll|shoutbox|sponsor|tags|widget", Pattern.CASE_INSENSITIVE);
-					}
-					return sNegativeRe;
+				return sPositiveRe;
+			}
+			case NEGATIVE: {
+				if (sNegativeRe == null) {
+					sNegativeRe = Pattern.compile("combx|comment|contact|foot|footer|footnote|link|media|meta"
+							+ "|promo|related|scroll|shoutbox|sponsor|tags|widget", Pattern.CASE_INSENSITIVE);
 				}
-				case DIV_TO_P_ELEMENTS: {
-					if (sDivToPElementsRe == null) {
-						sDivToPElementsRe = Pattern.compile("<(a|blockquote|dl|div|img|ol|p|pre|table|ul)", Pattern
-								.CASE_INSENSITIVE);
-					}
-					return sDivToPElementsRe;
+				return sNegativeRe;
+			}
+			case DIV_TO_P_ELEMENTS: {
+				if (sDivToPElementsRe == null) {
+					sDivToPElementsRe = Pattern.compile("<(a|blockquote|dl|div|img|ol|p|pre|table|ul)",
+							Pattern.CASE_INSENSITIVE);
 				}
-				case VIDEO: {
-					if (sVideoRe == null) {
-						sVideoRe = Pattern.compile("http:\\/\\/(www\\.)?(youtube|vimeo)\\.com", Pattern
-								.CASE_INSENSITIVE);
-					}
-					return sVideoRe;
+				return sDivToPElementsRe;
+			}
+			case VIDEO: {
+				if (sVideoRe == null) {
+					sVideoRe = Pattern.compile("http:\\/\\/(www\\.)?(youtube|vimeo)\\.com", Pattern.CASE_INSENSITIVE);
 				}
+				return sVideoRe;
+			}
 			}
 			return null;
 		}
