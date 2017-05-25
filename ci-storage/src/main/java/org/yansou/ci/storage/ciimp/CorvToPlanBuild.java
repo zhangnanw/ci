@@ -95,11 +95,22 @@ public class CorvToPlanBuild extends AbsStatistics {
 				}
 				PojoUtils.trimAllStringField(x);
 				return x;
-			}).map(dao::save).forEach(System.out::println);
+			}).map(this::save).forEach(System.out::println);
 			ts.buriePrint("plan-build-read-time:{}", LOG::info);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	private PlanBuildData save(PlanBuildData data) {
+		if (data.getId() == null) {
+			System.out.println("insert");
+			return dao.save(data);
+		} else {
+			dao.updateStatusUpdate(data.getStatusUpdate(), data.getId());
+			System.out.println("updateStatusUpdate");
+		}
+		return data;
 	}
 
 	private JSONObject getSourceObj(String rowkey) {
