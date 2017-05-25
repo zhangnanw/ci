@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.Stream.Builder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
+import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.model.project.PlanBuildSnapshot;
 import org.yansou.ci.storage.dao.project.PlanBuildDataDao;
@@ -39,14 +41,29 @@ public class CorvToPlanBuild extends AbsStatistics {
 	Stream<JSONObject> filter(Stream<JSONObject> strema) {
 		Map<Object, List<JSONObject>> bg = strema
 				.collect(Collectors.groupingBy(o -> ((JSONObject) o).getString("project_number")));
+		Builder<JSONObject> build = Stream.builder();
 		for (List<JSONObject> list : bg.values()) {
-			list.sort((a, b) -> a.getString("rowkey").compareTo(b.getString("rowkey")));
-			for (JSONObject obj : list) {
-				System.out.println(obj.getString("rowkey"));
-			}
+			build.add(__mergeGG(list));
 		}
-		System.out.println("------------");
-		return strema;
+		return build.build();
+	}
+
+	/**
+	 * 合并公告。
+	 * 
+	 * @param objs
+	 * @return
+	 */
+	private JSONObject __mergeGG(List<JSONObject> objs) {
+		List<JSONObject> list = objs.stream().sorted((a, b) -> b.getString("rowkey").compareTo(a.getString("rowkey")))
+				.collect(Collectors.toList());
+		JSONObject obj = list.get(0);
+		JSONObject lastObj = new JSONObject();
+		if (objs.size() > 1) {
+			lastObj = list.get(1);
+		}
+		obj.put("lastobj", lastObj);
+		return obj;
 	}
 
 	public void run() {
@@ -70,6 +87,14 @@ public class CorvToPlanBuild extends AbsStatistics {
 				} catch (DaoException e) {
 					throw new IllegalStateException(e);
 				}
+			}).map(x -> {
+				PlanBuildData rs = dao.findByProjectIdentifie(x.getProjectIdentifie());
+				if (null != rs) {
+					System.out.println("id:" + rs.getId());
+					x.setId(rs.getId());
+				}
+				PojoUtils.trimAllStringField(x);
+				return x;
 			}).map(dao::save).forEach(System.out::println);
 			ts.buriePrint("plan-build-read-time:{}", LOG::info);
 		} catch (SQLException e) {

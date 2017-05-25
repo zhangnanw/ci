@@ -13,4 +13,6 @@ public interface PlanBuildDataDao extends GeneralDao<PlanBuildData, Long> {
 	@Query("update PlanBuildData bean set bean.status = ?1 where bean.id = ?2")
 	int updateStatus(Integer status, Long id);
 
+	PlanBuildData findByProjectIdentifie(String projectIdentifie);
+
 }

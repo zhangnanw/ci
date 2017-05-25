@@ -1,11 +1,18 @@
 package org.yansou.ci.storage.ciimp;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.data.mining.nlpir.impl.AreaAnalyzer;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -37,7 +44,7 @@ public class RccSource2PlanBuildDataInfo {
 
 		String[] projectCodes = null;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
-		String projectIdentifie = po.getString("peoject_number");// 项目唯一标识
+		String projectIdentifie = po.getString("project_number");// 项目唯一标识
 
 		Double projectScale = null;// 项目规模（总采购容量），单位：MW（兆瓦）
 
@@ -49,7 +56,7 @@ public class RccSource2PlanBuildDataInfo {
 
 		String projectAddress = null;// 项目详细地址
 
-		String projcetOwner = null;// 甲方、项目业主、开发商、采购人、项目法人
+		String projcetOwner = getValue(po.getString("proprietor"), "company");// 甲方、项目业主、开发商、采购人、项目法人
 
 		Integer ownerType = null;// 业主类型
 
@@ -58,7 +65,7 @@ public class RccSource2PlanBuildDataInfo {
 		Integer planBuildStatus = null;// 拟在建项目阶段，由乐叶提供
 		String purchaseSituation = RegexUtils.regex("设备购置情况[:：](.{5,80})", ctx.replaceAll("<[^>]*>", ""), 1);// 设备购置情况，直接从RCC中获取
 
-		String designer = path(po,"$.[0]");// 设计师
+		String designer = getValue(po.getString("designing_institute"), "company");
 
 		String statusUpdate = po.getString("project_stage");// 状态更新
 
@@ -101,6 +108,81 @@ public class RccSource2PlanBuildDataInfo {
 		}
 		JSONPath jpath = JSONPath.compile(path);
 		return (String) jpath.eval(obj);
+	}
+
+	private String toPhoneCodes(String str) {
+		JSONArray arr = JSON.parseArray(str);
+		StringBuffer sb = new StringBuffer();
+		JSONUtils.streamJSONObject(arr).map(this::toPhoneCode).forEach(a -> sb.append(a + ","));
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - 1);
+		}
+		return sb.toString();
+	}
+
+	private String toPhoneCode(JSONObject obj) {
+		String countryCode = obj.getString("countryCode");
+		String areaCode = obj.getString("areaCode");
+		String phone = obj.getString("phone");
+		String mobile = obj.getString("mobile");
+		if ("86".equals(countryCode)) {
+			countryCode = "0";
+		}
+		if (StringUtils.isNoneBlank(countryCode, areaCode, phone)) {
+			return countryCode + areaCode + "-" + phone;
+		}
+		if (StringUtils.isNoneBlank(mobile)) {
+			if ("0".equals(countryCode)) {
+				return mobile;
+			} else {
+				return "+" + countryCode + mobile;
+			}
+
+		}
+		if (StringUtils.isNoneBlank(phone)) {
+			return phone;
+		}
+		return "";
+	}
+
+	String getCellValue(String jsonStr) {
+		if (StringUtils.isBlank(jsonStr)) {
+			return "";
+		}
+		JSONArray arr = JSON.parseArray(jsonStr);
+		StringWriter sw = new StringWriter();
+		PrintWriter out = new PrintWriter(sw);
+		for (JSONObject obj : arr.stream().map(o -> (JSONObject) o).collect(Collectors.toList())) {
+			Optional.ofNullable(obj.getString("company")).filter(StringUtils::isNotBlank).map(x -> "公司：" + x)
+					.ifPresent(out::println);
+			Optional.ofNullable(obj.getString("contractor")).filter(StringUtils::isNotBlank).map(x -> "联系人：" + x)
+					.ifPresent(out::println);
+			Optional.ofNullable(obj.getString("remark")).filter(StringUtils::isNotBlank).map(x -> "备注：" + x)
+					.ifPresent(out::println);
+			Optional.ofNullable(obj.getString("phone")).filter(StringUtils::isNotBlank).map(this::toPhoneCodes)
+					.map(x -> "联系方式：" + x).ifPresent(out::println);
+			Optional.ofNullable(obj.getString("email")).filter(StringUtils::isNotBlank).map(x -> "邮件：" + x)
+					.ifPresent(out::println);
+			Optional.ofNullable(obj.getString("website")).filter(StringUtils::isNotBlank).map(x -> "网址：" + x)
+					.ifPresent(out::println);
+			out.println();
+		}
+		return sw.toString();
+	}
+
+	String getValue(String jsonStr, String key) {
+		if (StringUtils.isBlank(jsonStr)) {
+			return "";
+		}
+		JSONArray arr = JSON.parseArray(jsonStr);
+		StringWriter sw = new StringWriter();
+		PrintWriter out = new PrintWriter(sw);
+		for (JSONObject obj : arr.stream().map(o -> (JSONObject) o).collect(Collectors.toList())) {
+			Optional.ofNullable(obj.getString(key)).filter(StringUtils::isNotBlank).ifPresent(out::println);
+			out.println();
+			break;
+		}
+		return sw.toString();
 	}
 
 	/**

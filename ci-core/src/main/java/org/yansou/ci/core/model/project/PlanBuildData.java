@@ -25,13 +25,13 @@ public class PlanBuildData extends AbstractModel<Long> {
 	@Column
 	private String projectName;// 项目名称（工程名称）
 
-	@Column
+	@Column(unique = true)
 	private String rowkey;// 源数据的唯一标识
 
 	@Column
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
-	@Column
+	@Column(unique = true)
 	private String projectIdentifie;// 项目唯一标识
 
 	@Column
