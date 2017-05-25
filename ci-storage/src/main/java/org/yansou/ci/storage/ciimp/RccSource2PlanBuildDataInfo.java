@@ -83,7 +83,6 @@ public class RccSource2PlanBuildDataInfo {
 			}
 		}
 		Date planStartTime = null;// 计划开工时间
-
 		// 状态
 		Integer status = 0;
 		// URL
