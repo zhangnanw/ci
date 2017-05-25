@@ -62,7 +62,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 		if (objs.size() > 1) {
 			lastObj = list.get(1);
 		}
-		obj.put("lastobj", lastObj);
+		obj.put("prev", lastObj);
 		return obj;
 	}
 

@@ -16,23 +16,31 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import com.mchange.v2.async.StrandedTaskReporting;
 
+/**
+ * RCC拟在建信息转换为ci里使用的拟在建信息。
+ * 
+ * @author Administrator
+ *
+ */
 public class RccSource2PlanBuildDataInfo {
 
-	public RccSource2PlanBuildDataInfo(JSONObject obj, JSONObject proObj) {
-		this.obj = obj;
-		this.po = proObj;
+	public RccSource2PlanBuildDataInfo(JSONObject srcObj, JSONObject proObj) {
+		this.srcObj = srcObj;
+		this.proObj = proObj;
 	}
 
-	private JSONObject obj;
-	private JSONObject po;
+	private JSONObject srcObj;
+	private JSONObject proObj;
 
 	public PlanBuildData get() {
+		JSONObject prevPro = proObj.getJSONObject("prev");
 
-		String ctx = obj.getString("page_source");
+		String ctx = srcObj.getString("page_source");
 
 		PlanBuildData info = new PlanBuildData();
-		info.setRowkey(obj.getString("rowkey"));
+		info.setRowkey(srcObj.getString("rowkey"));
 		// 项目地址，省
 		String projectProvince = toProvince();
 		// 项目地址，市
@@ -40,23 +48,23 @@ public class RccSource2PlanBuildDataInfo {
 		// 项目地址，区县
 		String projectDistrict = toDistrict();
 
-		String projectName = po.getString("project_name");// 项目名称（工程名称）
+		String projectName = proObj.getString("project_name");// 项目名称（工程名称）
 
 		String[] projectCodes = null;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
-		String projectIdentifie = po.getString("project_number");// 项目唯一标识
+		String projectIdentifie = proObj.getString("project_number");// 项目唯一标识
 
 		Double projectScale = null;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 		Long projectCost = null;// 项目造价，单位：元
 
-		Long projectTotalInvestment = po.getLong("investment_amounts");// 项目总投资，单位：元
+		Long projectTotalInvestment = proObj.getLong("investment_amounts");// 项目总投资，单位：元
 
 		String projectDescription = null;// 项目描述
 
 		String projectAddress = null;// 项目详细地址
 
-		String projcetOwner = getValue(po.getString("proprietor"), "company");// 甲方、项目业主、开发商、采购人、项目法人
+		String projcetOwner = getValue(proObj.getString("proprietor"), "company");// 甲方、项目业主、开发商、采购人、项目法人
 
 		Integer ownerType = null;// 业主类型
 
@@ -65,16 +73,21 @@ public class RccSource2PlanBuildDataInfo {
 		Integer planBuildStatus = null;// 拟在建项目阶段，由乐叶提供
 		String purchaseSituation = RegexUtils.regex("设备购置情况[:：](.{5,80})", ctx.replaceAll("<[^>]*>", ""), 1);// 设备购置情况，直接从RCC中获取
 
-		String designer = getValue(po.getString("designing_institute"), "company");
-
-		String statusUpdate = po.getString("project_stage");// 状态更新
-
+		String designer = getValue(proObj.getString("designing_institute"), "company");
+		String privStatus = prevPro.getString("project_stage");
+		String statusUpdate = proObj.getString("project_stage");// 状态更新
+		// 状态变更
+		if (StringUtils.isNoneBlank(privStatus, statusUpdate)) {
+			if (!StringUtils.equals(privStatus, statusUpdate)) {
+				statusUpdate = privStatus + " 变更为 " + statusUpdate;
+			}
+		}
 		Date planStartTime = null;// 计划开工时间
 
 		// 状态
 		Integer status = 0;
 		// URL
-		String url = obj.getString("url");
+		String url = srcObj.getString("url");
 
 		info.setDesigner(designer);
 		info.setOwnerType(ownerType);
@@ -191,7 +204,7 @@ public class RccSource2PlanBuildDataInfo {
 	private static AreaAnalyzer AREA_ANALYZER = new AreaAnalyzer();
 
 	private String toProvince() {
-		JSONObject res = AREA_ANALYZER.analy(obj);
+		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
 		if (null == arr || arr.isEmpty()) {
 			return null;
@@ -200,7 +213,7 @@ public class RccSource2PlanBuildDataInfo {
 	}
 
 	private String toCity() {
-		JSONObject res = AREA_ANALYZER.analy(obj);
+		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
 		if (null == arr || arr.size() <= 1) {
 			return null;
@@ -209,7 +222,7 @@ public class RccSource2PlanBuildDataInfo {
 	}
 
 	private String toDistrict() {
-		JSONObject res = AREA_ANALYZER.analy(obj);
+		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
 		if (null == arr || arr.size() <= 2) {
 			return null;
