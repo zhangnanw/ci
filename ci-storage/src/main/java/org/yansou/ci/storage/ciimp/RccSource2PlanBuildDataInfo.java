@@ -2,7 +2,6 @@ package org.yansou.ci.storage.ciimp;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
 import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.data.mining.nlpir.impl.AreaAnalyzer;
@@ -59,7 +58,7 @@ public class RccSource2PlanBuildDataInfo {
 		Integer planBuildStatus = null;// 拟在建项目阶段，由乐叶提供
 		String purchaseSituation = RegexUtils.regex("设备购置情况[:：](.{5,80})", ctx.replaceAll("<[^>]*>", ""), 1);// 设备购置情况，直接从RCC中获取
 
-		String designer = null;// 设计师
+		String designer = path(po,"$.[0]");// 设计师
 
 		String statusUpdate = po.getString("project_stage");// 状态更新
 
