@@ -7,6 +7,7 @@ import org.yansou.ci.core.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -17,7 +18,7 @@ import java.util.Date;
  * @create 2017-05-07 15:36
  */
 @Entity
-@Table(name = "ci_plan_build_data")
+@Table(name = "ci_plan_build_data", indexes = { @Index(unique = true, columnList = "projectIdentifie") })
 public class PlanBuildData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -5536829706290917695L;
