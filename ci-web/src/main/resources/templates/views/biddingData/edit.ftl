@@ -74,6 +74,25 @@
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany"
 											   value="${biddingData.parentCompany}">
 									</div>
+									<div class="form-group"><label>单晶硅规格</label>
+										<input type="text" class="form-control" placeholder="单晶硅规格"
+											   name="monocrystallineSpecification"
+											   value="${biddingData.monocrystallineSpecification}">
+									</div>
+									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder="单晶硅的采购容量，单位：MW（兆瓦）"
+											   name="monocrystallineCapacity"
+											   value="${biddingData.monocrystallineCapacity}">
+									</div>
+									<div class="form-group"><label>多晶硅规格</label>
+										<input type="text" class="form-control" placeholder="多晶硅规格"
+											   name="polysiliconSpecification"
+											   value="${biddingData.polysiliconSpecification}">
+									</div>
+									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder="多晶硅的采购容量，单位：MW（兆瓦）"
+											   name="polysiliconCapacity" value="${biddingData.polysiliconCapacity}">
+									</div>
 									<div class="form-group"><label>招标预算</label>
 										<input type="text" class="form-control" placeholder="100" name="biddingBudget"
 											   value="${biddingData.biddingBudget}">
