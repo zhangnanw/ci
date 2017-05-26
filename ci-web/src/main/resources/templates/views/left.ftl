@@ -12,7 +12,7 @@
 						<li><a href="profile.html">个人中心</a></li>
 						<li><a href="contacts.html">关键词设置</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">退出登录</a></li>
+						<li><a id="logout" href="javascript:;" res="/login/logout">退出登录</a></li>
 					</ul>
 				</div>
 				<div class="logo-element">

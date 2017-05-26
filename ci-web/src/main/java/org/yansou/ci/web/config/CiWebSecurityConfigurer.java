@@ -28,7 +28,7 @@ public class CiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 					.defaultSuccessUrl("/login/success")
 					.failureUrl("/login/failure")
 					.and()
-				.logout()
+				.logout().logoutUrl("/login/logout")
 					.permitAll();
 	}
 
