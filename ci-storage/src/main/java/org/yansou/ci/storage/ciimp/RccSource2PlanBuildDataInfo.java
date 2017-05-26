@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
-import com.mchange.v2.async.StrandedTaskReporting;
 
 /**
  * RCC拟在建信息转换为ci里使用的拟在建信息。
