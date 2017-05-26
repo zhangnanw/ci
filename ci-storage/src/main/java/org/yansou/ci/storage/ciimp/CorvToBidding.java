@@ -18,7 +18,6 @@ import org.yansou.ci.storage.service.project.BiddingSnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 
 /**
  * 
