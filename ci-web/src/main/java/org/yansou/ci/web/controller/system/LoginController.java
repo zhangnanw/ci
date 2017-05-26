@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author liutiejun
  * @create 2017-04-19 10:15
@@ -34,6 +36,11 @@ public class LoginController {
 	public String failure() {
 		LOG.info("show login failure page-------------------");
 		return "views/login/failure";
+	}
+
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		return "redirect:/login/show";
 	}
 
 }

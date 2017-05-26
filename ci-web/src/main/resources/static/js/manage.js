@@ -223,3 +223,13 @@ function getNotCheckIds() {
 
     return notCheckIds;
 }
+
+$('#logout').on('click', function () {
+    var _$this = $(this);
+
+    $.alertable.confirm('您确认要退出吗?').then(function () {
+        location.href = _$this.attr('res');
+    }, function () {
+
+    });
+});
