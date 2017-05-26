@@ -1,7 +1,6 @@
 package org.yansou.ci.core.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.model.AbstractModel;
 
@@ -35,10 +34,10 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private Double projectScale;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 	@Column
-	private Long projectCost;// 项目造价，单位：元
+	private Double projectCost;// 项目造价，单位：万元
 
 	@Column
-	private Long projectTotalInvestment;// 项目总投资，单位：元
+	private Double projectTotalInvestment;// 项目总投资，单位：万元
 
 	@Column
 	private String projectDescription;// 项目描述
@@ -82,18 +81,15 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private Date planStartTime;// 计划开工时间
 
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date publishTime;// 发布时间
+
+	@Column
 	private String url;// 数据的原始地址
-	
+
 	@Column
 	private String snapshotId;//快照id
-
-	public String getSnapshotId() {
-		return snapshotId;
-	}
-
-	public void setSnapshotId(String snapshotId) {
-		this.snapshotId = snapshotId;
-	}
 
 	public String getProjectName() {
 		return projectName;
@@ -127,19 +123,19 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.projectScale = projectScale;
 	}
 
-	public Long getProjectCost() {
+	public Double getProjectCost() {
 		return projectCost;
 	}
 
-	public void setProjectCost(Long projectCost) {
+	public void setProjectCost(Double projectCost) {
 		this.projectCost = projectCost;
 	}
 
-	public Long getProjectTotalInvestment() {
+	public Double getProjectTotalInvestment() {
 		return projectTotalInvestment;
 	}
 
-	public void setProjectTotalInvestment(Long projectTotalInvestment) {
+	public void setProjectTotalInvestment(Double projectTotalInvestment) {
 		this.projectTotalInvestment = projectTotalInvestment;
 	}
 
@@ -247,12 +243,28 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.planStartTime = planStartTime;
 	}
 
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
+	}
+
 	public String getUrl() {
 		return url;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getSnapshotId() {
+		return snapshotId;
+	}
+
+	public void setSnapshotId(String snapshotId) {
+		this.snapshotId = snapshotId;
 	}
 }
 
