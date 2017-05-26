@@ -44,7 +44,8 @@ public class CiWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 		auth
 				.inMemoryAuthentication()
 				.withUser("admin").password("admin").roles("ADMIN", "USER")
-				.and()
+				.and().withUser("xiuleiliu").password("xiuleiliu").roles("USER").and().withUser("yinggao").password
+				("yinggao").roles("USER").and().withUser("panshuwen").password("panshuwen").roles("USER").and()
 				.withUser("user").password("user").roles("USER");
 	}
 

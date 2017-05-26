@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.yansou.ci.common.datatables.DataTableUtils;
-import org.yansou.ci.common.datatables.DataTableVo;
+import org.yansou.ci.common.datatables.mapping.DataTablesInput;
+import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
+import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.common.utils.GsonUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -75,11 +75,14 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public DataTableVo<BiddingData> pagination(HttpServletRequest request) {
+	public DataTablesOutput<BiddingData> pagination(HttpServletRequest request) {
 		String requestUrl = "http://" + CI_STORAGE + "/biddingData/pagination";
 
-		PageCriteria pageCriteria = DataTableUtils.parseRequest(request);
-		LOG.info("pageCriteria: {}", GsonUtils._gson.toJson(pageCriteria));
+		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
+		LOG.info("dataTablesInput: {}", dataTablesInput);
+
+		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
+		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
 		restRequest.setPageCriteria(pageCriteria);
@@ -93,12 +96,12 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTableVo<BiddingData> dataTableVo = DataTableUtils.parseResponse(pagination, pageCriteria.getDraw(),
-				restResponse.getErrors());
+		DataTablesOutput<BiddingData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
+				.getDraw(), restResponse.getErrors());
 
-		LOG.info("dataTableVo: {}", dataTableVo);
+		LOG.info("dataTableVo: {}", dataTablesOutput);
 
-		return dataTableVo;
+		return dataTablesOutput;
 	}
 
 	@Override
