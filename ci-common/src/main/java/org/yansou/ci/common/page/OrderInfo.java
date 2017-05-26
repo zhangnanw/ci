@@ -8,24 +8,45 @@ package org.yansou.ci.common.page;
  */
 public class OrderInfo {
 
-	// Column to which ordering should be applied
-	private Integer column;
-	// Ordering direction for this column，desc、asc
-	private String dir;
+	/**
+	 * 字段的排序方式
+	 */
+	public enum OrderOp {
+		ASC("asc"), DESC("desc");
 
-	public Integer getColumn() {
-		return column;
+		private String value;
+
+		OrderOp(String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
+		}
 	}
 
-	public void setColumn(Integer column) {
-		this.column = column;
+	/**
+	 * 排序的字段
+	 */
+	private String propertyName;
+	/**
+	 * 字段的排序方式：ASC、DESC
+	 */
+	private OrderOp orderOp;
+
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public String getDir() {
-		return dir;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
-	public void setDir(String dir) {
-		this.dir = dir;
+	public OrderOp getOrderOp() {
+		return orderOp;
+	}
+
+	public void setOrderOp(OrderOp orderOp) {
+		this.orderOp = orderOp;
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.yansou.ci.common.datatables.DataTableVo;
+import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.rest.model.IdRo;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -56,11 +56,11 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableVo<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
+	public DataTablesOutput<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		DataTableVo<BiddingData> dataTableVo = biddingDataBusiness.pagination(request);
+		DataTablesOutput<BiddingData> dataTablesOutput = biddingDataBusiness.pagination(request);
 
-		return dataTableVo;
+		return dataTablesOutput;
 	}
 
 	/**

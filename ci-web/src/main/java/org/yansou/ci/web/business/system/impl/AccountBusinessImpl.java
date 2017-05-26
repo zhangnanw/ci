@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.yansou.ci.common.datatables.DataTableVo;
+import org.yansou.ci.common.datatables.mapping.DataTablesInput;
+import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
+import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.model.system.Account;
@@ -42,7 +44,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setAccount(account);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		AccountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountResponse.class);
 
@@ -57,7 +59,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		RestRequest restRequest = new RestRequest();
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		AccountArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountArrayResponse
 				.class);
@@ -72,17 +74,18 @@ public class AccountBusinessImpl implements AccountBusiness {
 	}
 
 	@Override
-	public DataTableVo<Account> pagination(HttpServletRequest request) {
+	public DataTablesOutput<Account> pagination(HttpServletRequest request) {
 		String requestUrl = "http://" + CI_STORAGE + "/account/pagination";
 
-		PageCriteria pageCriteria = new PageCriteria();
-		pageCriteria.setCurrentPageNo(1);
-		pageCriteria.setPageSize(10);
+		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
+		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
+
+		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
 		restRequest.setPageCriteria(pageCriteria);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		AccountPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
 				AccountPaginationResponse.class);
@@ -91,7 +94,10 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		return null;
+		DataTablesOutput<Account> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(),
+				restResponse.getErrors());
+
+		return dataTablesOutput;
 	}
 
 	@Override
@@ -101,7 +107,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setAccount(entity);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		IdResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, IdResponse.class);
 
@@ -115,7 +121,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setAccount(entity);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		IdResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, IdResponse.class);
 

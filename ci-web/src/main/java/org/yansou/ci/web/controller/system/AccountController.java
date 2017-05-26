@@ -6,7 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.yansou.ci.common.datatables.DataTableVo;
+import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.core.model.system.Account;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
@@ -51,7 +51,8 @@ public class AccountController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableVo<Account> showList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+	public DataTablesOutput<Account> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
+			response) {
 		accountBusiness.pagination(request);
 
 		return null;

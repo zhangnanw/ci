@@ -1,5 +1,6 @@
 package org.yansou.ci.storage.common.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.page.PageCriteria;
@@ -153,13 +154,14 @@ public interface GeneralService<T extends AbstractModel<ID>, ID extends Serializ
 	 * @param currentPageNo
 	 * @param pageSize
 	 * @param specification
+	 * @param sort
 	 *
 	 * @return
 	 *
 	 * @throws DaoException
 	 */
-	Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification) throws
-			DaoException;
+	Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification, Sort sort)
+			throws DaoException;
 
 	/**
 	 * 分页查询
