@@ -3,6 +3,7 @@ package org.yansou.ci.storage.ciimp;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -79,22 +80,27 @@ public class CorvToPlanBuild extends AbsStatistics {
 				ent.setContext(source.getString("page_source"));
 				ent.setSnapshotId(UUID.randomUUID().toString());
 				try {
-					ent = service.save(ent);
+
 					PlanBuildData df = new RccSource2PlanBuildDataInfo(source, project).get();
+					if (LTFilter.isSave(df, ent)) {
+						ent = service.save(ent);
+					} else {
+						return null;
+					}
 					df.setSnapshotId(ent.getSnapshotId());
 					df.setUrl("/snapshot/planbuild/" + ent.getSnapshotId());
 					return df;
 				} catch (DaoException e) {
 					throw new IllegalStateException(e);
 				}
-			}).map(x -> {
-				PlanBuildData rs = dao.findByProjectIdentifie(x.getProjectIdentifie());
+			}).filter(Objects::nonNull).map(data -> {
+				PlanBuildData rs = dao.findByProjectIdentifie(data.getProjectIdentifie());
 				if (null != rs) {
 					System.out.println("id:" + rs.getId());
-					x.setId(rs.getId());
+					data.setId(rs.getId());
 				}
-				PojoUtils.trimAllStringField(x);
-				return x;
+				PojoUtils.trimAllStringField(data);
+				return data;
 			}).map(this::save).forEach(System.out::println);
 			ts.buriePrint("plan-build-read-time:{}", LOG::info);
 		} catch (SQLException e) {

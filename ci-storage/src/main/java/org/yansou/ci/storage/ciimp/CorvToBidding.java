@@ -1,6 +1,7 @@
 package org.yansou.ci.storage.ciimp;
 
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +41,8 @@ public class CorvToBidding extends AbsStatistics {
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("bidding-query-time:{}", LOG::info);
-			JSONUtils.streamJSONObject(arr).map(this::toBiddingData).map(dao::save).forEach(System.out::println);
+			JSONUtils.streamJSONObject(arr).map(this::toBiddingData).filter(Objects::nonNull).map(dao::save)
+					.forEach(System.out::println);
 			ts.buriePrint("bidding-read-time:{}", LOG::info);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
@@ -53,8 +55,13 @@ public class CorvToBidding extends AbsStatistics {
 		ent.setSnapshotId(UUID.randomUUID().toString());
 		ent.setContext(obj.getString("context"));
 		try {
-			ent = biddingSnapshotService.save(ent);
+
 			BiddingData res = rd.get();
+			if (LTFilter.isSave(res, ent)) {
+				ent = biddingSnapshotService.save(ent);
+			} else {
+				return null;
+			}
 			res.setSnapshotId(ent.getSnapshotId());
 			res.setUrl("/snapshot/bidding/" + ent.getSnapshotId());
 			return res;
