@@ -2,11 +2,9 @@ package org.yansou.ci.storage.service.project.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.storage.common.dao.GeneralDao;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
@@ -29,11 +27,6 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 	public void setGeneralDao(GeneralDao<BiddingData, Long> generalDao) {
 		this.generalDao = generalDao;
 		this.biddingDataDao = (BiddingDataDao) generalDao;
-	}
-
-	@Override
-	public Specification<BiddingData> createSpecification(PageCriteria pageCriteria) {
-		return null;
 	}
 
 	@Override

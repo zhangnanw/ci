@@ -2,10 +2,8 @@ package org.yansou.ci.storage.service.system.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.core.model.system.Account;
 import org.yansou.ci.storage.common.dao.GeneralDao;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
@@ -30,10 +28,6 @@ public class AccountServiceImpl extends GeneralServiceImpl<Account, Long> implem
 		this.accountDao = (AccountDao) generalDao;
 	}
 
-	@Override
-	public Specification<Account> createSpecification(PageCriteria pageCriteria) {
-		return null;
-	}
 
 	@Override
 	public int updateStatus(Integer status, Long id) {
