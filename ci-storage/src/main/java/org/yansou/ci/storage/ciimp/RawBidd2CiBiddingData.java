@@ -34,10 +34,10 @@ public class RawBidd2CiBiddingData {
 		Double projectScale = null;
 
 		// 项目造价，单位：元
-		Long projectCost = null;
+		Double projectCost = null;
 
 		// 项目总投资，单位：元
-		Long projectTotalInvestment = null;
+		Double projectTotalInvestment = null;
 
 		// 项目描述
 		String projectDescription = null;

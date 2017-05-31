@@ -1,6 +1,9 @@
 package org.yansou.ci.common.page;
 
+import org.yansou.ci.common.utils.GsonUtils;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 分页查询条件
@@ -26,11 +29,7 @@ public class PageCriteria implements Serializable {
 	// Number of records that the table can display in the current draw.
 	private Integer pageSize;
 
-	private ColumnInfo[] columnInfos;
-
-	private OrderInfo[] orderInfos;
-
-	private SearchInfo searchInfo;
+	private List<ColumnInfo> columnInfoList;
 
 	public Integer getDraw() {
 		return draw;
@@ -64,28 +63,17 @@ public class PageCriteria implements Serializable {
 		this.pageSize = pageSize;
 	}
 
-	public ColumnInfo[] getColumnInfos() {
-		return columnInfos;
+	public List<ColumnInfo> getColumnInfoList() {
+		return columnInfoList;
 	}
 
-	public void setColumnInfos(ColumnInfo[] columnInfos) {
-		this.columnInfos = columnInfos;
+	public void setColumnInfoList(List<ColumnInfo> columnInfoList) {
+		this.columnInfoList = columnInfoList;
 	}
 
-	public OrderInfo[] getOrderInfos() {
-		return orderInfos;
-	}
-
-	public void setOrderInfos(OrderInfo[] orderInfos) {
-		this.orderInfos = orderInfos;
-	}
-
-	public SearchInfo getSearchInfo() {
-		return searchInfo;
-	}
-
-	public void setSearchInfo(SearchInfo searchInfo) {
-		this.searchInfo = searchInfo;
+	@Override
+	public String toString() {
+		return GsonUtils._gson.toJson(this);
 	}
 
 }

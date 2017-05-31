@@ -1,11 +1,10 @@
 package org.yansou.ci.web.business;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.yansou.ci.common.datatables.DataTableVo;
+import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 /**
@@ -39,7 +38,7 @@ public interface GeneralBusiness<T extends Serializable, ID extends Serializable
 	 *
 	 * @return
 	 */
-	DataTableVo<T> pagination(HttpServletRequest request);
+	DataTablesOutput<T> pagination(HttpServletRequest request);
 
 	/**
 	 * 新增

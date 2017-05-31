@@ -1,7 +1,6 @@
 package org.yansou.ci.core.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.model.AbstractModel;
 
@@ -35,10 +34,10 @@ public class ProjectInfo extends AbstractModel<Long> {
 	private Double projectScale;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 	@Column
-	private Long projectCost;// 项目造价，单位：元
+	private Double projectCost;// 项目造价，单位：万元
 
 	@Column
-	private Long projectTotalInvestment;// 项目总投资，单位：元
+	private Double projectTotalInvestment;// 项目总投资，单位：万元
 
 	@Column
 	private String projectDescription;// 项目描述
@@ -145,19 +144,19 @@ public class ProjectInfo extends AbstractModel<Long> {
 		this.projectScale = projectScale;
 	}
 
-	public Long getProjectCost() {
+	public Double getProjectCost() {
 		return projectCost;
 	}
 
-	public void setProjectCost(Long projectCost) {
+	public void setProjectCost(Double projectCost) {
 		this.projectCost = projectCost;
 	}
 
-	public Long getProjectTotalInvestment() {
+	public Double getProjectTotalInvestment() {
 		return projectTotalInvestment;
 	}
 
-	public void setProjectTotalInvestment(Long projectTotalInvestment) {
+	public void setProjectTotalInvestment(Double projectTotalInvestment) {
 		this.projectTotalInvestment = projectTotalInvestment;
 	}
 
