@@ -20,8 +20,8 @@ import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.model.project.PlanBuildSnapshot;
-import org.yansou.ci.storage.dao.project.PlanBuildDataDao;
-import org.yansou.ci.storage.service.project.impl.PlanBuildSnapshotServiceImpl;
+import org.yansou.ci.storage.service.project.PlanBuildDataService;
+import org.yansou.ci.storage.service.project.PlanBuildSnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -35,9 +35,9 @@ import com.alibaba.fastjson.JSONObject;
 public class CorvToPlanBuild extends AbsStatistics {
 	private static Logger LOG = LogManager.getLogger(CorvToPlanBuild.class);
 	@Autowired
-	private PlanBuildDataDao dao;
+	private PlanBuildDataService planBuildDataService;
 	@Autowired
-	private PlanBuildSnapshotServiceImpl service;
+	private PlanBuildSnapshotService planBuildSnapshotService;
 
 	Stream<JSONObject> filter(Stream<JSONObject> strema) {
 		Map<Object, List<JSONObject>> bg = strema
@@ -83,7 +83,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 
 					PlanBuildData df = new RccSource2PlanBuildDataInfo(source, project).get();
 					if (LTFilter.isSave(df, ent)) {
-						ent = service.save(ent);
+						ent = planBuildSnapshotService.save(ent);
 					} else {
 						return null;
 					}
@@ -94,7 +94,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 					throw new IllegalStateException(e);
 				}
 			}).filter(Objects::nonNull).map(data -> {
-				PlanBuildData rs = dao.findByProjectIdentifie(data.getProjectIdentifie());
+				PlanBuildData rs = planBuildDataService.findByProjectIdentifie(data.getProjectIdentifie());
 				if (null != rs) {
 					System.out.println("id:" + rs.getId());
 					data.setId(rs.getId());
@@ -111,9 +111,13 @@ public class CorvToPlanBuild extends AbsStatistics {
 	private PlanBuildData save(PlanBuildData data) {
 		if (data.getId() == null) {
 			System.out.println("insert");
-			return dao.save(data);
+			try {
+				return planBuildDataService.save(data);
+			} catch (DaoException e) {
+				throw new IllegalStateException(e);
+			}
 		} else {
-			dao.updateStatusUpdate(data.getStatusUpdate(), data.getId());
+			planBuildDataService.updateStatusUpdate(data.getStatusUpdate(), data.getId());
 			System.out.println("updateStatusUpdate");
 		}
 		return data;

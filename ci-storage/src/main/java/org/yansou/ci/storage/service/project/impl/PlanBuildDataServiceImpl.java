@@ -34,4 +34,14 @@ public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, 
 		return planBuildDataDao.updateStatus(status, id);
 	}
 
+	@Override
+	public PlanBuildData findByProjectIdentifie(String projectIdentifie) {
+		return planBuildDataDao.findByProjectIdentifie(projectIdentifie);
+	}
+
+	@Override
+	public void updateStatusUpdate(String statusUpdate, Long id) {
+		planBuildDataDao.updateStatusUpdate(statusUpdate, id);
+	}
+
 }

@@ -14,7 +14,7 @@ import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.BiddingSnapshot;
-import org.yansou.ci.storage.dao.project.BiddingDataDao;
+import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.BiddingSnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
@@ -28,8 +28,9 @@ import com.alibaba.fastjson.JSONObject;
 @Component
 public class CorvToBidding extends AbsStatistics {
 	private static final Logger LOG = LogManager.getLogger(CorvToBidding.class);
+
 	@Autowired
-	private BiddingDataDao dao;
+	private BiddingDataService biddingDataService;
 	@Autowired
 	private BiddingSnapshotService biddingSnapshotService;
 
@@ -41,8 +42,13 @@ public class CorvToBidding extends AbsStatistics {
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("bidding-query-time:{}", LOG::info);
-			JSONUtils.streamJSONObject(arr).map(this::toBiddingData).filter(Objects::nonNull).map(dao::save)
-					.forEach(System.out::println);
+			JSONUtils.streamJSONObject(arr).map(this::toBiddingData).filter(Objects::nonNull).map(x -> {
+				try {
+					return biddingDataService.save(x);
+				} catch (DaoException e) {
+					throw new IllegalStateException(e);
+				}
+			}).forEach(System.out::println);
 			ts.buriePrint("bidding-read-time:{}", LOG::info);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
