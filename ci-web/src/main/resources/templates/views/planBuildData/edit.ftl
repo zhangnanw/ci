@@ -52,45 +52,54 @@
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
-											   name="projectName" value="${planBuildData.projectName}">
+											   name="projectName" value="${(planBuildData.projectName)!''}">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder="1000000"
-											   name="projectScale" value="${planBuildData.projectScale}">
+											   name="projectScale" value="${(planBuildData.projectScale)!''}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder="项目描述"
-											   name="projectDescription" value="${planBuildData.projectDescription}">
+											   name="projectDescription"
+											   value="${(planBuildData.projectDescription)!''}">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
 										<input type="text" class="form-control" placeholder="北京市海淀区"
-											   name="projectAddress" value="${planBuildData.projectAddress}">
+											   name="projectAddress" value="${(planBuildData.projectAddress)!''}">
 									</div>
 									<div class="form-group"><label>采购人</label>
 										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner"
-											   value="${planBuildData.projcetOwner}">
+											   value="${(planBuildData.projcetOwner)!''}">
 									</div>
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany"
-											   value="${planBuildData.parentCompany}">
+											   value="${(planBuildData.parentCompany)!''}">
 									</div>
 									<div class="form-group"><label>拟在建项目阶段</label>
 										<input type="text" class="form-control" placeholder="1" name="planBuildStatus"
-											   value="${planBuildData.planBuildStatus}">
+											   value="${(planBuildData.planBuildStatus)!''}">
 									</div>
 									<div class="form-group"><label>设备购置情况</label>
 										<input type="text" class="form-control" placeholder="设备购置情况"
-											   name="purchaseSituation" value="${planBuildData.purchaseSituation}">
+											   name="purchaseSituation" value="${(planBuildData.purchaseSituation)!''}">
 									</div>
 									<div class="form-group"><label>设计师</label>
 										<input type="text" class="form-control" placeholder="设计师" name="designer"
-											   value="${planBuildData.designer}">
+											   value="${(planBuildData.designer)!''}">
 									</div>
 									<div class="form-group"><label>状态更新</label>
 										<input type="text" class="form-control" placeholder="状态更新" name="statusUpdate"
-											   value="${planBuildData.statusUpdate}">
+											   value="${(planBuildData.statusUpdate)!''}">
 									</div>
 
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-content">
+									<div>
+										<a href="" target="_blank">查看原文</a>
+									</div>
 								</div>
 							</div>
 

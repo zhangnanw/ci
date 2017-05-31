@@ -52,56 +52,65 @@
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
-											   name="projectName" value="${biddingData.projectName}">
+											   name="projectName" value="${(biddingData.projectName)!''}">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder="1000000"
-											   name="projectScale" value="${biddingData.projectScale}">
+											   name="projectScale" value="${(biddingData.projectScale)!''}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder="项目描述"
-											   name="projectDescription" value="${biddingData.projectDescription}">
+											   name="projectDescription" value="${(biddingData.projectDescription)!''}">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
 										<input type="text" class="form-control" placeholder="北京市海淀区"
-											   name="projectAddress" value="${biddingData.projectAddress}">
+											   name="projectAddress" value="${(biddingData.projectAddress)!''}">
 									</div>
 									<div class="form-group"><label>采购人</label>
 										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner"
-											   value="${biddingData.projcetOwner}">
+											   value="${(biddingData.projcetOwner)!''}">
 									</div>
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany"
-											   value="${biddingData.parentCompany}">
+											   value="${(biddingData.parentCompany)!''}">
 									</div>
 									<div class="form-group"><label>单晶硅规格</label>
 										<input type="text" class="form-control" placeholder="单晶硅规格"
 											   name="monocrystallineSpecification"
-											   value="${biddingData.monocrystallineSpecification}">
+											   value="${(biddingData.monocrystallineSpecification)!''}">
 									</div>
 									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder="单晶硅的采购容量，单位：MW（兆瓦）"
 											   name="monocrystallineCapacity"
-											   value="${biddingData.monocrystallineCapacity}">
+											   value="${(biddingData.monocrystallineCapacity)!''}">
 									</div>
 									<div class="form-group"><label>多晶硅规格</label>
 										<input type="text" class="form-control" placeholder="多晶硅规格"
 											   name="polysiliconSpecification"
-											   value="${biddingData.polysiliconSpecification}">
+											   value="${(biddingData.polysiliconSpecification)!''}">
 									</div>
 									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder="多晶硅的采购容量，单位：MW（兆瓦）"
-											   name="polysiliconCapacity" value="${biddingData.polysiliconCapacity}">
+											   name="polysiliconCapacity"
+											   value="${(biddingData.polysiliconCapacity)!''}">
 									</div>
 									<div class="form-group"><label>招标预算</label>
 										<input type="text" class="form-control" placeholder="100" name="biddingBudget"
-											   value="${biddingData.biddingBudget}">
+											   value="${(biddingData.biddingBudget)!''}">
 									</div>
 									<div class="form-group"><label>中标总金额</label>
 										<input type="text" class="form-control" placeholder="100"
-											   name="winTotalAmount" value="${biddingData.winTotalAmount}">
+											   name="winTotalAmount" value="${(biddingData.winTotalAmount)!''}">
 									</div>
 
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-content">
+									<div>
+										<a href="" target="_blank">查看原文</a>
+									</div>
 								</div>
 							</div>
 

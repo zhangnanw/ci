@@ -49,7 +49,7 @@
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projectName">项目名称</label>
-								<input type="text" id="projectName" name="projectName" value="" placeholder="项目名称"
+								<input type="text" id="projectName" name="projectName" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
@@ -57,7 +57,7 @@
 							<div class="form-group">
 								<label class="control-label" for="projectProvince">项目地址（省）</label>
 								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder="项目地址（省）"
+									   placeholder=""
 									   class="form-control">
 							</div>
 						</div>
@@ -65,13 +65,13 @@
 							<div class="form-group">
 								<label class="control-label" for="projectScale">项目规模（MW）</label>
 								<input type="text" id="projectScale" name="projectScale" value=""
-									   placeholder="项目规模（MW）" class="form-control">
+									   placeholder="" class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projcetOwner">采购人</label>
-								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder="采购人"
+								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
@@ -82,9 +82,11 @@
 								<label class="control-label">发布时间</label>
 
 								<div class="input-daterange input-group" id="datepicker">
-									<input type="text" class="input-sm form-control" name="publishStartTime"/>
+									<input type="text" class="input-sm form-control" name="publishStartTime"
+										   id="publishStartTime"/>
 									<span class="input-group-addon">到</span>
-									<input type="text" class="input-sm form-control" name="publishEndTime"/>
+									<input type="text" class="input-sm form-control" name="publishEndTime"
+										   id="publishEndTime"/>
 								</div>
 							</div>
 						</div>
@@ -118,6 +120,7 @@
 											<th>采购人</th>
 											<th>母公司</th>
 											<th>拟在建项目阶段</th>
+											<th>状态更新</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -231,6 +234,11 @@
 						},
 						{
 							"targets": 9,
+							"data": "statusUpdate",
+							"orderable": false
+						},
+						{
+							"targets": 10,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -238,7 +246,7 @@
 							},
 						},
 						{
-							"targets": 10,
+							"targets": 11,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {

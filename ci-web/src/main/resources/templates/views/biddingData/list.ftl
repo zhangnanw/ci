@@ -50,42 +50,42 @@
 							<div class="form-group">
 								<label class="control-label" for="projectName">项目名称</label>
 								<input type="text" id="projectName" name="projectName" value=""
-									   placeholder="项目名称" class="form-control">
+									   placeholder="" class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projectProvince">项目地址（省）</label>
 								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder="项目地址（省）"
+									   placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projcetOwner">采购人</label>
-								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder="采购人"
+								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="parentCompany">母公司</label>
-								<input type="text" id="parentCompany" name="parentCompany" value="" placeholder="母公司"
+								<input type="text" id="parentCompany" name="parentCompany" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="winCompanyInfo">中标单位</label>
-								<input type="text" id="winCompanyInfo" name="winCompanyInfo" value="" placeholder="中标单位"
+								<input type="text" id="winCompanyInfo" name="winCompanyInfo" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="agency">代理机构</label>
-								<input type="text" id="agency" name="agency" value="" placeholder="代理机构"
+								<input type="text" id="agency" name="agency" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>

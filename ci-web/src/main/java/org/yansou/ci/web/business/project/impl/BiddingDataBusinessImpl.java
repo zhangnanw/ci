@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.yansou.ci.common.datatables.mapping.DataTablesInput;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
@@ -98,7 +97,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		BiddingDataPaginationResponse restResponse = null;
 		try {
 			restResponse = restTemplate.postForObject(requestUrl, httpEntity, BiddingDataPaginationResponse.class);
-		} catch (RestClientException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}
 
