@@ -33,6 +33,7 @@ public class RccSource2PlanBuildDataInfo {
 	public RccSource2PlanBuildDataInfo(JSONObject srcObj, JSONObject proObj) {
 		this.srcObj = srcObj;
 		this.proObj = proObj;
+		srcObj.put("context", srcObj.getString("page_source"));
 	}
 
 	private JSONObject srcObj;
