@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.yansou.ci.common.datatables.mapping.DataTablesInput;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
@@ -88,17 +89,28 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		PlanBuildDataPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				PlanBuildDataPaginationResponse.class);
+		PlanBuildDataPaginationResponse restResponse = null;
+		try {
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, PlanBuildDataPaginationResponse.class);
+		} catch (RestClientException e) {
+			LOG.error(e.getMessage(), e);
+		}
 
-		Pagination<PlanBuildData> pagination = restResponse.getResult();
+		Pagination<PlanBuildData> pagination = null;
+		if (restResponse != null) {
+			pagination = restResponse.getResult();
+		}
+
+		if (pagination == null) {
+			pagination = new Pagination<>(0L, 10, 1, new PlanBuildData[0]);
+		}
 
 		LOG.info("pagination: {}", pagination);
 
 		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
 				.getDraw(), restResponse.getErrors());
 
-		LOG.info("dataTableVo: {}", dataTablesOutput);
+		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
 		return dataTablesOutput;
 	}

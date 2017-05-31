@@ -224,11 +224,10 @@ function getNotCheckIds() {
     return notCheckIds;
 }
 
-$('#logout').on('click', function () {
-    var _$this = $(this);
+$('.logout').on('click', function () {
 
     $.alertable.confirm('您确认要退出吗?').then(function () {
-        location.href = _$this.attr('res');
+        location.href = '/login/logout';
     }, function () {
 
     });
