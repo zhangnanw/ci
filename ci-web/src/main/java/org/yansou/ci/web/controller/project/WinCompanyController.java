@@ -8,7 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.yansou.ci.common.datatables.DataTableVo;
+import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.rest.model.IdRo;
@@ -66,10 +66,11 @@ public class WinCompanyController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTableVo<WinCompany> showList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		DataTableVo<WinCompany> dataTableVo = winCompanyBusiness.pagination(request);
+	public DataTablesOutput<WinCompany> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
+			response) {
+		DataTablesOutput<WinCompany> dataTablesOutput = winCompanyBusiness.pagination(request);
 
-		return dataTableVo;
+		return dataTablesOutput;
 	}
 
 	/**

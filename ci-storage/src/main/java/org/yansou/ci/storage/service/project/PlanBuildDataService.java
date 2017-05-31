@@ -9,4 +9,7 @@ import org.yansou.ci.storage.common.service.GeneralService;
  */
 public interface PlanBuildDataService extends GeneralService<PlanBuildData, Long> {
 
+	PlanBuildData findByProjectIdentifie(String projectIdentifie);
+
+	void updateStatusUpdate(String statusUpdate, Long id);
 }

@@ -5,14 +5,18 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 import org.yansou.ci.common.exception.DaoException;
+import org.yansou.ci.common.page.ColumnInfo;
+import org.yansou.ci.common.page.OrderInfo;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.utils.SimpleArrayUtils;
 import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.storage.common.page.PageSpecification;
 
 import javax.persistence.Id;
 import javax.transaction.Transactional;
@@ -62,7 +66,40 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	 *
 	 * @return
 	 */
-	public abstract Specification<T> createSpecification(PageCriteria pageCriteria);
+	private Specification<T> createSpecification(PageCriteria pageCriteria) {
+		return new PageSpecification<T>(pageCriteria);
+	}
+
+	/**
+	 * 封装排序条件
+	 *
+	 * @param pageCriteria
+	 *
+	 * @return
+	 */
+	private Sort createSort(PageCriteria pageCriteria) {
+		List<Sort.Order> orderList = new ArrayList<>();
+
+		List<ColumnInfo> columnInfoList = pageCriteria.getColumnInfoList();
+
+		if (CollectionUtils.isNotEmpty(columnInfoList)) {
+			columnInfoList.stream().forEach(columnInfo -> {
+				OrderInfo orderInfo = columnInfo.getOrderInfo();
+
+				if (orderInfo != null) {
+					String sortColumn = orderInfo.getPropertyName();
+					Sort.Direction sortDirection = Sort.Direction.fromString(orderInfo.getOrderOp().getValue());
+
+					orderList.add(new Sort.Order(sortDirection, sortColumn));
+				}
+
+			});
+		}
+
+		Sort sort = orderList.isEmpty() ? null : new Sort(orderList);
+
+		return sort;
+	}
 
 	@Override
 	public T save(T entity) throws DaoException {
@@ -154,12 +191,12 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 
 	@Override
 	public Pagination<T> pagination(Integer currentPageNo, Integer pageSize) throws DaoException {
-		return pagination(currentPageNo, pageSize, null);
+		return pagination(currentPageNo, pageSize, null, null);
 	}
 
 	@Override
-	public Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification) throws
-			DaoException {
+	public Pagination<T> pagination(Integer currentPageNo, Integer pageSize, Specification<T> specification, Sort
+			sort) throws DaoException {
 		if (currentPageNo == null || currentPageNo <= 0) {
 			currentPageNo = 1;
 		}
@@ -168,7 +205,7 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 			pageSize = 10;
 		}
 
-		Pageable pageable = new PageRequest(currentPageNo - 1, pageSize);
+		Pageable pageable = new PageRequest(currentPageNo - 1, pageSize, sort);
 
 		Page<T> page = null;
 
@@ -193,8 +230,9 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 		Integer pageSize = pageCriteria.getPageSize();
 
 		Specification<T> specification = createSpecification(pageCriteria);
+		Sort sort = createSort(pageCriteria);
 
-		return pagination(currentPageNo, pageSize, specification);
+		return pagination(currentPageNo, pageSize, specification, sort);
 	}
 
 	@Override

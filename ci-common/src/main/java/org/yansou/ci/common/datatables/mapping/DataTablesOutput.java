@@ -1,4 +1,6 @@
-package org.yansou.ci.common.datatables;
+package org.yansou.ci.common.datatables.mapping;
+
+import org.yansou.ci.common.utils.GsonUtils;
 
 /**
  * 封装表格显示数据
@@ -8,7 +10,7 @@ package org.yansou.ci.common.datatables;
  * @author liutiejun
  * @create 2017-05-13 22:35
  */
-public class DataTableVo<T> {
+public class DataTablesOutput<T> {
 
 	private Integer draw;
 	// Total records, before filtering (i.e. the total number of records in the database)
@@ -57,5 +59,10 @@ public class DataTableVo<T> {
 
 	public void setError(String error) {
 		this.error = error;
+	}
+
+	@Override
+	public String toString() {
+		return GsonUtils._gson.toJson(this);
 	}
 }

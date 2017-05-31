@@ -55,7 +55,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-
+		
 		<!-- 监控 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

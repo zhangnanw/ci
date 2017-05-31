@@ -1,14 +1,16 @@
 package org.yansou.ci.core.model.project;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.model.AbstractModel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 拟在建信息
@@ -17,13 +19,16 @@ import java.util.Date;
  * @create 2017-05-07 15:36
  */
 @Entity
-@Table(name = "ci_plan_build_data")
+@Table(name = "ci_plan_build_data", indexes = { @Index(unique = true, columnList = "projectIdentifie") })
 public class PlanBuildData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -5536829706290917695L;
 
 	@Column
 	private String projectName;// 项目名称（工程名称）
+
+	@Column
+	private String rowkey;// 源数据的唯一标识
 
 	@Column
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
@@ -35,10 +40,10 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private Double projectScale;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 	@Column
-	private Long projectCost;// 项目造价，单位：元
+	private Double projectCost;// 项目造价，单位：万元
 
 	@Column
-	private Long projectTotalInvestment;// 项目总投资，单位：元
+	private Double projectTotalInvestment;// 项目总投资，单位：万元
 
 	@Column
 	private String projectDescription;// 项目描述
@@ -82,17 +87,22 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private Date planStartTime;// 计划开工时间
 
 	@Column
-	private String url;// 数据的原始地址
-	
-	@Column
-	private String snapshotId;//快照id
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date publishTime;// 发布时间
 
-	public String getSnapshotId() {
-		return snapshotId;
+	@Column
+	private String url;// 数据的原始地址
+
+	@Column
+	private String snapshotId;// 快照id
+
+	public String getRowkey() {
+		return rowkey;
 	}
 
-	public void setSnapshotId(String snapshotId) {
-		this.snapshotId = snapshotId;
+	public void setRowkey(String rowkey) {
+		this.rowkey = rowkey;
 	}
 
 	public String getProjectName() {
@@ -127,19 +137,19 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.projectScale = projectScale;
 	}
 
-	public Long getProjectCost() {
+	public Double getProjectCost() {
 		return projectCost;
 	}
 
-	public void setProjectCost(Long projectCost) {
+	public void setProjectCost(Double projectCost) {
 		this.projectCost = projectCost;
 	}
 
-	public Long getProjectTotalInvestment() {
+	public Double getProjectTotalInvestment() {
 		return projectTotalInvestment;
 	}
 
-	public void setProjectTotalInvestment(Long projectTotalInvestment) {
+	public void setProjectTotalInvestment(Double projectTotalInvestment) {
 		this.projectTotalInvestment = projectTotalInvestment;
 	}
 
@@ -247,6 +257,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.planStartTime = planStartTime;
 	}
 
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
+	}
+
 	public String getUrl() {
 		return url;
 	}
@@ -254,40 +272,12 @@ public class PlanBuildData extends AbstractModel<Long> {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
+	public String getSnapshotId() {
+		return snapshotId;
+	}
+
+	public void setSnapshotId(String snapshotId) {
+		this.snapshotId = snapshotId;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

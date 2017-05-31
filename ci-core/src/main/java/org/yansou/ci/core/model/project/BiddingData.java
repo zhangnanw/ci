@@ -1,7 +1,6 @@
 package org.yansou.ci.core.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.model.AbstractModel;
 
@@ -61,10 +60,10 @@ public class BiddingData extends AbstractModel<Long> {
 	private Double projectScale;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 	@Column
-	private Long projectCost;// 项目造价，单位：元
+	private Double projectCost;// 项目造价，单位：万元
 
 	@Column
-	private Long projectTotalInvestment;// 项目总投资，单位：元
+	private Double projectTotalInvestment;// 项目总投资，单位：万元
 
 	@Column
 	private String projectDescription;// 项目描述
@@ -90,8 +89,10 @@ public class BiddingData extends AbstractModel<Long> {
 	@Column
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
+	// 采购方式
+	// 1-邀标公告，2-询价公告，3-招标公告，4-中标公告，5-成交公告，6-更正公告，7-其他公告，8-单一来源，9-资格预审，10-废标流标，11-竞争性谈判，12-竞争性磋商
 	@Column
-	private Integer purchasingMethod;// 采购方式，公开招标、竞争性谈判、市场询价、单一来源、其它
+	private Integer purchasingMethod;
 
 	@Column
 	private String monocrystallineSpecification;// 单晶硅规格
@@ -149,14 +150,15 @@ public class BiddingData extends AbstractModel<Long> {
 	private String remarks;// 备注
 
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date publishTime;// 发布时间
+
+	@Column
 	private String url;// 数据的原始地址
 
 	@Column
 	private String snapshotId;//快照id
-	
-	public String getSnapshotId() {
-		return snapshotId;
-	}
 
 	public Integer getDataType() {
 		return dataType;
@@ -198,19 +200,19 @@ public class BiddingData extends AbstractModel<Long> {
 		this.projectScale = projectScale;
 	}
 
-	public Long getProjectCost() {
+	public Double getProjectCost() {
 		return projectCost;
 	}
 
-	public void setProjectCost(Long projectCost) {
+	public void setProjectCost(Double projectCost) {
 		this.projectCost = projectCost;
 	}
 
-	public Long getProjectTotalInvestment() {
+	public Double getProjectTotalInvestment() {
 		return projectTotalInvestment;
 	}
 
-	public void setProjectTotalInvestment(Long projectTotalInvestment) {
+	public void setProjectTotalInvestment(Double projectTotalInvestment) {
 		this.projectTotalInvestment = projectTotalInvestment;
 	}
 
@@ -422,6 +424,14 @@ public class BiddingData extends AbstractModel<Long> {
 		this.remarks = remarks;
 	}
 
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
+	}
+
 	public String getUrl() {
 		return url;
 	}
@@ -430,9 +440,12 @@ public class BiddingData extends AbstractModel<Long> {
 		this.url = url;
 	}
 
-	public void setSnapshotId(String string) {
-		// TODO Auto-generated method stub
-		
+	public String getSnapshotId() {
+		return snapshotId;
+	}
+
+	public void setSnapshotId(String snapshotId) {
+		this.snapshotId = snapshotId;
 	}
 }
 

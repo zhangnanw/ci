@@ -2,11 +2,9 @@ package org.yansou.ci.storage.service.project.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.storage.common.dao.GeneralDao;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
@@ -32,13 +30,18 @@ public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, 
 	}
 
 	@Override
-	public Specification<PlanBuildData> createSpecification(PageCriteria pageCriteria) {
-		return null;
+	public int updateStatus(Integer status, Long id) throws DaoException {
+		return planBuildDataDao.updateStatus(status, id);
 	}
 
 	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return planBuildDataDao.updateStatus(status, id);
+	public PlanBuildData findByProjectIdentifie(String projectIdentifie) {
+		return planBuildDataDao.findByProjectIdentifie(projectIdentifie);
+	}
+
+	@Override
+	public void updateStatusUpdate(String statusUpdate, Long id) {
+		planBuildDataDao.updateStatusUpdate(statusUpdate, id);
 	}
 
 }

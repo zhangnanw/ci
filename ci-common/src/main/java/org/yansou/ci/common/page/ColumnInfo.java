@@ -8,30 +8,21 @@ package org.yansou.ci.common.page;
  */
 public class ColumnInfo {
 
-	// Column's data source
-	private String data;
-	// Column's name
-	private String name;
+	// 属性名称
+	private String propertyName;
 	// Flag to indicate if this column is searchable (true) or not (false)
 	private Boolean searchable;
 	// Flag to indicate if this column is orderable (true) or not (false)
 	private Boolean orderable;
 	private SearchInfo searchInfo;
+	private OrderInfo orderInfo;
 
-	public String getData() {
-		return data;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public Boolean getSearchable() {
@@ -56,5 +47,13 @@ public class ColumnInfo {
 
 	public void setSearchInfo(SearchInfo searchInfo) {
 		this.searchInfo = searchInfo;
+	}
+
+	public OrderInfo getOrderInfo() {
+		return orderInfo;
+	}
+
+	public void setOrderInfo(OrderInfo orderInfo) {
+		this.orderInfo = orderInfo;
 	}
 }

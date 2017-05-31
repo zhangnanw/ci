@@ -70,6 +70,22 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
 									</div>
+									<div class="form-group"><label>单晶硅规格</label>
+										<input type="text" class="form-control" placeholder="单晶硅规格"
+											   name="monocrystallineSpecification">
+									</div>
+									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder="单晶硅的采购容量，单位：MW（兆瓦）"
+											   name="monocrystallineCapacity">
+									</div>
+									<div class="form-group"><label>多晶硅规格</label>
+										<input type="text" class="form-control" placeholder="多晶硅规格"
+											   name="polysiliconSpecification">
+									</div>
+									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder="多晶硅的采购容量，单位：MW（兆瓦）"
+											   name="polysiliconCapacity">
+									</div>
 									<div class="form-group"><label>招标预算</label>
 										<input type="text" class="form-control" placeholder="100" name="biddingBudget">
 									</div>

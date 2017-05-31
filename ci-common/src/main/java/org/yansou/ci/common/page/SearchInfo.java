@@ -8,12 +8,37 @@ package org.yansou.ci.common.page;
  */
 public class SearchInfo {
 
-	// search value.
-	// To be applied to all columns which have searchable as true.
+	/**
+	 * 字段的查询方式
+	 */
+	public enum SearchOp {
+		EQ, NE, LIKE, GT, GE, LT, LE, BETWEEN, IN, IS_NULL, IS_NOT_NULL;
+	}
+
+	/**
+	 * 查询的字段
+	 */
+	private String propertyName;
+	/**
+	 * 查询的字段值
+	 */
 	private String value;
-	// true if the global filter should be treated as a regular expression for advanced searching
-	// false otherwise.
-	private Boolean regex;
+	/**
+	 * 字段类型
+	 */
+	private String valueType;
+	/**
+	 * 字段的查询方式：EQ、NE、LIKE、GT、GE、LT、LE、BETWEEN、IN、IS_NULL、IS_NOT_NULL
+	 */
+	private SearchOp searchOp;
+
+	public String getPropertyName() {
+		return propertyName;
+	}
+
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
 
 	public String getValue() {
 		return value;
@@ -23,11 +48,19 @@ public class SearchInfo {
 		this.value = value;
 	}
 
-	public Boolean getRegex() {
-		return regex;
+	public String getValueType() {
+		return valueType;
 	}
 
-	public void setRegex(Boolean regex) {
-		this.regex = regex;
+	public void setValueType(String valueType) {
+		this.valueType = valueType;
+	}
+
+	public SearchOp getSearchOp() {
+		return searchOp;
+	}
+
+	public void setSearchOp(SearchOp searchOp) {
+		this.searchOp = searchOp;
 	}
 }

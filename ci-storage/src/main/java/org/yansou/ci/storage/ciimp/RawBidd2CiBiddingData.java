@@ -10,10 +10,12 @@ import com.alibaba.fastjson.JSONObject;
 
 public class RawBidd2CiBiddingData {
 
-	public RawBidd2CiBiddingData(JSONObject obj) {
+	public RawBidd2CiBiddingData(JSONObject obj, JSONObject proObj) {
 		this.obj = obj;
+		this.proObj = proObj;
 	}
 
+	private JSONObject proObj;
 	private JSONObject obj;
 
 	public BiddingData get() {
@@ -32,10 +34,10 @@ public class RawBidd2CiBiddingData {
 		Double projectScale = null;
 
 		// 项目造价，单位：元
-		Long projectCost = null;
+		Double projectCost = null;
 
 		// 项目总投资，单位：元
-		Long projectTotalInvestment = null;
+		Double projectTotalInvestment = null;
 
 		// 项目描述
 		String projectDescription = null;
@@ -127,7 +129,7 @@ public class RawBidd2CiBiddingData {
 		Integer status = 0;
 		// URL
 		String url = obj.getString("url");
-		
+
 		info.setUrl(url);
 		info.setWinTime(winTime);
 		info.setStatus(status);
