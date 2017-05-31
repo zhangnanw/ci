@@ -95,6 +95,9 @@ public class BiddingData extends AbstractModel<Long> {
 	private Integer purchasingMethod;
 
 	@Column
+	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅
+
+	@Column
 	private String monocrystallineSpecification;// 单晶硅规格
 
 	@Column
@@ -107,7 +110,7 @@ public class BiddingData extends AbstractModel<Long> {
 	private Double polysiliconCapacity;// 多晶硅的采购容量，单位：MW（兆瓦）
 
 	@Column
-	private Integer deploymentType;// 产品的部署类型，分布式、集中式、渔光、农光，需要乐叶确定
+	private Integer deploymentType;// 产品的部署类型，1-分布式、2-集中式、3-渔光、4-农光，需要乐叶确定
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -124,6 +127,9 @@ public class BiddingData extends AbstractModel<Long> {
 
 	@Column
 	private Double winTotalAmount;// 中标总金额
+
+	@Column
+	private String winCompanyInfo;// 中标单位信息，只用于查询
 
 	@Column
 	private String fundSource;// 资金来源
@@ -288,6 +294,14 @@ public class BiddingData extends AbstractModel<Long> {
 		this.purchasingMethod = purchasingMethod;
 	}
 
+	public Integer getProductType() {
+		return productType;
+	}
+
+	public void setProductType(Integer productType) {
+		this.productType = productType;
+	}
+
 	public String getMonocrystallineSpecification() {
 		return monocrystallineSpecification;
 	}
@@ -358,6 +372,14 @@ public class BiddingData extends AbstractModel<Long> {
 
 	public void setWinTotalAmount(Double winTotalAmount) {
 		this.winTotalAmount = winTotalAmount;
+	}
+
+	public String getWinCompanyInfo() {
+		return winCompanyInfo;
+	}
+
+	public void setWinCompanyInfo(String winCompanyInfo) {
+		this.winCompanyInfo = winCompanyInfo;
 	}
 
 	public String getFundSource() {
