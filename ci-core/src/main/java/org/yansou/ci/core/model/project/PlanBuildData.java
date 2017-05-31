@@ -1,14 +1,16 @@
 package org.yansou.ci.core.model.project;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.model.AbstractModel;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.model.AbstractModel;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 拟在建信息
@@ -25,13 +27,13 @@ public class PlanBuildData extends AbstractModel<Long> {
 	@Column
 	private String projectName;// 项目名称（工程名称）
 
-	@Column(unique = true)
+	@Column
 	private String rowkey;// 源数据的唯一标识
 
 	@Column
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
-	@Column(unique = true)
+	@Column
 	private String projectIdentifie;// 项目唯一标识
 
 	@Column
