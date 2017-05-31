@@ -2,11 +2,14 @@ package org.yansou.ci.storage.ciimp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
@@ -24,6 +27,8 @@ import com.alibaba.fastjson.JSONPath;
  *
  */
 public class RccSource2PlanBuildDataInfo {
+
+	private static final Logger LOG = LogManager.getLogger(RccSource2PlanBuildDataInfo.class);
 
 	public RccSource2PlanBuildDataInfo(JSONObject srcObj, JSONObject proObj) {
 		this.srcObj = srcObj;
@@ -86,7 +91,16 @@ public class RccSource2PlanBuildDataInfo {
 		Integer status = 0;
 		// URL
 		String url = srcObj.getString("url");
+		;
 
+		Date publishTime = null;
+		try {
+			publishTime = new java.text.SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(RegexUtils
+					.regex("[0-9]+:([0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2})", proObj.getString("rowkey"), 1));
+		} catch (ParseException e) {
+			LOG.info(e);
+		}
+		info.setPublishTime(publishTime);
 		info.setDesigner(designer);
 		info.setOwnerType(ownerType);
 		info.setParentCompany(parentCompany);
