@@ -32,6 +32,16 @@ public class SearchInfo {
 	 */
 	private SearchOp searchOp;
 
+	public SearchInfo() {
+	}
+
+	public SearchInfo(String propertyName, String value, String valueType, SearchOp searchOp) {
+		this.propertyName = propertyName;
+		this.value = value;
+		this.valueType = valueType;
+		this.searchOp = searchOp;
+	}
+
 	public String getPropertyName() {
 		return propertyName;
 	}
