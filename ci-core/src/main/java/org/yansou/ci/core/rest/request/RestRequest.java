@@ -9,6 +9,7 @@ import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.model.project.PlanBuildSnapshot;
 import org.yansou.ci.core.model.project.ProjectInfo;
 import org.yansou.ci.core.model.project.RecordData;
+import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.model.system.Account;
 
@@ -52,6 +53,15 @@ public class RestRequest implements Serializable {
 
 	private BiddingSnapshot biddingSnapshot;
 	private PlanBuildSnapshot planBuildSnapshot;
+	private SnapshotInfo snapshotInfo;
+
+	public SnapshotInfo getSnapshotInfo() {
+		return snapshotInfo;
+	}
+
+	public void setSnapshotInfo(SnapshotInfo snapshotInfo) {
+		this.snapshotInfo = snapshotInfo;
+	}
 
 	public PageCriteria getPageCriteria() {
 		return pageCriteria;
