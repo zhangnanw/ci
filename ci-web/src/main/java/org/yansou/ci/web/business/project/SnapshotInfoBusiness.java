@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface SnapshotInfoBusiness extends GeneralBusiness<SnapshotInfo, Long> {
 
+	SnapshotInfo findBySnapshotId(String snapshotId);
+
 }
