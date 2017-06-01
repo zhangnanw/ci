@@ -22,7 +22,7 @@ public class SnapshotInfo extends AbstractModel<Long> {
 	private String context;
 
 	@Column
-	private String snapshotId;// 快照id
+	private String snapshotId;// 快照id，唯一标识
 
 	@Column
 	private Integer dataType;// 1-BiddingData，2-PlanBuildData
