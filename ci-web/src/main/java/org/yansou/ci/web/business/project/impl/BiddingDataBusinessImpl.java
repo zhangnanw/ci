@@ -12,6 +12,7 @@ import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -118,6 +119,11 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
 		return dataTablesOutput;
+	}
+
+	private void updateStatus(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
+				Integer.class.getTypeName(), SearchInfo.SearchOp.EQ);
 	}
 
 	private void updateProductType(PageCriteria pageCriteria) {
