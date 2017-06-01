@@ -46,33 +46,78 @@
 
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="product_name">项目名称</label>
+								<label class="control-label" for="projectName">项目名称</label>
 								<input type="text" id="projectName" name="projectName" value=""
-									   placeholder="Product Name" class="form-control">
+									   placeholder="" class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="price">项目地址（省）</label>
+								<label class="control-label" for="projectProvince">项目地址（省）</label>
 								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder="项目地址（省）"
+									   placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="quantity">采购人</label>
-								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder="采购人"
+								<label class="control-label" for="projcetOwner">采购人</label>
+								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="parentCompany">母公司</label>
+								<input type="text" id="parentCompany" name="parentCompany" value="" placeholder=""
+									   class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="winCompanyInfo">中标单位</label>
+								<input type="text" id="winCompanyInfo" name="winCompanyInfo" value="" placeholder=""
+									   class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="agency">代理机构</label>
+								<input type="text" id="agency" name="agency" value="" placeholder=""
+									   class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="productType">产品类型</label>
+								<select name="productType" id="productType" class="form-control">
+									<option value="" selected>--请选择--</option>
+									<option value="1">单晶硅</option>
+									<option value="2">多晶硅</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="deploymentType">产品的部署类型</label>
+								<select name="deploymentType" id="deploymentType" class="form-control">
+									<option value="" selected>--请选择--</option>
+									<option value="1">分布式</option>
+									<option value="2">集中式</option>
+									<option value="3">渔光</option>
+									<option value="4">农光</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="status">采购方式</label>
 								<select name="purchasingMethod" id="purchasingMethod" class="form-control">
-									<option value="-1" selected>--请选择--</option>
+									<option value="" selected>--请选择--</option>
 									<option value="1">邀标公告</option>
 									<option value="2">询价公告</option>
 									<option value="3">招标公告</option>
@@ -88,20 +133,17 @@
 								</select>
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="product_name">开始时间</label>
-								<input type="text" id="startTime" name="startTime" value="" placeholder="开始时间"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="price">结束时间</label>
-								<input type="text" id="endTime" name="endTime" value=""
-									   placeholder="结束时间" class="form-control">
+							<div class="form-group" id="daterange_publishTime">
+								<label class="control-label">发布时间</label>
+
+								<div class="input-daterange input-group" id="datepicker">
+									<input type="text" class="input-sm form-control" name="publishStartTime"
+										   id="publishStartTime"/>
+									<span class="input-group-addon">到</span>
+									<input type="text" class="input-sm form-control" name="publishEndTime"
+										   id="publishEndTime"/>
+								</div>
 							</div>
 						</div>
 
@@ -109,7 +151,7 @@
 
 					<div class="row">
 						<div class="ibox-content">
-							<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
+							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
 							<a class="btn btn-w-m btn-success" href="/biddingData/add">新增</a>
 						</div>
 					</div>
@@ -131,11 +173,17 @@
 											<th>项目总投资（万元）</th>
 											<th>项目地址（省）</th>
 											<th>采购人</th>
+											<th>采购方式</th>
 											<th>母公司</th>
+											<th>产品类型</th>
+											<th>产品部署类型</th>
 											<th>单晶硅规格</th>
 											<th>单晶硅采购容量（MW）</th>
 											<th>多晶硅规格</th>
 											<th>多晶硅的采购容量（MW）</th>
+											<th>代理机构</th>
+											<th>中标单位信息</th>
+											<th>发布时间</th>
 											<th>中标单位</th>
 											<th>编辑</th>
 											<th>删除</th>
@@ -170,18 +218,31 @@
 			init: function () {
 
 				var dataTablesExample = $('.dataTables-example').DataTable({
-					"dom": '<"html5buttons"B>lTfgitp',
-					"searching": false,
+					"dom": '<"html5buttons"B>lT<"hidden"f>gitp',
 					"lengthChange": false,
 					buttons: [
-						{extend: 'csv'},
-						{extend: 'excel', title: 'ExampleFile'}
+						{
+							extend: 'excel',
+							text: '导出为Excel',
+							title: '招中标数据',
+							exportOptions: {
+								modifier: {
+									page: 'all'
+								}
+							}
+						}
 					],
 					"processing": false,
 					"serverSide": true,
 					"ajax": {
 						"url": "/biddingData/showList",
-						"type": "POST"
+						"type": "POST",
+						"data": function (d) {
+							return $.extend({}, d, {
+								"publishStartTime": $("#publishStartTime").val(),
+								"publishEndTime": $("#publishEndTime").val()
+							});
+						}
 					},
 					"columnDefs": [
 						{
@@ -226,36 +287,124 @@
 						},
 						{
 							"targets": 6,
+							"data": "purchasingMethod",
+							"name": "采购方式",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '邀标公告';
+								} else if (data === 2) {
+									return '询价公告';
+								} else if (data === 3) {
+									return '招标公告';
+								} else if (data === 4) {
+									return '中标公告';
+								} else if (data === 5) {
+									return '成交公告';
+								} else if (data === 6) {
+									return '更正公告';
+								} else if (data === 7) {
+									return '其他公告';
+								} else if (data === 8) {
+									return '单一来源';
+								} else if (data === 9) {
+									return '资格预审';
+								} else if (data === 10) {
+									return '废标流标';
+								} else if (data === 11) {
+									return '竞争性谈判';
+								} else if (data === 12) {
+									return '竞争性磋商';
+								} else {
+									return '未知';
+								}
+							}
+						},
+						{
+							"targets": 7,
 							"data": "parentCompany",
 							"name": "母公司",
 							"orderable": false
 						},
 						{
-							"targets": 7,
+							"targets": 8,
+							"data": "productType",
+							"name": "产品类型",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '单晶硅';
+								} else if (data === 2) {
+									return '多晶硅';
+								} else {
+									return '未知';
+								}
+							}
+						},
+						{
+							"targets": 9,
+							"data": "deploymentType",
+							"name": "产品部署类型",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '分布式';
+								} else if (data === 2) {
+									return '集中式';
+								} else if (data === 3) {
+									return '渔光';
+								} else if (data === 4) {
+									return '农光';
+								} else {
+									return '未知';
+								}
+							}
+						},
+						{
+							"targets": 10,
 							"data": "monocrystallineSpecification",
 							"name": "单晶硅规格",
 							"orderable": false
 						},
 						{
-							"targets": 8,
+							"targets": 11,
 							"data": "monocrystallineCapacity",
 							"name": "单晶硅采购容量（MW）",
 							"orderable": false
 						},
 						{
-							"targets": 9,
+							"targets": 12,
 							"data": "polysiliconSpecification",
 							"name": "多晶硅规格",
 							"orderable": false
 						},
 						{
-							"targets": 10,
+							"targets": 13,
 							"data": "polysiliconCapacity",
 							"name": "多晶硅的采购容量（MW）",
 							"orderable": false
 						},
 						{
-							"targets": 11,
+							"targets": 14,
+							"data": "agency",
+							"name": "代理机构",
+							"orderable": false
+						},
+						{
+							"targets": 15,
+							"data": "winCompanyInfo",
+							"name": "中标单位信息",
+							"orderable": false,
+							"visible": false
+						},
+						{
+							"targets": 16,
+							"data": "publishTime",
+							"name": "发布时间",
+							"orderable": false
+						},
+						{
+							"targets": 17,
 							"data": "id",
 							"name": "中标单位",
 							"orderable": false,
@@ -264,7 +413,7 @@
 							}
 						},
 						{
-							"targets": 12,
+							"targets": 18,
 							"data": "id",
 							"name": "编辑",
 							"orderable": false,
@@ -273,7 +422,7 @@
 							}
 						},
 						{
-							"targets": 13,
+							"targets": 19,
 							"data": "id",
 							"name": "删除",
 							"orderable": false,
@@ -301,8 +450,40 @@
 
 	}();
 
+	function searchAllData() {
+		var projectName = $("#projectName").val();
+		var projectProvince = $("#projectProvince").val();
+		var projcetOwner = $("#projcetOwner").val();
+		var parentCompany = $("#parentCompany").val();
+		var winCompanyInfo = $("#winCompanyInfo").val();
+		var agency = $("#agency").val();
+		var productType = $("#productType").val();
+		var deploymentType = $("#deploymentType").val();
+		var purchasingMethod = $("#purchasingMethod").val();
+
+		var oTable = $('.dataTables-example').DataTable();
+
+		oTable.column(1).search(projectName)
+				.column(4).search(projectProvince)
+				.column(5).search(projcetOwner)
+				.column(7).search(parentCompany)
+				.column(15).search(winCompanyInfo)
+				.column(14).search(agency)
+				.column(8).search(productType)
+				.column(9).search(deploymentType)
+				.column(6).search(purchasingMethod)
+				.draw();
+
+	}
+
 	$(document).ready(function () {
 		TableManaged.init();
+
+		$('#daterange_publishTime .input-daterange').datepicker({
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			language: "zh-CN"
+		});
 	});
 
 

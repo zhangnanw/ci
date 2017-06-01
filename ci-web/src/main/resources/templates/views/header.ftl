@@ -9,7 +9,7 @@
 			</li>
 
 			<li>
-				<a href="login.html">
+				<a class="logout" href="javascript:;">
 					<i class="fa fa-sign-out"></i> 退出登录
 				</a>
 			</li>

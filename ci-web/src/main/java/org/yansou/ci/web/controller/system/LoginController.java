@@ -34,8 +34,9 @@ public class LoginController {
 
 	@GetMapping("/failure")
 	public String failure() {
-		LOG.info("show login failure page-------------------");
-		return "views/login/failure";
+		LOG.info("Login Failure");
+
+		return "redirect:/login/show";
 	}
 
 	@RequestMapping("/logout")

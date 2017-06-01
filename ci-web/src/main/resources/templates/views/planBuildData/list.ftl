@@ -46,50 +46,48 @@
 
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="product_name">项目名称</label>
-								<input type="text" id="projectName" name="projectName" value="" placeholder="项目名称"
+								<label class="control-label" for="projectName">项目名称</label>
+								<input type="text" id="projectName" name="projectName" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="price">项目地址（省）</label>
+								<label class="control-label" for="projectProvince">项目地址（省）</label>
 								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder="项目地址（省）"
+									   placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="quantity">采购人</label>
-								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder="采购人"
-									   class="form-control">
+								<label class="control-label" for="projectScale">项目规模（MW）</label>
+								<input type="text" id="projectScale" name="projectScale" value=""
+									   placeholder="" class="form-control">
 							</div>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="status">母公司</label>
-								<input type="text" id="parentCompany" name="parentCompany" value="" placeholder="母公司"
+								<label class="control-label" for="projcetOwner">采购人</label>
+								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
-					</div>
 
-					<div class="row">
 						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="product_name">开始时间</label>
-								<input type="text" id="startTime" name="startTime" value="" placeholder="开始时间"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="price">结束时间</label>
-								<input type="text" id="endTime" name="endTime" value=""
-									   placeholder="结束时间" class="form-control">
+
+							<div class="form-group" id="daterange_publishTime">
+								<label class="control-label">发布时间</label>
+
+								<div class="input-daterange input-group" id="datepicker">
+									<input type="text" class="input-sm form-control" name="publishStartTime"
+										   id="publishStartTime"/>
+									<span class="input-group-addon">到</span>
+									<input type="text" class="input-sm form-control" name="publishEndTime"
+										   id="publishEndTime"/>
+								</div>
 							</div>
 						</div>
 
@@ -97,7 +95,7 @@
 
 					<div class="row">
 						<div class="ibox-content">
-							<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
+							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
 							<a class="btn btn-w-m btn-success" href="/planBuildData/add">新增</a>
 						</div>
 					</div>
@@ -122,6 +120,7 @@
 											<th>采购人</th>
 											<th>母公司</th>
 											<th>拟在建项目阶段</th>
+											<th>状态更新</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -156,17 +155,31 @@
 			init: function () {
 
 				var dataTablesExample = $('.dataTables-example').DataTable({
-					"dom": '<"html5buttons"B>lTfgitp',
-					"searching": false,
+					"dom": '<"html5buttons"B>lT<"hidden"f>gitp',
 					"lengthChange": false,
 					buttons: [
-						{extend: '导出为excel', title: '拟在建数据'}
+						{
+							extend: 'excel',
+							text: '导出为Excel',
+							title: '拟在建数据',
+							exportOptions: {
+								modifier: {
+									page: 'all'
+								}
+							}
+						}
 					],
 					"processing": false,
 					"serverSide": true,
 					"ajax": {
 						"url": "/planBuildData/showList",
-						"type": "POST"
+						"type": "POST",
+						"data": function (d) {
+							return $.extend({}, d, {
+								"publishStartTime": $("#publishStartTime").val(),
+								"publishEndTime": $("#publishEndTime").val()
+							});
+						}
 					},
 					"columnDefs": [
 						{
@@ -221,6 +234,11 @@
 						},
 						{
 							"targets": 9,
+							"data": "statusUpdate",
+							"orderable": false
+						},
+						{
+							"targets": 10,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -228,7 +246,7 @@
 							},
 						},
 						{
-							"targets": 10,
+							"targets": 11,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -255,10 +273,31 @@
 
 	}();
 
+	function searchAllData() {
+		var projectName = $("#projectName").val();
+		var projectProvince = $("#projectProvince").val();
+		var projectScale = $("#projectScale").val();
+		var projcetOwner = $("#projcetOwner").val();
+
+		var oTable = $('.dataTables-example').DataTable();
+
+		oTable.column(2).search(projectName)
+				.column(5).search(projectProvince)
+				.column(3).search(projectScale)
+				.column(6).search(projcetOwner)
+				.draw();
+
+	}
+
 	$(document).ready(function () {
 		TableManaged.init();
-	});
 
+		$('#daterange_publishTime .input-daterange').datepicker({
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			language: "zh-CN"
+		});
+	});
 
 </script>
 

@@ -11,6 +11,7 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -82,6 +83,10 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		LOG.info("dataTablesInput: {}", dataTablesInput);
 
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
+		updateProductType(pageCriteria);
+		updateDeploymentType(pageCriteria);
+		updatePurchasingMethod(pageCriteria);
+
 		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
@@ -89,19 +94,45 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				BiddingDataPaginationResponse.class);
+		BiddingDataPaginationResponse restResponse = null;
+		try {
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, BiddingDataPaginationResponse.class);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
 
-		Pagination<BiddingData> pagination = restResponse.getResult();
+		Pagination<BiddingData> pagination = null;
+		if (restResponse != null) {
+			pagination = restResponse.getResult();
+		}
+
+		if (pagination == null) {
+			pagination = new Pagination<>(0L, 10, 1, new BiddingData[0]);
+		}
 
 		LOG.info("pagination: {}", pagination);
 
 		DataTablesOutput<BiddingData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
 				.getDraw(), restResponse.getErrors());
 
-		LOG.info("dataTableVo: {}", dataTablesOutput);
+		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
 		return dataTablesOutput;
+	}
+
+	private void updateProductType(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "productType", null, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.EQ);
+	}
+
+	private void updateDeploymentType(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "deploymentType", null, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.EQ);
+	}
+
+	private void updatePurchasingMethod(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "purchasingMethod", null, Integer.class.getTypeName(),
+				SearchInfo.SearchOp.EQ);
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author liutiejun
@@ -57,6 +58,77 @@ public class DataTablesUtils {
 		dataTablesInput.setSearch(search);
 
 		return dataTablesInput;
+	}
+
+	/**
+	 * 更新查询条件
+	 *
+	 * @param pageCriteria
+	 * @param propertyName
+	 * @param value
+	 * @param valueType
+	 * @param searchOp
+	 */
+	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, String value, String
+			valueType, SearchInfo.SearchOp searchOp) {
+		SearchInfo searchInfo = new SearchInfo();
+		searchInfo.setPropertyName(propertyName);
+		searchInfo.setValue(value);
+		searchInfo.setValueType(valueType);
+		searchInfo.setSearchOp(searchOp);
+
+		updateColumnInfo(pageCriteria, propertyName, true, null, searchInfo, null);
+	}
+
+	public static void updateColumnInfo(PageCriteria pageCriteria, String propertyName, Boolean searchable, Boolean
+			orderable, SearchInfo searchInfo, OrderInfo orderInfo) {
+		if (pageCriteria == null || StringUtils.isBlank(propertyName)) {
+			return;
+		}
+
+		List<ColumnInfo> columnInfoList = pageCriteria.getColumnInfoList();
+		if (columnInfoList == null) {
+			columnInfoList = new ArrayList<>();
+
+			pageCriteria.setColumnInfoList(columnInfoList);
+		}
+
+		List<ColumnInfo> columnInfoList1 = columnInfoList.stream().filter(columnInfo -> columnInfo.getPropertyName()
+				.equals(propertyName)).collect(Collectors.toList());
+
+		ColumnInfo columnInfo = null;
+		if (CollectionUtils.isEmpty(columnInfoList1)) {
+			columnInfo = new ColumnInfo();
+
+			columnInfoList.add(columnInfo);
+		} else {
+			columnInfo = columnInfoList1.get(0);
+		}
+
+		columnInfo.setPropertyName(propertyName);
+
+		if (searchable != null) {
+			columnInfo.setSearchable(searchable);
+		}
+
+		if (orderable != null) {
+			columnInfo.setOrderable(orderable);
+		}
+
+		if (searchInfo != null) {
+			SearchInfo searchInfo1 = columnInfo.getSearchInfo();
+
+			if (searchInfo1 != null) {// 更新查询值
+				searchInfo.setValue(searchInfo1.getValue());
+			}
+
+			columnInfo.setSearchInfo(searchInfo);
+		}
+
+		if (orderInfo != null) {
+			columnInfo.setOrderInfo(orderInfo);
+		}
+
 	}
 
 	/**

@@ -108,7 +108,7 @@ public class PageSpecification<T> implements Specification<T> {
 		}
 
 		if (searchOp == SearchInfo.SearchOp.LIKE) {
-			return cb.like((Expression<String>) expression, realValue.toString());
+			return cb.like((Expression<String>) expression, "%" + realValue.toString() + "%");
 		}
 
 		if (searchOp == SearchInfo.SearchOp.GT) {

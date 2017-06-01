@@ -36,7 +36,7 @@ public class RawBidd2CiBiddingData {
 		// 项目造价，单位：元
 		Double projectCost = null;
 
-		// 项目总投资，单位：元
+		// 项目总投资，单位：万元
 		Double projectTotalInvestment = null;
 
 		// 项目描述

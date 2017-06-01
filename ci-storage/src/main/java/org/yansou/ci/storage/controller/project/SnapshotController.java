@@ -1,5 +1,6 @@
 package org.yansou.ci.storage.controller.project;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,19 +15,18 @@ import org.yansou.ci.core.rest.response.SimpleRestResponse;
 import org.yansou.ci.storage.service.project.BiddingSnapshotService;
 import org.yansou.ci.storage.service.project.PlanBuildSnapshotService;
 
-import io.swagger.annotations.ApiOperation;
-
 /**
  * 快照读写
- * 
- * @author n.zhang
  *
+ * @author n.zhang
  */
 @RestController
 @RequestMapping("/snapshot")
 public class SnapshotController {
+
 	@Autowired
 	private BiddingSnapshotService biddingSnapshotService;
+
 	@Autowired
 	private PlanBuildSnapshotService planBuildSnapshotService;
 
@@ -49,7 +49,7 @@ public class SnapshotController {
 		}
 	}
 
-	@ApiOperation("拟在建快照写入")
+	@ApiOperation("拟在建快照")
 	@GetMapping("/planbuild/{snapshotId}")
 	public SimpleRestResponse planBuild(@PathVariable String snapshotId) {
 		PlanBuildSnapshot ent = planBuildSnapshotService.getSnapshot(snapshotId);

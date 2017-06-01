@@ -17,6 +17,18 @@ public class ColumnInfo {
 	private SearchInfo searchInfo;
 	private OrderInfo orderInfo;
 
+	public ColumnInfo() {
+	}
+
+	public ColumnInfo(String propertyName, Boolean searchable, Boolean orderable, SearchInfo searchInfo, OrderInfo
+			orderInfo) {
+		this.propertyName = propertyName;
+		this.searchable = searchable;
+		this.orderable = orderable;
+		this.searchInfo = searchInfo;
+		this.orderInfo = orderInfo;
+	}
+
 	public String getPropertyName() {
 		return propertyName;
 	}
