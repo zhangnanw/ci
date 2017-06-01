@@ -109,7 +109,7 @@
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<a href="" target="_blank">查看原文</a>
+										<a href="/snapshotInfo/detail/${(biddingData.snapshotId)!''}" target="_blank">查看原文</a>
 									</div>
 								</div>
 							</div>

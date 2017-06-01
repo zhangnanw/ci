@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.yansou.ci.common.datatables.mapping.DataTablesInput;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author liutiejun
  * @create 2017-05-31 21:52
  */
+@Component("snapshotInfoBusiness")
 public class SnapshotInfoBusinessImpl implements SnapshotInfoBusiness {
 
 	private static final Logger LOG = LogManager.getLogger(SnapshotInfoBusinessImpl.class);
@@ -47,6 +49,25 @@ public class SnapshotInfoBusinessImpl implements SnapshotInfoBusiness {
 
 		SnapshotInfoResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoResponse
 				.class);
+
+		SnapshotInfo result = restResponse.getResult();
+
+		return result;
+	}
+
+	@Override
+	public SnapshotInfo findBySnapshotId(String snapshotId) {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/find";
+
+		SnapshotInfo snapshotInfo = new SnapshotInfo();
+		snapshotInfo.setSnapshotId(snapshotId);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setSnapshotInfo(snapshotInfo);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		SnapshotInfoResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoResponse.class);
 
 		SnapshotInfo result = restResponse.getResult();
 
