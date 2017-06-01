@@ -13,11 +13,12 @@ import javax.persistence.Table;
  * @create 2017-05-31 22:03
  */
 @Entity
-@Table(name = "ci_bidding_snapshot")
+@Table(name = "ci_snapshot_info")
 public class SnapshotInfo extends AbstractModel<Long> {
+
 	private static final long serialVersionUID = -2129093260684297661L;
 
-	@Column(columnDefinition = "text")
+	@Column(columnDefinition = "mediumtext")
 	private String context;
 
 	@Column
