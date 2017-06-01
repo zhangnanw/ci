@@ -11,7 +11,7 @@ import org.yansou.ci.storage.CiStorageApplication;
 @SpringBootTest(classes = CiStorageApplication.class)
 public class TestCorvToPlanBuild {
 	@Autowired
-	private CorvToPlanBuild corv;
+	public CorvToPlanBuild corv;
 
 	@Test
 	public void testRun() {
