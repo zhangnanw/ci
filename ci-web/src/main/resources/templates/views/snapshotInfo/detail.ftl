@@ -5,6 +5,6 @@
 	<title>查看原文</title>
 </head>
 <body>
-<iframe srcdoc="${(snapshotInfo.context)!''}"></iframe>
+${(snapshotInfo.context)!''}
 </body>
 </html>

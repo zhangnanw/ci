@@ -1,16 +1,14 @@
 package org.yansou.ci.core.model.project;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.model.AbstractModel;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 /**
  * 拟在建信息
@@ -19,16 +17,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @create 2017-05-07 15:36
  */
 @Entity
-@Table(name = "ci_plan_build_data", indexes = { @Index(unique = true, columnList = "projectIdentifie") })
+@Table(name = "ci_plan_build_data", indexes = {@Index(unique = true, columnList = "projectIdentifie")})
 public class PlanBuildData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -5536829706290917695L;
 
 	@Column
-	private String projectName;// 项目名称（工程名称）
+	private String rowkey;// 源数据的唯一标识
 
 	@Column
-	private String rowkey;// 源数据的唯一标识
+	private String projectName;// 项目名称（工程名称）
 
 	@Column
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
