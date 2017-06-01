@@ -16,6 +16,11 @@ import javax.persistence.Table;
 @Table(name = "ci_bidding_snapshot")
 public class SnapshotInfo extends AbstractModel<Long> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2129093260684297661L;
+
 	@Column(columnDefinition = "text")
 	private String context;
 
