@@ -11,12 +11,12 @@ import com.alibaba.fastjson.JSONObject;
 public class RawBidd2CiBiddingData {
 
 	public RawBidd2CiBiddingData(JSONObject obj, JSONObject proObj) {
-		this.obj = obj;
+		this.srcObj = obj;
 		this.proObj = proObj;
 	}
 
 	private JSONObject proObj;
-	private JSONObject obj;
+	private JSONObject srcObj;
 
 	public BiddingData get() {
 		BiddingData info = new BiddingData();
@@ -128,7 +128,7 @@ public class RawBidd2CiBiddingData {
 		// 状态
 		Integer status = 0;
 		// URL
-		String url = obj.getString("url");
+		String url = srcObj.getString("url");
 
 		info.setUrl(url);
 		info.setWinTime(winTime);
@@ -174,7 +174,7 @@ public class RawBidd2CiBiddingData {
 	private static AreaAnalyzer AREA_ANALYZER = new AreaAnalyzer();
 
 	private String toProvince() {
-		JSONObject res = AREA_ANALYZER.analy(obj);
+		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
 		if (arr.isEmpty()) {
 			return null;
@@ -183,7 +183,7 @@ public class RawBidd2CiBiddingData {
 	}
 
 	private String toCity() {
-		JSONObject res = AREA_ANALYZER.analy(obj);
+		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
 		if (arr.size() <= 1) {
 			return null;
@@ -192,7 +192,7 @@ public class RawBidd2CiBiddingData {
 	}
 
 	private String toDistrict() {
-		JSONObject res = AREA_ANALYZER.analy(obj);
+		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
 		if (arr.size() <= 2) {
 			return null;

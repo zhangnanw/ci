@@ -31,7 +31,7 @@ public class CorvToBidding extends AbsStatistics {
 
 	@Autowired
 	private BiddingDataService biddingDataService;
-	
+
 	@Autowired
 	private SnapshotService snapshotService;
 
@@ -59,10 +59,10 @@ public class CorvToBidding extends AbsStatistics {
 	BiddingData toBiddingData(JSONObject obj) {
 		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
 		SnapshotInfo ent = new SnapshotInfo();
+		ent.setDataType(1);
 		ent.setSnapshotId(UUID.randomUUID().toString());
 		ent.setContext(obj.getString("context"));
 		try {
-
 			BiddingData res = rd.get();
 			if (LTFilter.isSave(res, ent)) {
 				ent = snapshotService.save(ent);
@@ -70,7 +70,7 @@ public class CorvToBidding extends AbsStatistics {
 				return null;
 			}
 			res.setSnapshotId(ent.getSnapshotId());
-			res.setUrl("/snapshot/bidding/" + ent.getSnapshotId());
+			res.setUrl("/snapshot/get/" + ent.getSnapshotId());
 			return res;
 		} catch (DaoException e) {
 			throw new IllegalStateException(e);

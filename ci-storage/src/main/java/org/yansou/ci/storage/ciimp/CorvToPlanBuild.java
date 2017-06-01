@@ -34,7 +34,7 @@ import com.alibaba.fastjson.JSONObject;
 @Component
 public class CorvToPlanBuild extends AbsStatistics {
 	private static Logger LOG = LogManager.getLogger(CorvToPlanBuild.class);
-	
+
 	@Autowired
 	private PlanBuildDataService planBuildDataService;
 
@@ -79,6 +79,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 			filter(JSONUtils.streamJSONObject(arr)).map(project -> {
 				JSONObject source = getSourceObj(project.getString("rowkey"));
 				SnapshotInfo ent = new SnapshotInfo();
+				ent.setDataType(2);
 				ent.setContext(source.getString("page_source"));
 				ent.setSnapshotId(UUID.randomUUID().toString());
 				try {
@@ -90,7 +91,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 						return null;
 					}
 					df.setSnapshotId(ent.getSnapshotId());
-					df.setUrl("/snapshot/planbuild/" + ent.getSnapshotId());
+					df.setUrl("/snapshot/get/" + ent.getSnapshotId());
 					return df;
 				} catch (DaoException e) {
 					throw new IllegalStateException(e);
