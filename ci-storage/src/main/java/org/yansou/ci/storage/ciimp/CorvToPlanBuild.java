@@ -21,7 +21,7 @@ import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
-import org.yansou.ci.storage.service.project.SnapshotService;
+import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -39,7 +39,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 	private PlanBuildDataService planBuildDataService;
 
 	@Autowired
-	private SnapshotService snapshotService;
+	private SnapshotInfoService snapshotService;
 
 	Stream<JSONObject> filter(Stream<JSONObject> strema) {
 		Map<Object, List<JSONObject>> bg = strema

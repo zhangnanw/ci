@@ -15,7 +15,7 @@ import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.storage.service.project.BiddingDataService;
-import org.yansou.ci.storage.service.project.SnapshotService;
+import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -33,7 +33,7 @@ public class CorvToBidding extends AbsStatistics {
 	private BiddingDataService biddingDataService;
 
 	@Autowired
-	private SnapshotService snapshotService;
+	private SnapshotInfoService snapshotService;
 
 	public void run() {
 		try {
