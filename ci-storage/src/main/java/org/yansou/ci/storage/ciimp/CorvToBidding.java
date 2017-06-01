@@ -13,9 +13,9 @@ import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.BiddingSnapshot;
+import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.storage.service.project.BiddingDataService;
-import org.yansou.ci.storage.service.project.BiddingSnapshotService;
+import org.yansou.ci.storage.service.project.SnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -31,8 +31,9 @@ public class CorvToBidding extends AbsStatistics {
 
 	@Autowired
 	private BiddingDataService biddingDataService;
+	
 	@Autowired
-	private BiddingSnapshotService biddingSnapshotService;
+	private SnapshotService snapshotService;
 
 	public void run() {
 		try {
@@ -57,14 +58,14 @@ public class CorvToBidding extends AbsStatistics {
 
 	BiddingData toBiddingData(JSONObject obj) {
 		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
-		BiddingSnapshot ent = new BiddingSnapshot();
+		SnapshotInfo ent = new SnapshotInfo();
 		ent.setSnapshotId(UUID.randomUUID().toString());
 		ent.setContext(obj.getString("context"));
 		try {
 
 			BiddingData res = rd.get();
 			if (LTFilter.isSave(res, ent)) {
-				ent = biddingSnapshotService.save(ent);
+				ent = snapshotService.save(ent);
 			} else {
 				return null;
 			}

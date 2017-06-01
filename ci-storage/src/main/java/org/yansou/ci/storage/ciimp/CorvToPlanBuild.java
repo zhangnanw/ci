@@ -19,9 +19,9 @@ import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.core.model.project.PlanBuildSnapshot;
+import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
-import org.yansou.ci.storage.service.project.PlanBuildSnapshotService;
+import org.yansou.ci.storage.service.project.SnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -34,10 +34,12 @@ import com.alibaba.fastjson.JSONObject;
 @Component
 public class CorvToPlanBuild extends AbsStatistics {
 	private static Logger LOG = LogManager.getLogger(CorvToPlanBuild.class);
+	
 	@Autowired
 	private PlanBuildDataService planBuildDataService;
+
 	@Autowired
-	private PlanBuildSnapshotService planBuildSnapshotService;
+	private SnapshotService snapshotService;
 
 	Stream<JSONObject> filter(Stream<JSONObject> strema) {
 		Map<Object, List<JSONObject>> bg = strema
@@ -76,14 +78,14 @@ public class CorvToPlanBuild extends AbsStatistics {
 			ts.buriePrint("plan-build-query-time:{}", LOG::info);
 			filter(JSONUtils.streamJSONObject(arr)).map(project -> {
 				JSONObject source = getSourceObj(project.getString("rowkey"));
-				PlanBuildSnapshot ent = new PlanBuildSnapshot();
+				SnapshotInfo ent = new SnapshotInfo();
 				ent.setContext(source.getString("page_source"));
 				ent.setSnapshotId(UUID.randomUUID().toString());
 				try {
 
 					PlanBuildData df = new RccSource2PlanBuildDataInfo(source, project).get();
 					if (LTFilter.isSave(df, ent)) {
-						ent = planBuildSnapshotService.save(ent);
+						ent = snapshotService.save(ent);
 					} else {
 						return null;
 					}
