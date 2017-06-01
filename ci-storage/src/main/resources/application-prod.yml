@@ -16,4 +16,4 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://ci.yansou.org:11111/eureka/
+      defaultZone: http://127.0.0.1:11111/eureka/
