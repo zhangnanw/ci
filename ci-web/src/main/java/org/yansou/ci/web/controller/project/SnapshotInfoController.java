@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @create 2017-05-31 21:23
  */
 @Controller
-@RequestMapping("/snapshot")
-public class SnapshotController {
+@RequestMapping("/snapshotInfo")
+public class SnapshotInfoController {
 
 	@GetMapping("/{dataType}/{dataId}")
 	public String detail(@PathVariable String dataType, @PathVariable String dataId) {
