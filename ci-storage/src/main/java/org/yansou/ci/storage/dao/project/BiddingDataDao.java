@@ -12,9 +12,7 @@ import org.yansou.ci.storage.common.dao.GeneralDao;
  */
 @Repository("biddingDataDao")
 public interface BiddingDataDao extends GeneralDao<BiddingData, Long> {
-
 	@Modifying
 	@Query("update BiddingData bean set bean.status = ?1 where bean.id = ?2")
 	int updateStatus(Integer status, Long id);
-
 }

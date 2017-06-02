@@ -1,7 +1,6 @@
 package org.yansou.ci.storage.ciimp;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,6 @@ import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.storage.service.project.BiddingDataService;
-import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -32,9 +30,6 @@ public class CorvToBidding extends AbsStatistics {
 	@Autowired
 	private BiddingDataService biddingDataService;
 
-	@Autowired
-	private SnapshotInfoService snapshotService;
-
 	public void run() {
 		try {
 			TimeStat ts = new TimeStat();
@@ -43,37 +38,29 @@ public class CorvToBidding extends AbsStatistics {
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("bidding-query-time:{}", LOG::info);
-			JSONUtils.streamJSONObject(arr).map(this::toBiddingData).filter(Objects::nonNull).map(x -> {
-				try {
-					return biddingDataService.save(x);
-				} catch (DaoException e) {
-					throw new IllegalStateException(e);
-				}
-			}).forEach(System.out::println);
+			JSONUtils.streamJSONObject(arr).forEach(this::store);
 			ts.buriePrint("bidding-read-time:{}", LOG::info);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-	BiddingData toBiddingData(JSONObject obj) {
+	void store(JSONObject obj) {
 		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
-		SnapshotInfo ent = new SnapshotInfo();
-		ent.setDataType(1);
-		ent.setSnapshotId(UUID.randomUUID().toString());
-		ent.setContext(obj.getString("context"));
-		try {
-			BiddingData res = rd.get();
-			if (LTFilter.isSave(res, ent)) {
-				ent = snapshotService.save(ent);
-			} else {
-				return null;
+		SnapshotInfo snapsshot = new SnapshotInfo();
+		snapsshot.setDataType(1);
+		snapsshot.setSnapshotId(UUID.randomUUID().toString());
+		snapsshot.setContext(obj.getString("context"));
+		BiddingData data = rd.get();
+		if (LTFilter.isSave(data, snapsshot)) {
+			data.setSnapshotId(snapsshot.getSnapshotId());
+			data.setUrl(obj.getString("url"));
+			try {
+				biddingDataService.saveDataAndSnapshotInfo(data, snapsshot);
+				LOG.info("insert bidding");
+			} catch (DaoException e) {
+				LOG.error(e);
 			}
-			res.setSnapshotId(ent.getSnapshotId());
-			res.setUrl("/snapshot/get/" + ent.getSnapshotId());
-			return res;
-		} catch (DaoException e) {
-			throw new IllegalStateException(e);
 		}
 
 	}
