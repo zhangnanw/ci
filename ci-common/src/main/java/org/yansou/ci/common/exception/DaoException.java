@@ -6,6 +6,11 @@ package org.yansou.ci.common.exception;
  */
 public class DaoException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6406931883057312740L;
+
 	public DaoException() {
 	}
 

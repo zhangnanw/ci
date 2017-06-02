@@ -1,6 +1,5 @@
 package org.yansou.ci.storage.controller.project;
 
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,10 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.model.project.BiddingSnapshot;
 import org.yansou.ci.core.model.project.PlanBuildSnapshot;
+import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
 import org.yansou.ci.storage.service.project.BiddingSnapshotService;
 import org.yansou.ci.storage.service.project.PlanBuildSnapshotService;
+import org.yansou.ci.storage.service.project.SnapshotService;
+
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 快照读写
@@ -29,6 +32,9 @@ public class SnapshotController {
 
 	@Autowired
 	private PlanBuildSnapshotService planBuildSnapshotService;
+
+	@Autowired
+	private SnapshotService snapshotService;
 
 	@ApiOperation("招中标快照")
 	@GetMapping("/bidding/{snapshotId}")
@@ -65,6 +71,24 @@ public class SnapshotController {
 		} catch (DaoException e) {
 			return SimpleRestResponse.exception(e);
 		}
+	}
+
+	@ApiOperation("设置快照")
+	@PostMapping("/set")
+	public SimpleRestResponse setSnapshotInfo(RestRequest request) {
+		try {
+			SnapshotInfo res = snapshotService.save(request.getSnapshotInfo());
+			return SimpleRestResponse.ok("url", "/snapshot/get/" + res.getId());
+		} catch (DaoException e) {
+			return SimpleRestResponse.exception(e);
+		}
+	}
+
+	@ApiOperation("获取快照")
+	@GetMapping("/get/{snapshotId}")
+	public SimpleRestResponse getSnapshotInfo(@PathVariable String snapshotId) {
+		SnapshotInfo ent = snapshotService.getSnapshot(snapshotId);
+		return SimpleRestResponse.ok("context", ent.getContext());
 	}
 
 }
