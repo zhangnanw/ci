@@ -64,8 +64,48 @@
 										<input type="text" class="form-control" placeholder="北京市海淀区"
 											   name="projectAddress">
 									</div>
+									<div class="form-group"><label>项目地址（省）</label>
+										<select class="select2_projectProvince form-control" name="projectProvince">
+											<option></option>
+											<option value="北京市">北京市</option>
+											<option value="天津市">天津市</option>
+											<option value="上海市">上海市</option>
+											<option value="重庆市">重庆市</option>
+											<option value="安徽省">安徽省</option>
+											<option value="福建省">福建省</option>
+											<option value="甘肃省">甘肃省</option>
+											<option value="广东省">广东省</option>
+											<option value="贵州省">贵州省</option>
+											<option value="海南省">海南省</option>
+											<option value="河北省">河北省</option>
+											<option value="河南省">河南省</option>
+											<option value="湖北省">湖北省</option>
+											<option value="湖南省">湖南省</option>
+											<option value="吉林省">吉林省</option>
+											<option value="江苏省">江苏省</option>
+											<option value="江西省">江西省</option>
+											<option value="辽宁省">辽宁省</option>
+											<option value="青海省">青海省</option>
+											<option value="山东省">山东省</option>
+											<option value="山西省">山西省</option>
+											<option value="陕西省">陕西省</option>
+											<option value="四川省">四川省</option>
+											<option value="云南省">云南省</option>
+											<option value="浙江省">浙江省</option>
+											<option value="台湾省">台湾省</option>
+											<option value="黑龙江省">黑龙江省</option>
+											<option value="西藏自治区">西藏自治区</option>
+											<option value="内蒙古自治区">内蒙古自治区</option>
+											<option value="宁夏回族自治区">宁夏回族自治区</option>
+											<option value="广西壮族自治区">广西壮族自治区</option>
+											<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+											<option value="香港特别行政区">香港特别行政区</option>
+											<option value="澳门特别行政区">澳门特别行政区</option>
+										</select>
+									</div>
 									<div class="form-group"><label>采购人</label>
-										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner">
+										<textarea class="form-control" placeholder="采购人" name="projcetOwner"
+												  rows="10"></textarea>
 									</div>
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
@@ -78,10 +118,24 @@
 											   name="purchaseSituation">
 									</div>
 									<div class="form-group"><label>设计师</label>
-										<input type="text" class="form-control" placeholder="设计师" name="designer">
+										<textarea class="form-control" placeholder="设计师" name="designer"
+												  rows="10"></textarea>
 									</div>
 									<div class="form-group"><label>状态更新</label>
 										<input type="text" class="form-control" placeholder="状态更新" name="statusUpdate">
+									</div>
+									<div class="form-group"><label>发布时间</label>
+										<div class="input-group date form_datetime">
+											<input name="publishTime" class="form-control" size="16" type="text"
+												   value="" readonly>
+											<span class="input-group-addon"><span
+													class="glyphicon glyphicon-remove"></span></span>
+											<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+										</div>
+										<input type="hidden" id="dtp_input1" value=""/><br/>
+									</div>
+									<div class="form-group"><label>备注</label>
+										<input type="text" class="form-control" placeholder="备注" name="remarks">
 									</div>
 
 								</div>
@@ -128,7 +182,6 @@
 							minlength: 3
 						},
 						projectDescription: {
-							required: true,
 							minlength: 3
 						}
 					},
@@ -160,6 +213,22 @@
 	}();
 
 	$(document).ready(function () {
+		$(".select2_projectProvince").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$('.form_datetime').datetimepicker({
+			language: "zh-CN",
+			format: "yyyy-mm-dd hh:ii:ss",
+			weekStart: 1,
+			todayBtn: 1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			forceParse: 0,
+			showMeridian: 1
+		});
 
 		FormValidation.init();
 

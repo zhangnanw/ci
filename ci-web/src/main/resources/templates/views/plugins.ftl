@@ -19,6 +19,8 @@
 <!-- Date picker -->
 <script src="/js/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="/js/plugins/datepicker/bootstrap-datepicker.zh-CN.js"></script>
+<script src="/js/plugins/datepicker/bootstrap-datetimepicker.js"></script>
+<script src="/js/plugins/datepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 
 <!-- NouSlider -->
 <script src="/js/plugins/nouslider/jquery.nouislider.min.js"></script>

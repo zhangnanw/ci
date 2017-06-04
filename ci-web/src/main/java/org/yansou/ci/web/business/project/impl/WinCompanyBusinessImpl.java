@@ -11,6 +11,8 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.common.web.RequestUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.core.rest.request.RestRequest;
@@ -81,6 +83,8 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
+		updateBiddingDataId(pageCriteria, request);
+
 		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
@@ -101,6 +105,15 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		LOG.info("dataTableVo: {}", dataTablesOutput);
 
 		return dataTablesOutput;
+	}
+
+	private void updateBiddingDataId(PageCriteria pageCriteria, HttpServletRequest request) {
+		String propertyName = "biddingData.id";
+
+		String value = RequestUtils.getStringParameter(request, propertyName);
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, propertyName, value, Long.class.getTypeName(), SearchInfo
+				.SearchOp.EQ);
 	}
 
 	@Override
