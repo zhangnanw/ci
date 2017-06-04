@@ -60,7 +60,7 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 		Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
 			@Override
 			public boolean shouldSkipField(FieldAttributes f) {
-				return false;
+				return f.getName().endsWith("Time");
 			}
 
 			@Override
@@ -79,4 +79,8 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 		return entity;
 	}
 
+	@Override
+	public WinCompany update(WinCompany entity) throws DaoException {
+		return save(entity);
+	}
 }
