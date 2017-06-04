@@ -3,6 +3,7 @@ package org.yansou.ci.storage.ciimp;
 import java.util.Date;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
 
@@ -33,8 +34,8 @@ public class RawBidd2CiBiddingData {
 	public BiddingData get() {
 		BiddingData info = new BiddingData();
 
-		// 项目名称（工程名称）
-		String projectName = null;
+		// 项目名称（工程名称）也是（公告名）
+		String projectName = Jsoup.parse(srcObj.getString("context")).title();
 
 		// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 		String[] projectCodes = null;
