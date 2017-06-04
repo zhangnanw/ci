@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
+import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.WinCompany;
 import org.yansou.ci.storage.common.dao.GeneralDao;
@@ -55,7 +56,8 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 
 		BiddingData biddingData = biddingDataService.findById(entity.getBiddingData().getId());
 
-		List<WinCompany> winCompanyList = winCompanyDao.findWinCompaniesByBiddingData(biddingData);
+		List<WinCompany> winCompanyList = winCompanyDao.findByBiddingDataAndStatusNot(biddingData, AbstractModel
+				.Status.DELETE.getValue());
 
 		Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
 			@Override

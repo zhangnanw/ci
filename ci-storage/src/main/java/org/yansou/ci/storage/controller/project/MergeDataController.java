@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.core.model.project.MergeData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
@@ -129,12 +128,11 @@ public class MergeDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		MergeData mergeData = restRequest.getMergeData();
-		Long id = mergeData.getId();
+		Long[] ids = restRequest.getIds();
 
-		mergeDataService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+		int count = mergeDataService.deleteById(ids);
 
-		return SimpleRestResponse.ok();
+		return SimpleRestResponse.ok("count", count);
 	}
 
 }
