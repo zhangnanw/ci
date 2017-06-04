@@ -1,14 +1,26 @@
 package org.yansou.ci.storage.ciimp;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.data.mining.nlpir.impl.AreaAnalyzer;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 
 public class RawBidd2CiBiddingData {
+
+	final static private Map<String, Integer> codeMap = Maps.newHashMap();
+	static {
+		String[] arr = "1:北京市;2:天津市;3:上海市;4:重庆市;5:安徽省;6:福建省;7:甘肃省;8:广东省;9:贵州省;10:海南省;11:河北省;12:河南省;13:湖北省;14:湖南省;15:吉林省;16:江苏省;17:江西省;18:辽宁省;19:青海省;20:山东省;21:山西省;22:陕西省;23:四川省;24:云南省;25:浙江省;26:台湾省;27:黑龙江省;28:西藏自治区;29:内蒙古自治区;30:宁夏回族自治区;31:广西壮族自治区;32:新疆维吾尔自治区;33:香港特别行政区;34:澳门特别行政区"
+				.split(";");
+		for (String line : arr) {
+			String[] as = line.split(":");
+			codeMap.put(as[1], Integer.valueOf(as[0]));
+		}
+	}
 
 	public RawBidd2CiBiddingData(JSONObject obj, JSONObject proObj) {
 		this.srcObj = obj;
@@ -139,7 +151,8 @@ public class RawBidd2CiBiddingData {
 		info.setPurchasingContactPhone(purchasingContactPhone);
 		info.setProjectTotalInvestment(projectTotalInvestment);
 		info.setProjectScale(projectScale);
-		info.setProjectProvince(projectProvince);
+		info.setProjectProvince(codeMap
+				.get(codeMap.keySet().stream().filter(key -> key.contains(projectProvince)).findAny().orElse(null)));
 		info.setProjectName(projectName);
 		info.setProjectIdentifie(projectIdentifie);
 		info.setProjectDistrict(projectDistrict);
