@@ -28,7 +28,7 @@ import com.google.common.collect.Maps;
  * @author Administrator
  *
  */
-public class RccSource2PlanBuildDataInfo {
+public final class RccSource2PlanBuildDataInfo {
 
 	private static final Logger LOG = LogManager.getLogger(RccSource2PlanBuildDataInfo.class);
 	final static private Map<String, Integer> codeMap = Maps.newHashMap();
@@ -72,9 +72,9 @@ public class RccSource2PlanBuildDataInfo {
 
 		Double projectScale = null;// 项目规模（总采购容量），单位：MW（兆瓦）
 
-		Double projectCost = null;// 项目造价，单位：元
+		Double projectCost = null;// 项目造价，单位：万元
 
-		Double projectTotalInvestment = proObj.getDouble("investment_amounts");// 项目总投资，单位：元
+		Double projectTotalInvestment = proObj.getDouble("investment_amounts") / 10000;// 项目总投资，单位：万元
 
 		String projectDescription = null;// 项目描述
 
