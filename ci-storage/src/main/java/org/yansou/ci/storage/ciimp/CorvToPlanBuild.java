@@ -18,6 +18,7 @@ import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.data.mining.utils.Readability;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
 
 import com.alibaba.fastjson.JSONArray;
@@ -88,7 +89,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 		// 生成快照对象
 		SnapshotInfo snapshot = new SnapshotInfo();
 		snapshot.setDataType(2);
-		snapshot.setContext(source.getString("page_source"));
+		snapshot.setContext(new Readability(source.getString("page_source")).init().outerHtml());
 		snapshot.setSnapshotId(UUID.randomUUID().toString());
 		try {
 			// 解析数据，生成拟在建信息。

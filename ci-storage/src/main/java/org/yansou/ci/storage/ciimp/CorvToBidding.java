@@ -13,6 +13,7 @@ import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.data.mining.utils.Readability;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 
 import com.alibaba.fastjson.JSONArray;
@@ -50,7 +51,7 @@ public class CorvToBidding extends AbsStatistics {
 		SnapshotInfo snapsshot = new SnapshotInfo();
 		snapsshot.setDataType(1);
 		snapsshot.setSnapshotId(UUID.randomUUID().toString());
-		snapsshot.setContext(obj.getString("context"));
+		snapsshot.setContext(new Readability(obj.getString("context")).init().outerHtml());
 		BiddingData data = rd.get();
 		if (LTFilter.isSave(data, snapsshot)) {
 			data.setSnapshotId(snapsshot.getSnapshotId());
