@@ -136,8 +136,24 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	}
 
 	@Override
-	public void deleteById(ID id) throws DaoException {
-		generalDao.delete(id);
+	public int deleteById(ID id) throws DaoException {
+		// 删除数据，不做物理删除，只更新对应的数据状态
+		return updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+	}
+
+	@Override
+	public int deleteById(ID[] ids) throws DaoException {
+		if (ArrayUtils.isEmpty(ids)) {
+			return 0;
+		}
+
+		int result = 0;
+
+		for (ID id : ids) {
+			result += deleteById(id);
+		}
+
+		return result;
 	}
 
 	@Override

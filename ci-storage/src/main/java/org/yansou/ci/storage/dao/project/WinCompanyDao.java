@@ -20,6 +20,8 @@ public interface WinCompanyDao extends GeneralDao<WinCompany, Long> {
 	@Query("update WinCompany bean set bean.status = ?1 where bean.id = ?2")
 	int updateStatus(Integer status, Long id);
 
-	List<WinCompany> findWinCompaniesByBiddingData(BiddingData biddingData);
+	List<WinCompany> findByBiddingData(BiddingData biddingData);
+
+	List<WinCompany> findByBiddingDataAndStatusNot(BiddingData biddingData, Integer status);
 
 }

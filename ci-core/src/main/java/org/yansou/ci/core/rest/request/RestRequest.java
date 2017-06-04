@@ -23,6 +23,8 @@ public class RestRequest implements Serializable {
 
 	private static final long serialVersionUID = 2050890240916910075L;
 
+	private Long[] ids;// 用于数据的删除
+
 	private PageCriteria pageCriteria;
 
 	private Account account;
@@ -51,6 +53,14 @@ public class RestRequest implements Serializable {
 
 	private SnapshotInfo snapshotInfo;
 	private SnapshotInfo[] snapshotInfos;
+
+	public Long[] getIds() {
+		return ids;
+	}
+
+	public void setIds(Long[] ids) {
+		this.ids = ids;
+	}
 
 	public PageCriteria getPageCriteria() {
 		return pageCriteria;

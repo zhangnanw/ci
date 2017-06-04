@@ -98,12 +98,14 @@
 									<option value="" selected>--请选择--</option>
 									<option value="1">单晶硅</option>
 									<option value="2">多晶硅</option>
+									<option value="3">单晶硅、多晶硅</option>
+									<option value="4">未知</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="deploymentType">产品的部署类型</label>
+								<label class="control-label" for="deploymentType">产品部署类型</label>
 								<select name="deploymentType" id="deploymentType" class="form-control">
 									<option value="" selected>--请选择--</option>
 									<option value="1">分布式</option>
@@ -118,18 +120,12 @@
 								<label class="control-label" for="status">采购方式</label>
 								<select name="purchasingMethod" id="purchasingMethod" class="form-control">
 									<option value="" selected>--请选择--</option>
-									<option value="1">邀标公告</option>
-									<option value="2">询价公告</option>
-									<option value="3">招标公告</option>
-									<option value="4">中标公告</option>
-									<option value="5">成交公告</option>
-									<option value="6">更正公告</option>
-									<option value="7">其他公告</option>
-									<option value="8">单一来源</option>
-									<option value="9">资格预审</option>
-									<option value="10">废标流标</option>
-									<option value="11">竞争性谈判</option>
-									<option value="12">竞争性磋商</option>
+									<option value="1">公开招标</option>
+									<option value="2">竞争性谈判</option>
+									<option value="3">单一来源</option>
+									<option value="4">市场询价</option>
+									<option value="5">邀请招标</option>
+									<option value="6">其他</option>
 								</select>
 							</div>
 						</div>
@@ -247,13 +243,12 @@
 					"columnDefs": [
 						{
 							"targets": 0,
-							"data": "id",
+							"data": null,
 							"name": "#",
 							"searchable": false,
 							"orderable": false,
-							"render": function (data, type, full, meta) {
-								return '<input type="checkbox" class="i-checks" name="ids" value="' + data + '">';
-							}
+							"class": 'details-control',
+							"defaultContent": ''
 						},
 						{
 							"targets": 1,
@@ -476,13 +471,57 @@
 
 	}
 
+	/* Formatting function for row details - modify as you need */
+	function format(d) {
+		// `d` is the original data object for the row
+		var wciData = JSON.parse(d.winCompanyInfo);
+		var allWciStr = '<table class="table" style="margin-bottom: 0px">'
+				+ "<thead>"
+				+ "<tr>"
+				+ "<th>#</th>"
+				+ "<th>中标单位</th>"
+				+ "<th>中标容量（兆瓦）</th>"
+				+ "</tr>"
+				+ "</thead>";
+
+		for (var wciIdx in wciData) {
+			allWciStr = allWciStr +
+					'<tr>' +
+					'<td>' + (parseInt(wciIdx) + 1) + '</td>' +
+					'<td>' + wciData[wciIdx].companyName + '</td>' +
+					'<td>' + wciData[wciIdx].winCapacity + '</td>' +
+					'</tr>';
+		}
+
+		allWciStr = allWciStr + '</table>';
+
+		return allWciStr;
+	}
+
 	$(document).ready(function () {
-		TableManaged.init();
 
 		$('#daterange_publishTime .input-daterange').datepicker({
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
 			language: "zh-CN"
+		});
+
+		TableManaged.init();
+
+		// Add event listener for opening and closing details
+		$('.dataTables-example tbody').on('click', 'td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = $('.dataTables-example').DataTable().row(tr);
+			if (row.child.isShown()) {
+				// This row is already open - close it
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				// Open this row
+				row.child(format(row.data())).show();
+				tr.addClass('shown');
+			}
 		});
 	});
 
