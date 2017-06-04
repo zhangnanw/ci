@@ -25,10 +25,10 @@ public class WinCompany extends AbstractModel<Long> {
 	private BiddingData biddingData;
 
 	@Column
-	private Double winAmount;// 中标单位-中标金额
+	private Double winAmount;// 中标单位-中标金额，单位：万元
 
 	@Column
-	private Double winPrice;// 中标单位-中标单价
+	private Double winPrice;// 中标单位-中标单价 = 中标金额 / 中标容量，单位：元每瓦
 
 	@Column
 	private Double winCapacity;// 中标单位-中标容量，单位：MW（兆瓦）

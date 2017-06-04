@@ -25,13 +25,12 @@ public class BiddingData extends AbstractModel<Long> {
 	 * 数据类型
 	 */
 	public enum DataType {
-		/**
-		 * 招标数据
-		 */
-		BIDDING(1), /**
-		 * 中标数据
-		 */
-		WIN(2);
+
+		BIDDING(1), // 1-招标公告
+		WIN(2), // 2-中标公告
+		CORRECT(3), // 3-更正公告
+		ABANDON(4), // 4-废标公告
+		FAILURE(5);// 5-流标公告
 
 		private Integer value;
 
@@ -44,8 +43,29 @@ public class BiddingData extends AbstractModel<Long> {
 		}
 	}
 
+	/**
+	 * 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
+	 */
+	public enum ProductType {
+
+		MON(1),// 1-单晶硅
+		POL(2),// 2-多晶硅
+		MON_POL(3),// 3-单晶硅、多晶硅
+		UNKNOWN(4);// 4-未知
+
+		private Integer value;
+
+		ProductType(Integer value) {
+			this.value = value;
+		}
+
+		public Integer getValue() {
+			return value;
+		}
+	}
+
 	@Column
-	private Integer dataType;// 1-招标数据，2-中标数据
+	private Integer dataType;// 公告类型，1-招标公告，2-中标公告，3-更正公告，4-废标公告，5-流标公告
 
 	@Column
 	private String projectName;// 项目名称（工程名称）
@@ -72,7 +92,7 @@ public class BiddingData extends AbstractModel<Long> {
 	private String projectAddress;// 项目详细地址
 
 	@Column
-	private String projectProvince;// 项目地址，省
+	private Integer projectProvince;// 项目地址，省
 
 	@Column
 	private String projectCity;// 项目地址，市
@@ -89,13 +109,12 @@ public class BiddingData extends AbstractModel<Long> {
 	@Column
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
-	// 采购方式
-	// 1-邀标公告，2-询价公告，3-招标公告，4-中标公告，5-成交公告，6-更正公告，7-其他公告，8-单一来源，9-资格预审，10-废标流标，11-竞争性谈判，12-竞争性磋商
+	// 采购方式，1-公开招标，2-竞争性谈判，3-单一来源，4-市场询价，5-邀请招标，6-其他
 	@Column
 	private Integer purchasingMethod;
 
 	@Column
-	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅
+	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
 
 	@Column
 	private String monocrystallineSpecification;// 单晶硅规格
@@ -110,7 +129,7 @@ public class BiddingData extends AbstractModel<Long> {
 	private Double polysiliconCapacity;// 多晶硅的采购容量，单位：MW（兆瓦）
 
 	@Column
-	private Integer deploymentType;// 产品的部署类型，1-分布式、2-集中式、3-渔光、4-农光，需要乐叶确定
+	private Integer deploymentType;// 产品的部署类型（可能会发生变化），1-分布式、2-集中式、3-渔光、4-农光，需要乐叶确定
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -123,10 +142,10 @@ public class BiddingData extends AbstractModel<Long> {
 	private Date winTime;// 中标时间
 
 	@Column
-	private Double biddingBudget;// 招标预算
+	private Double biddingBudget;// 招标预算，单位：万元
 
 	@Column
-	private Double winTotalAmount;// 中标总金额
+	private Double winTotalAmount;// 中标总金额，单位：万元
 
 	@Column(columnDefinition = "text")
 	private String winCompanyInfo;// 中标单位信息，只用于查询
@@ -238,11 +257,11 @@ public class BiddingData extends AbstractModel<Long> {
 		this.projectAddress = projectAddress;
 	}
 
-	public String getProjectProvince() {
+	public Integer getProjectProvince() {
 		return projectProvince;
 	}
 
-	public void setProjectProvince(String projectProvince) {
+	public void setProjectProvince(Integer projectProvince) {
 		this.projectProvince = projectProvince;
 	}
 

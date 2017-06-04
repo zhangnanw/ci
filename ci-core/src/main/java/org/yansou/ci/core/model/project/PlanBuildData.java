@@ -50,7 +50,7 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private String projectAddress;// 项目详细地址
 
 	@Column
-	private String projectProvince;// 项目地址，省
+	private Integer projectProvince;// 项目地址，省
 
 	@Column
 	private String projectCity;// 项目地址，市
@@ -68,7 +68,7 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
-	private Integer planBuildStatus;// 拟在建项目阶段，由乐叶提供
+	private String planBuildStatus;// 拟在建项目阶段
 
 	@Column
 	private String purchaseSituation;// 设备购置情况，直接从RCC中获取
@@ -170,11 +170,11 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.projectAddress = projectAddress;
 	}
 
-	public String getProjectProvince() {
+	public Integer getProjectProvince() {
 		return projectProvince;
 	}
 
-	public void setProjectProvince(String projectProvince) {
+	public void setProjectProvince(Integer projectProvince) {
 		this.projectProvince = projectProvince;
 	}
 
@@ -218,11 +218,11 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.parentCompany = parentCompany;
 	}
 
-	public Integer getPlanBuildStatus() {
+	public String getPlanBuildStatus() {
 		return planBuildStatus;
 	}
 
-	public void setPlanBuildStatus(Integer planBuildStatus) {
+	public void setPlanBuildStatus(String planBuildStatus) {
 		this.planBuildStatus = planBuildStatus;
 	}
 
