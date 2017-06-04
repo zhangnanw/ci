@@ -3,6 +3,7 @@ package org.yansou.ci.storage.ciimp;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,18 +47,35 @@ public class CorvToBidding extends AbsStatistics {
 		}
 	}
 
+	static String[] filterKeyword = { "_中国电力招标网" };
+
+	/**
+	 * 过滤快照
+	 * 
+	 * @param snapshot
+	 */
+	void filterSnapshot(SnapshotInfo snapshot) {
+		String ctx = snapshot.getContext();
+		for (String keyword : filterKeyword) {
+			ctx = StringUtils.replace(ctx, keyword, "");
+		}
+		snapshot.setContext(ctx);
+
+	}
+
 	void store(JSONObject obj) {
 		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
-		SnapshotInfo snapsshot = new SnapshotInfo();
-		snapsshot.setDataType(1);
-		snapsshot.setSnapshotId(UUID.randomUUID().toString());
-		snapsshot.setContext(new Readability(obj.getString("context")).init().outerHtml());
+		SnapshotInfo snapshot = new SnapshotInfo();
+		snapshot.setDataType(1);
+		snapshot.setSnapshotId(UUID.randomUUID().toString());
+		snapshot.setContext(new Readability(obj.getString("context")).init().outerHtml());
+		filterSnapshot(snapshot);
 		BiddingData data = rd.get();
-		if (LTFilter.isSave(data, snapsshot)) {
-			data.setSnapshotId(snapsshot.getSnapshotId());
+		if (LTFilter.isSave(data, snapshot)) {
+			data.setSnapshotId(snapshot.getSnapshotId());
 			data.setUrl(obj.getString("url"));
 			try {
-				biddingDataService.saveDataAndSnapshotInfo(data, snapsshot);
+				biddingDataService.saveDataAndSnapshotInfo(data, snapshot);
 				LOG.info("insert bidding");
 			} catch (DaoException e) {
 				LOG.error(e);
