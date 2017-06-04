@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.data.mining.nlpir.impl.AreaAnalyzer;
+import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

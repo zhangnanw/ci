@@ -56,11 +56,15 @@ public class CorvToBidding extends AbsStatistics {
 	 */
 	void filterSnapshot(SnapshotInfo snapshot) {
 		String ctx = snapshot.getContext();
+		if (StringUtils.isNotBlank(ctx)) {
+			return;
+		}
 		for (String keyword : filterKeyword) {
 			ctx = StringUtils.replace(ctx, keyword, "");
 		}
+		// 删除所有A标签
+		ctx = ctx.replaceAll("(?is)</?\\s*a\\s*[^>]*>", "");
 		snapshot.setContext(ctx);
-
 	}
 
 	void store(JSONObject obj) {
