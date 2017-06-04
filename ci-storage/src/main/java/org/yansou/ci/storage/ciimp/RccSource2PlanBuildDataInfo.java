@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,8 @@ public final class RccSource2PlanBuildDataInfo {
 
 		Double projectCost = null;// 项目造价，单位：万元
 
-		Double projectTotalInvestment = proObj.getDouble("investment_amounts") / 10000;// 项目总投资，单位：万元
+		Double projectTotalInvestment = Optional.ofNullable(proObj.getDouble("investment_amounts"))
+				.filter(Objects::nonNull).map(x -> x / 10000).orElse(null);// 项目总投资，单位：万元
 
 		String projectDescription = null;// 项目描述
 
@@ -127,8 +129,12 @@ public final class RccSource2PlanBuildDataInfo {
 		info.setProjectDistrict(projectDistrict);
 		info.setProjectIdentifie(projectIdentifie);
 		info.setProjectName(projectName);
-		info.setProjectProvince(codeMap
-				.get(codeMap.keySet().stream().filter(key -> key.contains(projectProvince)).findAny().orElse(null)));
+		if (StringUtils.isNotBlank(projectProvince)) {
+			codeMap.keySet().stream().filter(Objects::nonNull).filter(key -> key.contains(projectProvince))
+					.forEach(key -> {
+						info.setProjectProvince(codeMap.get(key));
+					});
+		}
 		info.setProjectScale(projectScale);
 		info.setProjectTotalInvestment(projectTotalInvestment);
 		info.setPurchaseSituation(purchaseSituation);

@@ -33,12 +33,14 @@ public class CorvToBidding extends AbsStatistics {
 	private BiddingDataService biddingDataService;
 
 	public void run() {
+
 		try {
 			TimeStat ts = new TimeStat();
 			String sql = "select * from tab_raw_bidd where url not in(SELECT url from `intelligence-"
-					+ TmpConfigRead.getCfgName() + "`.ci_bidding_data) limit 1000";
+					+ TmpConfigRead.getCfgName() + "`.ci_bidding_data) limit 99999999";
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
+			System.out.println("tab_raw_bidd:size=" + arr.size());
 			ts.buriePrint("bidding-query-time:{}", LOG::info);
 			JSONUtils.streamJSONObject(arr).forEach(this::store);
 			ts.buriePrint("bidding-read-time:{}", LOG::info);

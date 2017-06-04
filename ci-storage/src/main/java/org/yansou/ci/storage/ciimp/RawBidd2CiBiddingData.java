@@ -2,7 +2,9 @@ package org.yansou.ci.storage.ciimp;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
@@ -152,8 +154,12 @@ public class RawBidd2CiBiddingData {
 		info.setPurchasingContactPhone(purchasingContactPhone);
 		info.setProjectTotalInvestment(projectTotalInvestment);
 		info.setProjectScale(projectScale);
-		info.setProjectProvince(codeMap
-				.get(codeMap.keySet().stream().filter(key -> key.contains(projectProvince)).findAny().orElse(null)));
+		if (StringUtils.isNotBlank(projectProvince)) {
+			codeMap.keySet().stream().filter(Objects::nonNull).filter(key -> key.contains(projectProvince))
+					.forEach(key -> {
+						info.setProjectProvince(codeMap.get(key));
+					});
+		}
 		info.setProjectName(projectName);
 		info.setProjectIdentifie(projectIdentifie);
 		info.setProjectDistrict(projectDistrict);

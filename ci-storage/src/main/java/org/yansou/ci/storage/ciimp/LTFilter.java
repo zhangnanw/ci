@@ -16,14 +16,7 @@ public class LTFilter {
 	private static final String[] KEYWORDS = { "光伏组件", "光伏面板", "太阳能电池板", "光伏电池组件", "单晶组件", "多晶组件", "晶硅组件" };
 
 	final static public boolean isSave(PlanBuildData data, SnapshotInfo snapshot) {
-
-		String title = data.getProjectName();
-		if (StringUtils.isNotBlank(title)) {
-			return _isSave(title);
-		} else {
-			String context = snapshot.getContext();
-			return _isSave(context);
-		}
+		return true;
 	}
 
 	final static public boolean isSave(BiddingData data, SnapshotInfo snapshot) {
