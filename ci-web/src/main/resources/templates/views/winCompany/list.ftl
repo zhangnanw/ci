@@ -23,7 +23,7 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>${biddingData.projectName} - 中标单位信息</h2>
+					<h2>${(biddingData.projectName)!'招中标数据'} - 中标单位信息</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome/index">首页</a>
@@ -43,38 +43,34 @@
 
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
-
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="product_name">中标单位</label>
-								<input type="text" id="product_name" name="product_name" value=""
-									   placeholder="Product Name"
+								<label class="control-label" for="companyName">中标单位</label>
+								<input type="text" id="companyName" name="companyName" value=""
+									   placeholder="" class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="winAmount">中标金额</label>
+								<input type="text" id="winAmount" name="winAmount" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="price">中标金额</label>
-								<input type="text" id="price" name="price" value="" placeholder="Price"
+								<label class="control-label" for="winPrice">中标单价</label>
+								<input type="text" id="winPrice" name="winPrice" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="quantity">中标单价</label>
-								<input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
+								<label class="control-label" for="winCapacity">中标容量（兆瓦）</label>
+								<input type="text" id="winCapacity" name="winCapacity" value="" placeholder=""
 									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="status">中标容量（兆瓦）</label>
-								<select name="status" id="status" class="form-control">
-									<option value="1" selected>Enabled</option>
-									<option value="0">Disabled</option>
-								</select>
 							</div>
 						</div>
 					</div>
@@ -82,8 +78,8 @@
 					<div class="row">
 						<div class="ibox-content">
 							<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
-							<a class="btn btn-w-m btn-success" href="/winCompany/add?biddingDataId=${biddingData
-                            .id}">新增</a>
+							<a class="btn btn-w-m btn-success"
+							   href="/winCompany/add?biddingDataId=${biddingData.id}">新增</a>
 						</div>
 					</div>
 				</div>
@@ -145,7 +141,7 @@
 				"url": "/winCompany/showList",
 				"type": "POST",
 				"data": {
-					"biddingDataId": ${biddingData.id}
+					"biddingData.id": ${biddingData.id}
 				}
 			},
 			"columnDefs": [

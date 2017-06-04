@@ -16,6 +16,7 @@
 <link href="/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
 
 <link href="/css/plugins/datepicker/datepicker3.css" rel="stylesheet">
+<link href="/css/plugins/datepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
 <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
 <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">

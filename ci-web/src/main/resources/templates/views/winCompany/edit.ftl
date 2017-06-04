@@ -47,7 +47,7 @@
 
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>${biddingData.projectName} - 中标单位信息</h5>
+									<h5>${(biddingData.projectName)!'招中标数据'} - 中标单位信息</h5>
 								</div>
 								<div class="ibox-content">
 

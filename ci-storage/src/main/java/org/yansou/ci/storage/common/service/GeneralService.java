@@ -51,13 +51,22 @@ public interface GeneralService<T extends AbstractModel<ID>, ID extends Serializ
 	T[] save(T[] entities) throws DaoException;
 
 	/**
-	 * 删除
+	 * 删除数据，不做物理删除，只更新对应的数据状态
 	 *
 	 * @param id
 	 *
 	 * @throws DaoException
 	 */
-	void deleteById(ID id) throws DaoException;
+	int deleteById(ID id) throws DaoException;
+
+	/**
+	 * 删除数据，不做物理删除，只更新对应的数据状态
+	 *
+	 * @param ids
+	 *
+	 * @throws DaoException
+	 */
+	int deleteById(ID[] ids) throws DaoException;
 
 	/**
 	 * 删除

@@ -1,5 +1,6 @@
 package org.yansou.ci.web.business.project.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +145,17 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		return null;
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/delete";
+
+		LOG.info("删除：{}", ArrayUtils.toString(ids));
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setIds(ids);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
 	}
 }
