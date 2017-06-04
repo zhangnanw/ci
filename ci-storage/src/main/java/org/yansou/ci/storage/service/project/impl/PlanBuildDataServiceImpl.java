@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.model.project.PlanBuildData;
+import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.storage.common.dao.GeneralDao;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.dao.project.PlanBuildDataDao;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
+import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
 /**
  * @author liutiejun
@@ -20,6 +22,8 @@ import org.yansou.ci.storage.service.project.PlanBuildDataService;
 public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, Long> implements PlanBuildDataService {
 
 	private PlanBuildDataDao planBuildDataDao;
+	@Autowired
+	private SnapshotInfoService snapshotInfoService;
 
 	@Autowired
 	@Qualifier("planBuildDataDao")
@@ -44,4 +48,9 @@ public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, 
 		planBuildDataDao.updateStatusUpdate(statusUpdate, id);
 	}
 
+	@Override
+	public void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException {
+		snapshotInfoService.save(snap);
+		this.save(data);
+	}
 }

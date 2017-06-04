@@ -3,7 +3,6 @@ package org.yansou.ci.storage.ciimp;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,15 +12,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.core.model.project.PlanBuildSnapshot;
+import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.data.mining.utils.Readability;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
-import org.yansou.ci.storage.service.project.PlanBuildSnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -34,10 +32,9 @@ import com.alibaba.fastjson.JSONObject;
 @Component
 public class CorvToPlanBuild extends AbsStatistics {
 	private static Logger LOG = LogManager.getLogger(CorvToPlanBuild.class);
+
 	@Autowired
 	private PlanBuildDataService planBuildDataService;
-	@Autowired
-	private PlanBuildSnapshotService planBuildSnapshotService;
 
 	Stream<JSONObject> filter(Stream<JSONObject> strema) {
 		Map<Object, List<JSONObject>> bg = strema
@@ -74,53 +71,52 @@ public class CorvToPlanBuild extends AbsStatistics {
 					+ TmpConfigRead.getCfgName() + "`.ci_plan_build_data)";
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("plan-build-query-time:{}", LOG::info);
-			filter(JSONUtils.streamJSONObject(arr)).map(project -> {
-				JSONObject source = getSourceObj(project.getString("rowkey"));
-				PlanBuildSnapshot ent = new PlanBuildSnapshot();
-				ent.setContext(source.getString("page_source"));
-				ent.setSnapshotId(UUID.randomUUID().toString());
-				try {
+			filter(JSONUtils.streamJSONObject(arr)).forEachOrdered(this::store);
 
-					PlanBuildData df = new RccSource2PlanBuildDataInfo(source, project).get();
-					if (LTFilter.isSave(df, ent)) {
-						ent = planBuildSnapshotService.save(ent);
-					} else {
-						return null;
-					}
-					df.setSnapshotId(ent.getSnapshotId());
-					df.setUrl("/snapshot/planbuild/" + ent.getSnapshotId());
-					return df;
-				} catch (DaoException e) {
-					throw new IllegalStateException(e);
-				}
-			}).filter(Objects::nonNull).map(data -> {
-				PlanBuildData rs = planBuildDataService.findByProjectIdentifie(data.getProjectIdentifie());
-				if (null != rs) {
-					System.out.println("id:" + rs.getId());
-					data.setId(rs.getId());
-				}
-				PojoUtils.trimAllStringField(data);
-				return data;
-			}).map(this::save).forEach(System.out::println);
-			ts.buriePrint("plan-build-read-time:{}", LOG::info);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-	private PlanBuildData save(PlanBuildData data) {
-		if (data.getId() == null) {
-			System.out.println("insert");
-			try {
-				return planBuildDataService.save(data);
-			} catch (DaoException e) {
-				throw new IllegalStateException(e);
+	/**
+	 * 保存逻辑
+	 * 
+	 * @param project
+	 */
+	public void store(JSONObject project) {
+		// 获得网页源码
+		JSONObject source = getSourceObj(project.getString("rowkey"));
+		// 生成快照对象
+		SnapshotInfo snapshot = new SnapshotInfo();
+		snapshot.setDataType(2);
+		snapshot.setContext(new Readability(source.getString("page_source")).init().outerHtml());
+		snapshot.setSnapshotId(UUID.randomUUID().toString());
+		try {
+			// 解析数据，生成拟在建信息。
+			PlanBuildData data = new RccSource2PlanBuildDataInfo(source, project).get();
+			// 判断是否可以保存
+			if (!LTFilter.isSave(data, snapshot)) {
+				return;
 			}
-		} else {
-			planBuildDataService.updateStatusUpdate(data.getStatusUpdate(), data.getId());
-			System.out.println("updateStatusUpdate");
+			// 继续赋值快照ID和URL。
+			data.setSnapshotId(snapshot.getSnapshotId());
+			data.setUrl(source.getString("url"));
+			// 清理一下对象
+			PojoUtils.trimAllStringField(data);
+			// 根据对象唯一标识查找库中数据
+			PlanBuildData rs = planBuildDataService.findByProjectIdentifie(data.getProjectIdentifie());
+			// 如果不存在，插入新数据
+			if (rs == null) {
+				System.out.println("insert plan build.");
+				planBuildDataService.saveDataAndSnapshotInfo(data, snapshot);
+			} else {
+				// 否则只更新状态即可
+				planBuildDataService.updateStatusUpdate(data.getStatusUpdate(), data.getId());
+				LOG.info("updateStatusUpdate");
+			}
+		} catch (Exception e) {
+			LOG.error(e);
 		}
-		return data;
 	}
 
 	private JSONObject getSourceObj(String rowkey) {

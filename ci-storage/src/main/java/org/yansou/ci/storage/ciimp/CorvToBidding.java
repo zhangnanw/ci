@@ -1,9 +1,9 @@
 package org.yansou.ci.storage.ciimp;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,9 @@ import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.BiddingSnapshot;
+import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.data.mining.utils.Readability;
 import org.yansou.ci.storage.service.project.BiddingDataService;
-import org.yansou.ci.storage.service.project.BiddingSnapshotService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -31,8 +31,6 @@ public class CorvToBidding extends AbsStatistics {
 
 	@Autowired
 	private BiddingDataService biddingDataService;
-	@Autowired
-	private BiddingSnapshotService biddingSnapshotService;
 
 	public void run() {
 		try {
@@ -42,37 +40,46 @@ public class CorvToBidding extends AbsStatistics {
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("bidding-query-time:{}", LOG::info);
-			JSONUtils.streamJSONObject(arr).map(this::toBiddingData).filter(Objects::nonNull).map(x -> {
-				try {
-					return biddingDataService.save(x);
-				} catch (DaoException e) {
-					throw new IllegalStateException(e);
-				}
-			}).forEach(System.out::println);
+			JSONUtils.streamJSONObject(arr).forEach(this::store);
 			ts.buriePrint("bidding-read-time:{}", LOG::info);
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-	BiddingData toBiddingData(JSONObject obj) {
-		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
-		BiddingSnapshot ent = new BiddingSnapshot();
-		ent.setSnapshotId(UUID.randomUUID().toString());
-		ent.setContext(obj.getString("context"));
-		try {
+	static String[] filterKeyword = { "_中国电力招标网" };
 
-			BiddingData res = rd.get();
-			if (LTFilter.isSave(res, ent)) {
-				ent = biddingSnapshotService.save(ent);
-			} else {
-				return null;
+	/**
+	 * 过滤快照
+	 * 
+	 * @param snapshot
+	 */
+	void filterSnapshot(SnapshotInfo snapshot) {
+		String ctx = snapshot.getContext();
+		for (String keyword : filterKeyword) {
+			ctx = StringUtils.replace(ctx, keyword, "");
+		}
+		snapshot.setContext(ctx);
+
+	}
+
+	void store(JSONObject obj) {
+		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
+		SnapshotInfo snapshot = new SnapshotInfo();
+		snapshot.setDataType(1);
+		snapshot.setSnapshotId(UUID.randomUUID().toString());
+		snapshot.setContext(new Readability(obj.getString("context")).init().outerHtml());
+		filterSnapshot(snapshot);
+		BiddingData data = rd.get();
+		if (LTFilter.isSave(data, snapshot)) {
+			data.setSnapshotId(snapshot.getSnapshotId());
+			data.setUrl(obj.getString("url"));
+			try {
+				biddingDataService.saveDataAndSnapshotInfo(data, snapshot);
+				LOG.info("insert bidding");
+			} catch (DaoException e) {
+				LOG.error(e);
 			}
-			res.setSnapshotId(ent.getSnapshotId());
-			res.setUrl("/snapshot/bidding/" + ent.getSnapshotId());
-			return res;
-		} catch (DaoException e) {
-			throw new IllegalStateException(e);
 		}
 
 	}

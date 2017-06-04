@@ -12,73 +12,91 @@ import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
-import org.yansou.ci.core.model.AbstractModel;
-import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.model.project.SnapshotInfo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.core.rest.response.project.BiddingDataArrayResponse;
-import org.yansou.ci.core.rest.response.project.BiddingDataPaginationResponse;
-import org.yansou.ci.core.rest.response.project.BiddingDataResponse;
-import org.yansou.ci.web.business.project.BiddingDataBusiness;
+import org.yansou.ci.core.rest.response.project.SnapshotInfoArrayResponse;
+import org.yansou.ci.core.rest.response.project.SnapshotInfoPaginationResponse;
+import org.yansou.ci.core.rest.response.project.SnapshotInfoResponse;
+import org.yansou.ci.web.business.project.SnapshotInfoBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author liutiejun
- * @create 2017-05-14 0:42
+ * @create 2017-05-31 21:52
  */
-@Component("biddingDataBusiness")
-public class BiddingDataBusinessImpl implements BiddingDataBusiness {
+@Component("snapshotInfoBusiness")
+public class SnapshotInfoBusinessImpl implements SnapshotInfoBusiness {
 
-	private static final Logger LOG = LogManager.getLogger(BiddingDataBusinessImpl.class);
+	private static final Logger LOG = LogManager.getLogger(SnapshotInfoBusinessImpl.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
-	public BiddingData findById(Long id) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
+	public SnapshotInfo findById(Long id) {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/find";
 
-		BiddingData biddingData = new BiddingData();
-		biddingData.setId(id);
+		SnapshotInfo snapshotInfo = new SnapshotInfo();
+		snapshotInfo.setId(id);
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setBiddingData(biddingData);
+		restRequest.setSnapshotInfo(snapshotInfo);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, BiddingDataResponse
+		SnapshotInfoResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoResponse
 				.class);
 
-		BiddingData result = restResponse.getResult();
+		SnapshotInfo result = restResponse.getResult();
 
 		return result;
 	}
 
 	@Override
-	public BiddingData[] findAll() {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
+	public SnapshotInfo findBySnapshotId(String snapshotId) {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/find";
+
+		SnapshotInfo snapshotInfo = new SnapshotInfo();
+		snapshotInfo.setSnapshotId(snapshotId);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setSnapshotInfo(snapshotInfo);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		SnapshotInfoResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoResponse.class);
+
+		SnapshotInfo result = restResponse.getResult();
+
+		return result;
+	}
+
+	@Override
+	public SnapshotInfo[] findAll() {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/find";
 
 		RestRequest restRequest = new RestRequest();
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				BiddingDataArrayResponse.class);
+		SnapshotInfoArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				SnapshotInfoArrayResponse.class);
 
-		BiddingData[] biddingDatas = restResponse.getResult();
+		SnapshotInfo[] snapshotInfos = restResponse.getResult();
 
-		if (biddingDatas == null) {
-			biddingDatas = new BiddingData[0];
+		if (snapshotInfos == null) {
+			snapshotInfos = new SnapshotInfo[0];
 		}
 
-		return biddingDatas;
+		return snapshotInfos;
 	}
 
 	@Override
-	public DataTablesOutput<BiddingData> pagination(HttpServletRequest request) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/pagination";
+	public DataTablesOutput<SnapshotInfo> pagination(HttpServletRequest request) {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/pagination";
 
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		LOG.info("dataTablesInput: {}", dataTablesInput);
@@ -95,35 +113,30 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		BiddingDataPaginationResponse restResponse = null;
+		SnapshotInfoPaginationResponse restResponse = null;
 		try {
-			restResponse = restTemplate.postForObject(requestUrl, httpEntity, BiddingDataPaginationResponse.class);
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoPaginationResponse.class);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}
 
-		Pagination<BiddingData> pagination = null;
+		Pagination<SnapshotInfo> pagination = null;
 		if (restResponse != null) {
 			pagination = restResponse.getResult();
 		}
 
 		if (pagination == null) {
-			pagination = new Pagination<>(0L, 10, 1, new BiddingData[0]);
+			pagination = new Pagination<>(0L, 10, 1, new SnapshotInfo[0]);
 		}
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<BiddingData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
+		DataTablesOutput<SnapshotInfo> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
 				.getDraw(), restResponse.getErrors());
 
 		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
 		return dataTablesOutput;
-	}
-
-	private void updateStatus(PageCriteria pageCriteria) {
-		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
-				Integer.class.getTypeName(), SearchInfo.SearchOp.EQ);
 	}
 
 	private void updateProductType(PageCriteria pageCriteria) {
@@ -142,11 +155,11 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public IdResponse save(BiddingData entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/save";
+	public IdResponse save(SnapshotInfo entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/save";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setBiddingData(entity);
+		restRequest.setSnapshotInfo(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -156,11 +169,11 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public IdResponse update(BiddingData entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/update";
+	public IdResponse update(SnapshotInfo entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/snapshotInfo/update";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setBiddingData(entity);
+		restRequest.setSnapshotInfo(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 

@@ -83,7 +83,7 @@ function deleteForDataTable(clickObj) {
             "success": function (data) {
                 if (data.status === 200 && data.result.count > 0) {
                     var nRow = $(clickObj).parents('tr')[0];
-                    var oTable = $('#' + tableId).dataTable();
+                    var oTable = $('#' + tableId).DataTable();
 
                     var start = oTable.fnSettings()._iDisplayStart;
                     var total = oTable.fnSettings().fnRecordsDisplay();
