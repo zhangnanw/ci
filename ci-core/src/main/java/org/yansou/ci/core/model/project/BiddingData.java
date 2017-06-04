@@ -128,7 +128,7 @@ public class BiddingData extends AbstractModel<Long> {
 	@Column
 	private Double winTotalAmount;// 中标总金额
 
-	@Column
+	@Column(columnDefinition = "text")
 	private String winCompanyInfo;// 中标单位信息，只用于查询
 
 	@Column

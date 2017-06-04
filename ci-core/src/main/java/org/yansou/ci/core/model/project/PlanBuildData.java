@@ -90,6 +90,9 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private Date publishTime;// 发布时间
 
 	@Column
+	private String remarks;// 备注
+
+	@Column
 	private String url;// 数据的原始地址
 
 	@Column
@@ -261,6 +264,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	public void setPublishTime(Date publishTime) {
 		this.publishTime = publishTime;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public String getUrl() {
