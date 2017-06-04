@@ -98,6 +98,8 @@
 									<option value="" selected>--请选择--</option>
 									<option value="1">单晶硅</option>
 									<option value="2">多晶硅</option>
+									<option value="3">单晶硅、多晶硅</option>
+									<option value="4">未知</option>
 								</select>
 							</div>
 						</div>
@@ -118,18 +120,12 @@
 								<label class="control-label" for="status">采购方式</label>
 								<select name="purchasingMethod" id="purchasingMethod" class="form-control">
 									<option value="" selected>--请选择--</option>
-									<option value="1">邀标公告</option>
-									<option value="2">询价公告</option>
-									<option value="3">招标公告</option>
-									<option value="4">中标公告</option>
-									<option value="5">成交公告</option>
-									<option value="6">更正公告</option>
-									<option value="7">其他公告</option>
-									<option value="8">单一来源</option>
-									<option value="9">资格预审</option>
-									<option value="10">废标流标</option>
-									<option value="11">竞争性谈判</option>
-									<option value="12">竞争性磋商</option>
+									<option value="1">公开招标</option>
+									<option value="2">竞争性谈判</option>
+									<option value="3">单一来源</option>
+									<option value="4">市场询价</option>
+									<option value="5">邀请招标</option>
+									<option value="6">其他</option>
 								</select>
 							</div>
 						</div>
@@ -491,7 +487,7 @@
 		for (var wciIdx in wciData) {
 			allWciStr = allWciStr +
 					'<tr>' +
-					'<td>' + (wciIdx + 1) + '</td>' +
+					'<td>' + (parseInt(wciIdx) + 1) + '</td>' +
 					'<td>' + wciData[wciIdx].companyName + '</td>' +
 					'<td>' + wciData[wciIdx].winCapacity + '</td>' +
 					'</tr>';

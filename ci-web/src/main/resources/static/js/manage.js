@@ -77,6 +77,7 @@ function deleteForDataTable(clickObj) {
     $.alertable.confirm('您确定要删除这一条数据吗?').then(function () {//Confirmation submitted
         var path = $(clickObj).attr("res");
         var tableId = $(".table").attr("id");
+        alert("tableId:" + tableId);
 
         $.ajax({
             "url": path,
@@ -84,13 +85,14 @@ function deleteForDataTable(clickObj) {
                 if (data.status === 200 && data.result.count > 0) {
                     var nRow = $(clickObj).parents('tr')[0];
                     var oTable = $('#' + tableId).DataTable();
+                    var info = oTable.page.info();
 
-                    var start = oTable.fnSettings()._iDisplayStart;
-                    var total = oTable.fnSettings().fnRecordsDisplay();
+                    var start = info.start;
+                    var end = info.end;
 
                     if (total - start === 1) {// 删除当前页的最后一条数据
                         if (start > 0) {
-                            oTable.fnPageChange('previous', true);
+                            oTable.page('previous').draw(true);
                         } else {
                             oTable.fnDeleteRow(nRow);
                         }
@@ -104,7 +106,7 @@ function deleteForDataTable(clickObj) {
                 }
             },
             "error": function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                $.alertable.alert("数据无法删除");
             },
             "dataType": "json"
         });
@@ -170,7 +172,7 @@ function delAllCheck(clickObj) {
                     }
                 },
                 "error": function (jqXHR, textStatus, errorThrown) {
-                    alert(jqXHR.responseText);
+                    $.alertable.alert("数据无法删除");
                 },
                 "dataType": "json"
             });

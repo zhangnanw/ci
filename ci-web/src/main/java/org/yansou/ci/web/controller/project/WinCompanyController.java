@@ -176,7 +176,9 @@ public class WinCompanyController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public CountResponse delete(Long[] ids, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return null;
+		CountResponse restResponse = winCompanyBusiness.deleteById(ids);
+
+		return restResponse;
 	}
 
 }

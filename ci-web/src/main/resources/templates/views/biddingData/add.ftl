@@ -47,7 +47,16 @@
 									<h5>招中标数据</h5>
 								</div>
 								<div class="ibox-content">
-
+									<div class="form-group"><label>公告类型</label>
+										<select class="select2_dataType form-control" name="dataType">
+											<option></option>
+											<option value="1">招标公告</option>
+											<option value="2">中标公告</option>
+											<option value="3">更正公告</option>
+											<option value="4">废标公告</option>
+											<option value="5">流标公告</option>
+										</select>
+									</div>
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
 											   name="projectName">
@@ -67,45 +76,44 @@
 									<div class="form-group"><label>项目地址（省）</label>
 										<select class="select2_projectProvince form-control" name="projectProvince">
 											<option></option>
-											<option value="北京市">北京市</option>
-											<option value="天津市">天津市</option>
-											<option value="上海市">上海市</option>
-											<option value="重庆市">重庆市</option>
-											<option value="安徽省">安徽省</option>
-											<option value="福建省">福建省</option>
-											<option value="甘肃省">甘肃省</option>
-											<option value="广东省">广东省</option>
-											<option value="贵州省">贵州省</option>
-											<option value="海南省">海南省</option>
-											<option value="河北省">河北省</option>
-											<option value="河南省">河南省</option>
-											<option value="湖北省">湖北省</option>
-											<option value="湖南省">湖南省</option>
-											<option value="吉林省">吉林省</option>
-											<option value="江苏省">江苏省</option>
-											<option value="江西省">江西省</option>
-											<option value="辽宁省">辽宁省</option>
-											<option value="青海省">青海省</option>
-											<option value="山东省">山东省</option>
-											<option value="山西省">山西省</option>
-											<option value="陕西省">陕西省</option>
-											<option value="四川省">四川省</option>
-											<option value="云南省">云南省</option>
-											<option value="浙江省">浙江省</option>
-											<option value="台湾省">台湾省</option>
-											<option value="黑龙江省">黑龙江省</option>
-											<option value="西藏自治区">西藏自治区</option>
-											<option value="内蒙古自治区">内蒙古自治区</option>
-											<option value="宁夏回族自治区">宁夏回族自治区</option>
-											<option value="广西壮族自治区">广西壮族自治区</option>
-											<option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
-											<option value="香港特别行政区">香港特别行政区</option>
-											<option value="澳门特别行政区">澳门特别行政区</option>
+											<option value="1">北京市</option>
+											<option value="2">天津市</option>
+											<option value="3">上海市</option>
+											<option value="4">重庆市</option>
+											<option value="5">安徽省</option>
+											<option value="6">福建省</option>
+											<option value="7">甘肃省</option>
+											<option value="8">广东省</option>
+											<option value="9">贵州省</option>
+											<option value="10">海南省</option>
+											<option value="11">河北省</option>
+											<option value="12">河南省</option>
+											<option value="13">湖北省</option>
+											<option value="14">湖南省</option>
+											<option value="15">吉林省</option>
+											<option value="16">江苏省</option>
+											<option value="17">江西省</option>
+											<option value="18">辽宁省</option>
+											<option value="19">青海省</option>
+											<option value="20">山东省</option>
+											<option value="21">山西省</option>
+											<option value="22">陕西省</option>
+											<option value="23">四川省</option>
+											<option value="24">云南省</option>
+											<option value="25">浙江省</option>
+											<option value="26">台湾省</option>
+											<option value="27">黑龙江省</option>
+											<option value="28">西藏自治区</option>
+											<option value="29">内蒙古自治区</option>
+											<option value="30">宁夏回族自治区</option>
+											<option value="31">广西壮族自治区</option>
+											<option value="32">新疆维吾尔自治区</option>
+											<option value="33">香港特别行政区</option>
+											<option value="34">澳门特别行政区</option>
 										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
-										<textarea class="form-control" placeholder="采购人" name="projcetOwner"
-												  rows="10"></textarea>
+										<textarea class="form-control" placeholder="采购人" name="projcetOwner"></textarea>
 									</div>
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
@@ -113,18 +121,12 @@
 									<div class="form-group"><label>采购方式</label>
 										<select class="select2_purchasingMethod form-control" name="purchasingMethod">
 											<option></option>
-											<option value="1">邀标公告</option>
-											<option value="2">询价公告</option>
-											<option value="3">招标公告</option>
-											<option value="4">中标公告</option>
-											<option value="5">成交公告</option>
-											<option value="6">更正公告</option>
-											<option value="7">其他公告</option>
-											<option value="8">单一来源</option>
-											<option value="9">资格预审</option>
-											<option value="10">废标流标</option>
-											<option value="11">竞争性谈判</option>
-											<option value="12">竞争性磋商</option>
+											<option value="1">公开招标</option>
+											<option value="2">竞争性谈判</option>
+											<option value="3">单一来源</option>
+											<option value="4">市场询价</option>
+											<option value="5">邀请招标</option>
+											<option value="6">其他</option>
 										</select>
 									</div>
 									<div class="form-group"><label>产品部署类型</label>
@@ -134,6 +136,15 @@
 											<option value="2">集中式</option>
 											<option value="3">渔光</option>
 											<option value="4">农光</option>
+										</select>
+									</div>
+									<div class="form-group"><label>产品类型</label>
+										<select class="select2_deploymentType form-control" name="productType">
+											<option></option>
+											<option value="1">单晶硅</option>
+											<option value="2">多晶硅</option>
+											<option value="3">单晶硅、多晶硅</option>
+											<option value="4">未知</option>
 										</select>
 									</div>
 									<div class="form-group"><label>单晶硅规格</label>
@@ -152,10 +163,10 @@
 										<input type="text" class="form-control" placeholder="多晶硅的采购容量，单位：MW（兆瓦）"
 											   name="polysiliconCapacity">
 									</div>
-									<div class="form-group"><label>招标预算</label>
+									<div class="form-group"><label>招标预算，单位：万元</label>
 										<input type="text" class="form-control" placeholder="100" name="biddingBudget">
 									</div>
-									<div class="form-group"><label>中标总金额</label>
+									<div class="form-group"><label>中标总金额，单位：万元</label>
 										<input type="text" class="form-control" placeholder="100" name="winTotalAmount">
 									</div>
 									<div class="form-group"><label>代理机构</label>
@@ -250,6 +261,11 @@
 	}();
 
 	$(document).ready(function () {
+		$(".select2_dataType").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
 		$(".select2_projectProvince").select2({
 			placeholder: "--请选择--",
 			allowClear: true

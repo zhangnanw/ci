@@ -160,7 +160,9 @@ public class PlanBuildDataController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public CountResponse delete(Long[] ids, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return null;
+		CountResponse restResponse = planBuildDataBusiness.deleteById(ids);
+
+		return restResponse;
 	}
 
 }
