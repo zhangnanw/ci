@@ -13,6 +13,7 @@ spring:
       hibernate:
         hbm2ddl:
           auto: update
+        show_sql: true
 eureka:
   client:
     serviceUrl:

@@ -100,8 +100,7 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw
-				(), restResponse.getErrors());
+		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
 
 		LOG.info("dataTableVo: {}", dataTablesOutput);
 

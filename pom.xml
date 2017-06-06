@@ -31,6 +31,8 @@
         <module>ci-off-line</module>
         <!-- 实时计算 -->
         <module>ci-real-time</module>
+        <!-- 定时任务 -->
+        <module>ci-schedule</module>
         <!-- 数据存储 -->
         <module>ci-storage</module>
         <!-- 前端访问页面 -->

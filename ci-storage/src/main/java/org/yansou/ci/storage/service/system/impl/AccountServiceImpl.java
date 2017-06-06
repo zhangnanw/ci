@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.core.model.system.Account;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.system.AccountDao;
+import org.yansou.ci.storage.repository.system.AccountRepository;
 import org.yansou.ci.storage.service.system.AccountService;
 
 /**
@@ -18,20 +18,19 @@ import org.yansou.ci.storage.service.system.AccountService;
 @Transactional
 public class AccountServiceImpl extends GeneralServiceImpl<Account, Long> implements AccountService {
 
-	private AccountDao accountDao;
+	private AccountRepository accountRepository;
 
 	@Autowired
-	@Qualifier("accountDao")
+	@Qualifier("accountRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<Account, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.accountDao = (AccountDao) generalDao;
+	public void setGeneralRepository(GeneralRepository<Account, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.accountRepository = (AccountRepository) generalRepository;
 	}
-
 
 	@Override
 	public int updateStatus(Integer status, Long id) {
-		return accountDao.updateStatus(status, id);
+		return accountRepository.updateStatus(status, id);
 	}
 
 }

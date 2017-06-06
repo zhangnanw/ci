@@ -22,7 +22,7 @@ public class SearchInfo {
 	/**
 	 * 查询的字段值
 	 */
-	private String value;
+	private Object value;
 	/**
 	 * 字段类型
 	 */
@@ -35,7 +35,7 @@ public class SearchInfo {
 	public SearchInfo() {
 	}
 
-	public SearchInfo(String propertyName, String value, String valueType, SearchOp searchOp) {
+	public SearchInfo(String propertyName, Object value, String valueType, SearchOp searchOp) {
 		this.propertyName = propertyName;
 		this.value = value;
 		this.valueType = valueType;
@@ -50,11 +50,11 @@ public class SearchInfo {
 		this.propertyName = propertyName;
 	}
 
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 

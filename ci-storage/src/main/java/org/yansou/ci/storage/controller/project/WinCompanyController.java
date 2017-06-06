@@ -106,7 +106,7 @@ public class WinCompanyController {
 
 		WinCompany winCompany = restRequest.getWinCompany();
 		if (winCompany != null) {// 单个更新
-			winCompany = winCompanyService.update(winCompany);
+			winCompanyService.updateNotNullField(winCompany);
 
 			return SimpleRestResponse.id(winCompany.getId());
 		}

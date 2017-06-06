@@ -69,7 +69,7 @@ public class DataTablesUtils {
 	 * @param valueType
 	 * @param searchOp
 	 */
-	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, String value, String
+	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, Object value, String
 			valueType, SearchInfo.SearchOp searchOp) {
 		SearchInfo searchInfo = new SearchInfo();
 		searchInfo.setPropertyName(propertyName);
@@ -97,7 +97,7 @@ public class DataTablesUtils {
 				.equals(propertyName)).collect(Collectors.toList());
 
 		ColumnInfo columnInfo = null;
-		if (CollectionUtils.isEmpty(columnInfoList1)) {
+		if (CollectionUtils.isEmpty(columnInfoList1)) {// 没有找到
 			columnInfo = new ColumnInfo();
 
 			columnInfoList.add(columnInfo);
@@ -122,7 +122,10 @@ public class DataTablesUtils {
 				searchInfo.setValue(searchInfo1.getValue());
 			}
 
-			columnInfo.setSearchInfo(searchInfo);
+			if (searchInfo.getValue() != null) {
+				columnInfo.setSearchInfo(searchInfo);
+			}
+
 		}
 
 		if (orderInfo != null) {

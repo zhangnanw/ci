@@ -106,7 +106,7 @@ public class PlanBuildDataController {
 
 		PlanBuildData planBuildData = restRequest.getPlanBuildData();
 		if (planBuildData != null) {// 单个更新
-			planBuildData = planBuildDataService.update(planBuildData);
+			planBuildDataService.updateNotNullField(planBuildData);
 
 			return SimpleRestResponse.id(planBuildData.getId());
 		}

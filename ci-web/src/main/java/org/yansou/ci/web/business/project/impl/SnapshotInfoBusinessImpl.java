@@ -67,7 +67,8 @@ public class SnapshotInfoBusinessImpl implements SnapshotInfoBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		SnapshotInfoResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoResponse.class);
+		SnapshotInfoResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SnapshotInfoResponse
+				.class);
 
 		SnapshotInfo result = restResponse.getResult();
 
@@ -131,8 +132,7 @@ public class SnapshotInfoBusinessImpl implements SnapshotInfoBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<SnapshotInfo> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
-				.getDraw(), restResponse.getErrors());
+		DataTablesOutput<SnapshotInfo> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
 
 		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 

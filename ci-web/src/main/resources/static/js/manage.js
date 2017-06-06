@@ -94,10 +94,10 @@ function deleteForDataTable(clickObj) {
                         if (start > 0) {
                             oTable.page('previous').draw(true);
                         } else {
-                            oTable.fnDeleteRow(nRow);
+                            oTable.row(nRow).delete();
                         }
                     } else {
-                        oTable.fnDeleteRow(nRow);
+                        oTable.row(nRow).delete();
                     }
                 } else if (data.status === 500) {
                     $.alertable.alert(data.errors);

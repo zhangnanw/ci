@@ -106,7 +106,7 @@ public class MergeDataController {
 
 		MergeData mergeData = restRequest.getMergeData();
 		if (mergeData != null) {// 单个更新
-			mergeData = mergeDataService.update(mergeData);
+			mergeDataService.updateNotNullField(mergeData);
 
 			return SimpleRestResponse.id(mergeData.getId());
 		}

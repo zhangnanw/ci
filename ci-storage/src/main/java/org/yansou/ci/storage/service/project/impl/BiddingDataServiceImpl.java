@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.SnapshotInfo;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.BiddingDataDao;
+import org.yansou.ci.storage.repository.project.BiddingDataRepository;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
@@ -22,21 +22,16 @@ import org.yansou.ci.storage.service.project.SnapshotInfoService;
 @Transactional
 public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long> implements BiddingDataService {
 
-	private BiddingDataDao biddingDataDao;
+	private BiddingDataRepository biddingDataRepository;
 	@Autowired
 	private SnapshotInfoService snapshotInfoService;
 
 	@Autowired
-	@Qualifier("biddingDataDao")
+	@Qualifier("biddingDataRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<BiddingData, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.biddingDataDao = (BiddingDataDao) generalDao;
-	}
-
-	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return biddingDataDao.updateStatus(status, id);
+	public void setGeneralRepository(GeneralRepository<BiddingData, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.biddingDataRepository = (BiddingDataRepository) generalRepository;
 	}
 
 	@Override
@@ -80,7 +75,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			entity.setProductType(productType);
 		}
 
-		return biddingDataDao.save(entity);
+		return biddingDataRepository.save(entity);
 	}
 
 	@Override

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.model.project.SnapshotInfo;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.SnapshotInfoDao;
+import org.yansou.ci.storage.repository.project.SnapshotInfoRepository;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
 /**
@@ -20,19 +20,14 @@ import org.yansou.ci.storage.service.project.SnapshotInfoService;
 @Transactional
 public class SnapshotInfoServiceImpl extends GeneralServiceImpl<SnapshotInfo, Long> implements SnapshotInfoService {
 
-	private SnapshotInfoDao snapshotInfoDao;
+	private SnapshotInfoRepository snapshotInfoRepository;
 
 	@Autowired
-	@Qualifier("snapshotInfoDao")
+	@Qualifier("snapshotInfoRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<SnapshotInfo, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.snapshotInfoDao = (SnapshotInfoDao) generalDao;
-	}
-
-	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return snapshotInfoDao.updateStatus(status, id);
+	public void setGeneralRepository(GeneralRepository<SnapshotInfo, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.snapshotInfoRepository = (SnapshotInfoRepository) generalRepository;
 	}
 
 	@Override
@@ -41,7 +36,7 @@ public class SnapshotInfoServiceImpl extends GeneralServiceImpl<SnapshotInfo, Lo
 			return null;
 		}
 
-		return snapshotInfoDao.findSnapshotInfoBySnapshotId(snapshotId);
+		return snapshotInfoRepository.findSnapshotInfoBySnapshotId(snapshotId);
 	}
 
 }

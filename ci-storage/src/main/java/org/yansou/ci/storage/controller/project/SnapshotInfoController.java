@@ -120,7 +120,7 @@ public class SnapshotInfoController {
 
 		SnapshotInfo snapshotInfo = restRequest.getSnapshotInfo();
 		if (snapshotInfo != null) {// 单个更新
-			snapshotInfo = snapshotInfoService.update(snapshotInfo);
+			snapshotInfoService.updateNotNullField(snapshotInfo);
 
 			return SimpleRestResponse.id(snapshotInfo.getId());
 		}

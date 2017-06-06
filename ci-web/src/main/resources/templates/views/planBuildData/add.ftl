@@ -49,19 +49,19 @@
 								<div class="ibox-content">
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
-										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectName">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
-										<input type="text" class="form-control" placeholder="1000000"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectScale">
 									</div>
 									<div class="form-group"><label>项目描述</label>
-										<input type="text" class="form-control" placeholder="项目描述"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectDescription">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
-										<input type="text" class="form-control" placeholder="北京市海淀区"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectAddress">
 									</div>
 									<div class="form-group"><label>项目地址（省）</label>
@@ -104,38 +104,36 @@
 										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
-										<textarea class="form-control" placeholder="采购人" name="projcetOwner"
+										<textarea class="form-control" placeholder="" name="projcetOwner"
 												  rows="10"></textarea>
 									</div>
 									<div class="form-group"><label>母公司</label>
-										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
+										<input type="text" class="form-control" placeholder="" name="parentCompany">
 									</div>
 									<div class="form-group"><label>拟在建项目阶段</label>
-										<input type="text" class="form-control" placeholder="1" name="planBuildStatus">
+										<input type="text" class="form-control" placeholder="" name="planBuildStatus">
 									</div>
 									<div class="form-group"><label>设备购置情况</label>
-										<input type="text" class="form-control" placeholder="设备购置情况"
+										<input type="text" class="form-control" placeholder=""
 											   name="purchaseSituation">
 									</div>
 									<div class="form-group"><label>设计师</label>
-										<textarea class="form-control" placeholder="设计师" name="designer"
+										<textarea class="form-control" placeholder="" name="designer"
 												  rows="10"></textarea>
 									</div>
 									<div class="form-group"><label>状态更新</label>
-										<input type="text" class="form-control" placeholder="状态更新" name="statusUpdate">
+										<input type="text" class="form-control" placeholder="" name="statusUpdate">
 									</div>
+
 									<div class="form-group"><label>发布时间</label>
-										<div class="input-group date form_datetime">
-											<input name="publishTime" class="form-control" size="16" type="text"
+										<div class="input-group date">
+											<input name="publishTime" class="form-control" type="text"
 												   value="" readonly>
-											<span class="input-group-addon"><span
-													class="glyphicon glyphicon-remove"></span></span>
-											<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										</div>
-										<input type="hidden" id="dtp_input1" value=""/><br/>
 									</div>
 									<div class="form-group"><label>备注</label>
-										<input type="text" class="form-control" placeholder="备注" name="remarks">
+										<input type="text" class="form-control" placeholder="" name="remarks">
 									</div>
 
 								</div>
@@ -218,16 +216,14 @@
 			allowClear: true
 		});
 
-		$('.form_datetime').datetimepicker({
+		$('.input-group.date').datepicker({
 			language: "zh-CN",
-			format: "yyyy-mm-dd hh:ii:ss",
-			weekStart: 1,
-			todayBtn: 1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			forceParse: 0,
-			showMeridian: 1
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			keyboardNavigation: false,
+			forceParse: false,
+			calendarWeeks: true,
+			autoclose: true
 		});
 
 		FormValidation.init();

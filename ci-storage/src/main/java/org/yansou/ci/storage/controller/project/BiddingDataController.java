@@ -108,7 +108,7 @@ public class BiddingDataController {
 
 		BiddingData biddingData = restRequest.getBiddingData();
 		if (biddingData != null) {// 单个更新
-			biddingData = biddingDataService.update(biddingData);
+			biddingDataService.updateNotNullField(biddingData);
 
 			return SimpleRestResponse.id(biddingData.getId());
 		}

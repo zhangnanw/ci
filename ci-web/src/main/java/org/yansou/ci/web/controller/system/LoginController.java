@@ -29,7 +29,7 @@ public class LoginController {
 	public String success() {
 		LOG.info("Login Success");
 
-		return "redirect:/welcome/index";
+		return "redirect:/welcome";
 	}
 
 	@GetMapping("/failure")
