@@ -106,7 +106,7 @@ public class NewsDataController {
 
 		NewsData newsData = restRequest.getNewsData();
 		if (newsData != null) {// 单个更新
-			newsData = newsDataService.update(newsData);
+			newsDataService.updateNotNullField(newsData);
 
 			return SimpleRestResponse.id(newsData.getId());
 		}
