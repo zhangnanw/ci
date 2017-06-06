@@ -12,6 +12,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.yansou.ci.storage.common.repository.SimpleGeneralRepository;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
@@ -23,43 +24,40 @@ import java.util.Map;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(
-        entityManagerFactoryRef="entityManagerFactoryPrimary",
-        transactionManagerRef="transactionManagerPrimary", basePackages = {"org.yansou.ci.storage.dao"})
-//设置Repository所在位置
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryPrimary", transactionManagerRef =
+		"transactionManagerPrimary", basePackages = {"org.yansou.ci.storage.repository"},//设置Repository所在位置
+		repositoryBaseClass = SimpleGeneralRepository.class)
 public class PrimaryConfigurer {
 
 	@Qualifier("primaryDataSource")
-    @Autowired
-    private DataSource primaryDataSource;
+	@Autowired
+	private DataSource primaryDataSource;
 
-    @Primary
-    @Bean(name = "entityManagerPrimary")
-    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
-        return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
-    }
+	@Primary
+	@Bean(name = "entityManagerPrimary")
+	public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+		return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
+	}
 
-    @Primary
-    @Bean(name = "entityManagerFactoryPrimary")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary (EntityManagerFactoryBuilder builder) {
-        return builder
-                .dataSource(primaryDataSource)
-                .properties(getVendorProperties(primaryDataSource)).packages("org.yansou.ci.core.model") //设置实体类所在位置
-                .persistenceUnit("primaryPersistenceUnit")
-                .build();
-    }
+	@Primary
+	@Bean(name = "entityManagerFactoryPrimary")
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary(EntityManagerFactoryBuilder builder) {
+		return builder.dataSource(primaryDataSource).properties(getVendorProperties(primaryDataSource)).packages("org"
+				+ ".yansou.ci.core.model") //设置实体类所在位置
+				.persistenceUnit("primaryPersistenceUnit").build();
+	}
 
-    @Autowired
-    private JpaProperties jpaProperties;
+	@Autowired
+	private JpaProperties jpaProperties;
 
-    private Map<String, String> getVendorProperties(DataSource dataSource) {
-        return jpaProperties.getHibernateProperties(dataSource);
-    }
+	private Map<String, String> getVendorProperties(DataSource dataSource) {
+		return jpaProperties.getHibernateProperties(dataSource);
+	}
 
-    @Primary
-    @Bean(name = "transactionManagerPrimary")
-    public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
-        return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
-    }
+	@Primary
+	@Bean(name = "transactionManagerPrimary")
+	public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
+		return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
+	}
 
 }

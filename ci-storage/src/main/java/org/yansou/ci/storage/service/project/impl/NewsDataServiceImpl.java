@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.model.project.NewsData;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.NewsDataDao;
+import org.yansou.ci.storage.repository.project.NewsDataRepository;
 import org.yansou.ci.storage.service.project.NewsDataService;
 
 /**
@@ -19,19 +18,14 @@ import org.yansou.ci.storage.service.project.NewsDataService;
 @Transactional
 public class NewsDataServiceImpl extends GeneralServiceImpl<NewsData, Long> implements NewsDataService {
 
-	private NewsDataDao newsDataDao;
+	private NewsDataRepository newsDataRepository;
 
 	@Autowired
-	@Qualifier("newsDataDao")
+	@Qualifier("newsDataRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<NewsData, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.newsDataDao = (NewsDataDao) generalDao;
-	}
-
-	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return newsDataDao.updateStatus(status, id);
+	public void setGeneralRepository(GeneralRepository<NewsData, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.newsDataRepository = (NewsDataRepository) generalRepository;
 	}
 
 }

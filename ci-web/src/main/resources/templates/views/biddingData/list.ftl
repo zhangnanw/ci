@@ -56,9 +56,43 @@
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projectProvince">项目地址（省）</label>
-								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder=""
-									   class="form-control">
+								<select name="projectProvince" id="projectProvince" class="form-control">
+									<option value="" selected>--请选择--</option>
+									<option value="1">北京市</option>
+									<option value="2">天津市</option>
+									<option value="3">上海市</option>
+									<option value="4">重庆市</option>
+									<option value="5">安徽省</option>
+									<option value="6">福建省</option>
+									<option value="7">甘肃省</option>
+									<option value="8">广东省</option>
+									<option value="9">贵州省</option>
+									<option value="10">海南省</option>
+									<option value="11">河北省</option>
+									<option value="12">河南省</option>
+									<option value="13">湖北省</option>
+									<option value="14">湖南省</option>
+									<option value="15">吉林省</option>
+									<option value="16">江苏省</option>
+									<option value="17">江西省</option>
+									<option value="18">辽宁省</option>
+									<option value="19">青海省</option>
+									<option value="20">山东省</option>
+									<option value="21">山西省</option>
+									<option value="22">陕西省</option>
+									<option value="23">四川省</option>
+									<option value="24">云南省</option>
+									<option value="25">浙江省</option>
+									<option value="26">台湾省</option>
+									<option value="27">黑龙江省</option>
+									<option value="28">西藏自治区</option>
+									<option value="29">内蒙古自治区</option>
+									<option value="30">宁夏回族自治区</option>
+									<option value="31">广西壮族自治区</option>
+									<option value="32">新疆维吾尔自治区</option>
+									<option value="33">香港特别行政区</option>
+									<option value="34">澳门特别行政区</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-sm-2">
@@ -164,9 +198,10 @@
 										<thead>
 										<tr>
 											<th>#</th>
+											<th>公告类型</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
-											<th>项目总投资（万元）</th>
+											<th>招标预算（万元）</th>
 											<th>项目地址（省）</th>
 											<th>采购人</th>
 											<th>采购方式</th>
@@ -244,7 +279,6 @@
 						{
 							"targets": 0,
 							"data": null,
-							"name": "#",
 							"searchable": false,
 							"orderable": false,
 							"class": 'details-control',
@@ -252,79 +286,150 @@
 						},
 						{
 							"targets": 1,
-							"data": "projectName",
-							"name": "项目名称",
-							"orderable": false
-						},
-						{
-							"targets": 2,
-							"data": "projectScale",
-							"name": "项目规模（MW）",
-							"orderable": false
-						},
-						{
-							"targets": 3,
-							"data": "projectTotalInvestment",
-							"name": "项目总投资（万元）",
-							"orderable": false
-						},
-						{
-							"targets": 4,
-							"data": "projectProvince",
-							"name": "项目地址（省）",
-							"orderable": false
-						},
-						{
-							"targets": 5,
-							"data": "projcetOwner",
-							"name": "采购人",
-							"orderable": false
-						},
-						{
-							"targets": 6,
-							"data": "purchasingMethod",
-							"name": "采购方式",
+							"data": "dataType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								if (data === 1) {
-									return '邀标公告';
-								} else if (data === 2) {
-									return '询价公告';
-								} else if (data === 3) {
 									return '招标公告';
-								} else if (data === 4) {
+								} else if (data === 2) {
 									return '中标公告';
-								} else if (data === 5) {
-									return '成交公告';
-								} else if (data === 6) {
+								} else if (data === 3) {
 									return '更正公告';
-								} else if (data === 7) {
-									return '其他公告';
-								} else if (data === 8) {
-									return '单一来源';
-								} else if (data === 9) {
-									return '资格预审';
-								} else if (data === 10) {
-									return '废标流标';
-								} else if (data === 11) {
-									return '竞争性谈判';
-								} else if (data === 12) {
-									return '竞争性磋商';
+								} else if (data === 4) {
+									return '废标公告';
+								} else if (data === 5) {
+									return '流标公告';
 								} else {
-									return '未知';
+									return '其他';
 								}
 							}
 						},
 						{
-							"targets": 7,
-							"data": "parentCompany",
-							"name": "母公司",
+							"targets": 2,
+							"data": "projectName",
 							"orderable": false
 						},
 						{
+							"targets": 3,
+							"data": "projectScale",
+							"orderable": false
+						},
+						{
+							"targets": 4,
+							"data": "biddingBudget",
+							"orderable": false
+						},
+						{
+							"targets": 5,
+							"data": "projectProvince",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '北京市';
+								} else if (data === 2) {
+									return '天津市';
+								} else if (data === 3) {
+									return '上海市';
+								} else if (data === 4) {
+									return '重庆市';
+								} else if (data === 5) {
+									return '安徽省';
+								} else if (data === 6) {
+									return '福建省';
+								} else if (data === 7) {
+									return '甘肃省';
+								} else if (data === 8) {
+									return '广东省';
+								} else if (data === 9) {
+									return '贵州省';
+								} else if (data === 10) {
+									return '海南省';
+								} else if (data === 11) {
+									return '河北省';
+								} else if (data === 12) {
+									return '河南省';
+								} else if (data === 13) {
+									return '湖北省';
+								} else if (data === 14) {
+									return '湖南省';
+								} else if (data === 15) {
+									return '吉林省';
+								} else if (data === 16) {
+									return '江苏省';
+								} else if (data === 17) {
+									return '江西省';
+								} else if (data === 18) {
+									return '辽宁省';
+								} else if (data === 19) {
+									return '青海省';
+								} else if (data === 20) {
+									return '山东省';
+								} else if (data === 21) {
+									return '山西省';
+								} else if (data === 22) {
+									return '陕西省';
+								} else if (data === 23) {
+									return '四川省';
+								} else if (data === 24) {
+									return '云南省';
+								} else if (data === 25) {
+									return '浙江省';
+								} else if (data === 26) {
+									return '台湾省';
+								} else if (data === 27) {
+									return '黑龙江省';
+								} else if (data === 28) {
+									return '西藏自治区';
+								} else if (data === 29) {
+									return '内蒙古自治区';
+								} else if (data === 30) {
+									return '宁夏回族自治区';
+								} else if (data === 31) {
+									return '广西壮族自治区';
+								} else if (data === 32) {
+									return '新疆维吾尔自治区';
+								} else if (data === 33) {
+									return '香港特别行政区';
+								} else if (data === 34) {
+									return '澳门特别行政区';
+								} else {
+									return '其他';
+								}
+							}
+						},
+						{
+							"targets": 6,
+							"data": "projcetOwner",
+							"orderable": false
+						},
+						{
+							"targets": 7,
+							"data": "purchasingMethod",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '公开招标';
+								} else if (data === 2) {
+									return '竞争性谈判';
+								} else if (data === 3) {
+									return '单一来源';
+								} else if (data === 4) {
+									return '市场询价';
+								} else if (data === 5) {
+									return '邀请招标';
+								} else {
+									return '其他';
+								}
+							}
+						},
+						{
 							"targets": 8,
+							"data": "parentCompany",
+							"orderable": false
+						},
+						{
+							"targets": 9,
 							"data": "productType",
-							"name": "产品类型",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								if (data === 1) {
@@ -337,9 +442,8 @@
 							}
 						},
 						{
-							"targets": 9,
+							"targets": 10,
 							"data": "deploymentType",
-							"name": "产品部署类型",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								if (data === 1) {
@@ -356,70 +460,60 @@
 							}
 						},
 						{
-							"targets": 10,
-							"data": "monocrystallineSpecification",
-							"name": "单晶硅规格",
-							"orderable": false
-						},
-						{
 							"targets": 11,
-							"data": "monocrystallineCapacity",
-							"name": "单晶硅采购容量（MW）",
+							"data": "monocrystallineSpecification",
 							"orderable": false
 						},
 						{
 							"targets": 12,
-							"data": "polysiliconSpecification",
-							"name": "多晶硅规格",
+							"data": "monocrystallineCapacity",
 							"orderable": false
 						},
 						{
 							"targets": 13,
-							"data": "polysiliconCapacity",
-							"name": "多晶硅的采购容量（MW）",
+							"data": "polysiliconSpecification",
 							"orderable": false
 						},
 						{
 							"targets": 14,
-							"data": "agency",
-							"name": "代理机构",
+							"data": "polysiliconCapacity",
 							"orderable": false
 						},
 						{
 							"targets": 15,
+							"data": "agency",
+							"orderable": false
+						},
+						{
+							"targets": 16,
 							"data": "winCompanyInfo",
-							"name": "中标单位信息",
 							"orderable": false,
 							"visible": false
 						},
 						{
-							"targets": 16,
+							"targets": 17,
 							"data": "publishTime",
-							"name": "发布时间",
 							"orderable": false
 						},
 						{
-							"targets": 17,
+							"targets": 18,
 							"data": "id",
-							"name": "中标单位",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								return '<a href="/winCompany/list?biddingDataId=' + data + '" class="btn btn-primary btn-xs">查看中标单位</a>';
 							}
 						},
 						{
-							"targets": 18,
+							"targets": 19,
 							"data": "id",
-							"name": "编辑",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								return '<a href="/biddingData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
 							}
 						},
 						{
-							"targets": 19,
+							"targets": 20,
 							"data": "id",
-							"name": "删除",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								return '<a href="javascript:;" onclick="deleteForDataTable(this)" ' +

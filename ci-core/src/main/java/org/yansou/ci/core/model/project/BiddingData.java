@@ -175,8 +175,8 @@ public class BiddingData extends AbstractModel<Long> {
 	private String remarks;// 备注
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date publishTime;// 发布时间
 
 	@Column

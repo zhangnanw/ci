@@ -114,6 +114,15 @@ public interface GeneralService<T extends AbstractModel<ID>, ID extends Serializ
 	T[] update(T[] entities) throws DaoException;
 
 	/**
+	 * 更新非空字段
+	 *
+	 * @param entity
+	 *
+	 * @throws DaoException
+	 */
+	void updateNotNullField(T entity) throws DaoException;
+
+	/**
 	 * 更新数据的状态
 	 *
 	 * @param status

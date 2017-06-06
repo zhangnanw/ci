@@ -56,9 +56,44 @@
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projectProvince">项目地址（省）</label>
-								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder=""
-									   class="form-control">
+
+								<select name="projectProvince" id="projectProvince" class="form-control">
+									<option value="" selected>--请选择--</option>
+									<option value="1">北京市</option>
+									<option value="2">天津市</option>
+									<option value="3">上海市</option>
+									<option value="4">重庆市</option>
+									<option value="5">安徽省</option>
+									<option value="6">福建省</option>
+									<option value="7">甘肃省</option>
+									<option value="8">广东省</option>
+									<option value="9">贵州省</option>
+									<option value="10">海南省</option>
+									<option value="11">河北省</option>
+									<option value="12">河南省</option>
+									<option value="13">湖北省</option>
+									<option value="14">湖南省</option>
+									<option value="15">吉林省</option>
+									<option value="16">江苏省</option>
+									<option value="17">江西省</option>
+									<option value="18">辽宁省</option>
+									<option value="19">青海省</option>
+									<option value="20">山东省</option>
+									<option value="21">山西省</option>
+									<option value="22">陕西省</option>
+									<option value="23">四川省</option>
+									<option value="24">云南省</option>
+									<option value="25">浙江省</option>
+									<option value="26">台湾省</option>
+									<option value="27">黑龙江省</option>
+									<option value="28">西藏自治区</option>
+									<option value="29">内蒙古自治区</option>
+									<option value="30">宁夏回族自治区</option>
+									<option value="31">广西壮族自治区</option>
+									<option value="32">新疆维吾尔自治区</option>
+									<option value="33">香港特别行政区</option>
+									<option value="34">澳门特别行政区</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-sm-2">
@@ -215,7 +250,80 @@
 						{
 							"targets": 5,
 							"data": "projectProvince",
-							"orderable": false
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '北京市';
+								} else if (data === 2) {
+									return '天津市';
+								} else if (data === 3) {
+									return '上海市';
+								} else if (data === 4) {
+									return '重庆市';
+								} else if (data === 5) {
+									return '安徽省';
+								} else if (data === 6) {
+									return '福建省';
+								} else if (data === 7) {
+									return '甘肃省';
+								} else if (data === 8) {
+									return '广东省';
+								} else if (data === 9) {
+									return '贵州省';
+								} else if (data === 10) {
+									return '海南省';
+								} else if (data === 11) {
+									return '河北省';
+								} else if (data === 12) {
+									return '河南省';
+								} else if (data === 13) {
+									return '湖北省';
+								} else if (data === 14) {
+									return '湖南省';
+								} else if (data === 15) {
+									return '吉林省';
+								} else if (data === 16) {
+									return '江苏省';
+								} else if (data === 17) {
+									return '江西省';
+								} else if (data === 18) {
+									return '辽宁省';
+								} else if (data === 19) {
+									return '青海省';
+								} else if (data === 20) {
+									return '山东省';
+								} else if (data === 21) {
+									return '山西省';
+								} else if (data === 22) {
+									return '陕西省';
+								} else if (data === 23) {
+									return '四川省';
+								} else if (data === 24) {
+									return '云南省';
+								} else if (data === 25) {
+									return '浙江省';
+								} else if (data === 26) {
+									return '台湾省';
+								} else if (data === 27) {
+									return '黑龙江省';
+								} else if (data === 28) {
+									return '西藏自治区';
+								} else if (data === 29) {
+									return '内蒙古自治区';
+								} else if (data === 30) {
+									return '宁夏回族自治区';
+								} else if (data === 31) {
+									return '广西壮族自治区';
+								} else if (data === 32) {
+									return '新疆维吾尔自治区';
+								} else if (data === 33) {
+									return '香港特别行政区';
+								} else if (data === 34) {
+									return '澳门特别行政区';
+								} else {
+									return '其他';
+								}
+							}
 						},
 						{
 							"targets": 6,

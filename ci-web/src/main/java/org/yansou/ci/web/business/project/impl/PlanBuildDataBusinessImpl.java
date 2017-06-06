@@ -12,6 +12,8 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.core.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -82,6 +84,8 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
+		updateStatus(pageCriteria);
+
 		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
@@ -107,12 +111,16 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
-				.getDraw(), restResponse.getErrors());
+		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
 
 		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
 		return dataTablesOutput;
+	}
+
+	private void updateStatus(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
+				Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
 	}
 
 	@Override

@@ -12,9 +12,9 @@ import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.model.AbstractModel;
 import org.yansou.ci.core.model.project.BiddingData;
 import org.yansou.ci.core.model.project.WinCompany;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.WinCompanyDao;
+import org.yansou.ci.storage.repository.project.WinCompanyRepository;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.WinCompanyService;
 
@@ -28,22 +28,17 @@ import java.util.List;
 @Transactional
 public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> implements WinCompanyService {
 
-	private WinCompanyDao winCompanyDao;
+	private WinCompanyRepository winCompanyRepository;
 
 	@Autowired
 	private BiddingDataService biddingDataService;
 
 	@Autowired
-	@Qualifier("winCompanyDao")
+	@Qualifier("winCompanyRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<WinCompany, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.winCompanyDao = (WinCompanyDao) generalDao;
-	}
-
-	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return winCompanyDao.updateStatus(status, id);
+	public void setGeneralRepository(GeneralRepository<WinCompany, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.winCompanyRepository = (WinCompanyRepository) generalRepository;
 	}
 
 	@Override
@@ -52,12 +47,12 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			return null;
 		}
 
-		entity = winCompanyDao.save(entity);
+		entity = winCompanyRepository.save(entity);
 
 		BiddingData biddingData = biddingDataService.findById(entity.getBiddingData().getId());
 
-		List<WinCompany> winCompanyList = winCompanyDao.findByBiddingDataAndStatusNot(biddingData, AbstractModel
-				.Status.DELETE.getValue());
+		List<WinCompany> winCompanyList = winCompanyRepository.findByBiddingDataAndStatusNot(biddingData,
+				AbstractModel.Status.DELETE.getValue());
 
 		Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
 			@Override

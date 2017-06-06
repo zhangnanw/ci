@@ -58,19 +58,19 @@
 										</select>
 									</div>
 									<div class="form-group"><label>项目名称（工程名称）</label>
-										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectName">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
-										<input type="text" class="form-control" placeholder="1000000"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectScale">
 									</div>
 									<div class="form-group"><label>项目描述</label>
-										<input type="text" class="form-control" placeholder="项目描述"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectDescription">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
-										<input type="text" class="form-control" placeholder="北京市海淀区"
+										<input type="text" class="form-control" placeholder=""
 											   name="projectAddress">
 									</div>
 									<div class="form-group"><label>项目地址（省）</label>
@@ -113,10 +113,10 @@
 										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
-										<textarea class="form-control" placeholder="采购人" name="projcetOwner"></textarea>
+										<textarea class="form-control" placeholder="" name="projcetOwner"></textarea>
 									</div>
 									<div class="form-group"><label>母公司</label>
-										<input type="text" class="form-control" placeholder="母公司" name="parentCompany">
+										<input type="text" class="form-control" placeholder="" name="parentCompany">
 									</div>
 									<div class="form-group"><label>采购方式</label>
 										<select class="select2_purchasingMethod form-control" name="purchasingMethod">
@@ -148,42 +148,39 @@
 										</select>
 									</div>
 									<div class="form-group"><label>单晶硅规格</label>
-										<input type="text" class="form-control" placeholder="单晶硅规格"
+										<input type="text" class="form-control" placeholder=""
 											   name="monocrystallineSpecification">
 									</div>
 									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
-										<input type="text" class="form-control" placeholder="单晶硅的采购容量，单位：MW（兆瓦）"
+										<input type="text" class="form-control" placeholder=""
 											   name="monocrystallineCapacity">
 									</div>
 									<div class="form-group"><label>多晶硅规格</label>
-										<input type="text" class="form-control" placeholder="多晶硅规格"
+										<input type="text" class="form-control" placeholder=""
 											   name="polysiliconSpecification">
 									</div>
 									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
-										<input type="text" class="form-control" placeholder="多晶硅的采购容量，单位：MW（兆瓦）"
+										<input type="text" class="form-control" placeholder=""
 											   name="polysiliconCapacity">
 									</div>
 									<div class="form-group"><label>招标预算，单位：万元</label>
-										<input type="text" class="form-control" placeholder="100" name="biddingBudget">
+										<input type="text" class="form-control" placeholder="" name="biddingBudget">
 									</div>
 									<div class="form-group"><label>中标总金额，单位：万元</label>
-										<input type="text" class="form-control" placeholder="100" name="winTotalAmount">
+										<input type="text" class="form-control" placeholder="" name="winTotalAmount">
 									</div>
 									<div class="form-group"><label>代理机构</label>
-										<input type="text" class="form-control" placeholder="代理机构" name="agency">
+										<input type="text" class="form-control" placeholder="" name="agency">
 									</div>
 									<div class="form-group"><label>发布时间</label>
-										<div class="input-group date form_datetime">
-											<input name="publishTime" class="form-control" size="16" type="text"
+										<div class="input-group date">
+											<input name="publishTime" class="form-control" type="text"
 												   value="" readonly>
-											<span class="input-group-addon"><span
-													class="glyphicon glyphicon-remove"></span></span>
-											<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										</div>
-										<input type="hidden" id="dtp_input1" value=""/><br/>
 									</div>
 									<div class="form-group"><label>备注</label>
-										<input type="text" class="form-control" placeholder="备注" name="remarks">
+										<input type="text" class="form-control" placeholder="" name="remarks">
 									</div>
 
 								</div>
@@ -281,16 +278,14 @@
 			allowClear: true
 		});
 
-		$('.form_datetime').datetimepicker({
+		$('.input-group.date').datepicker({
 			language: "zh-CN",
-			format: "yyyy-mm-dd hh:ii:ss",
-			weekStart: 1,
-			todayBtn: 1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			forceParse: 0,
-			showMeridian: 1
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			keyboardNavigation: false,
+			forceParse: false,
+			calendarWeeks: true,
+			autoclose: true
 		});
 
 		FormValidation.init();
