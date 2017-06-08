@@ -1,6 +1,6 @@
 package org.yansou.ci.storage.service.project;
 
-import org.yansou.ci.core.model.project.NewsData;
+import org.yansou.ci.core.db.model.project.NewsData;
 import org.yansou.ci.storage.common.service.GeneralService;
 
 /**

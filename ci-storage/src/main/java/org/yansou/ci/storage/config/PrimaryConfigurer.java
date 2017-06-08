@@ -42,8 +42,8 @@ public class PrimaryConfigurer {
 	@Primary
 	@Bean(name = "entityManagerFactoryPrimary")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary(EntityManagerFactoryBuilder builder) {
-		return builder.dataSource(primaryDataSource).properties(getVendorProperties(primaryDataSource)).packages("org"
-				+ ".yansou.ci.core.model") //设置实体类所在位置
+		return builder.dataSource(primaryDataSource).properties(getVendorProperties(primaryDataSource)).packages("org" +
+				".yansou.ci.core.db.model") //设置实体类所在位置
 				.persistenceUnit("primaryPersistenceUnit").build();
 	}
 

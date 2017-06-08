@@ -1,25 +1,29 @@
-package org.yansou.ci.core.model.project;
+package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * 并网信息
+ * 拟在建信息
  *
  * @author liutiejun
- * @create 2017-05-07 16:35
+ * @create 2017-05-07 15:36
  */
 @Entity
-@Table(name = "ci_merge_data")
-public class MergeData extends AbstractModel<Long> {
+@Table(name = "ci_plan_build_data", indexes = {@Index(unique = true, columnList = "projectIdentifie")})
+public class PlanBuildData extends AbstractModel<Long> {
 
-	private static final long serialVersionUID = 2256929225336675326L;
+	private static final long serialVersionUID = -5536829706290917695L;
+
+	@Column
+	private String rowkey;// 源数据的唯一标识
 
 	@Column
 	private String projectName;// 项目名称（工程名称）
@@ -46,7 +50,7 @@ public class MergeData extends AbstractModel<Long> {
 	private String projectAddress;// 项目详细地址
 
 	@Column
-	private String projectProvince;// 项目地址，省
+	private Integer projectProvince;// 项目地址，省
 
 	@Column
 	private String projectCity;// 项目地址，市
@@ -64,12 +68,43 @@ public class MergeData extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
+	private String planBuildStatus;// 拟在建项目阶段
+
+	@Column
+	private String purchaseSituation;// 设备购置情况，直接从RCC中获取
+
+	@Column
+	private String designer;// 设计师
+
+	@Column
+	private String statusUpdate;// 状态更新
+
+	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date mergeTime;// 并网时间
+	private Date planStartTime;// 计划开工时间
+
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date publishTime;// 发布时间
+
+	@Column
+	private String remarks;// 备注
 
 	@Column
 	private String url;// 数据的原始地址
+
+	@Column
+	private String snapshotId;// 快照id
+
+	public String getRowkey() {
+		return rowkey;
+	}
+
+	public void setRowkey(String rowkey) {
+		this.rowkey = rowkey;
+	}
 
 	public String getProjectName() {
 		return projectName;
@@ -135,11 +170,11 @@ public class MergeData extends AbstractModel<Long> {
 		this.projectAddress = projectAddress;
 	}
 
-	public String getProjectProvince() {
+	public Integer getProjectProvince() {
 		return projectProvince;
 	}
 
-	public void setProjectProvince(String projectProvince) {
+	public void setProjectProvince(Integer projectProvince) {
 		this.projectProvince = projectProvince;
 	}
 
@@ -183,12 +218,60 @@ public class MergeData extends AbstractModel<Long> {
 		this.parentCompany = parentCompany;
 	}
 
-	public Date getMergeTime() {
-		return mergeTime;
+	public String getPlanBuildStatus() {
+		return planBuildStatus;
 	}
 
-	public void setMergeTime(Date mergeTime) {
-		this.mergeTime = mergeTime;
+	public void setPlanBuildStatus(String planBuildStatus) {
+		this.planBuildStatus = planBuildStatus;
+	}
+
+	public String getPurchaseSituation() {
+		return purchaseSituation;
+	}
+
+	public void setPurchaseSituation(String purchaseSituation) {
+		this.purchaseSituation = purchaseSituation;
+	}
+
+	public String getDesigner() {
+		return designer;
+	}
+
+	public void setDesigner(String designer) {
+		this.designer = designer;
+	}
+
+	public String getStatusUpdate() {
+		return statusUpdate;
+	}
+
+	public void setStatusUpdate(String statusUpdate) {
+		this.statusUpdate = statusUpdate;
+	}
+
+	public Date getPlanStartTime() {
+		return planStartTime;
+	}
+
+	public void setPlanStartTime(Date planStartTime) {
+		this.planStartTime = planStartTime;
+	}
+
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public String getUrl() {
@@ -197,5 +280,13 @@ public class MergeData extends AbstractModel<Long> {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getSnapshotId() {
+		return snapshotId;
+	}
+
+	public void setSnapshotId(String snapshotId) {
+		this.snapshotId = snapshotId;
 	}
 }

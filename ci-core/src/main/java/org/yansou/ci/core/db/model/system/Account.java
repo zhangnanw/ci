@@ -1,10 +1,10 @@
-package org.yansou.ci.core.model.system;
+package org.yansou.ci.core.db.model.system;
+
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.yansou.ci.core.model.AbstractModel;
 
 /**
  * 账号信息

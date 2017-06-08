@@ -16,7 +16,7 @@ import org.yansou.ci.common.page.OrderInfo;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.utils.SimpleArrayUtils;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.storage.common.page.PageSpecification;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 

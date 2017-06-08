@@ -5,7 +5,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import java.io.Serializable;
 import java.util.List;

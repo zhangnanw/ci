@@ -1,4 +1,4 @@
-package org.yansou.ci.core.model;
+package org.yansou.ci.core.db.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.ColumnDefault;

@@ -1,7 +1,7 @@
 package org.yansou.ci.storage.service.project;
 
 import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.storage.common.service.GeneralService;
 
 /**

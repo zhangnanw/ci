@@ -1,6 +1,6 @@
-package org.yansou.ci.core.model.project;
+package org.yansou.ci.core.db.model.project;
 
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

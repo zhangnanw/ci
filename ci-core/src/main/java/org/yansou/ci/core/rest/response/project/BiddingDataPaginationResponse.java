@@ -1,7 +1,7 @@
 package org.yansou.ci.core.rest.response.project;
 
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.rest.response.RestResponse;
 
 public class BiddingDataPaginationResponse extends RestResponse<Pagination<BiddingData>> {

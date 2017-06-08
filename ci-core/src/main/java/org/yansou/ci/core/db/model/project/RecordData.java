@@ -1,8 +1,8 @@
-package org.yansou.ci.core.model.project;
+package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,16 +10,16 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * 项目信息
+ * 备案信息
  *
  * @author liutiejun
- * @create 2017-05-07 10:51
+ * @create 2017-05-07 13:02
  */
 @Entity
-@Table(name = "ci_project_info")
-public class ProjectInfo extends AbstractModel<Long> {
+@Table(name = "ci_record_data")
+public class RecordData extends AbstractModel<Long> {
 
-	private static final long serialVersionUID = 2095941607235268927L;
+	private static final long serialVersionUID = 2527788006643445478L;
 
 	@Column
 	private String projectName;// 项目名称（工程名称）
@@ -64,12 +64,9 @@ public class ProjectInfo extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
-	private Integer projectStatus;// 项目状态/阶段，备案、拟在建、招标、中标、并网
-
-	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date planBuildTime;// 拟在建时间
+	private Date planStartTime;// 计划开工时间
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -77,40 +74,30 @@ public class ProjectInfo extends AbstractModel<Long> {
 	private Date recordTime;// 备案时间
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date biddingTime;// 招标时间
+	private String contactInformation;// 联系方式
+
+	@Column
+	private String designInstitute;// 设计院
+
+	@Column
+	private String approvalNumber;// 审批文号
+
+	@Column
+	private String approvalDepartment;// 审批部门
+
+	@Column
+	private String approvalMatters;// 审批事项
+
+	@Column
+	private String approvalResult;// 审批结果
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date winTime;// 中标时间
+	private Date approvalTime;// 审批时间
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date mergeTime;// 并网时间
-
-	@Column
-	private Integer deploymentType;// 产品的部署类型，分布式、集中式、渔光、农光，需要乐叶确定
-
-	@Column
-	private Integer customerType;// 客户类别，一类客户、二类客户、三类客户、互补企业、设计院、竞争对手，需要乐叶确定
-
-	@Column
-	private Integer componentType;// 组件选型，单晶硅、多晶硅
-
-	@Column
-	private String purchaseSituation;// 设备购置情况，直接从RCC中获取
-
-	@Column
-	private String designer;// 设计师
-
-	@Column
-	private String statusUpdate;// 状态更新
-
-	@Column
-	private String remarks;// 备注
+	private String url;// 数据的原始地址
 
 	public String getProjectName() {
 		return projectName;
@@ -224,20 +211,12 @@ public class ProjectInfo extends AbstractModel<Long> {
 		this.parentCompany = parentCompany;
 	}
 
-	public Integer getProjectStatus() {
-		return projectStatus;
+	public Date getPlanStartTime() {
+		return planStartTime;
 	}
 
-	public void setProjectStatus(Integer projectStatus) {
-		this.projectStatus = projectStatus;
-	}
-
-	public Date getPlanBuildTime() {
-		return planBuildTime;
-	}
-
-	public void setPlanBuildTime(Date planBuildTime) {
-		this.planBuildTime = planBuildTime;
+	public void setPlanStartTime(Date planStartTime) {
+		this.planStartTime = planStartTime;
 	}
 
 	public Date getRecordTime() {
@@ -248,87 +227,70 @@ public class ProjectInfo extends AbstractModel<Long> {
 		this.recordTime = recordTime;
 	}
 
-	public Date getBiddingTime() {
-		return biddingTime;
+	public String getContactInformation() {
+		return contactInformation;
 	}
 
-	public void setBiddingTime(Date biddingTime) {
-		this.biddingTime = biddingTime;
+	public void setContactInformation(String contactInformation) {
+		this.contactInformation = contactInformation;
 	}
 
-	public Date getWinTime() {
-		return winTime;
+	public String getDesignInstitute() {
+		return designInstitute;
 	}
 
-	public void setWinTime(Date winTime) {
-		this.winTime = winTime;
+	public void setDesignInstitute(String designInstitute) {
+		this.designInstitute = designInstitute;
 	}
 
-	public Date getMergeTime() {
-		return mergeTime;
+	public String getApprovalNumber() {
+		return approvalNumber;
 	}
 
-	public void setMergeTime(Date mergeTime) {
-		this.mergeTime = mergeTime;
+	public void setApprovalNumber(String approvalNumber) {
+		this.approvalNumber = approvalNumber;
 	}
 
-	public Integer getDeploymentType() {
-		return deploymentType;
+	public String getApprovalDepartment() {
+		return approvalDepartment;
 	}
 
-	public void setDeploymentType(Integer deploymentType) {
-		this.deploymentType = deploymentType;
+	public void setApprovalDepartment(String approvalDepartment) {
+		this.approvalDepartment = approvalDepartment;
 	}
 
-	public Integer getCustomerType() {
-		return customerType;
+	public String getApprovalMatters() {
+		return approvalMatters;
 	}
 
-	public void setCustomerType(Integer customerType) {
-		this.customerType = customerType;
+	public void setApprovalMatters(String approvalMatters) {
+		this.approvalMatters = approvalMatters;
 	}
 
-	public Integer getComponentType() {
-		return componentType;
+	public String getApprovalResult() {
+		return approvalResult;
 	}
 
-	public void setComponentType(Integer componentType) {
-		this.componentType = componentType;
+	public void setApprovalResult(String approvalResult) {
+		this.approvalResult = approvalResult;
 	}
 
-	public String getPurchaseSituation() {
-		return purchaseSituation;
+	public Date getApprovalTime() {
+		return approvalTime;
 	}
 
-	public void setPurchaseSituation(String purchaseSituation) {
-		this.purchaseSituation = purchaseSituation;
+	public void setApprovalTime(Date approvalTime) {
+		this.approvalTime = approvalTime;
 	}
 
-	public String getDesigner() {
-		return designer;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setDesigner(String designer) {
-		this.designer = designer;
-	}
-
-	public String getStatusUpdate() {
-		return statusUpdate;
-	}
-
-	public void setStatusUpdate(String statusUpdate) {
-		this.statusUpdate = statusUpdate;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
-
 
 
 

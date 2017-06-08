@@ -1,9 +1,8 @@
-package org.yansou.ci.core.model.system;
+package org.yansou.ci.core.db.model.system;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

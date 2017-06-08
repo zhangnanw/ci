@@ -5,8 +5,8 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Test;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.WinCompany;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.WinCompany;
 
 import java.util.ArrayList;
 import java.util.List;
