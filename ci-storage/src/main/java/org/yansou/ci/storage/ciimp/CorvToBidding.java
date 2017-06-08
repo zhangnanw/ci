@@ -1,8 +1,8 @@
 package org.yansou.ci.storage.ciimp;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang3.StringUtils;
+import java.sql.SQLException;
+import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.data.mining.utils.Readability;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 
-import java.sql.SQLException;
-import java.util.UUID;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 
@@ -48,33 +48,12 @@ public class CorvToBidding extends AbsStatistics {
 		}
 	}
 
-	static String[] filterKeyword = { "_中国电力招标网" };
-
-	/**
-	 * 过滤快照
-	 * 
-	 * @param snapshot
-	 */
-	void filterSnapshot(SnapshotInfo snapshot) {
-		String ctx = snapshot.getContext();
-		if (StringUtils.isNotBlank(ctx)) {
-			return;
-		}
-		for (String keyword : filterKeyword) {
-			ctx = StringUtils.replace(ctx, keyword, "");
-		}
-		// 删除所有A标签
-		ctx = ctx.replaceAll("(?is)</?\\s*a\\s*[^>]*>", "");
-		snapshot.setContext(ctx);
-	}
-
 	void store(JSONObject obj) {
 		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
 		SnapshotInfo snapshot = new SnapshotInfo();
 		snapshot.setDataType(1);
 		snapshot.setSnapshotId(UUID.randomUUID().toString());
 		snapshot.setContext(new Readability(obj.getString("context")).init().outerHtml());
-		filterSnapshot(snapshot);
 		BiddingData data = rd.get();
 		if (LTFilter.isSave(data, snapshot)) {
 			data.setSnapshotId(snapshot.getSnapshotId());
