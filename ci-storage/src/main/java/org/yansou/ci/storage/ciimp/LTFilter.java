@@ -1,9 +1,9 @@
 package org.yansou.ci.storage.ciimp;
 
 import org.apache.commons.lang3.StringUtils;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
 
 /**
  * 导入过滤器

@@ -1,6 +1,6 @@
 package org.yansou.ci.storage.service.system;
 
-import org.yansou.ci.core.model.system.Account;
+import org.yansou.ci.core.db.model.system.Account;
 import org.yansou.ci.storage.common.service.GeneralService;
 
 /**

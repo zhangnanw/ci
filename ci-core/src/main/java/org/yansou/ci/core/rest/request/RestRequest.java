@@ -1,15 +1,15 @@
 package org.yansou.ci.core.rest.request;
 
 import org.yansou.ci.common.page.PageCriteria;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.MergeData;
-import org.yansou.ci.core.model.project.NewsData;
-import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.core.model.project.ProjectInfo;
-import org.yansou.ci.core.model.project.RecordData;
-import org.yansou.ci.core.model.project.SnapshotInfo;
-import org.yansou.ci.core.model.project.WinCompany;
-import org.yansou.ci.core.model.system.Account;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.MergeData;
+import org.yansou.ci.core.db.model.project.NewsData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.ProjectInfo;
+import org.yansou.ci.core.db.model.project.RecordData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
+import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.db.model.system.Account;
 
 import java.io.Serializable;
 

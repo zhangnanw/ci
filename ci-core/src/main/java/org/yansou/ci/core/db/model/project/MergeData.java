@@ -1,8 +1,8 @@
-package org.yansou.ci.core.model.project;
+package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,16 +10,16 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * 备案信息
+ * 并网信息
  *
  * @author liutiejun
- * @create 2017-05-07 13:02
+ * @create 2017-05-07 16:35
  */
 @Entity
-@Table(name = "ci_record_data")
-public class RecordData extends AbstractModel<Long> {
+@Table(name = "ci_merge_data")
+public class MergeData extends AbstractModel<Long> {
 
-	private static final long serialVersionUID = 2527788006643445478L;
+	private static final long serialVersionUID = 2256929225336675326L;
 
 	@Column
 	private String projectName;// 项目名称（工程名称）
@@ -66,35 +66,7 @@ public class RecordData extends AbstractModel<Long> {
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date planStartTime;// 计划开工时间
-
-	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date recordTime;// 备案时间
-
-	@Column
-	private String contactInformation;// 联系方式
-
-	@Column
-	private String designInstitute;// 设计院
-
-	@Column
-	private String approvalNumber;// 审批文号
-
-	@Column
-	private String approvalDepartment;// 审批部门
-
-	@Column
-	private String approvalMatters;// 审批事项
-
-	@Column
-	private String approvalResult;// 审批结果
-
-	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date approvalTime;// 审批时间
+	private Date mergeTime;// 并网时间
 
 	@Column
 	private String url;// 数据的原始地址
@@ -211,76 +183,12 @@ public class RecordData extends AbstractModel<Long> {
 		this.parentCompany = parentCompany;
 	}
 
-	public Date getPlanStartTime() {
-		return planStartTime;
+	public Date getMergeTime() {
+		return mergeTime;
 	}
 
-	public void setPlanStartTime(Date planStartTime) {
-		this.planStartTime = planStartTime;
-	}
-
-	public Date getRecordTime() {
-		return recordTime;
-	}
-
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
-	}
-
-	public String getContactInformation() {
-		return contactInformation;
-	}
-
-	public void setContactInformation(String contactInformation) {
-		this.contactInformation = contactInformation;
-	}
-
-	public String getDesignInstitute() {
-		return designInstitute;
-	}
-
-	public void setDesignInstitute(String designInstitute) {
-		this.designInstitute = designInstitute;
-	}
-
-	public String getApprovalNumber() {
-		return approvalNumber;
-	}
-
-	public void setApprovalNumber(String approvalNumber) {
-		this.approvalNumber = approvalNumber;
-	}
-
-	public String getApprovalDepartment() {
-		return approvalDepartment;
-	}
-
-	public void setApprovalDepartment(String approvalDepartment) {
-		this.approvalDepartment = approvalDepartment;
-	}
-
-	public String getApprovalMatters() {
-		return approvalMatters;
-	}
-
-	public void setApprovalMatters(String approvalMatters) {
-		this.approvalMatters = approvalMatters;
-	}
-
-	public String getApprovalResult() {
-		return approvalResult;
-	}
-
-	public void setApprovalResult(String approvalResult) {
-		this.approvalResult = approvalResult;
-	}
-
-	public Date getApprovalTime() {
-		return approvalTime;
-	}
-
-	public void setApprovalTime(Date approvalTime) {
-		this.approvalTime = approvalTime;
+	public void setMergeTime(Date mergeTime) {
+		this.mergeTime = mergeTime;
 	}
 
 	public String getUrl() {
@@ -291,43 +199,3 @@ public class RecordData extends AbstractModel<Long> {
 		this.url = url;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

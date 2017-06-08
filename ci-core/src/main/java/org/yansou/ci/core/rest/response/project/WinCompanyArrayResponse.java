@@ -1,6 +1,6 @@
 package org.yansou.ci.core.rest.response.project;
 
-import org.yansou.ci.core.model.project.WinCompany;
+import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.core.rest.response.RestResponse;
 
 public class WinCompanyArrayResponse extends RestResponse<WinCompany[]> {

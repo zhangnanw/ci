@@ -8,7 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.web.business.project.SnapshotInfoBusiness;
 
 import javax.servlet.http.HttpServletRequest;

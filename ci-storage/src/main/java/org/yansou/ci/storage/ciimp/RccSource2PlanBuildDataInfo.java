@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.RegexUtils;
-import org.yansou.ci.core.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
 
 import com.alibaba.fastjson.JSON;

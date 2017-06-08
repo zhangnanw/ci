@@ -1,8 +1,8 @@
 package org.yansou.ci.storage.repository.project;
 
 import org.springframework.stereotype.Repository;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.WinCompany;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 
 import java.util.List;

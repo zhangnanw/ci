@@ -1,8 +1,7 @@
 package org.yansou.ci.storage.ciimp;
 
-import java.sql.SQLException;
-import java.util.UUID;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,13 +11,13 @@ import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.SnapshotInfo;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.data.mining.utils.Readability;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * 

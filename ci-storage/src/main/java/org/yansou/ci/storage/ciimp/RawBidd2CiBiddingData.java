@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
-import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
 
 import com.alibaba.fastjson.JSONArray;
