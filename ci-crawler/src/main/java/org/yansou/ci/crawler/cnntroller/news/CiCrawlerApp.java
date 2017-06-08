@@ -1,5 +1,5 @@
 package org.yansou.ci.crawler.cnntroller.news;
 
-public class CiCrawlerController  {
+public class CiCrawlerApp  {
 	
 }
