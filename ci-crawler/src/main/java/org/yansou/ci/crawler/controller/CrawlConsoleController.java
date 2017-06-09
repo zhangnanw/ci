@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.yansou.ci.core.crawl.model.CrawlStatus;
 
 @Controller
-@RequestMapping
-public class CrawlStatusController {
-	@GetMapping
+@RequestMapping("/console")
+public class CrawlConsoleController {
+	
+	
+	
+	
+	@GetMapping("/status")
 	public CrawlStatus status() {
 		return null;
 	}
+
 }

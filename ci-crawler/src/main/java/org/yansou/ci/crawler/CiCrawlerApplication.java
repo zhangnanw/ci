@@ -28,6 +28,9 @@ public class CiCrawlerApplication {
 	HttpClientDownloader httpClientDownloader() {
 		return new HttpClientDownloader();
 	}
+	
+	
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(CiCrawlerApplication.class, args);
