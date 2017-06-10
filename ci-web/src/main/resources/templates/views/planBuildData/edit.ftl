@@ -78,40 +78,142 @@
 									<div class="form-group"><label>项目地址（省）</label>
 										<select class="select2_projectProvince form-control" name="projectProvince">
 											<option></option>
-											<option value="1">北京市</option>
-											<option value="2">天津市</option>
-											<option value="3">上海市</option>
-											<option value="4">重庆市</option>
-											<option value="5">安徽省</option>
-											<option value="6">福建省</option>
-											<option value="7">甘肃省</option>
-											<option value="8">广东省</option>
-											<option value="9">贵州省</option>
-											<option value="10">海南省</option>
-											<option value="11">河北省</option>
-											<option value="12">河南省</option>
-											<option value="13">湖北省</option>
-											<option value="14">湖南省</option>
-											<option value="15">吉林省</option>
-											<option value="16">江苏省</option>
-											<option value="17">江西省</option>
-											<option value="18">辽宁省</option>
-											<option value="19">青海省</option>
-											<option value="20">山东省</option>
-											<option value="21">山西省</option>
-											<option value="22">陕西省</option>
-											<option value="23">四川省</option>
-											<option value="24">云南省</option>
-											<option value="25">浙江省</option>
-											<option value="26">台湾省</option>
-											<option value="27">黑龙江省</option>
-											<option value="28">西藏自治区</option>
-											<option value="29">内蒙古自治区</option>
-											<option value="30">宁夏回族自治区</option>
-											<option value="31">广西壮族自治区</option>
-											<option value="32">新疆维吾尔自治区</option>
-											<option value="33">香港特别行政区</option>
-											<option value="34">澳门特别行政区</option>
+											<option value="1"
+													<#if ((planBuildData.projectProvince)!-1)==1>selected="selected"</#if>>
+												北京市
+											</option>
+											<option value="2"
+													<#if ((planBuildData.projectProvince)!-1)==2>selected="selected"</#if>>
+												天津市
+											</option>
+											<option value="3"
+													<#if ((planBuildData.projectProvince)!-1)==3>selected="selected"</#if>>
+												上海市
+											</option>
+											<option value="4"
+													<#if ((planBuildData.projectProvince)!-1)==4>selected="selected"</#if>>
+												重庆市
+											</option>
+											<option value="5"
+													<#if ((planBuildData.projectProvince)!-1)==5>selected="selected"</#if>>
+												安徽省
+											</option>
+											<option value="6"
+													<#if ((planBuildData.projectProvince)!-1)==6>selected="selected"</#if>>
+												福建省
+											</option>
+											<option value="7"
+													<#if ((planBuildData.projectProvince)!-1)==7>selected="selected"</#if>>
+												甘肃省
+											</option>
+											<option value="8"
+													<#if ((planBuildData.projectProvince)!-1)==8>selected="selected"</#if>>
+												广东省
+											</option>
+											<option value="9"
+													<#if ((planBuildData.projectProvince)!-1)==9>selected="selected"</#if>>
+												贵州省
+											</option>
+											<option value="10"
+													<#if ((planBuildData.projectProvince)!-1)==10>selected="selected"</#if>>
+												海南省
+											</option>
+											<option value="11"
+													<#if ((planBuildData.projectProvince)!-1)==11>selected="selected"</#if>>
+												河北省
+											</option>
+											<option value="12"
+													<#if ((planBuildData.projectProvince)!-1)==12>selected="selected"</#if>>
+												河南省
+											</option>
+											<option value="13"
+													<#if ((planBuildData.projectProvince)!-1)==13>selected="selected"</#if>>
+												湖北省
+											</option>
+											<option value="14"
+													<#if ((planBuildData.projectProvince)!-1)==14>selected="selected"</#if>>
+												湖南省
+											</option>
+											<option value="15"
+													<#if ((planBuildData.projectProvince)!-1)==15>selected="selected"</#if>>
+												吉林省
+											</option>
+											<option value="16"
+													<#if ((planBuildData.projectProvince)!-1)==16>selected="selected"</#if>>
+												江苏省
+											</option>
+											<option value="17"
+													<#if ((planBuildData.projectProvince)!-1)==17>selected="selected"</#if>>
+												江西省
+											</option>
+											<option value="18"
+													<#if ((planBuildData.projectProvince)!-1)==18>selected="selected"</#if>>
+												辽宁省
+											</option>
+											<option value="19"
+													<#if ((planBuildData.projectProvince)!-1)==19>selected="selected"</#if>>
+												青海省
+											</option>
+											<option value="20"
+													<#if ((planBuildData.projectProvince)!-1)==20>selected="selected"</#if>>
+												山东省
+											</option>
+											<option value="21"
+													<#if ((planBuildData.projectProvince)!-1)==21>selected="selected"</#if>>
+												山西省
+											</option>
+											<option value="22"
+													<#if ((planBuildData.projectProvince)!-1)==22>selected="selected"</#if>>
+												陕西省
+											</option>
+											<option value="23"
+													<#if ((planBuildData.projectProvince)!-1)==23>selected="selected"</#if>>
+												四川省
+											</option>
+											<option value="24"
+													<#if ((planBuildData.projectProvince)!-1)==24>selected="selected"</#if>>
+												云南省
+											</option>
+											<option value="25"
+													<#if ((planBuildData.projectProvince)!-1)==25>selected="selected"</#if>>
+												浙江省
+											</option>
+											<option value="26"
+													<#if ((planBuildData.projectProvince)!-1)==26>selected="selected"</#if>>
+												台湾省
+											</option>
+											<option value="27"
+													<#if ((planBuildData.projectProvince)!-1)==27>selected="selected"</#if>>
+												黑龙江省
+											</option>
+											<option value="28"
+													<#if ((planBuildData.projectProvince)!-1)==28>selected="selected"</#if>>
+												西藏自治区
+											</option>
+											<option value="29"
+													<#if ((planBuildData.projectProvince)!-1)==29>selected="selected"</#if>>
+												内蒙古自治区
+											</option>
+											<option value="30"
+													<#if ((planBuildData.projectProvince)!-1)==30>selected="selected"</#if>>
+												宁夏回族自治区
+											</option>
+											<option value="31"
+													<#if ((planBuildData.projectProvince)!-1)==31>selected="selected"</#if>>
+												广西壮族自治区
+											</option>
+											<option value="32"
+													<#if ((planBuildData.projectProvince)!-1)==32>selected="selected"</#if>>
+												新疆维吾尔自治区
+											</option>
+											<option value="33"
+													<#if ((planBuildData.projectProvince)!-1)==33>selected="selected"</#if>>
+												香港特别行政区
+											</option>
+											<option value="34"
+													<#if ((planBuildData.projectProvince)!-1)==34>selected="selected"</#if>>
+												澳门特别行政区
+											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
@@ -155,12 +257,16 @@
 								</div>
 							</div>
 
-
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-w-m btn-primary"
-												type="submit"><strong>保存</strong></button>
+										<button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;
+											保存
+										</button>
+										<button class="btn btn-success" type="button" id="btn_back"><i class="fa
+										fa-level-up"></i>&nbsp;
+											返回
+										</button>
 									</div>
 								</div>
 							</div>
@@ -241,6 +347,10 @@
 			forceParse: false,
 			calendarWeeks: true,
 			autoclose: true
+		});
+
+		$('#btn_back').click(function () {
+			window.location.href = "/planBuildData/list";
 		});
 
 		FormValidation.init();

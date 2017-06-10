@@ -216,6 +216,7 @@
 							});
 						}
 					},
+					"order": [[1, "desc"]],
 					"columnDefs": [
 						{
 							"targets": 0,
