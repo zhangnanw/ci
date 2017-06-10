@@ -85,17 +85,21 @@ public class RawBidd2CiBiddingData {
 
 		// 采购方式，公开招标、竞争性谈判、市场询价、单一来源、其它
 		Integer purchasingMethod = null;
+		// 单晶硅总采购容量
+		Double monocrystallineTotalCapacity = null;
 		// 单晶硅规格
-		String monocrystallineSpecification = null;
+		String[] monocrystallineSpecification = null;
 
 		// 单晶硅的采购容量，单位：MW（兆瓦）
-		Double monocrystallineCapacity = null;
+		Double[] monocrystallineCapacity = null;
 
+		// 多晶硅总采购容量
+		Double polysiliconTotalCapacity = null;
 		// 多晶硅规格
-		String polysiliconSpecification = null;
+		String[] polysiliconSpecification = null;
 
 		// 多晶硅的采购容量，单位：MW（兆瓦）
-		Double polysiliconCapacity = null;
+		Double[] polysiliconCapacity = null;
 
 		// 产品的部署类型，分布式、集中式、渔光、农光，需要乐叶确定
 		Integer deploymentType = null;
@@ -151,6 +155,9 @@ public class RawBidd2CiBiddingData {
 		String url = srcObj.getString("url");
 		// 发布时间
 		Date publishTime = getPubTime(srcObj);
+		
+		info.setMonocrystallineTotalCapacity(monocrystallineTotalCapacity);
+		info.setPolysiliconTotalCapacity(polysiliconTotalCapacity);
 		info.setPublishTime(publishTime);
 		info.setUrl(url);
 		info.setWinTime(winTime);
