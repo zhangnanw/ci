@@ -1,6 +1,7 @@
 package org.yansou.ci.storage.controller.project;
 
-import io.swagger.annotations.ApiOperation;
+import java.util.List;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -17,8 +18,9 @@ import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
+import org.yansou.ci.storage.util.SnapshonInfoUtils;
 
-import java.util.List;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 快照读写
@@ -59,7 +61,8 @@ public class SnapshotInfoController {
 
 		if (snapshotInfo == null) {// 查询所有的数据
 			List<SnapshotInfo> snapshotInfoList = snapshotInfoService.findAll();
-
+			//对返回值做处理
+			snapshotInfoList.forEach(SnapshonInfoUtils::filterSnapshot);
 			return SimpleRestResponse.ok(snapshotInfoList.toArray(new SnapshotInfo[0]));
 		}
 
@@ -68,14 +71,15 @@ public class SnapshotInfoController {
 			SnapshotInfo otherSnapshotInfo = snapshotInfoService.findById(id);
 
 			LOG.info("snapshotInfo: {}", otherSnapshotInfo);
-
+			SnapshonInfoUtils.filterSnapshot(otherSnapshotInfo);
 			return SimpleRestResponse.ok(otherSnapshotInfo);
 		}
 
 		String snapshotId = snapshotInfo.getSnapshotId();
 		if (StringUtils.isNotBlank(snapshotId)) {// 根据snapshotId查询
 			SnapshotInfo otherSnapshotInfo = snapshotInfoService.findBySnapshotId(snapshotId);
-
+			// 对快照做处理。
+			SnapshonInfoUtils.filterSnapshot(otherSnapshotInfo);
 			LOG.info("snapshotInfo: {}", otherSnapshotInfo);
 
 			return SimpleRestResponse.ok(otherSnapshotInfo);

@@ -1,4 +1,4 @@
-package org.yansou.ci.data.mining.nlpir.impl;
+package org.yansou.ci.data.mining.analyzer.impl;
 
 public class WeightZH {
 	/**

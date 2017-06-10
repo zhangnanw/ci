@@ -21,7 +21,37 @@ public class CrawlSeed extends AbstractModel<Long> {
 	private String sendUrl;
 	@Column
 	private String tplPath;
-	
 	@Column
 	private String headlers;
+	public String getTplClass() {
+		return tplClass;
+	}
+
+	public void setTplClass(String tplClass) {
+		this.tplClass = tplClass;
+	}
+
+	public String getSendUrl() {
+		return sendUrl;
+	}
+
+	public void setSendUrl(String sendUrl) {
+		this.sendUrl = sendUrl;
+	}
+
+	public String getTplPath() {
+		return tplPath;
+	}
+
+	public void setTplPath(String tplPath) {
+		this.tplPath = tplPath;
+	}
+
+	public String getHeadlers() {
+		return headlers;
+	}
+
+	public void setHeadlers(String headlers) {
+		this.headlers = headlers;
+	}
 }

@@ -1,25 +1,27 @@
 package org.yansou.ci.storage.ciimp;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
-import com.google.common.collect.Maps;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
-import org.yansou.ci.data.mining.nlpir.impl.AreaAnalyzer;
+import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONPath;
+import com.google.common.collect.Maps;
 
 /**
  * RCC拟在建信息转换为ci里使用的拟在建信息。
@@ -27,10 +29,11 @@ import java.util.stream.Collectors;
  * @author Administrator
  *
  */
-public class RccSource2PlanBuildDataInfo {
+public final class RccSource2PlanBuildDataInfo {
 
 	private static final Logger LOG = LogManager.getLogger(RccSource2PlanBuildDataInfo.class);
 	final static private Map<String, Integer> codeMap = Maps.newHashMap();
+
 	static {
 		String[] arr = "1:北京市;2:天津市;3:上海市;4:重庆市;5:安徽省;6:福建省;7:甘肃省;8:广东省;9:贵州省;10:海南省;11:河北省;12:河南省;13:湖北省;14:湖南省;15:吉林省;16:江苏省;17:江西省;18:辽宁省;19:青海省;20:山东省;21:山西省;22:陕西省;23:四川省;24:云南省;25:浙江省;26:台湾省;27:黑龙江省;28:西藏自治区;29:内蒙古自治区;30:宁夏回族自治区;31:广西壮族自治区;32:新疆维吾尔自治区;33:香港特别行政区;34:澳门特别行政区"
 				.split(";");
@@ -71,9 +74,10 @@ public class RccSource2PlanBuildDataInfo {
 
 		Double projectScale = null;// 项目规模（总采购容量），单位：MW（兆瓦）
 
-		Double projectCost = null;// 项目造价，单位：元
+		Double projectCost = null;// 项目造价，单位：万元
 
-		Double projectTotalInvestment = proObj.getDouble("investment_amounts");// 项目总投资，单位：元
+		Double projectTotalInvestment = Optional.ofNullable(proObj.getDouble("investment_amounts"))
+				.filter(Objects::nonNull).map(x -> x / 10000).orElse(null);// 项目总投资，单位：万元
 
 		String projectDescription = null;// 项目描述
 
@@ -85,7 +89,7 @@ public class RccSource2PlanBuildDataInfo {
 
 		String parentCompany = null;// 项目业主、开放商、采购人的母公司
 
-		String planBuildStatus = null;// 拟在建项目阶段，由乐叶提供
+		String planBuildStatus = proObj.getString("project_stage");// 拟在建项目阶段，由乐叶提供
 		String purchaseSituation = RegexUtils.regex("设备购置情况[:：](.{5,80})", ctx.replaceAll("<[^>]*>", ""), 1);// 设备购置情况，直接从RCC中获取
 
 		String designer = getValue(proObj.getString("designing_institute"), "company");
@@ -126,8 +130,12 @@ public class RccSource2PlanBuildDataInfo {
 		info.setProjectDistrict(projectDistrict);
 		info.setProjectIdentifie(projectIdentifie);
 		info.setProjectName(projectName);
-		info.setProjectProvince(codeMap
-				.get(codeMap.keySet().stream().filter(key -> key.contains(projectProvince)).findAny().orElse(null)));
+		if (StringUtils.isNotBlank(projectProvince)) {
+			codeMap.keySet().stream().filter(Objects::nonNull).filter(key -> key.contains(projectProvince))
+					.forEach(key -> {
+						info.setProjectProvince(codeMap.get(key));
+					});
+		}
 		info.setProjectScale(projectScale);
 		info.setProjectTotalInvestment(projectTotalInvestment);
 		info.setPurchaseSituation(purchaseSituation);
