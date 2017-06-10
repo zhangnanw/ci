@@ -1,6 +1,7 @@
 package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
@@ -117,18 +118,22 @@ public class BiddingData extends AbstractModel<Long> {
 	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
 	private String[] monocrystallineSpecification;// 单晶硅规格，可能有多个值
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
 	private Double[] monocrystallineCapacity;// 单晶硅的采购容量，单位：MW（兆瓦）
 
 	@Column
 	private Double monocrystallineTotalCapacity;// 单晶硅的总采购容量，单位：MW（兆瓦）
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
 	private String[] polysiliconSpecification;// 多晶硅规格，可能有多个值
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
 	private Double[] polysiliconCapacity;// 多晶硅的采购容量，单位：MW（兆瓦）
 
 	@Column
