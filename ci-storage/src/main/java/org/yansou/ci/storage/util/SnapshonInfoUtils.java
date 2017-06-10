@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
-import org.yansou.ci.data.mining.utils.Readability;
 
 public class SnapshonInfoUtils {
 	// 过滤词列表
