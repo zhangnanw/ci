@@ -10,7 +10,7 @@ public class SnapshonInfoUtils {
 	// 过滤词列表
 	static String[] filterKeyword = { "_中国电力招标网", "【编辑：信息中心】" };
 	// 高亮次词表，满足正则的会被高亮
-	static String[] highlightRegexs = { "(?is)(mw|kw|gw|晶|公告|招标|中标|公示|代理)" };
+	static String[] highlightRegexs = { "(?is)(mw|kw|gw|晶|公告|招标|中标|公示|代理|发布日期|电话|传真|联系人|地址|地点)" };
 
 	static public void filterSnapshot(SnapshotInfo snapshot) {
 		String ctx = snapshot.getContext();
