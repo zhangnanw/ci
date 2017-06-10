@@ -85,6 +85,11 @@
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale" value="${(biddingData.projectScale)!''}">
 									</div>
+									<div class="form-group"><label>项目总投资，单位：万元</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectTotalInvestment"
+											   value="${(biddingData.projectTotalInvestment)!''}">
+									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectDescription" value="${(biddingData.projectDescription)!''}">
