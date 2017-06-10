@@ -2,7 +2,6 @@ package org.yansou.ci.storage.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.storage.ciimp.CorvToBidding;
 import org.yansou.ci.storage.ciimp.CorvToPlanBuild;
@@ -13,7 +12,7 @@ import org.yansou.ci.storage.ciimp.CorvToPlanBuild;
  * @author n.zhang
  *
  */
-@Component
+@Deprecated
 public class ImportTask {
 	@Autowired
 	private CorvToPlanBuild corvToPlanBuidl;
