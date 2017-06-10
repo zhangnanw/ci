@@ -230,7 +230,7 @@
 						{
 							"targets": 1,
 							"data": "publishTime",
-							"orderable": false
+							"orderable": true
 						},
 						{
 							"targets": 2,
