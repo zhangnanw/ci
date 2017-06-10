@@ -198,6 +198,7 @@
 										<thead>
 										<tr>
 											<th>#</th>
+											<th>发布时间</th>
 											<th>公告类型</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
@@ -214,7 +215,6 @@
 											<th>多晶硅的采购容量（MW）</th>
 											<th>代理机构</th>
 											<th>中标单位信息</th>
-											<th>发布时间</th>
 											<th>中标单位</th>
 											<th>编辑</th>
 											<th>删除</th>
@@ -286,6 +286,11 @@
 						},
 						{
 							"targets": 1,
+							"data": "publishTime",
+							"orderable": true
+						},
+						{
+							"targets": 2,
 							"data": "dataType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -305,22 +310,22 @@
 							}
 						},
 						{
-							"targets": 2,
+							"targets": 3,
 							"data": "projectName",
 							"orderable": false
 						},
 						{
-							"targets": 3,
+							"targets": 4,
 							"data": "projectScale",
 							"orderable": false
 						},
 						{
-							"targets": 4,
+							"targets": 5,
 							"data": "biddingBudget",
 							"orderable": false
 						},
 						{
-							"targets": 5,
+							"targets": 6,
 							"data": "projectProvince",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -398,12 +403,12 @@
 							}
 						},
 						{
-							"targets": 6,
+							"targets": 7,
 							"data": "projcetOwner",
 							"orderable": false
 						},
 						{
-							"targets": 7,
+							"targets": 8,
 							"data": "purchasingMethod",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -423,12 +428,12 @@
 							}
 						},
 						{
-							"targets": 8,
+							"targets": 9,
 							"data": "parentCompany",
 							"orderable": false
 						},
 						{
-							"targets": 9,
+							"targets": 10,
 							"data": "productType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -442,7 +447,7 @@
 							}
 						},
 						{
-							"targets": 10,
+							"targets": 11,
 							"data": "deploymentType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -460,40 +465,35 @@
 							}
 						},
 						{
-							"targets": 11,
+							"targets": 12,
 							"data": "monocrystallineSpecification",
 							"orderable": false
 						},
 						{
-							"targets": 12,
+							"targets": 13,
 							"data": "monocrystallineCapacity",
 							"orderable": false
 						},
 						{
-							"targets": 13,
+							"targets": 14,
 							"data": "polysiliconSpecification",
 							"orderable": false
 						},
 						{
-							"targets": 14,
+							"targets": 15,
 							"data": "polysiliconCapacity",
 							"orderable": false
 						},
 						{
-							"targets": 15,
+							"targets": 16,
 							"data": "agency",
 							"orderable": false
 						},
 						{
-							"targets": 16,
+							"targets": 17,
 							"data": "winCompanyInfo",
 							"orderable": false,
 							"visible": false
-						},
-						{
-							"targets": 17,
-							"data": "publishTime",
-							"orderable": false
 						},
 						{
 							"targets": 18,
@@ -552,15 +552,15 @@
 
 		var oTable = $('.dataTables-example').DataTable();
 
-		oTable.column(1).search(projectName)
-				.column(4).search(projectProvince)
-				.column(5).search(projcetOwner)
-				.column(7).search(parentCompany)
-				.column(15).search(winCompanyInfo)
-				.column(14).search(agency)
-				.column(8).search(productType)
-				.column(9).search(deploymentType)
-				.column(6).search(purchasingMethod)
+		oTable.column(3).search(projectName)
+				.column(6).search(projectProvince)
+				.column(7).search(projcetOwner)
+				.column(9).search(parentCompany)
+				.column(17).search(winCompanyInfo)
+				.column(16).search(agency)
+				.column(10).search(productType)
+				.column(11).search(deploymentType)
+				.column(8).search(purchasingMethod)
 				.draw();
 
 	}
