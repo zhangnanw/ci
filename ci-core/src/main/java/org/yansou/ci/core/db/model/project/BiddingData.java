@@ -183,6 +183,9 @@ public class BiddingData extends AbstractModel<Long> {
 	private Integer customerType;// 客户类别，一类客户、二类客户、三类客户、互补企业、设计院、竞争对手，需要乐叶确定
 
 	@Column
+	private String reviewers;// 评审专家
+
+	@Column
 	private String remarks;// 备注
 
 	@Column
@@ -482,6 +485,14 @@ public class BiddingData extends AbstractModel<Long> {
 
 	public void setCustomerType(Integer customerType) {
 		this.customerType = customerType;
+	}
+
+	public String getReviewers() {
+		return reviewers;
+	}
+
+	public void setReviewers(String reviewers) {
+		this.reviewers = reviewers;
 	}
 
 	public String getRemarks() {
