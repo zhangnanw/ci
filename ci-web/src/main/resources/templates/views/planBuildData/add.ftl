@@ -26,7 +26,7 @@
 					<h2>拟在建数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a href="/planBuildData/list">拟在建数据</a>
@@ -55,6 +55,10 @@
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale">
+									</div>
+									<div class="form-group"><label>项目总投资，单位：万元</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectTotalInvestment">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder=""
@@ -110,7 +114,7 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="" name="parentCompany">
 									</div>
-									<div class="form-group"><label>拟在建项目阶段</label>
+									<div class="form-group"><label>项目阶段</label>
 										<input type="text" class="form-control" placeholder="" name="planBuildStatus">
 									</div>
 									<div class="form-group"><label>设备购置情况</label>
@@ -142,8 +146,13 @@
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-w-m btn-primary"
-												type="submit"><strong>保存</strong></button>
+										<button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;
+											保存
+										</button>
+										<button class="btn btn-success" type="button" id="btn_back"><i class="fa
+										fa-level-up"></i>&nbsp;
+											返回
+										</button>
 									</div>
 								</div>
 							</div>
@@ -220,10 +229,16 @@
 			language: "zh-CN",
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			keyboardNavigation: false,
 			forceParse: false,
 			calendarWeeks: true,
 			autoclose: true
+		});
+
+		$('#btn_back').click(function () {
+			window.location.href = "/planBuildData/list";
 		});
 
 		FormValidation.init();
