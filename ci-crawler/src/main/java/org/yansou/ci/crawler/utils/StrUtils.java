@@ -1,12 +1,10 @@
 package org.yansou.ci.crawler.utils;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class StrUtils {
@@ -27,8 +25,4 @@ public class StrUtils {
 		return str;
 	}
 	
-	public static void main(String[] args) throws Exception {
-		String str =FileUtils.readFileToString(new File("C:/Users/Administrator/Desktop/new  0.txt"));
-		System.out.println(StrUtils.String(str));
-	}
 }

@@ -11,10 +11,10 @@ import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.time.TimeStat;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
-import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.data.mining.utils.Readability;
-import org.yansou.ci.storage.service.project.BiddingDataService;
+import org.yansou.ci.storage.service.project.PlanBuildDataService;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -25,18 +25,18 @@ import com.alibaba.fastjson.JSONObject;
  *
  */
 @Component
-public class CorvToBidding extends AbsStatistics {
-	private static final Logger LOG = LogManager.getLogger(CorvToBidding.class);
+public class CorvDlzbToPlanBuild extends AbsStatistics {
+	private static final Logger LOG = LogManager.getLogger(CorvDlzbToPlanBuild.class);
 
 	@Autowired
-	private BiddingDataService biddingDataService;
+	private PlanBuildDataService planBuildDataService;
 
 	public void run() {
 
 		try {
 			TimeStat ts = new TimeStat();
-			String sql = "select * from tab_raw_bidd where url not like '%d-g-%' and url not in(SELECT url from `intelligence-"
-					+ TmpConfigRead.getCfgName() + "`.ci_bidding_data where url is not null) limit 99999999";
+			String sql = "select * from tab_raw_bidd where url like '%d-g-%' and url not in(SELECT url from `intelligence-"
+					+ TmpConfigRead.getCfgName() + "`.ci_plan_build_data where url is not null) limit 99999999";
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			System.out.println("tab_raw_bidd:size=" + arr.size());
@@ -49,18 +49,18 @@ public class CorvToBidding extends AbsStatistics {
 	}
 
 	void store(JSONObject obj) {
-		RawBidd2CiBiddingData rd = new RawBidd2CiBiddingData(obj, null);
+		Dlzb2PlanBuildDataInfo rd = new Dlzb2PlanBuildDataInfo(obj, null);
 		SnapshotInfo snapshot = new SnapshotInfo();
 		snapshot.setDataType(1);
 		snapshot.setSnapshotId(UUID.randomUUID().toString());
 		snapshot.setContext(new Readability(obj.getString("context")).init().outerHtml());
-		BiddingData data = rd.get();
+		PlanBuildData data = rd.get();
 		if (LTFilter.isSave(data, snapshot)) {
 			data.setSnapshotId(snapshot.getSnapshotId());
 			data.setUrl(obj.getString("url"));
 			try {
-				biddingDataService.saveDataAndSnapshotInfo(data, snapshot);
-				LOG.info("insert bidding");
+				planBuildDataService.saveDataAndSnapshotInfo(data, snapshot);
+				LOG.info("insert dlzb plan build");
 			} catch (DaoException e) {
 				LOG.error(e);
 			}

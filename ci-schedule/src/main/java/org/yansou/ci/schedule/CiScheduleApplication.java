@@ -13,5 +13,5 @@ public class CiScheduleApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CiScheduleApplication.class, args);
 	}
-
+	
 }
