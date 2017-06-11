@@ -25,9 +25,14 @@ public class CiimpScheduleTaskList {
 
 	@Scheduled(cron = "0 20 * * * *")
 	public void runImportDlzbPlanBuild() {
-		String requestUrl = "http://" + CI_STORAGE + "/importdata/dlzbplanbuild";
-		String response = client.getForObject(requestUrl, String.class);
-		System.out.println(response);
+		try {
+
+			String requestUrl = "http://" + CI_STORAGE + "/importdata/dlzbplanbuild";
+			String response = client.getForObject(requestUrl, String.class);
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Scheduled(cron = "0 40 * * * *")
