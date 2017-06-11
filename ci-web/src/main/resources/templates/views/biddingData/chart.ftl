@@ -25,122 +25,10 @@
 						<ol class="breadcrumb">
 							<li><a href="/welcome/index">首页</a></li>
 							<li><a>招中标数据</a></li>
-							<li class="active"><strong>数据预览</strong></li>
+							<li class="active"><strong>数据报表</strong></li>
 						</ol>
 					</div>
 					<div class="col-lg-2"></div>
-				</div>
-
-				<div class="wrapper wrapper-content animated fadeInRight ecommerce">
-
-
-					<div class="ibox-content m-b-sm border-bottom">
-						<div class="row">
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="product_name">项目名称</label> <input
-										type="text" id="projectName" name="projectName" value=""
-										placeholder="Product Name" class="form-control">
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="form-group">
-									<label class="control-label" for="price">项目地址（省）</label> <input
-										type="text" id="projectProvince" name="projectProvince"
-										value="" placeholder="项目地址（省）" class="form-control">
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="form-group">
-									<label class="control-label" for="quantity">采购人</label> <input
-										type="text" id="projcetOwner" name="projcetOwner" value=""
-										placeholder="采购人" class="form-control">
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="status">采购方式</label> <select
-										name="purchasingMethod" id="purchasingMethod"
-										class="form-control">
-										<option value="-1" selected>--请选择--</option>
-										<option value="1">邀标公告</option>
-										<option value="2">询价公告</option>
-										<option value="3">招标公告</option>
-										<option value="4">中标公告</option>
-										<option value="5">成交公告</option>
-										<option value="6">更正公告</option>
-										<option value="7">其他公告</option>
-										<option value="8">单一来源</option>
-										<option value="9">资格预审</option>
-										<option value="10">废标流标</option>
-										<option value="11">竞争性谈判</option>
-										<option value="12">竞争性磋商</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="product_name">开始时间</label> <input
-										type="text" id="startTime" name="startTime" value=""
-										placeholder="开始时间" class="form-control">
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="form-group">
-									<label class="control-label" for="price">结束时间</label> <input
-										type="text" id="endTime" name="endTime" value=""
-										placeholder="结束时间" class="form-control">
-								</div>
-							</div>
-
-						</div>
-
-						<div class="row">
-							<div class="ibox-content">
-								<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a> <a
-									class="btn btn-w-m btn-success" href="/biddingData/add">新增</a>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="ibox float-e-margins">
-
-								<div class="ibox-content">
-
-									<div class="table-responsive">
-										<table
-											class="table table-striped table-bordered table-hover dataTables-example">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>项目名称</th>
-													<th>项目规模（MW）</th>
-													<th>项目总投资（万元）</th>
-													<th>项目地址（省）</th>
-													<th>采购人</th>
-													<th>母公司</th>
-													<th>单晶硅规格</th>
-													<th>单晶硅采购容量（MW）</th>
-													<th>多晶硅规格</th>
-													<th>多晶硅的采购容量（MW）</th>
-													<th>中标单位</th>
-													<th>编辑</th>
-													<th>删除</th>
-												</tr>
-											</thead>
-
-										</table>
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 
 
@@ -154,7 +42,7 @@
 
 	<#include "/views/plugins.ftl"/>
 	<!-- Page-Level Scripts -->
-	<script>
+	<!-- <script>
 		var TableManaged = function() {
 			return {
 				// main function to initiate the module
@@ -309,7 +197,7 @@
 			TableManaged.init();
 		});
 	</script>
-
+ -->
 </body>
 </html>
 

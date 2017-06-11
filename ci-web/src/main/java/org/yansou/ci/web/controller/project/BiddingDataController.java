@@ -46,6 +46,20 @@ public class BiddingDataController {
 	}
 
 	/**
+	 * 进入图表页面
+	 *
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/chart", method = RequestMethod.GET)
+	public String showChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		return "views/biddingData/chart";
+	}
+	
+	/**
 	 * 显示列表页数据
 	 *
 	 * @param model
