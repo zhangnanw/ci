@@ -447,6 +447,10 @@
 										<input type="text" class="form-control" placeholder="" name="agency"
 											   value="${(biddingData.agency)!''}">
 									</div>
+									<div class="form-group"><label>评审专家</label>
+										<input type="text" class="form-control" placeholder="" name="reviewers"
+											   value="${(biddingData.reviewers)!''}">
+									</div>
 									<div class="form-group"><label>发布时间</label>
 										<div class="input-group date">
 											<input name="publishTime" class="form-control" type="text"

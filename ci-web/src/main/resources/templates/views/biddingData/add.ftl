@@ -255,6 +255,9 @@
 									<div class="form-group"><label>代理机构</label>
 										<input type="text" class="form-control" placeholder="" name="agency">
 									</div>
+									<div class="form-group"><label>评审专家</label>
+										<input type="text" class="form-control" placeholder="" name="reviewers">
+									</div>
 									<div class="form-group"><label>发布时间</label>
 										<div class="input-group date">
 											<input name="publishTime" class="form-control" type="text"

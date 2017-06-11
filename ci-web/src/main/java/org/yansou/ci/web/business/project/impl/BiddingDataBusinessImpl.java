@@ -85,6 +85,8 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		LOG.info("dataTablesInput: {}", dataTablesInput);
 
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
+
+		updateProjectProvince(pageCriteria);
 		updateProductType(pageCriteria);
 		updateDeploymentType(pageCriteria);
 		updatePurchasingMethod(pageCriteria);
@@ -115,7 +117,8 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<BiddingData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<BiddingData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
+				.getDraw(), null);
 
 		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
@@ -123,7 +126,13 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	private void updateStatus(PageCriteria pageCriteria) {
-		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(), Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
+				Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
+	}
+
+	private void updateProjectProvince(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "projectProvince", null, Integer.class.getTypeName(),
+				SearchInfo.SearchOp.EQ);
 	}
 
 	private void updateProductType(PageCriteria pageCriteria) {
