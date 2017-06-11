@@ -3,6 +3,8 @@ package org.yansou.ci.common.datatables.utils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.yansou.ci.common.datatables.mapping.Column;
 import org.yansou.ci.common.datatables.mapping.DataTablesInput;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
  * @create 2017-05-16 9:49
  */
 public class DataTablesUtils {
+
+	private static final Logger LOG = LogManager.getLogger(DataTablesUtils.class);
 
 	/**
 	 * 解析分页参数
@@ -358,10 +362,17 @@ public class DataTablesUtils {
 		itemList.forEach(item -> parseOrder(orderMap, item));
 
 		// 一共有多少列
-		int columnLen = orderMap.keySet().stream().mapToInt(Integer::intValue).max().getAsInt() + 1;
+		int columnLen = 0;
+
+		if (MapUtils.isNotEmpty(orderMap)) {
+			columnLen = orderMap.keySet().stream().mapToInt(Integer::intValue).max().getAsInt() + 1;
+		}
 
 		Order[] orders = new Order[columnLen];
-		orderMap.forEach((index, order) -> orders[index] = order);
+
+		if (MapUtils.isNotEmpty(orderMap)) {
+			orderMap.forEach((index, order) -> orders[index] = order);
+		}
 
 		return orders;
 	}
