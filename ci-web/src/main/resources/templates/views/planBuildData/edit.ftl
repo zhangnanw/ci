@@ -26,7 +26,7 @@
 					<h2>拟在建数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a href="/planBuildData/list">拟在建数据</a>
@@ -229,7 +229,7 @@
 										<input type="text" class="form-control" placeholder="" name="parentCompany"
 											   value="${(planBuildData.parentCompany)!''}">
 									</div>
-									<div class="form-group"><label>拟在建项目阶段</label>
+									<div class="form-group"><label>项目阶段</label>
 										<input type="text" class="form-control" placeholder="" name="planBuildStatus"
 											   value="${(planBuildData.planBuildStatus)!''}">
 									</div>
@@ -348,6 +348,8 @@
 			language: "zh-CN",
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			keyboardNavigation: false,
 			forceParse: false,
 			calendarWeeks: true,

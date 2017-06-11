@@ -26,7 +26,7 @@
 					<h2>招中标数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a href="/biddingData/list">招中标数据</a>
@@ -196,7 +196,7 @@
 									</div>
 									<div class="form-group"><label>单晶硅的采购总容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="polysiliconTotalCapacity">
+											   name="monocrystallineTotalCapacity">
 									</div>
 									<div class="form-group"><label>多晶硅规格</label>
 										<div class="row">
@@ -373,6 +373,8 @@
 			language: "zh-CN",
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			keyboardNavigation: false,
 			forceParse: false,
 			calendarWeeks: true,

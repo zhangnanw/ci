@@ -14,6 +14,7 @@ import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.core.rest.request.RestRequest;
@@ -85,6 +86,7 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
 		updateBiddingDataId(pageCriteria, request);
+		updateStatus(pageCriteria);
 
 		LOG.info("pageCriteria: {}", pageCriteria);
 
@@ -100,19 +102,28 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw
+				(), null);
 
 		LOG.info("dataTableVo: {}", dataTablesOutput);
 
 		return dataTablesOutput;
 	}
 
+	private void updateStatus(PageCriteria pageCriteria) {
+		String[] values = new String[]{AbstractModel.Status.DELETE.getValue().toString()};
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", values, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.NE);
+	}
+
 	private void updateBiddingDataId(PageCriteria pageCriteria, HttpServletRequest request) {
 		String propertyName = "biddingData.id";
 
 		String value = RequestUtils.getStringParameter(request, propertyName);
+		String[] values = new String[]{value};
 
-		DataTablesUtils.updateSearchInfo(pageCriteria, propertyName, value, Long.class.getTypeName(), SearchInfo
+		DataTablesUtils.updateSearchInfo(pageCriteria, propertyName, values, Long.class.getTypeName(), SearchInfo
 				.SearchOp.EQ);
 	}
 
@@ -187,7 +198,7 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setIds(ids);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
 

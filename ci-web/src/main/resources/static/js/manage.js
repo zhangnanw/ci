@@ -77,7 +77,6 @@ function deleteForDataTable(clickObj) {
     $.alertable.confirm('您确定要删除这一条数据吗?').then(function () {//Confirmation submitted
         var path = $(clickObj).attr("res");
         var tableId = $(".table").attr("id");
-        alert("tableId:" + tableId);
 
         $.ajax({
             "url": path,
@@ -90,14 +89,14 @@ function deleteForDataTable(clickObj) {
                     var start = info.start;
                     var end = info.end;
 
-                    if (total - start === 1) {// 删除当前页的最后一条数据
+                    if (end - start === 1) {// 删除当前页的最后一条数据
                         if (start > 0) {
                             oTable.page('previous').draw(true);
                         } else {
-                            oTable.row(nRow).delete();
+                            oTable.row(nRow).remove().draw(false);
                         }
                     } else {
-                        oTable.row(nRow).delete();
+                        oTable.row(nRow).remove().draw(false);
                     }
                 } else if (data.status === 500) {
                     $.alertable.alert(data.errors);
