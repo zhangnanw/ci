@@ -2,6 +2,7 @@ package org.yansou.ci.common.datatables.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,11 +74,11 @@ public class DataTablesUtils {
 	 * @param valueType
 	 * @param searchOp
 	 */
-	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, Object value, String
+	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, String[] values, String
 			valueType, SearchInfo.SearchOp searchOp) {
 		SearchInfo searchInfo = new SearchInfo();
 		searchInfo.setPropertyName(propertyName);
-		searchInfo.setValue(value);
+		searchInfo.setValues(values);
 		searchInfo.setValueType(valueType);
 		searchInfo.setSearchOp(searchOp);
 
@@ -123,10 +124,10 @@ public class DataTablesUtils {
 			SearchInfo searchInfo1 = columnInfo.getSearchInfo();
 
 			if (searchInfo1 != null) {// 更新查询值
-				searchInfo.setValue(searchInfo1.getValue());
+				searchInfo.setValues(searchInfo1.getValues());
 			}
 
-			if (searchInfo.getValue() != null) {
+			if (ArrayUtils.isNotEmpty(searchInfo.getValues())) {
 				columnInfo.setSearchInfo(searchInfo);
 			}
 
@@ -190,7 +191,7 @@ public class DataTablesUtils {
 		SearchInfo searchInfo = new SearchInfo();
 
 		searchInfo.setPropertyName(column.getData());
-		searchInfo.setValue(value);
+		searchInfo.setValues(new String[]{value});
 		searchInfo.setValueType(String.class.getTypeName());
 		searchInfo.setSearchOp(SearchInfo.SearchOp.LIKE);
 
