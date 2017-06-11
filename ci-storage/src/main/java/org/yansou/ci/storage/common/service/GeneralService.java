@@ -5,7 +5,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.model.AbstractModel;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import java.io.Serializable;
 import java.util.List;
@@ -51,13 +51,22 @@ public interface GeneralService<T extends AbstractModel<ID>, ID extends Serializ
 	T[] save(T[] entities) throws DaoException;
 
 	/**
-	 * 删除
+	 * 删除数据，不做物理删除，只更新对应的数据状态
 	 *
 	 * @param id
 	 *
 	 * @throws DaoException
 	 */
-	void deleteById(ID id) throws DaoException;
+	int deleteById(ID id) throws DaoException;
+
+	/**
+	 * 删除数据，不做物理删除，只更新对应的数据状态
+	 *
+	 * @param ids
+	 *
+	 * @throws DaoException
+	 */
+	int deleteById(ID[] ids) throws DaoException;
 
 	/**
 	 * 删除
@@ -103,6 +112,15 @@ public interface GeneralService<T extends AbstractModel<ID>, ID extends Serializ
 	 * @throws DaoException
 	 */
 	T[] update(T[] entities) throws DaoException;
+
+	/**
+	 * 更新非空字段
+	 *
+	 * @param entity
+	 *
+	 * @throws DaoException
+	 */
+	void updateNotNullField(T entity) throws DaoException;
 
 	/**
 	 * 更新数据的状态

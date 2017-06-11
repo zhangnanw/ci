@@ -38,29 +38,35 @@ public class ClassUtils {
 		return String.class;
 	}
 
-	public static Object getValue(String value, String valueType) {
-		if (StringUtils.isBlank(value)) {
+	public static Object getValue(Object value, String valueType) {
+		if (value == null) {
+			return null;
+		}
+
+		String valueStr = value.toString();
+
+		if (StringUtils.isBlank(valueStr)) {
 			return null;
 		}
 
 		if (valueType.equals("int") || valueType.equals("java.lang.Integer")) {
-			return Integer.parseInt(value);
+			return Integer.parseInt(valueStr);
 		}
 
 		if (valueType.equals("long") || valueType.equals("java.lang.Long")) {
-			return Long.parseLong(value);
+			return Long.parseLong(valueStr);
 		}
 
 		if (valueType.equals("double") || valueType.equals("java.lang.Double")) {
-			return Double.parseDouble(value);
+			return Double.parseDouble(valueStr);
 		}
 
 		if (valueType.equals("float") || valueType.equals("java.lang.Float")) {
-			return Float.parseFloat(value);
+			return Float.parseFloat(valueStr);
 		}
 
 		if (valueType.equals("java.util.Date")) {
-			return DateFormater.parse(value);
+			return DateFormater.parse(valueStr);
 		}
 
 		return value;

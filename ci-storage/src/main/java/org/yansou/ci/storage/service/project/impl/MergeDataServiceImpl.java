@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.core.model.project.MergeData;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.core.db.model.project.MergeData;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.MergeDataDao;
+import org.yansou.ci.storage.repository.project.MergeDataRepository;
 import org.yansou.ci.storage.service.project.MergeDataService;
 
 /**
@@ -19,19 +18,14 @@ import org.yansou.ci.storage.service.project.MergeDataService;
 @Transactional
 public class MergeDataServiceImpl extends GeneralServiceImpl<MergeData, Long> implements MergeDataService {
 
-	private MergeDataDao mergeDataDao;
+	private MergeDataRepository mergeDataRepository;
 
 	@Autowired
-	@Qualifier("mergeDataDao")
+	@Qualifier("mergeDataRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<MergeData, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.mergeDataDao = (MergeDataDao) generalDao;
-	}
-
-	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return mergeDataDao.updateStatus(status, id);
+	public void setGeneralRepository(GeneralRepository<MergeData, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.mergeDataRepository = (MergeDataRepository) generalRepository;
 	}
 
 }

@@ -1,16 +1,15 @@
 package org.yansou.ci.core.rest.request;
 
 import org.yansou.ci.common.page.PageCriteria;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.BiddingSnapshot;
-import org.yansou.ci.core.model.project.MergeData;
-import org.yansou.ci.core.model.project.NewsData;
-import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.core.model.project.PlanBuildSnapshot;
-import org.yansou.ci.core.model.project.ProjectInfo;
-import org.yansou.ci.core.model.project.RecordData;
-import org.yansou.ci.core.model.project.WinCompany;
-import org.yansou.ci.core.model.system.Account;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.MergeData;
+import org.yansou.ci.core.db.model.project.NewsData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.ProjectInfo;
+import org.yansou.ci.core.db.model.project.RecordData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
+import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.db.model.system.Account;
 
 import java.io.Serializable;
 
@@ -23,6 +22,8 @@ import java.io.Serializable;
 public class RestRequest implements Serializable {
 
 	private static final long serialVersionUID = 2050890240916910075L;
+
+	private Long[] ids;// 用于数据的删除
 
 	private PageCriteria pageCriteria;
 
@@ -50,8 +51,16 @@ public class RestRequest implements Serializable {
 	private WinCompany winCompany;
 	private WinCompany[] winCompanies;
 
-	private BiddingSnapshot biddingSnapshot;
-	private PlanBuildSnapshot planBuildSnapshot;
+	private SnapshotInfo snapshotInfo;
+	private SnapshotInfo[] snapshotInfos;
+
+	public Long[] getIds() {
+		return ids;
+	}
+
+	public void setIds(Long[] ids) {
+		this.ids = ids;
+	}
 
 	public PageCriteria getPageCriteria() {
 		return pageCriteria;
@@ -189,19 +198,19 @@ public class RestRequest implements Serializable {
 		this.winCompanies = winCompanies;
 	}
 
-	public BiddingSnapshot getBiddingSnapshot() {
-		return biddingSnapshot;
+	public SnapshotInfo getSnapshotInfo() {
+		return snapshotInfo;
 	}
 
-	public void setBiddingSnapshot(BiddingSnapshot biddingSnapshot) {
-		this.biddingSnapshot = biddingSnapshot;
+	public void setSnapshotInfo(SnapshotInfo snapshotInfo) {
+		this.snapshotInfo = snapshotInfo;
 	}
 
-	public PlanBuildSnapshot getPlanBuildSnapshot() {
-		return planBuildSnapshot;
+	public SnapshotInfo[] getSnapshotInfos() {
+		return snapshotInfos;
 	}
 
-	public void setPlanBuildSnapshot(PlanBuildSnapshot planBuildSnapshot) {
-		this.planBuildSnapshot = planBuildSnapshot;
+	public void setSnapshotInfos(SnapshotInfo[] snapshotInfos) {
+		this.snapshotInfos = snapshotInfos;
 	}
 }

@@ -46,50 +46,83 @@
 
 				<div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="product_name">项目名称</label>
-								<input type="text" id="projectName" name="projectName" value="" placeholder="项目名称"
+								<label class="control-label" for="projectName">项目名称</label>
+								<input type="text" id="projectName" name="projectName" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="price">项目地址（省）</label>
-								<input type="text" id="projectProvince" name="projectProvince" value=""
-									   placeholder="项目地址（省）"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="quantity">采购人</label>
-								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder="采购人"
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="status">母公司</label>
-								<input type="text" id="parentCompany" name="parentCompany" value="" placeholder="母公司"
-									   class="form-control">
-							</div>
-						</div>
-					</div>
+								<label class="control-label" for="projectProvince">项目地址（省）</label>
 
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="product_name">开始时间</label>
-								<input type="text" id="startTime" name="startTime" value="" placeholder="开始时间"
-									   class="form-control">
+								<select name="projectProvince" id="projectProvince" class="form-control">
+									<option value="" selected>--请选择--</option>
+									<option value="1">北京市</option>
+									<option value="2">天津市</option>
+									<option value="3">上海市</option>
+									<option value="4">重庆市</option>
+									<option value="5">安徽省</option>
+									<option value="6">福建省</option>
+									<option value="7">甘肃省</option>
+									<option value="8">广东省</option>
+									<option value="9">贵州省</option>
+									<option value="10">海南省</option>
+									<option value="11">河北省</option>
+									<option value="12">河南省</option>
+									<option value="13">湖北省</option>
+									<option value="14">湖南省</option>
+									<option value="15">吉林省</option>
+									<option value="16">江苏省</option>
+									<option value="17">江西省</option>
+									<option value="18">辽宁省</option>
+									<option value="19">青海省</option>
+									<option value="20">山东省</option>
+									<option value="21">山西省</option>
+									<option value="22">陕西省</option>
+									<option value="23">四川省</option>
+									<option value="24">云南省</option>
+									<option value="25">浙江省</option>
+									<option value="26">台湾省</option>
+									<option value="27">黑龙江省</option>
+									<option value="28">西藏自治区</option>
+									<option value="29">内蒙古自治区</option>
+									<option value="30">宁夏回族自治区</option>
+									<option value="31">广西壮族自治区</option>
+									<option value="32">新疆维吾尔自治区</option>
+									<option value="33">香港特别行政区</option>
+									<option value="34">澳门特别行政区</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="price">结束时间</label>
-								<input type="text" id="endTime" name="endTime" value=""
-									   placeholder="结束时间" class="form-control">
+								<label class="control-label" for="projectScale">项目规模（MW）</label>
+								<input type="text" id="projectScale" name="projectScale" value=""
+									   placeholder="" class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="projcetOwner">采购人</label>
+								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder=""
+									   class="form-control">
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+
+							<div class="form-group" id="daterange_publishTime">
+								<label class="control-label">发布时间</label>
+
+								<div class="input-daterange input-group" id="datepicker">
+									<input type="text" class="input-sm form-control" name="publishStartTime"
+										   id="publishStartTime"/>
+									<span class="input-group-addon">到</span>
+									<input type="text" class="input-sm form-control" name="publishEndTime"
+										   id="publishEndTime"/>
+								</div>
 							</div>
 						</div>
 
@@ -97,7 +130,7 @@
 
 					<div class="row">
 						<div class="ibox-content">
-							<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
+							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
 							<a class="btn btn-w-m btn-success" href="/planBuildData/add">新增</a>
 						</div>
 					</div>
@@ -122,6 +155,7 @@
 											<th>采购人</th>
 											<th>母公司</th>
 											<th>拟在建项目阶段</th>
+											<th>状态更新</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -156,17 +190,31 @@
 			init: function () {
 
 				var dataTablesExample = $('.dataTables-example').DataTable({
-					"dom": '<"html5buttons"B>lTfgitp',
-					"searching": false,
+					"dom": '<"html5buttons"B>lT<"hidden"f>gitp',
 					"lengthChange": false,
 					buttons: [
-						{extend: '导出为excel', title: '拟在建数据'}
+						{
+							extend: 'excel',
+							text: '导出为Excel',
+							title: '拟在建数据',
+							exportOptions: {
+								modifier: {
+									page: 'all'
+								}
+							}
+						}
 					],
 					"processing": false,
 					"serverSide": true,
 					"ajax": {
 						"url": "/planBuildData/showList",
-						"type": "POST"
+						"type": "POST",
+						"data": function (d) {
+							return $.extend({}, d, {
+								"publishStartTime": $("#publishStartTime").val(),
+								"publishEndTime": $("#publishEndTime").val()
+							});
+						}
 					},
 					"columnDefs": [
 						{
@@ -182,7 +230,7 @@
 						{
 							"targets": 1,
 							"data": "publishTime",
-							"orderable": false
+							"orderable": true
 						},
 						{
 							"targets": 2,
@@ -202,7 +250,80 @@
 						{
 							"targets": 5,
 							"data": "projectProvince",
-							"orderable": false
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '北京市';
+								} else if (data === 2) {
+									return '天津市';
+								} else if (data === 3) {
+									return '上海市';
+								} else if (data === 4) {
+									return '重庆市';
+								} else if (data === 5) {
+									return '安徽省';
+								} else if (data === 6) {
+									return '福建省';
+								} else if (data === 7) {
+									return '甘肃省';
+								} else if (data === 8) {
+									return '广东省';
+								} else if (data === 9) {
+									return '贵州省';
+								} else if (data === 10) {
+									return '海南省';
+								} else if (data === 11) {
+									return '河北省';
+								} else if (data === 12) {
+									return '河南省';
+								} else if (data === 13) {
+									return '湖北省';
+								} else if (data === 14) {
+									return '湖南省';
+								} else if (data === 15) {
+									return '吉林省';
+								} else if (data === 16) {
+									return '江苏省';
+								} else if (data === 17) {
+									return '江西省';
+								} else if (data === 18) {
+									return '辽宁省';
+								} else if (data === 19) {
+									return '青海省';
+								} else if (data === 20) {
+									return '山东省';
+								} else if (data === 21) {
+									return '山西省';
+								} else if (data === 22) {
+									return '陕西省';
+								} else if (data === 23) {
+									return '四川省';
+								} else if (data === 24) {
+									return '云南省';
+								} else if (data === 25) {
+									return '浙江省';
+								} else if (data === 26) {
+									return '台湾省';
+								} else if (data === 27) {
+									return '黑龙江省';
+								} else if (data === 28) {
+									return '西藏自治区';
+								} else if (data === 29) {
+									return '内蒙古自治区';
+								} else if (data === 30) {
+									return '宁夏回族自治区';
+								} else if (data === 31) {
+									return '广西壮族自治区';
+								} else if (data === 32) {
+									return '新疆维吾尔自治区';
+								} else if (data === 33) {
+									return '香港特别行政区';
+								} else if (data === 34) {
+									return '澳门特别行政区';
+								} else {
+									return '其他';
+								}
+							}
 						},
 						{
 							"targets": 6,
@@ -221,6 +342,11 @@
 						},
 						{
 							"targets": 9,
+							"data": "statusUpdate",
+							"orderable": false
+						},
+						{
+							"targets": 10,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -228,7 +354,7 @@
 							},
 						},
 						{
-							"targets": 10,
+							"targets": 11,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -255,10 +381,31 @@
 
 	}();
 
+	function searchAllData() {
+		var projectName = $("#projectName").val();
+		var projectProvince = $("#projectProvince").val();
+		var projectScale = $("#projectScale").val();
+		var projcetOwner = $("#projcetOwner").val();
+
+		var oTable = $('.dataTables-example').DataTable();
+
+		oTable.column(2).search(projectName)
+				.column(5).search(projectProvince)
+				.column(3).search(projectScale)
+				.column(6).search(projcetOwner)
+				.draw();
+
+	}
+
 	$(document).ready(function () {
 		TableManaged.init();
-	});
 
+		$('#daterange_publishTime .input-daterange').datepicker({
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			language: "zh-CN"
+		});
+	});
 
 </script>
 

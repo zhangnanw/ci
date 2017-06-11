@@ -84,13 +84,13 @@ public class PageSpecification<T> implements Specification<T> {
 		// 查询的字段
 		String propertyName = searchInfo.getPropertyName();
 		// 查询的字段值
-		String value = searchInfo.getValue();
+		Object value = searchInfo.getValue();
 		// 字段类型
 		String valueType = searchInfo.getValueType();
 		// 字段的查询方式：EQ、NE、LIKE、GT、GE、LT、LE、BETWEEN、IN、IS_NULL、IS_NOT_NULL
 		SearchInfo.SearchOp searchOp = searchInfo.getSearchOp();
 
-		if (StringUtils.isBlank(propertyName) || StringUtils.isBlank(value) || searchOp == null) {
+		if (StringUtils.isBlank(propertyName) || value == null || searchOp == null) {
 			return null;
 		}
 
@@ -108,7 +108,7 @@ public class PageSpecification<T> implements Specification<T> {
 		}
 
 		if (searchOp == SearchInfo.SearchOp.LIKE) {
-			return cb.like((Expression<String>) expression, realValue.toString());
+			return cb.like((Expression<String>) expression, "%" + realValue.toString() + "%");
 		}
 
 		if (searchOp == SearchInfo.SearchOp.GT) {

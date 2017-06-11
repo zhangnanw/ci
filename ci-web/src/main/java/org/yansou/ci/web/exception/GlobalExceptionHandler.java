@@ -1,12 +1,10 @@
 package org.yansou.ci.web.exception;
 
-import org.springframework.http.HttpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.common.model.error.ErrorInfo;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,31 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	private static final Logger LOG = LogManager.getLogger(GlobalExceptionHandler.class);
+
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
+		LOG.error("Request: " + request.getRequestURL() + " raised " + e.getMessage(), e);
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("exception", e);
 		modelAndView.addObject("url", request.getRequestURL());
 		modelAndView.setViewName("error/5xx");
 
 		return modelAndView;
-	}
-
-	@ExceptionHandler(value = DaoException.class)
-	@ResponseBody
-	public ErrorInfo<String> jsonErrorHandler(HttpServletRequest request, DaoException e) {
-		ErrorInfo<String> errorInfo = new ErrorInfo<>();
-
-		errorInfo.setTimestamp(System.currentTimeMillis());
-		errorInfo.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		errorInfo.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
-		errorInfo.setException(e.getClass().getSimpleName());
-		errorInfo.setMessage(e.getMessage());
-		errorInfo.setPath(request.getRequestURL().toString());
-		errorInfo.setData("Some Data");
-
-		return errorInfo;
-
 	}
 
 }

@@ -1,9 +1,9 @@
 package org.yansou.ci.storage.ciimp;
 
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.BiddingSnapshot;
-import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.core.model.project.PlanBuildSnapshot;
+import org.apache.commons.lang3.StringUtils;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
 
 /**
  * 导入过滤器
@@ -15,14 +15,18 @@ public class LTFilter {
 
 	private static final String[] KEYWORDS = { "光伏组件", "光伏面板", "太阳能电池板", "光伏电池组件", "单晶组件", "多晶组件", "晶硅组件" };
 
-	final static public boolean isSave(PlanBuildData data, PlanBuildSnapshot snapshot) {
-		String text = data.getProjectName() + snapshot.getContext();
-		return _isSave(text);
+	final static public boolean isSave(PlanBuildData data, SnapshotInfo snapshot) {
+		return true;
 	}
 
-	final static public boolean isSave(BiddingData data, BiddingSnapshot snapshot) {
-		String text = data.getProjectName() + snapshot.getContext();
-		return _isSave(text);
+	final static public boolean isSave(BiddingData data, SnapshotInfo snapshot) {
+		String title = data.getProjectName();
+		if (StringUtils.isNotBlank(title)) {
+			return _isSave(title);
+		} else {
+			String context = snapshot.getContext();
+			return _isSave(context);
+		}
 	}
 
 	final static private boolean _isSave(String text) {

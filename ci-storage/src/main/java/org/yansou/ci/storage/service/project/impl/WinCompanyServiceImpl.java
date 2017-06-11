@@ -1,15 +1,24 @@
 package org.yansou.ci.storage.service.project.impl;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.core.model.project.WinCompany;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.core.db.model.AbstractModel;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.WinCompanyDao;
+import org.yansou.ci.storage.repository.project.WinCompanyRepository;
+import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.WinCompanyService;
+
+import java.util.List;
 
 /**
  * @author liutiejun
@@ -19,19 +28,56 @@ import org.yansou.ci.storage.service.project.WinCompanyService;
 @Transactional
 public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> implements WinCompanyService {
 
-	private WinCompanyDao winCompanyDao;
+	private WinCompanyRepository winCompanyRepository;
 
 	@Autowired
-	@Qualifier("winCompanyDao")
+	private BiddingDataService biddingDataService;
+
+	@Autowired
+	@Qualifier("winCompanyRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<WinCompany, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.winCompanyDao = (WinCompanyDao) generalDao;
+	public void setGeneralRepository(GeneralRepository<WinCompany, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.winCompanyRepository = (WinCompanyRepository) generalRepository;
 	}
 
 	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return winCompanyDao.updateStatus(status, id);
+	public WinCompany save(WinCompany entity) throws DaoException {
+		if (entity == null) {
+			return null;
+		}
+
+		entity = winCompanyRepository.save(entity);
+
+		BiddingData biddingData = biddingDataService.findById(entity.getBiddingData().getId());
+
+		List<WinCompany> winCompanyList = winCompanyRepository.findByBiddingDataAndStatusNot(biddingData,
+				AbstractModel.Status.DELETE.getValue());
+
+		Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+			@Override
+			public boolean shouldSkipField(FieldAttributes f) {
+				return f.getName().endsWith("Time");
+			}
+
+			@Override
+			public boolean shouldSkipClass(Class<?> clazz) {
+				return clazz.equals(BiddingData.class);
+			}
+		}).create();
+
+		String winCompanyInfo = gson.toJson(winCompanyList);
+
+		biddingData.setWinCompanyInfo(winCompanyInfo);
+
+		// 更新BiddingData中的中标单位信息
+		biddingDataService.update(biddingData);
+
+		return entity;
 	}
 
+	@Override
+	public WinCompany update(WinCompany entity) throws DaoException {
+		return save(entity);
+	}
 }

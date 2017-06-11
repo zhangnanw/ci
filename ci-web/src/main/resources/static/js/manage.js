@@ -77,25 +77,27 @@ function deleteForDataTable(clickObj) {
     $.alertable.confirm('您确定要删除这一条数据吗?').then(function () {//Confirmation submitted
         var path = $(clickObj).attr("res");
         var tableId = $(".table").attr("id");
+        alert("tableId:" + tableId);
 
         $.ajax({
             "url": path,
             "success": function (data) {
                 if (data.status === 200 && data.result.count > 0) {
                     var nRow = $(clickObj).parents('tr')[0];
-                    var oTable = $('#' + tableId).dataTable();
+                    var oTable = $('#' + tableId).DataTable();
+                    var info = oTable.page.info();
 
-                    var start = oTable.fnSettings()._iDisplayStart;
-                    var total = oTable.fnSettings().fnRecordsDisplay();
+                    var start = info.start;
+                    var end = info.end;
 
                     if (total - start === 1) {// 删除当前页的最后一条数据
                         if (start > 0) {
-                            oTable.fnPageChange('previous', true);
+                            oTable.page('previous').draw(true);
                         } else {
-                            oTable.fnDeleteRow(nRow);
+                            oTable.row(nRow).delete();
                         }
                     } else {
-                        oTable.fnDeleteRow(nRow);
+                        oTable.row(nRow).delete();
                     }
                 } else if (data.status === 500) {
                     $.alertable.alert(data.errors);
@@ -104,7 +106,7 @@ function deleteForDataTable(clickObj) {
                 }
             },
             "error": function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                $.alertable.alert("数据无法删除");
             },
             "dataType": "json"
         });
@@ -170,7 +172,7 @@ function delAllCheck(clickObj) {
                     }
                 },
                 "error": function (jqXHR, textStatus, errorThrown) {
-                    alert(jqXHR.responseText);
+                    $.alertable.alert("数据无法删除");
                 },
                 "dataType": "json"
             });
@@ -224,11 +226,10 @@ function getNotCheckIds() {
     return notCheckIds;
 }
 
-$('#logout').on('click', function () {
-    var _$this = $(this);
+$('.logout').on('click', function () {
 
     $.alertable.confirm('您确认要退出吗?').then(function () {
-        location.href = _$this.attr('res');
+        location.href = '/login/logout';
     }, function () {
 
     });

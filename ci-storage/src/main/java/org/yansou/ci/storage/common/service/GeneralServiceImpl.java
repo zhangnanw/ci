@@ -2,6 +2,8 @@ package org.yansou.ci.storage.common.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +16,9 @@ import org.yansou.ci.common.page.OrderInfo;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.utils.SimpleArrayUtils;
-import org.yansou.ci.core.model.AbstractModel;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.storage.common.page.PageSpecification;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 
 import javax.persistence.Id;
 import javax.transaction.Transactional;
@@ -35,11 +37,13 @@ import java.util.List;
 public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends Serializable> implements
 		GeneralService<T, ID> {
 
+	private static final Logger LOG = LogManager.getLogger(GeneralServiceImpl.class);
+
 	private String entityName;
 	private Class<T> entityClass;
 	private String pkName;
 
-	protected GeneralDao<T, ID> generalDao;
+	protected GeneralRepository<T, ID> generalRepository;
 
 	@SuppressWarnings("unchecked")
 	public GeneralServiceImpl() {
@@ -57,7 +61,7 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 		}
 	}
 
-	public abstract void setGeneralDao(GeneralDao<T, ID> generalDao);
+	public abstract void setGeneralRepository(GeneralRepository<T, ID> generalRepository);
 
 	/**
 	 * 封装分页查询条件
@@ -105,7 +109,7 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	public T save(T entity) throws DaoException {
 		Assert.notNull(entity, "Entity is null");
 
-		return generalDao.save(entity);
+		return generalRepository.save(entity);
 	}
 
 	@Override
@@ -114,7 +118,7 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 			throw new IllegalArgumentException("Entities is empty");
 		}
 
-		return generalDao.save(entities);
+		return generalRepository.save(entities);
 	}
 
 	@Override
@@ -127,7 +131,7 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 
 		Arrays.stream(entities).forEach(entityList::add);
 
-		entityList = generalDao.save(entityList);
+		entityList = generalRepository.save(entityList);
 
 		T[] entityArray = SimpleArrayUtils.newArrayByClass(entityClass, entityList.size());
 		entityArray = entityList.toArray(entityArray);
@@ -136,18 +140,34 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	}
 
 	@Override
-	public void deleteById(ID id) throws DaoException {
-		generalDao.delete(id);
+	public int deleteById(ID id) throws DaoException {
+		// 删除数据，不做物理删除，只更新对应的数据状态
+		return updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+	}
+
+	@Override
+	public int deleteById(ID[] ids) throws DaoException {
+		if (ArrayUtils.isEmpty(ids)) {
+			return 0;
+		}
+
+		int result = 0;
+
+		for (ID id : ids) {
+			result += deleteById(id);
+		}
+
+		return result;
 	}
 
 	@Override
 	public void delete(T entity) throws DaoException {
-		generalDao.delete(entity);
+		generalRepository.delete(entity);
 	}
 
 	@Override
 	public void delete(List<T> entities) throws DaoException {
-		generalDao.deleteInBatch(entities);
+		generalRepository.deleteInBatch(entities);
 	}
 
 	@Override
@@ -180,13 +200,25 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	}
 
 	@Override
+	public void updateNotNullField(T entity) throws DaoException {
+		LOG.info("generalRepository:{}", generalRepository);
+
+		generalRepository.updateNotNullField(entity);
+	}
+
+	@Override
+	public int updateStatus(Integer status, ID id) throws DaoException {
+		return generalRepository.updateStatus(status, id);
+	}
+
+	@Override
 	public T findById(ID id) throws DaoException {
-		return generalDao.findOne(id);
+		return generalRepository.findOne(id);
 	}
 
 	@Override
 	public List<T> findAll() throws DaoException {
-		return generalDao.findAll();
+		return generalRepository.findAll();
 	}
 
 	@Override
@@ -210,9 +242,9 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 		Page<T> page = null;
 
 		if (specification == null) {
-			page = generalDao.findAll(pageable);
+			page = generalRepository.findAll(pageable);
 		} else {
-			page = generalDao.findAll(specification, pageable);
+			page = generalRepository.findAll(specification, pageable);
 		}
 
 		long totalCount = page.getTotalElements();
@@ -237,7 +269,7 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 
 	@Override
 	public long countAll() throws DaoException {
-		return generalDao.count();
+		return generalRepository.count();
 	}
 
 }

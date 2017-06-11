@@ -45,54 +45,116 @@
 							<input type="hidden" name="id" value="${planBuildData.id}">
 
 							<div class="ibox ">
+								<div class="ibox-content">
+									<div>
+										<a href="/snapshotInfo/detail/${(planBuildData.snapshotId)!''}" target="_blank">查看原文</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="ibox ">
 								<div class="ibox-title">
 									<h5>拟在建数据</h5>
 								</div>
 								<div class="ibox-content">
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
-										<input type="text" class="form-control" placeholder="项目名称（工程名称）"
-											   name="projectName" value="${planBuildData.projectName}">
+										<input type="text" class="form-control" placeholder=""
+											   name="projectName" value="${(planBuildData.projectName)!''}">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
-										<input type="text" class="form-control" placeholder="1000000"
-											   name="projectScale" value="${planBuildData.projectScale}">
+										<input type="text" class="form-control" placeholder=""
+											   name="projectScale" value="${(planBuildData.projectScale)!''}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
-										<input type="text" class="form-control" placeholder="项目描述"
-											   name="projectDescription" value="${planBuildData.projectDescription}">
+										<input type="text" class="form-control" placeholder=""
+											   name="projectDescription"
+											   value="${(planBuildData.projectDescription)!''}">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
-										<input type="text" class="form-control" placeholder="北京市海淀区"
-											   name="projectAddress" value="${planBuildData.projectAddress}">
+										<input type="text" class="form-control" placeholder=""
+											   name="projectAddress" value="${(planBuildData.projectAddress)!''}">
+									</div>
+									<div class="form-group"><label>项目地址（省）</label>
+										<select class="select2_projectProvince form-control" name="projectProvince">
+											<option></option>
+											<option value="1">北京市</option>
+											<option value="2">天津市</option>
+											<option value="3">上海市</option>
+											<option value="4">重庆市</option>
+											<option value="5">安徽省</option>
+											<option value="6">福建省</option>
+											<option value="7">甘肃省</option>
+											<option value="8">广东省</option>
+											<option value="9">贵州省</option>
+											<option value="10">海南省</option>
+											<option value="11">河北省</option>
+											<option value="12">河南省</option>
+											<option value="13">湖北省</option>
+											<option value="14">湖南省</option>
+											<option value="15">吉林省</option>
+											<option value="16">江苏省</option>
+											<option value="17">江西省</option>
+											<option value="18">辽宁省</option>
+											<option value="19">青海省</option>
+											<option value="20">山东省</option>
+											<option value="21">山西省</option>
+											<option value="22">陕西省</option>
+											<option value="23">四川省</option>
+											<option value="24">云南省</option>
+											<option value="25">浙江省</option>
+											<option value="26">台湾省</option>
+											<option value="27">黑龙江省</option>
+											<option value="28">西藏自治区</option>
+											<option value="29">内蒙古自治区</option>
+											<option value="30">宁夏回族自治区</option>
+											<option value="31">广西壮族自治区</option>
+											<option value="32">新疆维吾尔自治区</option>
+											<option value="33">香港特别行政区</option>
+											<option value="34">澳门特别行政区</option>
+										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
-										<input type="text" class="form-control" placeholder="采购人" name="projcetOwner"
-											   value="${planBuildData.projcetOwner}">
+										<textarea class="form-control" placeholder="" name="projcetOwner"
+												  rows="10">${(planBuildData.projcetOwner)!''}</textarea>
 									</div>
 									<div class="form-group"><label>母公司</label>
-										<input type="text" class="form-control" placeholder="母公司" name="parentCompany"
-											   value="${planBuildData.parentCompany}">
+										<input type="text" class="form-control" placeholder="" name="parentCompany"
+											   value="${(planBuildData.parentCompany)!''}">
 									</div>
 									<div class="form-group"><label>拟在建项目阶段</label>
-										<input type="text" class="form-control" placeholder="1" name="planBuildStatus"
-											   value="${planBuildData.planBuildStatus}">
+										<input type="text" class="form-control" placeholder="" name="planBuildStatus"
+											   value="${(planBuildData.planBuildStatus)!''}">
 									</div>
 									<div class="form-group"><label>设备购置情况</label>
-										<input type="text" class="form-control" placeholder="设备购置情况"
-											   name="purchaseSituation" value="${planBuildData.purchaseSituation}">
+										<input type="text" class="form-control" placeholder=""
+											   name="purchaseSituation" value="${(planBuildData.purchaseSituation)!''}">
 									</div>
 									<div class="form-group"><label>设计师</label>
-										<input type="text" class="form-control" placeholder="设计师" name="designer"
-											   value="${planBuildData.designer}">
+										<textarea class="form-control" placeholder="" name="designer"
+												  rows="10">${(planBuildData.designer)!''}</textarea>
 									</div>
 									<div class="form-group"><label>状态更新</label>
-										<input type="text" class="form-control" placeholder="状态更新" name="statusUpdate"
-											   value="${planBuildData.statusUpdate}">
+										<input type="text" class="form-control" placeholder="" name="statusUpdate"
+											   value="${(planBuildData.statusUpdate)!''}">
+									</div>
+
+									<div class="form-group"><label>发布时间</label>
+										<div class="input-group date">
+											<input name="publishTime" class="form-control" type="text"
+												   value="${(planBuildData.publishTime?string('yyyy-MM-dd'))!''}"
+												   readonly>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>
+									</div>
+									<div class="form-group"><label>备注</label>
+										<input type="text" class="form-control" placeholder="" name="remarks"
+											   value="${(planBuildData.remarks)!''}">
 									</div>
 
 								</div>
 							</div>
+
 
 							<div class="ibox ">
 								<div class="ibox-content">
@@ -135,7 +197,6 @@
 							minlength: 3
 						},
 						projectDescription: {
-							required: true,
 							minlength: 3
 						}
 					},
@@ -167,6 +228,20 @@
 	}();
 
 	$(document).ready(function () {
+		$(".select2_projectProvince").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$('.input-group.date').datepicker({
+			language: "zh-CN",
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			keyboardNavigation: false,
+			forceParse: false,
+			calendarWeeks: true,
+			autoclose: true
+		});
 
 		FormValidation.init();
 

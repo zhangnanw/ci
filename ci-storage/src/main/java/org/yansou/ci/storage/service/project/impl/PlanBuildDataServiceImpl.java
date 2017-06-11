@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.core.model.project.PlanBuildData;
-import org.yansou.ci.storage.common.dao.GeneralDao;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
+import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
-import org.yansou.ci.storage.dao.project.PlanBuildDataDao;
+import org.yansou.ci.storage.repository.project.PlanBuildDataRepository;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
+import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
 /**
  * @author liutiejun
@@ -19,19 +21,31 @@ import org.yansou.ci.storage.service.project.PlanBuildDataService;
 @Transactional
 public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, Long> implements PlanBuildDataService {
 
-	private PlanBuildDataDao planBuildDataDao;
+	private PlanBuildDataRepository planBuildDataRepository;
+	@Autowired
+	private SnapshotInfoService snapshotInfoService;
 
 	@Autowired
-	@Qualifier("planBuildDataDao")
+	@Qualifier("planBuildDataRepository")
 	@Override
-	public void setGeneralDao(GeneralDao<PlanBuildData, Long> generalDao) {
-		this.generalDao = generalDao;
-		this.planBuildDataDao = (PlanBuildDataDao) generalDao;
+	public void setGeneralRepository(GeneralRepository<PlanBuildData, Long> generalRepository) {
+		this.generalRepository = generalRepository;
+		this.planBuildDataRepository = (PlanBuildDataRepository) generalRepository;
 	}
 
 	@Override
-	public int updateStatus(Integer status, Long id) throws DaoException {
-		return planBuildDataDao.updateStatus(status, id);
+	public PlanBuildData findByProjectIdentifie(String projectIdentifie) {
+		return planBuildDataRepository.findByProjectIdentifie(projectIdentifie);
 	}
 
+	@Override
+	public void updateStatusUpdate(String statusUpdate, Long id) {
+		planBuildDataRepository.updateStatusUpdate(statusUpdate, id);
+	}
+
+	@Override
+	public void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException {
+		snapshotInfoService.save(snap);
+		this.save(data);
+	}
 }

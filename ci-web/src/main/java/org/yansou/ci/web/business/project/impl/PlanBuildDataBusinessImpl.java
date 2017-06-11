@@ -1,5 +1,6 @@
 package org.yansou.ci.web.business.project.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.model.project.PlanBuildData;
+import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.core.db.model.AbstractModel;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
@@ -81,6 +84,8 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
+		updateStatus(pageCriteria);
+
 		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
@@ -88,19 +93,34 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		PlanBuildDataPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				PlanBuildDataPaginationResponse.class);
+		PlanBuildDataPaginationResponse restResponse = null;
+		try {
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, PlanBuildDataPaginationResponse.class);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
 
-		Pagination<PlanBuildData> pagination = restResponse.getResult();
+		Pagination<PlanBuildData> pagination = null;
+		if (restResponse != null) {
+			pagination = restResponse.getResult();
+		}
+
+		if (pagination == null) {
+			pagination = new Pagination<>(0L, 10, 1, new PlanBuildData[0]);
+		}
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
-				.getDraw(), restResponse.getErrors());
+		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
 
-		LOG.info("dataTableVo: {}", dataTablesOutput);
+		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
 		return dataTablesOutput;
+	}
+
+	private void updateStatus(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
+				Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
 	}
 
 	@Override
@@ -133,6 +153,17 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		return null;
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/delete";
+
+		LOG.info("删除：{}", ArrayUtils.toString(ids));
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setIds(ids);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
 	}
 }

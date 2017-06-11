@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
-import org.yansou.ci.core.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.model.IdRo;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
@@ -160,7 +160,9 @@ public class PlanBuildDataController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public CountResponse delete(Long[] ids, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return null;
+		CountResponse restResponse = planBuildDataBusiness.deleteById(ids);
+
+		return restResponse;
 	}
 
 }

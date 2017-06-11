@@ -1,5 +1,7 @@
 package org.yansou.ci.core.rest.response;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,11 +46,7 @@ public class SimpleRestResponse extends RestResponse<Object> {
 	public static SimpleRestResponse exception(Exception e) {
 		String errors = null;
 		if (e != null) {
-			errors = e.getMessage();
-
-			if (errors == null) {
-				errors = e.getClass().getSimpleName();
-			}
+			errors = e.getClass().getSimpleName();
 		}
 
 		return exception(errors);
@@ -58,7 +56,12 @@ public class SimpleRestResponse extends RestResponse<Object> {
 		SimpleRestResponse restResponse = new SimpleRestResponse();
 
 		restResponse.setStatus(RestStatus.INTERNAL_SERVER_ERROR.getValue());
+
+		if (StringUtils.isBlank(errors)) {
+			errors = RestStatus.INTERNAL_SERVER_ERROR.name();
+		}
 		restResponse.setErrors(errors);
+
 		restResponse.setResult(errors);
 
 		return restResponse;

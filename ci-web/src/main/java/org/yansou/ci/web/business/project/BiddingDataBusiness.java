@@ -1,6 +1,6 @@
 package org.yansou.ci.web.business.project;
 
-import org.yansou.ci.core.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.web.business.GeneralBusiness;
 
 /**

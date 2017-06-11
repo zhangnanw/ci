@@ -1,5 +1,6 @@
 package org.yansou.ci.web.business.project.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.model.project.BiddingData;
-import org.yansou.ci.core.model.project.WinCompany;
+import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
@@ -81,6 +84,8 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
+		updateBiddingDataId(pageCriteria, request);
+
 		LOG.info("pageCriteria: {}", pageCriteria);
 
 		RestRequest restRequest = new RestRequest();
@@ -95,12 +100,20 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw
-				(), restResponse.getErrors());
+		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
 
 		LOG.info("dataTableVo: {}", dataTablesOutput);
 
 		return dataTablesOutput;
+	}
+
+	private void updateBiddingDataId(PageCriteria pageCriteria, HttpServletRequest request) {
+		String propertyName = "biddingData.id";
+
+		String value = RequestUtils.getStringParameter(request, propertyName);
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, propertyName, value, Long.class.getTypeName(), SearchInfo
+				.SearchOp.EQ);
 	}
 
 	@Override
@@ -167,6 +180,17 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		return null;
+		String requestUrl = "http://" + CI_STORAGE + "/winCompany/delete";
+
+		LOG.info("删除：{}", ArrayUtils.toString(ids));
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setIds(ids);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
 	}
 }

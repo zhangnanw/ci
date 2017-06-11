@@ -29,13 +29,14 @@ public class LoginController {
 	public String success() {
 		LOG.info("Login Success");
 
-		return "redirect:/welcome/index";
+		return "redirect:/welcome";
 	}
 
 	@GetMapping("/failure")
 	public String failure() {
-		LOG.info("show login failure page-------------------");
-		return "views/login/failure";
+		LOG.info("Login Failure");
+
+		return "redirect:/login/show";
 	}
 
 	@RequestMapping("/logout")
