@@ -31,11 +31,10 @@ public class TestCorvToPlanBuild {
 
 	@Test
 	public void testImport1() {
-		Long projectNumber = 633981L;
 		try {
 			TimeStat ts = new TimeStat();
-			String sql = "select * from tab_rcc_project where project_name project_number=?";
-			JSONArray arr = corv.qr.query(sql, JSONArrayHandler.create(), projectNumber);
+			String sql = "SELECT  * FROM  `tab_rcc_project`  WHERE `project_number` ='633981'";
+			JSONArray arr = corv.qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("plan-build-query-time:{}", System.out::println);
 			corv.filter(JSONUtils.streamJSONObject(arr)).forEachOrdered(corv::store);
 		} catch (SQLException e) {

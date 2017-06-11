@@ -38,7 +38,7 @@
 			<artifactId>ci-common</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>us.codecraft</groupId>
 			<artifactId>webmagic-core</artifactId>
@@ -127,8 +127,11 @@
 			<artifactId>ci-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sleepycat</groupId>
+			<artifactId>je</artifactId>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<finalName>ci-crawler</finalName>
 
