@@ -151,10 +151,26 @@
 				<artifactId>kryo</artifactId>
 				<version>4.0.0</version>
 			</dependency>
+			<dependency>
+				<groupId>com.sleepycat</groupId>
+				<artifactId>je</artifactId>
+				<version>5.0.84</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
-
+	<repositories>
+		<repository>
+			<id>boundlessgeo</id>
+			<url>https://repo.boundlessgeo.com/main/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
 		<pluginManagement>
 			<plugins>

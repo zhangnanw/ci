@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * @author: liuqingchao - liuqingchao@pyc.com.cn
  * @data: 2015年3月20日
  */
-public class RegexUtils {
+public class RegexLUtils {
 
 	private static Pattern pa = null;
 	private static Matcher ma = null;

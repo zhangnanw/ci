@@ -50,12 +50,12 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		
+
 		<!-- 监控 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -117,12 +117,10 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
 		<finalName>ci-storage</finalName>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -150,5 +148,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
