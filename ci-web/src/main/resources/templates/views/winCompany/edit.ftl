@@ -52,20 +52,20 @@
 								<div class="ibox-content">
 
 									<div class="form-group"><label>中标单位</label>
-										<input type="text" class="form-control" placeholder="中标单位"
-											   name="companyName" value="${winCompany.companyName}">
+										<input type="text" class="form-control" placeholder=""
+											   name="companyName" value="${(winCompany.companyName)!''}">
 									</div>
-									<div class="form-group"><label>中标金额</label>
-										<input type="text" class="form-control" placeholder="1000000"
-											   name="winAmount" value="${winCompany.winAmount}">
+									<div class="form-group"><label>中标金额，单位：万元</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="winAmount" value="${(winCompany.winAmount)!''}">
 									</div>
-									<div class="form-group"><label>中标单价</label>
-										<input type="text" class="form-control" placeholder="1000000"
-											   name="winPrice" value="${winCompany.winPrice}">
+									<div class="form-group"><label>中标单价，单位：元/瓦</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="winPrice" value="${(winCompany.winPrice)!''}">
 									</div>
 									<div class="form-group"><label>中标容量，单位：MW（兆瓦）</label>
-										<input type="text" class="form-control" placeholder="100"
-											   name="winCapacity" value="${winCompany.winCapacity}">
+										<input type="text" class="form-control" placeholder=""
+											   name="winCapacity" value="${(winCompany.winCapacity)!''}">
 									</div>
 								</div>
 							</div>

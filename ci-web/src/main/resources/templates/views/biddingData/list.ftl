@@ -143,9 +143,8 @@
 								<select name="deploymentType" id="deploymentType" class="form-control">
 									<option value="" selected>--请选择--</option>
 									<option value="1">分布式</option>
-									<option value="2">集中式</option>
-									<option value="3">渔光</option>
-									<option value="4">农光</option>
+									<option value="2">地面电站</option>
+									<option value="3">未知</option>
 								</select>
 							</div>
 						</div>
@@ -275,6 +274,7 @@
 							});
 						}
 					},
+					"order": [[1, "desc"]],
 					"columnDefs": [
 						{
 							"targets": 0,
@@ -595,8 +595,11 @@
 	$(document).ready(function () {
 
 		$('#daterange_publishTime .input-daterange').datepicker({
+			clearBtn: true,
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			language: "zh-CN"
 		});
 

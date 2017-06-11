@@ -37,9 +37,8 @@
 				<a href="/biddingData/list">
 					<i class="fa fa-diamond"></i> <span class="nav-label">招中标数据</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="/biddingData/list">数据预览</a>
-					</li>
-					<li><a href="/biddingData/chart">数据报表</a></li>
+					<li><a href="/biddingData/list">数据预览</a></li>
+					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>
 

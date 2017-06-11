@@ -56,6 +56,10 @@
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale">
 									</div>
+									<div class="form-group"><label>项目总投资，单位：万元</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectTotalInvestment">
+									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectDescription">
@@ -142,8 +146,13 @@
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-w-m btn-primary"
-												type="submit"><strong>保存</strong></button>
+										<button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;
+											保存
+										</button>
+										<button class="btn btn-success" type="button" id="btn_back"><i class="fa
+										fa-level-up"></i>&nbsp;
+											返回
+										</button>
 									</div>
 								</div>
 							</div>
@@ -224,6 +233,10 @@
 			forceParse: false,
 			calendarWeeks: true,
 			autoclose: true
+		});
+
+		$('#btn_back').click(function () {
+			window.location.href = "/planBuildData/list";
 		});
 
 		FormValidation.init();

@@ -42,7 +42,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<form role="form" id="form" action="/biddingData/update" method="post">
-							<input type="hidden" name="id" value="${biddingData.id}">
+							<input type="hidden" name="id" value="${(biddingData.id)!''}">
 
 							<div class="ibox ">
 								<div class="ibox-content">
@@ -60,11 +60,21 @@
 									<div class="form-group"><label>公告类型</label>
 										<select class="select2_dataType form-control" name="dataType">
 											<option></option>
-											<option value="1">招标公告</option>
-											<option value="2">中标公告</option>
-											<option value="3">更正公告</option>
-											<option value="4">废标公告</option>
-											<option value="5">流标公告</option>
+											<option value="1"
+													<#if ((biddingData.dataType)!-1)==1>selected="selected"</#if>>招标公告
+											</option>
+											<option value="2"
+													<#if ((biddingData.dataType)!-1)==2>selected="selected"</#if>>中标公告
+											</option>
+											<option value="3"
+													<#if ((biddingData.dataType)!-1)==3>selected="selected"</#if>>更正公告
+											</option>
+											<option value="4"
+													<#if ((biddingData.dataType)!-1)==4>selected="selected"</#if>>废标公告
+											</option>
+											<option value="5"
+													<#if ((biddingData.dataType)!-1)==5>selected="selected"</#if>>流标公告
+											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>项目名称（工程名称）</label>
@@ -74,6 +84,11 @@
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale" value="${(biddingData.projectScale)!''}">
+									</div>
+									<div class="form-group"><label>项目总投资，单位：万元</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectTotalInvestment"
+											   value="${(biddingData.projectTotalInvestment)!''}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder=""
@@ -86,40 +101,142 @@
 									<div class="form-group"><label>项目地址（省）</label>
 										<select class="select2_projectProvince form-control" name="projectProvince">
 											<option></option>
-											<option value="1">北京市</option>
-											<option value="2">天津市</option>
-											<option value="3">上海市</option>
-											<option value="4">重庆市</option>
-											<option value="5">安徽省</option>
-											<option value="6">福建省</option>
-											<option value="7">甘肃省</option>
-											<option value="8">广东省</option>
-											<option value="9">贵州省</option>
-											<option value="10">海南省</option>
-											<option value="11">河北省</option>
-											<option value="12">河南省</option>
-											<option value="13">湖北省</option>
-											<option value="14">湖南省</option>
-											<option value="15">吉林省</option>
-											<option value="16">江苏省</option>
-											<option value="17">江西省</option>
-											<option value="18">辽宁省</option>
-											<option value="19">青海省</option>
-											<option value="20">山东省</option>
-											<option value="21">山西省</option>
-											<option value="22">陕西省</option>
-											<option value="23">四川省</option>
-											<option value="24">云南省</option>
-											<option value="25">浙江省</option>
-											<option value="26">台湾省</option>
-											<option value="27">黑龙江省</option>
-											<option value="28">西藏自治区</option>
-											<option value="29">内蒙古自治区</option>
-											<option value="30">宁夏回族自治区</option>
-											<option value="31">广西壮族自治区</option>
-											<option value="32">新疆维吾尔自治区</option>
-											<option value="33">香港特别行政区</option>
-											<option value="34">澳门特别行政区</option>
+											<option value="1"
+													<#if ((biddingData.projectProvince)!-1)==1>selected="selected"</#if>>
+												北京市
+											</option>
+											<option value="2"
+													<#if ((biddingData.projectProvince)!-1)==2>selected="selected"</#if>>
+												天津市
+											</option>
+											<option value="3"
+													<#if ((biddingData.projectProvince)!-1)==3>selected="selected"</#if>>
+												上海市
+											</option>
+											<option value="4"
+													<#if ((biddingData.projectProvince)!-1)==4>selected="selected"</#if>>
+												重庆市
+											</option>
+											<option value="5"
+													<#if ((biddingData.projectProvince)!-1)==5>selected="selected"</#if>>
+												安徽省
+											</option>
+											<option value="6"
+													<#if ((biddingData.projectProvince)!-1)==6>selected="selected"</#if>>
+												福建省
+											</option>
+											<option value="7"
+													<#if ((biddingData.projectProvince)!-1)==7>selected="selected"</#if>>
+												甘肃省
+											</option>
+											<option value="8"
+													<#if ((biddingData.projectProvince)!-1)==8>selected="selected"</#if>>
+												广东省
+											</option>
+											<option value="9"
+													<#if ((biddingData.projectProvince)!-1)==9>selected="selected"</#if>>
+												贵州省
+											</option>
+											<option value="10"
+													<#if ((biddingData.projectProvince)!-1)==10>selected="selected"</#if>>
+												海南省
+											</option>
+											<option value="11"
+													<#if ((biddingData.projectProvince)!-1)==11>selected="selected"</#if>>
+												河北省
+											</option>
+											<option value="12"
+													<#if ((biddingData.projectProvince)!-1)==12>selected="selected"</#if>>
+												河南省
+											</option>
+											<option value="13"
+													<#if ((biddingData.projectProvince)!-1)==13>selected="selected"</#if>>
+												湖北省
+											</option>
+											<option value="14"
+													<#if ((biddingData.projectProvince)!-1)==14>selected="selected"</#if>>
+												湖南省
+											</option>
+											<option value="15"
+													<#if ((biddingData.projectProvince)!-1)==15>selected="selected"</#if>>
+												吉林省
+											</option>
+											<option value="16"
+													<#if ((biddingData.projectProvince)!-1)==16>selected="selected"</#if>>
+												江苏省
+											</option>
+											<option value="17"
+													<#if ((biddingData.projectProvince)!-1)==17>selected="selected"</#if>>
+												江西省
+											</option>
+											<option value="18"
+													<#if ((biddingData.projectProvince)!-1)==18>selected="selected"</#if>>
+												辽宁省
+											</option>
+											<option value="19"
+													<#if ((biddingData.projectProvince)!-1)==19>selected="selected"</#if>>
+												青海省
+											</option>
+											<option value="20"
+													<#if ((biddingData.projectProvince)!-1)==20>selected="selected"</#if>>
+												山东省
+											</option>
+											<option value="21"
+													<#if ((biddingData.projectProvince)!-1)==21>selected="selected"</#if>>
+												山西省
+											</option>
+											<option value="22"
+													<#if ((biddingData.projectProvince)!-1)==22>selected="selected"</#if>>
+												陕西省
+											</option>
+											<option value="23"
+													<#if ((biddingData.projectProvince)!-1)==23>selected="selected"</#if>>
+												四川省
+											</option>
+											<option value="24"
+													<#if ((biddingData.projectProvince)!-1)==24>selected="selected"</#if>>
+												云南省
+											</option>
+											<option value="25"
+													<#if ((biddingData.projectProvince)!-1)==25>selected="selected"</#if>>
+												浙江省
+											</option>
+											<option value="26"
+													<#if ((biddingData.projectProvince)!-1)==26>selected="selected"</#if>>
+												台湾省
+											</option>
+											<option value="27"
+													<#if ((biddingData.projectProvince)!-1)==27>selected="selected"</#if>>
+												黑龙江省
+											</option>
+											<option value="28"
+													<#if ((biddingData.projectProvince)!-1)==28>selected="selected"</#if>>
+												西藏自治区
+											</option>
+											<option value="29"
+													<#if ((biddingData.projectProvince)!-1)==29>selected="selected"</#if>>
+												内蒙古自治区
+											</option>
+											<option value="30"
+													<#if ((biddingData.projectProvince)!-1)==30>selected="selected"</#if>>
+												宁夏回族自治区
+											</option>
+											<option value="31"
+													<#if ((biddingData.projectProvince)!-1)==31>selected="selected"</#if>>
+												广西壮族自治区
+											</option>
+											<option value="32"
+													<#if ((biddingData.projectProvince)!-1)==32>selected="selected"</#if>>
+												新疆维吾尔自治区
+											</option>
+											<option value="33"
+													<#if ((biddingData.projectProvince)!-1)==33>selected="selected"</#if>>
+												香港特别行政区
+											</option>
+											<option value="34"
+													<#if ((biddingData.projectProvince)!-1)==34>selected="selected"</#if>>
+												澳门特别行政区
+											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
@@ -133,51 +250,190 @@
 									<div class="form-group"><label>采购方式</label>
 										<select class="select2_purchasingMethod form-control" name="purchasingMethod">
 											<option></option>
-											<option value="1">公开招标</option>
-											<option value="2">竞争性谈判</option>
-											<option value="3">单一来源</option>
-											<option value="4">市场询价</option>
-											<option value="5">邀请招标</option>
-											<option value="6">其他</option>
+											<option value="1"
+													<#if ((biddingData.purchasingMethod)!-1)==1>selected="selected"</#if>>
+												公开招标
+											</option>
+											<option value="2"
+													<#if ((biddingData.purchasingMethod)!-1)==2>selected="selected"</#if>>
+												竞争性谈判
+											</option>
+											<option value="3"
+													<#if ((biddingData.purchasingMethod)!-1)==3>selected="selected"</#if>>
+												单一来源
+											</option>
+											<option value="4"
+													<#if ((biddingData.purchasingMethod)!-1)==4>selected="selected"</#if>>
+												市场询价
+											</option>
+											<option value="5"
+													<#if ((biddingData.purchasingMethod)!-1)==5>selected="selected"</#if>>
+												邀请招标
+											</option>
+											<option value="6"
+													<#if ((biddingData.purchasingMethod)!-1)==6>selected="selected"</#if>>
+												其他
+											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>产品部署类型</label>
 										<select class="select2_deploymentType form-control" name="deploymentType">
 											<option></option>
-											<option value="1">分布式</option>
-											<option value="2">集中式</option>
-											<option value="3">渔光</option>
-											<option value="4">农光</option>
+											<option value="1"
+													<#if ((biddingData.deploymentType)!-1)==1>selected="selected"</#if>>
+												分布式
+											</option>
+											<option value="2"
+													<#if ((biddingData.deploymentType)!-1)==2>selected="selected"</#if>>
+												地面电站
+											</option>
+											<option value="3"
+													<#if ((biddingData.deploymentType)!-1)==3>selected="selected"</#if>>
+												未知
+											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>产品类型</label>
 										<select class="select2_deploymentType form-control" name="productType">
 											<option></option>
-											<option value="1">单晶硅</option>
-											<option value="2">多晶硅</option>
-											<option value="3">单晶硅、多晶硅</option>
-											<option value="4">未知</option>
+											<option value="1"
+													<#if ((biddingData.productType)!-1)==1>selected="selected"</#if>>单晶硅
+											</option>
+											<option value="2"
+													<#if ((biddingData.productType)!-1)==2>selected="selected"</#if>>多晶硅
+											</option>
+											<option value="3"
+													<#if ((biddingData.productType)!-1)==3>selected="selected"</#if>>
+												单晶硅、多晶硅
+											</option>
+											<option value="4"
+													<#if ((biddingData.productType)!-1)==4>selected="selected"</#if>>未知
+											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>单晶硅规格</label>
-										<input type="text" class="form-control" placeholder=""
-											   name="monocrystallineSpecification"
-											   value="${(biddingData.monocrystallineSpecification)!''}">
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(biddingData.monocrystallineSpecification[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(biddingData.monocrystallineSpecification[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(biddingData.monocrystallineSpecification[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(biddingData.monocrystallineSpecification[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(biddingData.monocrystallineSpecification[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(biddingData.monocrystallineSpecification[5])!''}">
+											</div>
+										</div>
 									</div>
 									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(biddingData.monocrystallineCapacity[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(biddingData.monocrystallineCapacity[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(biddingData.monocrystallineCapacity[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(biddingData.monocrystallineCapacity[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(biddingData.monocrystallineCapacity[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(biddingData.monocrystallineCapacity[5])!''}">
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group"><label>单晶硅的采购总容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="monocrystallineCapacity"
-											   value="${(biddingData.monocrystallineCapacity)!''}">
+											   name="polysiliconTotalCapacity">
 									</div>
 									<div class="form-group"><label>多晶硅规格</label>
-										<input type="text" class="form-control" placeholder=""
-											   name="polysiliconSpecification"
-											   value="${(biddingData.polysiliconSpecification)!''}">
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(biddingData.polysiliconSpecification[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(biddingData.polysiliconSpecification[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(biddingData.polysiliconSpecification[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(biddingData.polysiliconSpecification[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(biddingData.polysiliconSpecification[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(biddingData.polysiliconSpecification[5])!''}">
+											</div>
+										</div>
+
+
 									</div>
 									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(biddingData.polysiliconCapacity[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(biddingData.polysiliconCapacity[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(biddingData.polysiliconCapacity[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(biddingData.polysiliconCapacity[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(biddingData.polysiliconCapacity[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(biddingData.polysiliconCapacity[5])!''}">
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group"><label>多晶硅的采购总容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="polysiliconCapacity"
-											   value="${(biddingData.polysiliconCapacity)!''}">
+											   name="polysiliconTotalCapacity">
 									</div>
 									<div class="form-group"><label>招标预算，单位：万元</label>
 										<input type="text" class="form-control" placeholder="" name="biddingBudget"
@@ -191,6 +447,10 @@
 										<input type="text" class="form-control" placeholder="" name="agency"
 											   value="${(biddingData.agency)!''}">
 									</div>
+									<div class="form-group"><label>评审专家</label>
+										<input type="text" class="form-control" placeholder="" name="reviewers"
+											   value="${(biddingData.reviewers)!''}">
+									</div>
 									<div class="form-group"><label>发布时间</label>
 										<div class="input-group date">
 											<input name="publishTime" class="form-control" type="text"
@@ -201,18 +461,22 @@
 									</div>
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks"
-											   value="${(planBuildData.remarks)!''}">
+											   value="${(biddingData.remarks)!''}">
 									</div>
 
 								</div>
 							</div>
 
-
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-sm btn-primary m-t-n-xs"
-												type="submit"><strong>&nbsp;&nbsp;保存&nbsp;&nbsp;</strong></button>
+										<button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;
+											保存
+										</button>
+										<button class="btn btn-success" type="button" id="btn_back"><i class="fa
+										fa-level-up"></i>&nbsp;
+											返回
+										</button>
 									</div>
 								</div>
 							</div>
@@ -303,6 +567,10 @@
 			forceParse: false,
 			calendarWeeks: true,
 			autoclose: true
+		});
+
+		$('#btn_back').click(function () {
+			window.location.href = "/biddingData/list";
 		});
 
 		FormValidation.init();

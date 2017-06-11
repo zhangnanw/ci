@@ -216,6 +216,7 @@
 							});
 						}
 					},
+					"order": [[1, "desc"]],
 					"columnDefs": [
 						{
 							"targets": 0,
@@ -401,8 +402,11 @@
 		TableManaged.init();
 
 		$('#daterange_publishTime .input-daterange').datepicker({
+			clearBtn: true,
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			language: "zh-CN"
 		});
 	});

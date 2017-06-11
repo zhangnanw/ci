@@ -84,6 +84,7 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
+		updateProjectProvince(pageCriteria);
 		updateStatus(pageCriteria);
 
 		LOG.info("pageCriteria: {}", pageCriteria);
@@ -111,7 +112,8 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<PlanBuildData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
+				.getDraw(), null);
 
 		LOG.info("dataTablesOutput: {}", dataTablesOutput);
 
@@ -121,6 +123,11 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	private void updateStatus(PageCriteria pageCriteria) {
 		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
 				Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
+	}
+
+	private void updateProjectProvince(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "projectProvince", null, Integer.class.getTypeName(),
+				SearchInfo.SearchOp.EQ);
 	}
 
 	@Override
