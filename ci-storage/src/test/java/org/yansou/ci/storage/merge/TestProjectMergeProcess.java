@@ -1,11 +1,17 @@
 package org.yansou.ci.storage.merge;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.yansou.ci.storage.CiStorageApplication;
+import org.yansou.ci.storage.repository.project.PlanBuildDataRepository;
 
 /**
  * Created by Administrator on 2017/6/12.
@@ -13,13 +19,28 @@ import org.yansou.ci.storage.CiStorageApplication;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CiStorageApplication.class)
 public class TestProjectMergeProcess {
-    @Autowired
-    private ProjectMergeProcess projectMergeProcess;
+	@Autowired
+	PlanBuildDataRepository planBuildDataService;
+	@Autowired
+	PlanBuildDataRepository biddingDataService;
 
-    @Test
-    public void testProjectMergeProcess() {
-        projectMergeProcess.run();
-    }
+	@Test
+	public void testProjectMergeProcess() {
+		try {
+			ProjectVectorParse parse = new ProjectVectorParse();
+			List<ProjectVector> list = Stream.concat(planBuildDataService.findAll().stream().map(parse::parse),
+					biddingDataService.findAll().stream().map(parse::parse)).collect(Collectors.toList());
+			Map<Object, List<ProjectVector>> a1Group = list.stream().collect(Collectors.groupingBy(f -> f.getA1()));
+			Map<Object, List<ProjectVector>> mw1Group = list.stream().collect(Collectors.groupingBy(f -> f.getMw1()));
+			Map<Object, List<ProjectVector>> party_AGroup = list.stream()
+					.collect(Collectors.groupingBy(f -> f.getParty_a()));
+			System.out.println(a1Group);
+			System.out.println(mw1Group);
+			System.out.println(party_AGroup);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+	}
 
 }
