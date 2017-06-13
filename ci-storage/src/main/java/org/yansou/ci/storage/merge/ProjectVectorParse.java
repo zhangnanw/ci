@@ -16,7 +16,9 @@ public class ProjectVectorParse {
 			projectVector.setA1(data.getProjectProvince() + "");
 			projectVector.setA2(data.getProjectCity());
 			projectVector.setA3(data.getProjectDistrict());
-			projectVector.setMw1(data.getProjectScale() + "");
+			if (null != data.getProjectScale()) {
+				projectVector.setMw1(data.getProjectScale() + "");
+			}
 			projectVector.setParty_a(data.getProjcetOwner());
 			projectVector.setQuote(data);
 			PojoUtils.nullStringToEmpty(projectVector);
@@ -28,7 +30,9 @@ public class ProjectVectorParse {
 			projectVector.setA1(data.getProjectProvince() + "");
 			projectVector.setA2(data.getProjectCity());
 			projectVector.setA3(data.getProjectDistrict());
-			projectVector.setMw1(data.getProjectScale() + "");
+			if (null != data.getProjectScale()) {
+				projectVector.setMw1(data.getProjectScale() + "");
+			}
 			projectVector.setParty_a(data.getProjcetOwner());
 			projectVector.setQuote(data);
 			PojoUtils.nullStringToEmpty(projectVector);

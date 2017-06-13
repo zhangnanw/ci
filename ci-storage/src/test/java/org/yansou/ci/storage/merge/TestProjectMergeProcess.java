@@ -30,13 +30,22 @@ public class TestProjectMergeProcess {
 			ProjectVectorParse parse = new ProjectVectorParse();
 			List<ProjectVector> list = Stream.concat(planBuildDataService.findAll().stream().map(parse::parse),
 					biddingDataService.findAll().stream().map(parse::parse)).collect(Collectors.toList());
-			Map<Object, List<ProjectVector>> a1Group = list.stream().collect(Collectors.groupingBy(f -> f.getA1()));
-			Map<Object, List<ProjectVector>> mw1Group = list.stream().collect(Collectors.groupingBy(f -> f.getMw1()));
-			Map<Object, List<ProjectVector>> party_AGroup = list.stream()
+			Map<String, List<ProjectVector>> a1Group = list.stream().collect(Collectors.groupingBy(f -> f.getA1()));
+			Map<String, List<ProjectVector>> mw1Group = list.stream().collect(Collectors.groupingBy(f -> f.getMw1()));
+			Map<String, List<ProjectVector>> party_AGroup = list.stream()
 					.collect(Collectors.groupingBy(f -> f.getParty_a()));
 			System.out.println(a1Group);
 			System.out.println(mw1Group);
 			System.out.println(party_AGroup);
+			for (String key : a1Group.keySet()) {
+
+			}
+			for (String key : mw1Group.keySet()) {
+
+			}
+			for (String key : party_AGroup.keySet()) {
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
