@@ -198,7 +198,7 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setIds(ids);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
 

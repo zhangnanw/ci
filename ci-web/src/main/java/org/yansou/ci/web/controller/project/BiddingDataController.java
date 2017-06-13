@@ -110,8 +110,6 @@ public class BiddingDataController {
 	@ResponseBody
 	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		LOG.info("biddingData: {}", biddingData);
-
 		IdResponse restResponse = biddingDataBusiness.save(biddingData);
 
 		IdRo idRo = restResponse.getResult();

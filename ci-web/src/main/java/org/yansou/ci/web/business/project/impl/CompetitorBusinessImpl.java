@@ -1,4 +1,4 @@
-package org.yansou.ci.web.business.system.impl;
+package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
@@ -13,14 +13,14 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.db.model.project.Competitor;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.core.rest.response.system.AccountArrayResponse;
-import org.yansou.ci.core.rest.response.system.AccountPaginationResponse;
-import org.yansou.ci.core.rest.response.system.AccountResponse;
-import org.yansou.ci.web.business.system.AccountBusiness;
+import org.yansou.ci.core.rest.response.project.CompetitorArrayResponse;
+import org.yansou.ci.core.rest.response.project.CompetitorPaginationResponse;
+import org.yansou.ci.core.rest.response.project.CompetitorResponse;
+import org.yansou.ci.web.business.project.CompetitorBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,56 +28,56 @@ import javax.servlet.http.HttpServletRequest;
  * @author liutiejun
  * @create 2017-05-13 22:58
  */
-@Component("accountBusiness")
-public class AccountBusinessImpl implements AccountBusiness {
+@Component("competitorBusiness")
+public class CompetitorBusinessImpl implements CompetitorBusiness {
 
-	private static final Logger LOG = LogManager.getLogger(AccountBusinessImpl.class);
+	private static final Logger LOG = LogManager.getLogger(CompetitorBusinessImpl.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
-	public Account findById(Long id) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
+	public Competitor findById(Long id) {
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/find";
 
-		Account account = new Account();
-		account.setId(id);
+		Competitor competitor = new Competitor();
+		competitor.setId(id);
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(account);
+		restRequest.setCompetitor(competitor);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountResponse.class);
+		CompetitorResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CompetitorResponse.class);
 
-		Account result = restResponse.getResult();
+		Competitor result = restResponse.getResult();
 
 		return result;
 	}
 
 	@Override
-	public Account[] findAll() {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
+	public Competitor[] findAll() {
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/find";
 
 		RestRequest restRequest = new RestRequest();
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountArrayResponse
-				.class);
+		CompetitorArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				CompetitorArrayResponse.class);
 
-		Account[] accounts = restResponse.getResult();
+		Competitor[] competitors = restResponse.getResult();
 
-		if (accounts == null) {
-			accounts = new Account[0];
+		if (competitors == null) {
+			competitors = new Competitor[0];
 		}
 
-		return accounts;
+		return competitors;
 	}
 
 	@Override
-	public DataTablesOutput<Account> pagination(HttpServletRequest request) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/pagination";
+	public DataTablesOutput<Competitor> pagination(HttpServletRequest request) {
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/pagination";
 
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
@@ -89,35 +89,36 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountPaginationResponse restResponse = null;
+		CompetitorPaginationResponse restResponse = null;
 		try {
-			restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountPaginationResponse.class);
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, CompetitorPaginationResponse.class);
 		} catch (RestClientException e) {
 			LOG.error(e.getMessage(), e);
 		}
 
-		Pagination<Account> pagination = null;
+		Pagination<Competitor> pagination = null;
 		if (restResponse != null) {
 			pagination = restResponse.getResult();
 		}
 
 		if (pagination == null) {
-			pagination = new Pagination<>(0L, 10, 1, new Account[0]);
+			pagination = new Pagination<>(0L, 10, 1, new Competitor[0]);
 		}
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<Account> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<Competitor> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw
+				(), null);
 
 		return dataTablesOutput;
 	}
 
 	@Override
-	public IdResponse save(Account entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/save";
+	public IdResponse save(Competitor entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/save";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(entity);
+		restRequest.setCompetitor(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -127,11 +128,11 @@ public class AccountBusinessImpl implements AccountBusiness {
 	}
 
 	@Override
-	public IdResponse update(Account entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/update";
+	public IdResponse update(Competitor entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/update";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(entity);
+		restRequest.setCompetitor(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -142,7 +143,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/delete";
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/delete";
 
 		LOG.info("删除：{}", ArrayUtils.toString(ids));
 

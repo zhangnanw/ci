@@ -1,4 +1,4 @@
-package org.yansou.ci.web.business.system.impl;
+package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
@@ -13,14 +13,14 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.core.rest.response.system.AccountArrayResponse;
-import org.yansou.ci.core.rest.response.system.AccountPaginationResponse;
-import org.yansou.ci.core.rest.response.system.AccountResponse;
-import org.yansou.ci.web.business.system.AccountBusiness;
+import org.yansou.ci.core.rest.response.project.RecordDataArrayResponse;
+import org.yansou.ci.core.rest.response.project.RecordDataPaginationResponse;
+import org.yansou.ci.core.rest.response.project.RecordDataResponse;
+import org.yansou.ci.web.business.project.RecordDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,56 +28,56 @@ import javax.servlet.http.HttpServletRequest;
  * @author liutiejun
  * @create 2017-05-13 22:58
  */
-@Component("accountBusiness")
-public class AccountBusinessImpl implements AccountBusiness {
+@Component("recordDataBusiness")
+public class RecordDataBusinessImpl implements RecordDataBusiness {
 
-	private static final Logger LOG = LogManager.getLogger(AccountBusinessImpl.class);
+	private static final Logger LOG = LogManager.getLogger(RecordDataBusinessImpl.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
-	public Account findById(Long id) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
+	public RecordData findById(Long id) {
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/find";
 
-		Account account = new Account();
-		account.setId(id);
+		RecordData recordData = new RecordData();
+		recordData.setId(id);
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(account);
+		restRequest.setRecordData(recordData);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountResponse.class);
+		RecordDataResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, RecordDataResponse.class);
 
-		Account result = restResponse.getResult();
+		RecordData result = restResponse.getResult();
 
 		return result;
 	}
 
 	@Override
-	public Account[] findAll() {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
+	public RecordData[] findAll() {
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/find";
 
 		RestRequest restRequest = new RestRequest();
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountArrayResponse
-				.class);
+		RecordDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				RecordDataArrayResponse.class);
 
-		Account[] accounts = restResponse.getResult();
+		RecordData[] recordDatas = restResponse.getResult();
 
-		if (accounts == null) {
-			accounts = new Account[0];
+		if (recordDatas == null) {
+			recordDatas = new RecordData[0];
 		}
 
-		return accounts;
+		return recordDatas;
 	}
 
 	@Override
-	public DataTablesOutput<Account> pagination(HttpServletRequest request) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/pagination";
+	public DataTablesOutput<RecordData> pagination(HttpServletRequest request) {
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/pagination";
 
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
@@ -89,35 +89,36 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountPaginationResponse restResponse = null;
+		RecordDataPaginationResponse restResponse = null;
 		try {
-			restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountPaginationResponse.class);
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, RecordDataPaginationResponse.class);
 		} catch (RestClientException e) {
 			LOG.error(e.getMessage(), e);
 		}
 
-		Pagination<Account> pagination = null;
+		Pagination<RecordData> pagination = null;
 		if (restResponse != null) {
 			pagination = restResponse.getResult();
 		}
 
 		if (pagination == null) {
-			pagination = new Pagination<>(0L, 10, 1, new Account[0]);
+			pagination = new Pagination<>(0L, 10, 1, new RecordData[0]);
 		}
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<Account> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<RecordData> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw
+				(), null);
 
 		return dataTablesOutput;
 	}
 
 	@Override
-	public IdResponse save(Account entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/save";
+	public IdResponse save(RecordData entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/save";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(entity);
+		restRequest.setRecordData(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -127,11 +128,11 @@ public class AccountBusinessImpl implements AccountBusiness {
 	}
 
 	@Override
-	public IdResponse update(Account entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/update";
+	public IdResponse update(RecordData entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/update";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(entity);
+		restRequest.setRecordData(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -142,7 +143,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/delete";
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/delete";
 
 		LOG.info("删除：{}", ArrayUtils.toString(ids));
 
