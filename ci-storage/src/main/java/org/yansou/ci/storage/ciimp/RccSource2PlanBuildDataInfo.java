@@ -88,7 +88,7 @@ public final class RccSource2PlanBuildDataInfo {
 
 		String parentCompany = null;// 项目业主、开放商、采购人的母公司
 
-		String planBuildStatus = null;// 拟在建项目阶段，由乐叶提供
+		String planBuildStatus = proObj.getString("project_stage");// 拟在建项目阶段，由乐叶提供
 		String purchaseSituation = RegexUtils.regex("设备购置情况[:：](.{5,80})", ctx.replaceAll("<[^>]*>", ""), 1);// 设备购置情况，直接从RCC中获取
 
 		String designer = getValue(proObj.getString("designing_institute"), "company");

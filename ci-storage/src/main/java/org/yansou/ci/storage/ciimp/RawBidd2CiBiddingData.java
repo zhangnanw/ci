@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.jsoup.Jsoup;
+import org.yansou.ci.common.utils.JSONUtils;
 import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
@@ -234,7 +235,7 @@ public class RawBidd2CiBiddingData {
 	private String toProvince() {
 		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
-		if (arr.isEmpty()) {
+		if (JSONUtils.isEmpty(arr)) {
 			return null;
 		}
 		return arr.getString(0);
@@ -243,7 +244,7 @@ public class RawBidd2CiBiddingData {
 	private String toCity() {
 		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
-		if (arr.size() <= 1) {
+		if (JSONUtils.isEmpty(arr) || arr.size() <= 1) {
 			return null;
 		}
 		return arr.getString(1);
@@ -252,7 +253,7 @@ public class RawBidd2CiBiddingData {
 	private String toDistrict() {
 		JSONObject res = AREA_ANALYZER.analy(srcObj);
 		JSONArray arr = res.getJSONArray("area");
-		if (arr.size() <= 2) {
+		if (JSONUtils.isEmpty(arr) || arr.size() <= 2) {
 			return null;
 		}
 		return arr.getString(2);
