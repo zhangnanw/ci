@@ -47,6 +47,22 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			return null;
 		}
 
+		Double winAmount = entity.getWinAmount();// 中标单位-中标金额，单位：万元
+		if (winAmount == null) {
+			entity.setWinAmount(0.0D);
+		}
+
+		Double winPrice = entity.getWinPrice();// 中标单位-中标单价 = 中标金额 / 中标容量，单位：元每瓦
+		if (winPrice == null) {
+			entity.setWinPrice(0.0D);
+		}
+
+		Double winCapacity = entity.getWinCapacity();// 中标单位-中标容量，单位：MW（兆瓦）
+		if (winCapacity == null) {
+			entity.setWinCapacity(0.0D);
+		}
+
+		entity.setStatus(AbstractModel.Status.NORMAL.getValue());
 		entity = winCompanyRepository.save(entity);
 
 		BiddingData biddingData = biddingDataService.findById(entity.getBiddingData().getId());

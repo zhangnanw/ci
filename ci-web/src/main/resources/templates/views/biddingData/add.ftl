@@ -26,7 +26,7 @@
 					<h2>招中标数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a href="/biddingData/list">招中标数据</a>
@@ -64,6 +64,10 @@
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale">
+									</div>
+									<div class="form-group"><label>项目总投资，单位：万元</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectTotalInvestment">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder=""
@@ -133,9 +137,8 @@
 										<select class="select2_deploymentType form-control" name="deploymentType">
 											<option></option>
 											<option value="1">分布式</option>
-											<option value="2">集中式</option>
-											<option value="3">渔光</option>
-											<option value="4">农光</option>
+											<option value="2">地面电站</option>
+											<option value="3">未知</option>
 										</select>
 									</div>
 									<div class="form-group"><label>产品类型</label>
@@ -148,20 +151,100 @@
 										</select>
 									</div>
 									<div class="form-group"><label>单晶硅规格</label>
-										<input type="text" class="form-control" placeholder=""
-											   name="monocrystallineSpecification">
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+										</div>
 									</div>
 									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+										</div>
+									</div>
+									<div class="form-group"><label>单晶硅的采购总容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="monocrystallineCapacity">
+											   name="monocrystallineTotalCapacity">
 									</div>
 									<div class="form-group"><label>多晶硅规格</label>
-										<input type="text" class="form-control" placeholder=""
-											   name="polysiliconSpecification">
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+										</div>
 									</div>
 									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+										</div>
+									</div>
+									<div class="form-group"><label>多晶硅的采购总容量，单位：MW（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="polysiliconCapacity">
+											   name="polysiliconTotalCapacity">
 									</div>
 									<div class="form-group"><label>招标预算，单位：万元</label>
 										<input type="text" class="form-control" placeholder="" name="biddingBudget">
@@ -171,6 +254,9 @@
 									</div>
 									<div class="form-group"><label>代理机构</label>
 										<input type="text" class="form-control" placeholder="" name="agency">
+									</div>
+									<div class="form-group"><label>评审专家</label>
+										<input type="text" class="form-control" placeholder="" name="reviewers">
 									</div>
 									<div class="form-group"><label>发布时间</label>
 										<div class="input-group date">
@@ -189,8 +275,13 @@
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<button class="btn btn-w-m btn-primary"
-												type="submit"><strong>保存</strong></button>
+										<button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;
+											保存
+										</button>
+										<button class="btn btn-success" type="button" id="btn_back"><i class="fa
+										fa-level-up"></i>&nbsp;
+											返回
+										</button>
 									</div>
 								</div>
 							</div>
@@ -282,10 +373,16 @@
 			language: "zh-CN",
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			keyboardNavigation: false,
 			forceParse: false,
 			calendarWeeks: true,
 			autoclose: true
+		});
+
+		$('#btn_back').click(function () {
+			window.location.href = "/biddingData/list";
 		});
 
 		FormValidation.init();

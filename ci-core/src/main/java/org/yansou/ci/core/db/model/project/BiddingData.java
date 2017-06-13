@@ -1,6 +1,7 @@
 package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
@@ -117,16 +118,26 @@ public class BiddingData extends AbstractModel<Long> {
 	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
 
 	@Column
-	private String monocrystallineSpecification;// 单晶硅规格
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
+	private String[] monocrystallineSpecification;// 单晶硅规格，可能有多个值
 
 	@Column
-	private Double monocrystallineCapacity;// 单晶硅的采购容量，单位：MW（兆瓦）
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] monocrystallineCapacity;// 单晶硅的采购容量，单位：MW（兆瓦）
 
 	@Column
-	private String polysiliconSpecification;// 多晶硅规格
+	private Double monocrystallineTotalCapacity;// 单晶硅的总采购容量，单位：MW（兆瓦）
 
 	@Column
-	private Double polysiliconCapacity;// 多晶硅的采购容量，单位：MW（兆瓦）
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
+	private String[] polysiliconSpecification;// 多晶硅规格，可能有多个值
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] polysiliconCapacity;// 多晶硅的采购容量，单位：MW（兆瓦）
+
+	@Column
+	private Double polysiliconTotalCapacity;// 多晶硅的总采购容量，单位：MW（兆瓦）
 
 	@Column
 	private Integer deploymentType;// 产品的部署类型（可能会发生变化），1-分布式、2-集中式、3-渔光、4-农光，需要乐叶确定
@@ -170,6 +181,9 @@ public class BiddingData extends AbstractModel<Long> {
 
 	@Column
 	private Integer customerType;// 客户类别，一类客户、二类客户、三类客户、互补企业、设计院、竞争对手，需要乐叶确定
+
+	@Column
+	private String reviewers;// 评审专家
 
 	@Column
 	private String remarks;// 备注
@@ -321,36 +335,52 @@ public class BiddingData extends AbstractModel<Long> {
 		this.productType = productType;
 	}
 
-	public String getMonocrystallineSpecification() {
+	public String[] getMonocrystallineSpecification() {
 		return monocrystallineSpecification;
 	}
 
-	public void setMonocrystallineSpecification(String monocrystallineSpecification) {
+	public void setMonocrystallineSpecification(String[] monocrystallineSpecification) {
 		this.monocrystallineSpecification = monocrystallineSpecification;
 	}
 
-	public Double getMonocrystallineCapacity() {
+	public Double[] getMonocrystallineCapacity() {
 		return monocrystallineCapacity;
 	}
 
-	public void setMonocrystallineCapacity(Double monocrystallineCapacity) {
+	public void setMonocrystallineCapacity(Double[] monocrystallineCapacity) {
 		this.monocrystallineCapacity = monocrystallineCapacity;
 	}
 
-	public String getPolysiliconSpecification() {
+	public Double getMonocrystallineTotalCapacity() {
+		return monocrystallineTotalCapacity;
+	}
+
+	public void setMonocrystallineTotalCapacity(Double monocrystallineTotalCapacity) {
+		this.monocrystallineTotalCapacity = monocrystallineTotalCapacity;
+	}
+
+	public String[] getPolysiliconSpecification() {
 		return polysiliconSpecification;
 	}
 
-	public void setPolysiliconSpecification(String polysiliconSpecification) {
+	public void setPolysiliconSpecification(String[] polysiliconSpecification) {
 		this.polysiliconSpecification = polysiliconSpecification;
 	}
 
-	public Double getPolysiliconCapacity() {
+	public Double[] getPolysiliconCapacity() {
 		return polysiliconCapacity;
 	}
 
-	public void setPolysiliconCapacity(Double polysiliconCapacity) {
+	public void setPolysiliconCapacity(Double[] polysiliconCapacity) {
 		this.polysiliconCapacity = polysiliconCapacity;
+	}
+
+	public Double getPolysiliconTotalCapacity() {
+		return polysiliconTotalCapacity;
+	}
+
+	public void setPolysiliconTotalCapacity(Double polysiliconTotalCapacity) {
+		this.polysiliconTotalCapacity = polysiliconTotalCapacity;
 	}
 
 	public Integer getDeploymentType() {
@@ -455,6 +485,14 @@ public class BiddingData extends AbstractModel<Long> {
 
 	public void setCustomerType(Integer customerType) {
 		this.customerType = customerType;
+	}
+
+	public String getReviewers() {
+		return reviewers;
+	}
+
+	public void setReviewers(String reviewers) {
+		this.reviewers = reviewers;
 	}
 
 	public String getRemarks() {

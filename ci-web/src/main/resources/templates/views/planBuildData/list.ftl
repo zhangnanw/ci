@@ -26,7 +26,7 @@
 					<h2>拟在建数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a>拟在建数据</a>
@@ -105,12 +105,22 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
+								<label class="control-label" for="planBuildStatus">项目阶段</label>
+								<input type="text" id="planBuildStatus" name="planBuildStatus" value="" placeholder=""
+									   class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group">
 								<label class="control-label" for="projcetOwner">采购人</label>
 								<input type="text" id="projcetOwner" name="projcetOwner" value="" placeholder=""
 									   class="form-control">
 							</div>
 						</div>
 
+					</div>
+
+					<div class="row">
 						<div class="col-sm-4">
 
 							<div class="form-group" id="daterange_publishTime">
@@ -125,7 +135,6 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 
 					<div class="row">
@@ -154,7 +163,7 @@
 											<th>项目地址（省）</th>
 											<th>采购人</th>
 											<th>母公司</th>
-											<th>拟在建项目阶段</th>
+											<th>项目阶段</th>
 											<th>状态更新</th>
 											<th>编辑</th>
 											<th>删除</th>
@@ -216,6 +225,7 @@
 							});
 						}
 					},
+					"order": [[1, "desc"]],
 					"columnDefs": [
 						{
 							"targets": 0,
@@ -230,7 +240,7 @@
 						{
 							"targets": 1,
 							"data": "publishTime",
-							"orderable": false
+							"orderable": true
 						},
 						{
 							"targets": 2,
@@ -386,6 +396,7 @@
 		var projectProvince = $("#projectProvince").val();
 		var projectScale = $("#projectScale").val();
 		var projcetOwner = $("#projcetOwner").val();
+		var planBuildStatus = $("#planBuildStatus").val();
 
 		var oTable = $('.dataTables-example').DataTable();
 
@@ -393,6 +404,7 @@
 				.column(5).search(projectProvince)
 				.column(3).search(projectScale)
 				.column(6).search(projcetOwner)
+				.column(8).search(planBuildStatus)
 				.draw();
 
 	}
@@ -401,8 +413,11 @@
 		TableManaged.init();
 
 		$('#daterange_publishTime .input-daterange').datepicker({
+			clearBtn: true,
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			language: "zh-CN"
 		});
 	});

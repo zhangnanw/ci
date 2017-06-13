@@ -1,11 +1,12 @@
 package org.yansou.ci.storage.service.project.impl;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
+import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
@@ -40,21 +41,19 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 		Integer productType = entity.getProductType();
 
 		if (productType == null) {
-			String monocrystallineSpecification = entity.getMonocrystallineSpecification();// 单晶硅规格
-			Double monocrystallineCapacity = entity.getMonocrystallineCapacity();// 单晶硅的采购容量，单位：MW（兆瓦）
-			String polysiliconSpecification = entity.getPolysiliconSpecification();// 多晶硅规格
-			Double polysiliconCapacity = entity.getPolysiliconCapacity();// 多晶硅的采购容量，单位：MW（兆瓦）
+			String[] monocrystallineSpecification = entity.getMonocrystallineSpecification();// 单晶硅规格
+			Double[] monocrystallineCapacity = entity.getMonocrystallineCapacity();// 单晶硅的采购容量，单位：MW（兆瓦）
+			String[] polysiliconSpecification = entity.getPolysiliconSpecification();// 多晶硅规格
+			Double[] polysiliconCapacity = entity.getPolysiliconCapacity();// 多晶硅的采购容量，单位：MW（兆瓦）
 
 			int monFlag = 0;
 			int polFlag = 0;
 
-			if (StringUtils.isNotBlank(monocrystallineSpecification) || (monocrystallineCapacity != null &&
-					monocrystallineCapacity > 0.0D)) {
+			if (ArrayUtils.isEmpty(monocrystallineSpecification) || ArrayUtils.isEmpty(monocrystallineCapacity)) {
 				monFlag = 1;
 			}
 
-			if (StringUtils.isNotBlank(polysiliconSpecification) || (polysiliconCapacity != null &&
-					polysiliconCapacity > 0.0D)) {
+			if (ArrayUtils.isEmpty(polysiliconSpecification) || ArrayUtils.isEmpty(polysiliconCapacity)) {
 				polFlag = 1;
 			}
 
@@ -74,6 +73,8 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 
 			entity.setProductType(productType);
 		}
+
+		entity.setStatus(AbstractModel.Status.NORMAL.getValue());
 
 		return biddingDataRepository.save(entity);
 	}
