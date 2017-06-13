@@ -11,9 +11,9 @@ import org.yansou.ci.storage.common.service.GeneralService;
  */
 public interface PlanBuildDataService extends GeneralService<PlanBuildData, Long> {
 
-	PlanBuildData findByProjectIdentifie(String projectIdentifie);
+    PlanBuildData findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
-	void updateStatusUpdate(String statusUpdate, Long id);
+    void updateStatusUpdate(String statusUpdate, Long id) throws DaoException;
 
-	void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException;
+    void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException;
 }
