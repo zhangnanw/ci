@@ -35,7 +35,7 @@ public class CorvDlzbToPlanBuild extends AbsStatistics {
 
 		try {
 			TimeStat ts = new TimeStat();
-			String sql = "select * from tab_raw_bidd where url like '%d-g-%' and url not in(SELECT url from `intelligence-"
+			String sql = "select * from tab_raw_bidd where url like '%d-g-%' and url not in(SELECT url from `"
 					+ TmpConfigRead.getCfgName() + "`.ci_plan_build_data where url is not null) limit 99999999";
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());

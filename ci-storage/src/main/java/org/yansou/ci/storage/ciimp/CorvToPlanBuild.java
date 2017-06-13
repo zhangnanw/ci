@@ -66,7 +66,7 @@ public class CorvToPlanBuild extends AbsStatistics {
 	public void run() {
 		try {
 			TimeStat ts = new TimeStat();
-			String sql = "select * from tab_rcc_project where project_name like '%光伏%' and rowkey not in(SELECT rowkey from `intelligence-"
+			String sql = "select * from tab_rcc_project where project_name like '%光伏%' and rowkey not in(SELECT rowkey from `"
 					+ TmpConfigRead.getCfgName() + "`.ci_plan_build_data where rowkey is not null)";
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			ts.buriePrint("plan-build-query-time:{}", LOG::info);
