@@ -1,12 +1,12 @@
 package org.yansou.ci.core.db.model.project;
 
-import org.yansou.ci.core.db.model.AbstractModel;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.yansou.ci.core.db.model.AbstractModel;
 
 /**
  * 中标单位信息

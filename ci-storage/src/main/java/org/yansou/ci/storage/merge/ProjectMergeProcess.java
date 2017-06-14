@@ -1,6 +1,7 @@
 package org.yansou.ci.storage.merge;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yansou.ci.common.utils.PojoUtils;
+import org.yansou.ci.common.utils.ReflectUtils;
 import org.yansou.ci.core.db.model.project.ProjectInfo;
 import org.yansou.ci.core.db.model.project.ProjectMergeData;
 import org.yansou.ci.storage.repository.project.BiddingDataRepository;
@@ -32,6 +34,7 @@ public class ProjectMergeProcess implements Runnable {
 
 	@Override
 	public void run() {
+
 		ProjectVectorParse parse = new ProjectVectorParse();
 		List<ProjectVector> projectVectorList = Stream.concat(planBuildDataService.findAll().stream().map(parse::parse),
 				biddingDataService.findAll().stream().map(parse::parse)).collect(Collectors.toList());
@@ -43,13 +46,24 @@ public class ProjectMergeProcess implements Runnable {
 			}
 			ProjectVector dest = find(src, fifo);
 			ProjectMergeData projectMergeData = new ProjectMergeData();
-			ProjectInfo projectInfo1 = PojoUtils.copyTo(src.getQuote(), new ProjectInfo());
-			projectMergeData.getProjectInfo().add(projectInfo1);
+			ProjectInfo projectInfo = new ProjectInfo();
+
+			Date srcDate = ReflectUtils.get(src, "quote.publishTime");
+			Date destDate = ReflectUtils.get(dest, "quote.publishTime");
 			if (null != dest) {
-				ProjectInfo projectInfo2 = PojoUtils.copyTo(dest.getQuote(), new ProjectInfo());
-				projectMergeData.getProjectInfo().add(projectInfo2);
+				if (null != srcDate && null != destDate && srcDate.before(destDate)) {
+					PojoUtils.copyTo(src.getQuote(), projectInfo);
+					PojoUtils.copyTo(dest.getQuote(), projectInfo);
+				} else {
+					PojoUtils.copyTo(dest.getQuote(), projectInfo);
+					PojoUtils.copyTo(src.getQuote(), projectInfo);
+				}
+			} else {
+				PojoUtils.copyTo(src.getQuote(), projectInfo);
+
 			}
-			projectMergeData.getProjectInfo().forEach(projectInfoRepository::save);
+			projectMergeData.setProjectInfo(projectInfo);
+			projectInfoRepository.save(projectInfo);
 			projectMergeDataRepository.save(projectMergeData);
 		}
 	}

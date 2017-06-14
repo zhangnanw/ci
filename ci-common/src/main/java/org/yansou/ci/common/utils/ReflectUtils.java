@@ -111,6 +111,9 @@ public class ReflectUtils {
 	public static <T> T get(Object object, String findNameLike) {
 		Object thisObj = object;
 		for (String name : StringUtils.split(findNameLike, '.')) {
+			if (null == thisObj) {
+				break;
+			}
 			Class<?> clazz = thisObj.getClass();
 			Field field = getAllFields0(clazz).get(name);
 			if (Objects.nonNull(field)) {

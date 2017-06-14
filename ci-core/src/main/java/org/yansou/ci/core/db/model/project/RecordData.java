@@ -1,13 +1,15 @@
 package org.yansou.ci.core.db.model.project;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.db.model.AbstractModel;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.db.model.AbstractModel;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 备案信息
