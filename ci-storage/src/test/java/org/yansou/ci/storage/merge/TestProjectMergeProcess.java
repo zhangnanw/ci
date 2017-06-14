@@ -1,5 +1,6 @@
 package org.yansou.ci.storage.merge;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,7 +49,10 @@ public class TestProjectMergeProcess {
 
 			}
 			for (String key : party_AGroup.keySet()) {
-
+				Class.class.getModifiers();
+				
+				Modifier.isFinal(Class.class.getModifiers());
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
