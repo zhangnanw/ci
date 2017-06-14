@@ -105,7 +105,9 @@ public final class PojoUtils {
 			if (null != destField) {
 				try {
 					Object val = srcField.get(srcPojo);
-					destField.set(destPojo, val);
+					if(null!=val) {
+						destField.set(destPojo, val);
+					}
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					throw new IllegalStateException(e);
 				}

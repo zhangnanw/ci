@@ -1,7 +1,5 @@
 package org.yansou.ci.storage.merge;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +25,7 @@ public class TestProjectMergeProcess {
 	PlanBuildDataRepository biddingDataService;
 	@Autowired
 	ProjectMergeProcess projectMergeProcess;
-
+	
 	@Test
 	public void testProjectMergeProcess() {
 		try {
@@ -78,6 +76,10 @@ public class TestProjectMergeProcess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void testView() {
+		 
 	}
 
 }

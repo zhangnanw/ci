@@ -12,11 +12,9 @@ import org.springframework.stereotype.Component;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.common.utils.ReflectUtils;
 import org.yansou.ci.core.db.model.project.ProjectInfo;
-import org.yansou.ci.core.db.model.project.ProjectMergeData;
 import org.yansou.ci.storage.repository.project.BiddingDataRepository;
 import org.yansou.ci.storage.repository.project.PlanBuildDataRepository;
 import org.yansou.ci.storage.repository.project.ProjectInfoRepository;
-import org.yansou.ci.storage.repository.project.ProjectMergeDataRepository;
 
 /**
  * Created by Administrator on 2017/6/12.
@@ -27,8 +25,6 @@ public class ProjectMergeProcess implements Runnable {
 	PlanBuildDataRepository planBuildDataService;
 	@Autowired
 	BiddingDataRepository biddingDataService;
-	@Autowired
-	ProjectMergeDataRepository projectMergeDataRepository;
 	@Autowired
 	ProjectInfoRepository projectInfoRepository;
 
@@ -45,7 +41,6 @@ public class ProjectMergeProcess implements Runnable {
 				break;
 			}
 			ProjectVector dest = find(src, fifo);
-			ProjectMergeData projectMergeData = new ProjectMergeData();
 			ProjectInfo projectInfo = new ProjectInfo();
 
 			Date srcDate = ReflectUtils.get(src, "quote.publishTime");
@@ -62,9 +57,7 @@ public class ProjectMergeProcess implements Runnable {
 				PojoUtils.copyTo(src.getQuote(), projectInfo);
 
 			}
-			projectMergeData.setProjectInfo(projectInfo);
 			projectInfoRepository.save(projectInfo);
-			projectMergeDataRepository.save(projectMergeData);
 		}
 	}
 
