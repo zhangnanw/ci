@@ -22,11 +22,11 @@ import org.yansou.ci.storage.repository.project.ProjectInfoRepository;
 @Component
 public class ProjectMergeProcess implements Runnable {
 	@Autowired
-	PlanBuildDataRepository planBuildDataService;
+	private PlanBuildDataRepository planBuildDataService;
 	@Autowired
-	BiddingDataRepository biddingDataService;
+	private BiddingDataRepository biddingDataService;
 	@Autowired
-	ProjectInfoRepository projectInfoRepository;
+	private ProjectInfoRepository projectInfoRepository;
 
 	@Override
 	public void run() {
