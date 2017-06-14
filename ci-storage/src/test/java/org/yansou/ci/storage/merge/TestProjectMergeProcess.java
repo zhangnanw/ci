@@ -25,6 +25,8 @@ public class TestProjectMergeProcess {
 	PlanBuildDataRepository planBuildDataService;
 	@Autowired
 	PlanBuildDataRepository biddingDataService;
+	@Autowired
+	ProjectMergeProcess projectMergeProcess;
 
 	@Test
 	public void testProjectMergeProcess() {
@@ -66,6 +68,15 @@ public class TestProjectMergeProcess {
 			if (l.size() > 1) {
 				System.out.println(l.size());
 			}
+		}
+	}
+
+	@Test
+	public void testRun() {
+		try {
+			projectMergeProcess.run();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

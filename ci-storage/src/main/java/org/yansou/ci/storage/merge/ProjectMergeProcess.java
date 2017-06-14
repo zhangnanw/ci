@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.mvc.condition.MediaTypeExpression;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.core.db.model.project.ProjectInfo;
 import org.yansou.ci.core.db.model.project.ProjectMergeData;
@@ -39,10 +38,19 @@ public class ProjectMergeProcess implements Runnable {
 		LinkedList<ProjectVector> fifo = new LinkedList<>(projectVectorList);
 		while (true) {
 			ProjectVector src = fifo.poll();
+			if (null == src) {
+				break;
+			}
 			ProjectVector dest = find(src, fifo);
 			ProjectMergeData projectMergeData = new ProjectMergeData();
-			PojoUtils.copyTo(src.getQuote(),new ProjectInfo());
-			
+			ProjectInfo projectInfo1 = PojoUtils.copyTo(src.getQuote(), new ProjectInfo());
+			projectMergeData.getProjectInfo().add(projectInfo1);
+			if (null != dest) {
+				ProjectInfo projectInfo2 = PojoUtils.copyTo(dest.getQuote(), new ProjectInfo());
+				projectMergeData.getProjectInfo().add(projectInfo2);
+			}
+			projectMergeData.getProjectInfo().forEach(projectInfoRepository::save);
+			projectMergeDataRepository.save(projectMergeData);
 		}
 	}
 

@@ -84,30 +84,34 @@ public final class PojoUtils {
 	 * 
 	 * @param srcPojo
 	 * @param destPojo
+	 * @return destPojo
 	 */
-	public static void copyTo(Object srcPojo, Object destPojo) {
+	@SuppressWarnings("unchecked")
+	public static <T> T copyTo(Object srcPojo, Object destPojo) {
 		// 找到源类型和目标类型的所有成员变量
 		Class<?> srcClazz = srcPojo.getClass();
 		List<Field> srcFieldList = Arrays.asList(srcClazz.getDeclaredFields()).stream()
 				.filter(f -> !Modifier.isFinal(f.getModifiers())).filter(f -> !Modifier.isStatic(f.getModifiers()))
 				.peek(m -> m.setAccessible(true)).collect(Collectors.toList());
-		Class<?> destClazz = srcPojo.getClass();
+		Class<?> destClazz = destPojo.getClass();
 		List<Field> destFieldList = Arrays.asList(destClazz.getDeclaredFields()).stream()
 				.filter(f -> !Modifier.isFinal(f.getModifiers())).filter(f -> !Modifier.isStatic(f.getModifiers()))
 				.peek(m -> m.setAccessible(true)).collect(Collectors.toList());
 		// 找到名称和类型都相同的字段进行拷贝。
 		for (Field srcField : srcFieldList) {
-			destFieldList.stream()
+			Field destField = destFieldList.stream()
 					.filter(df -> srcField.getType().equals(df.getType()) && srcField.getName().equals(df.getName()))
-					.findFirst().ifPresent(destField -> {
-						try {
-							destField.set(destPojo, srcField.get(srcPojo));
-						} catch (IllegalArgumentException | IllegalAccessException e) {
-							throw new IllegalStateException(e);
-						}
-					});
-
+					.findFirst().orElse(null);
+			if (null != destField) {
+				try {
+					Object val = srcField.get(srcPojo);
+					destField.set(destPojo, val);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					throw new IllegalStateException(e);
+				}
+			}
 		}
+		return (T) destPojo;
 	}
 
 }
