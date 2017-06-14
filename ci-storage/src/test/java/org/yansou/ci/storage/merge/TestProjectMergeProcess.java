@@ -1,5 +1,7 @@
 package org.yansou.ci.storage.merge;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,7 +39,9 @@ public class TestProjectMergeProcess {
 			System.out.println(a1Group);
 			System.out.println(mw1Group);
 			System.out.println(party_AGroup);
+
 			for (String key : a1Group.keySet()) {
+				List<ProjectVector> a1 = a1Group.get(key);
 
 			}
 			for (String key : mw1Group.keySet()) {
@@ -49,7 +53,20 @@ public class TestProjectMergeProcess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	@Test
+	public void test1() throws Exception {
+		ProjectVectorParse parse = new ProjectVectorParse();
+		List<ProjectVector> list = Stream.concat(planBuildDataService.findAll().stream().map(parse::parse),
+				biddingDataService.findAll().stream().map(parse::parse)).collect(Collectors.toList());
+		Map<String, List<ProjectVector>> party_AGroup = list.stream()
+				.collect(Collectors.groupingBy(f -> f.getA1() + f.getMw1()));
+		for (List<ProjectVector> l : party_AGroup.values()) {
+			if (l.size() > 1) {
+				System.out.println(l.size());
+			}
+		}
 	}
 
 }
