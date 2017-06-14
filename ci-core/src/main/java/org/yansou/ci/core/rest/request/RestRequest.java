@@ -2,6 +2,7 @@ package org.yansou.ci.core.rest.request;
 
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.Competitor;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.NewsData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
@@ -32,6 +33,9 @@ public class RestRequest implements Serializable {
 
 	private BiddingData biddingData;
 	private BiddingData[] biddingDatas;
+
+	private Competitor competitor;
+	private Competitor[] competitors;
 
 	private MergeData mergeData;
 	private MergeData[] mergeDatas;
@@ -100,6 +104,22 @@ public class RestRequest implements Serializable {
 
 	public void setBiddingDatas(BiddingData[] biddingDatas) {
 		this.biddingDatas = biddingDatas;
+	}
+
+	public Competitor getCompetitor() {
+		return competitor;
+	}
+
+	public void setCompetitor(Competitor competitor) {
+		this.competitor = competitor;
+	}
+
+	public Competitor[] getCompetitors() {
+		return competitors;
+	}
+
+	public void setCompetitors(Competitor[] competitors) {
+		this.competitors = competitors;
 	}
 
 	public MergeData getMergeData() {

@@ -1,5 +1,7 @@
 package org.yansou.ci.core.db.model.project;
 
+
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
@@ -31,6 +34,7 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private String projectName;// 项目名称（工程名称）
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
 	@Column

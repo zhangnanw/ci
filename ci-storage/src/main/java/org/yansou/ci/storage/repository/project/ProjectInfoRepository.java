@@ -8,3 +8,5 @@ import org.yansou.ci.storage.common.repository.GeneralRepository;
 public interface ProjectInfoRepository extends GeneralRepository<ProjectInfo, Long> {
 
 }
+
+ 

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
-import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.NewsData;
 import org.yansou.ci.core.rest.model.IdRo;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
+import org.yansou.ci.web.business.project.NewsDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2017-05-14 0:38
  */
 @Controller
-@RequestMapping(value = "/planBuildData")
-public class PlanBuildDataController {
+@RequestMapping(value = "/newsData")
+public class NewsDataController {
 
-	private static final Logger LOG = LogManager.getLogger(PlanBuildDataController.class);
+	private static final Logger LOG = LogManager.getLogger(NewsDataController.class);
 
 	@Autowired
-	private PlanBuildDataBusiness planBuildDataBusiness;
+	private NewsDataBusiness newsDataBusiness;
 
 	/**
 	 * 进入列表页面
@@ -42,7 +42,7 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "views/planBuildData/list";
+		return "views/newsData/list";
 	}
 
 	/**
@@ -56,9 +56,9 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTablesOutput<PlanBuildData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
+	public DataTablesOutput<NewsData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
-		DataTablesOutput<PlanBuildData> dataTablesOutput = planBuildDataBusiness.pagination(request);
+		DataTablesOutput<NewsData> dataTablesOutput = newsDataBusiness.pagination(request);
 
 		return dataTablesOutput;
 	}
@@ -74,7 +74,7 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "views/planBuildData/add";
+		return "views/newsData/add";
 	}
 
 	/**
@@ -89,17 +89,17 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		PlanBuildData planBuildData = planBuildDataBusiness.findById(id);
+		NewsData newsData = newsDataBusiness.findById(id);
 
-		model.addAttribute("planBuildData", planBuildData);
+		model.addAttribute("newsData", newsData);
 
-		return "views/planBuildData/edit";
+		return "views/newsData/edit";
 	}
 
 	/**
 	 * 新增
 	 *
-	 * @param planBuildData
+	 * @param newsData
 	 * @param model
 	 * @param request
 	 * @param response
@@ -108,15 +108,13 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse save(PlanBuildData planBuildData, ModelMap model, HttpServletRequest request,
-						   HttpServletResponse response) {
-		LOG.info("planBuildData: {}", planBuildData);
-
-		IdResponse restResponse = planBuildDataBusiness.save(planBuildData);
+	public IdResponse save(NewsData newsData, ModelMap model, HttpServletRequest request, HttpServletResponse
+			response) {
+		IdResponse restResponse = newsDataBusiness.save(newsData);
 
 		IdRo idRo = restResponse.getResult();
 		if (idRo != null) {
-			idRo.setUrl("/planBuildData/list");
+			idRo.setUrl("/newsData/list");
 		}
 
 		return restResponse;
@@ -125,7 +123,7 @@ public class PlanBuildDataController {
 	/**
 	 * 更新
 	 *
-	 * @param planBuildData
+	 * @param newsData
 	 * @param model
 	 * @param request
 	 * @param response
@@ -134,13 +132,13 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse update(PlanBuildData planBuildData, ModelMap model, HttpServletRequest request,
-							 HttpServletResponse response) {
-		IdResponse restResponse = planBuildDataBusiness.update(planBuildData);
+	public IdResponse update(NewsData newsData, ModelMap model, HttpServletRequest request, HttpServletResponse
+			response) {
+		IdResponse restResponse = newsDataBusiness.update(newsData);
 
 		IdRo idRo = restResponse.getResult();
 		if (idRo != null) {
-			idRo.setUrl("/planBuildData/list");
+			idRo.setUrl("/newsData/list");
 		}
 
 		return restResponse;
@@ -159,7 +157,7 @@ public class PlanBuildDataController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public CountResponse delete(Long[] ids, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		CountResponse restResponse = planBuildDataBusiness.deleteById(ids);
+		CountResponse restResponse = newsDataBusiness.deleteById(ids);
 
 		return restResponse;
 	}
