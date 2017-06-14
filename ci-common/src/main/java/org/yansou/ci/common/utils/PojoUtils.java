@@ -14,6 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Pojo类的一下工具方法。
  * 
+ * 本类里的所有方法，都只操作对象本身的字段。 <BR>
+ * 对象父类字段无视。
+ * 
  * @author n.zhang
  *
  */
@@ -73,6 +76,37 @@ public final class PojoUtils {
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				throw new IllegalStateException(e);
 			}
+		}
+	}
+
+	/**
+	 * 无视Pojo类型，拷贝Pojo对象内同名同类型字段
+	 * 
+	 * @param srcPojo
+	 * @param destPojo
+	 */
+	public static void copyTo(Object srcPojo, Object destPojo) {
+		// 找到源类型和目标类型的所有成员变量
+		Class<?> srcClazz = srcPojo.getClass();
+		List<Field> srcFieldList = Arrays.asList(srcClazz.getDeclaredFields()).stream()
+				.filter(f -> !Modifier.isFinal(f.getModifiers())).filter(f -> !Modifier.isStatic(f.getModifiers()))
+				.peek(m -> m.setAccessible(true)).collect(Collectors.toList());
+		Class<?> destClazz = srcPojo.getClass();
+		List<Field> destFieldList = Arrays.asList(destClazz.getDeclaredFields()).stream()
+				.filter(f -> !Modifier.isFinal(f.getModifiers())).filter(f -> !Modifier.isStatic(f.getModifiers()))
+				.peek(m -> m.setAccessible(true)).collect(Collectors.toList());
+		// 找到名称和类型都相同的字段进行拷贝。
+		for (Field srcField : srcFieldList) {
+			destFieldList.stream()
+					.filter(df -> srcField.getType().equals(df.getType()) && srcField.getName().equals(df.getName()))
+					.findFirst().ifPresent(destField -> {
+						try {
+							destField.set(destPojo, srcField.get(srcPojo));
+						} catch (IllegalArgumentException | IllegalAccessException e) {
+							throw new IllegalStateException(e);
+						}
+					});
+
 		}
 	}
 
