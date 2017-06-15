@@ -38,10 +38,11 @@ public class ProjectMergeProcess implements Runnable {
 		List<ProjectVector> list = new ArrayList<>();
 		planBuildDataService.findAll().stream().map(parse::parse).forEach(list::add);
 		biddingDataService.findAll().stream().map(parse::parse).forEach(list::add);
-		Map<Object, List<ProjectVector>> groups = list.stream()
+		Map<Object, List<ProjectVector>> groupMap = list.stream()
 				.collect(Collectors.groupingBy(f -> f.getA1() + f.getMw1() + getPartya(f.getParty_a())));
 
-		for (List<ProjectVector> group : groups.values()) {
+		for (Entry<Object, List<ProjectVector>> ent : groupMap.entrySet()) {
+			List<ProjectVector> group = ent.getValue();
 			System.out.println(group.size());
 			// 拿到所有唯一标识
 			List<String> idfList = new ArrayList<>();
@@ -53,8 +54,7 @@ public class ProjectMergeProcess implements Runnable {
 				}
 			}
 			// 重新生成這個組的ID
-			String newProjectID = getProjectIdentifie(idfList.toArray(new String[idfList.size()]));
-
+			String newProjectID = ent.getKey().toString();
 			for (ProjectVector pv : group) {
 				if (!PojoUtils.set(pv.getQuote(), "projectIdentifie", newProjectID)) {
 					System.out.println("没有找到对应字段。");
