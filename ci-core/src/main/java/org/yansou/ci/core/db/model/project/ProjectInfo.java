@@ -1,13 +1,15 @@
 package org.yansou.ci.core.db.model.project;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.db.model.AbstractModel;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.db.model.AbstractModel;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 项目信息
@@ -111,6 +113,9 @@ public class ProjectInfo extends AbstractModel<Long> {
 
 	@Column
 	private String remarks;// 备注
+
+	@Column
+	private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
 
 	public String getProjectName() {
 		return projectName;
@@ -326,6 +331,14 @@ public class ProjectInfo extends AbstractModel<Long> {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public Integer getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Integer checked) {
+		this.checked = checked;
 	}
 }
 

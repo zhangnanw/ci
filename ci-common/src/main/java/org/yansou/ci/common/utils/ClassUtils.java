@@ -1,5 +1,6 @@
 package org.yansou.ci.common.utils;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
@@ -38,37 +39,45 @@ public class ClassUtils {
 		return String.class;
 	}
 
-	public static Object getValue(Object value, String valueType) {
-		if (value == null) {
-			return null;
-		}
-
-		String valueStr = value.toString();
-
-		if (StringUtils.isBlank(valueStr)) {
+	public static Object getValue(String value, String valueType) {
+		if (StringUtils.isBlank(value) || StringUtils.isBlank(valueType)) {
 			return null;
 		}
 
 		if (valueType.equals("int") || valueType.equals("java.lang.Integer")) {
-			return Integer.parseInt(valueStr);
+			return Integer.parseInt(value);
 		}
 
 		if (valueType.equals("long") || valueType.equals("java.lang.Long")) {
-			return Long.parseLong(valueStr);
+			return Long.parseLong(value);
 		}
 
 		if (valueType.equals("double") || valueType.equals("java.lang.Double")) {
-			return Double.parseDouble(valueStr);
+			return Double.parseDouble(value);
 		}
 
 		if (valueType.equals("float") || valueType.equals("java.lang.Float")) {
-			return Float.parseFloat(valueStr);
+			return Float.parseFloat(value);
 		}
 
 		if (valueType.equals("java.util.Date")) {
-			return DateFormater.parse(valueStr);
+			return DateFormater.parse(value);
 		}
 
 		return value;
+	}
+
+	public static Object[] getValueList(String[] values, String valueType) {
+		if (ArrayUtils.isEmpty(values) || StringUtils.isBlank(valueType)) {
+			return null;
+		}
+
+		Object[] result = new Object[values.length];
+
+		for (int i = 0; i < values.length; i++) {
+			result[i] = getValue(values[i], valueType);
+		}
+
+		return result;
 	}
 }

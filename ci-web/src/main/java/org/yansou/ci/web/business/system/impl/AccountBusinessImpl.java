@@ -1,10 +1,12 @@
 package org.yansou.ci.web.business.system.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.yansou.ci.common.datatables.mapping.DataTablesInput;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
@@ -87,15 +89,25 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountPaginationResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				AccountPaginationResponse.class);
+		AccountPaginationResponse restResponse = null;
+		try {
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountPaginationResponse.class);
+		} catch (RestClientException e) {
+			LOG.error(e.getMessage(), e);
+		}
 
-		Pagination<Account> pagination = restResponse.getResult();
+		Pagination<Account> pagination = null;
+		if (restResponse != null) {
+			pagination = restResponse.getResult();
+		}
+
+		if (pagination == null) {
+			pagination = new Pagination<>(0L, 10, 1, new Account[0]);
+		}
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<Account> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(),
-				restResponse.getErrors());
+		DataTablesOutput<Account> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
 
 		return dataTablesOutput;
 	}
@@ -130,6 +142,17 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		return null;
+		String requestUrl = "http://" + CI_STORAGE + "/account/delete";
+
+		LOG.info("删除：{}", ArrayUtils.toString(ids));
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setIds(ids);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
 	}
 }

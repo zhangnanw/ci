@@ -1,7 +1,9 @@
 package org.yansou.ci.storage.common.page;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.jpa.criteria.CriteriaBuilderImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.yansou.ci.common.page.ColumnInfo;
 import org.yansou.ci.common.page.PageCriteria;
@@ -84,51 +86,73 @@ public class PageSpecification<T> implements Specification<T> {
 		// 查询的字段
 		String propertyName = searchInfo.getPropertyName();
 		// 查询的字段值
-		Object value = searchInfo.getValue();
+		String[] values = searchInfo.getValues();
 		// 字段类型
 		String valueType = searchInfo.getValueType();
 		// 字段的查询方式：EQ、NE、LIKE、GT、GE、LT、LE、BETWEEN、IN、IS_NULL、IS_NOT_NULL
 		SearchInfo.SearchOp searchOp = searchInfo.getSearchOp();
 
-		if (StringUtils.isBlank(propertyName) || value == null || searchOp == null) {
+		if (StringUtils.isBlank(propertyName) || ArrayUtils.isEmpty(values) || searchOp == null) {
 			return null;
 		}
 
 		Class<?> clazz = ClassUtils.getClass(valueType);
-		Object realValue = ClassUtils.getValue(value, valueType);
 
 		Expression<?> expression = getExpression(root, propertyName, clazz);
 
 		if (searchOp == SearchInfo.SearchOp.EQ) {
+			Object realValue = ClassUtils.getValue(values[0], valueType);
+
 			return cb.equal(expression, realValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.NE) {
+			Object realValue = ClassUtils.getValue(values[0], valueType);
+
 			return cb.notEqual(expression, realValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.LIKE) {
-			return cb.like((Expression<String>) expression, "%" + realValue.toString() + "%");
+			String realValue = values[0];
+
+			return cb.like((Expression<String>) expression, "%" + realValue + "%");
 		}
 
 		if (searchOp == SearchInfo.SearchOp.GT) {
+			Comparable realValue = (Comparable) ClassUtils.getValue(values[0], valueType);
+
+			return cb.greaterThan((Expression<? extends Comparable>) expression, realValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.GE) {
+			Comparable realValue = (Comparable) ClassUtils.getValue(values[0], valueType);
+
+			return cb.greaterThanOrEqualTo((Expression<? extends Comparable>) expression, realValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.LT) {
+			Comparable realValue = (Comparable) ClassUtils.getValue(values[0], valueType);
+
+			return cb.lessThan((Expression<? extends Comparable>) expression, realValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.LE) {
+			Comparable realValue = (Comparable) ClassUtils.getValue(values[0], valueType);
+
+			return cb.lessThanOrEqualTo((Expression<? extends Comparable>) expression, realValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.BETWEEN) {
+			Comparable minValue = (Comparable) ClassUtils.getValue(values[0], valueType);
+			Comparable maxValue = (Comparable) ClassUtils.getValue(values[1], valueType);
 
+			return cb.between((Expression<? extends Comparable>) expression, minValue, maxValue);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.IN) {
+			Object[] realValues = ClassUtils.getValueList(values, valueType);
 
+			return ((CriteriaBuilderImpl) cb).in(expression, realValues);
 		}
 
 		if (searchOp == SearchInfo.SearchOp.IS_NULL) {

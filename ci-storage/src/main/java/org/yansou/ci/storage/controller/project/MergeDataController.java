@@ -2,6 +2,7 @@ package org.yansou.ci.storage.controller.project;
 
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,13 @@ public class MergeDataController {
 			MergeData otherMergeData = mergeDataService.findById(id);
 
 			return SimpleRestResponse.ok(otherMergeData);
+		}
+
+		String projectIdentifie = mergeData.getProjectIdentifie();// 项目唯一标识
+		if (StringUtils.isNotBlank(projectIdentifie)) {
+			List<MergeData> mergeDataList = mergeDataService.findByProjectIdentifie(projectIdentifie);
+
+			return SimpleRestResponse.ok(mergeDataList.toArray(new MergeData[0]));
 		}
 
 		return SimpleRestResponse.exception();

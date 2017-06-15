@@ -145,6 +145,41 @@ public class JSONUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * 判断数组是否 为空
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	public static boolean isEmpty(JSONArray obj) {
+		if (null == obj) {
+			return true;
+		}
+		return obj.isEmpty();
+	}
+	/**
+	 * 判断数组是否 不为空
+	 * @param obj
+	 * @return
+	 */
+	public static boolean isNotEmpty(JSONArray obj) {
+		return !isEmpty(obj);
+	}
+	/**
+	 * 判断对象是否不为空
+	 * @param obj
+	 * @return
+	 */
+	public static boolean isNotEmpty(JSONObject obj) {
+		return !isEmpty(obj);
+	}
+
+	/**
+	 * 判断对象是否 为空
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	public static boolean isEmpty(JSONObject obj) {
 		if (null == obj) {
 			return true;

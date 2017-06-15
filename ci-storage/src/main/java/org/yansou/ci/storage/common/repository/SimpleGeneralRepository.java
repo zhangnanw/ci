@@ -1,17 +1,33 @@
 package org.yansou.ci.storage.common.repository;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.transform.Transformers;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import javax.persistence.EntityManager;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author liutiejun
@@ -91,4 +107,136 @@ public class SimpleGeneralRepository<T, ID extends Serializable> extends SimpleJ
 			}
 		}
 	}
+
+	@Override
+	public List<Map<String, Object>> findByHql(String hql) {
+		return findByHql(hql, -1, -1, null);
+	}
+
+	@Override
+	public List<Map<String, Object>> findByHql(String hql, Map<String, Object> valuesMap) {
+		return findByHql(hql, -1, -1, valuesMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> findByHql(String hql, int firstResult, int maxResults) {
+		return findByHql(hql, firstResult, maxResults, null);
+	}
+
+	@Override
+	public List<Map<String, Object>> findByHql(String hql, int firstResult, int maxResults, Map<String, Object>
+			valuesMap) {
+		Query query = createQuery(hql, firstResult, maxResults, valuesMap);
+
+		List<Map<String, Object>> dataList = null;
+
+		if (query != null) {
+			dataList = query.list();
+		}
+
+		return dataList;
+	}
+
+	private List<Object> convert(List<Map<String, Object>> dataList, Class<?> clazz) {
+		if (CollectionUtils.isEmpty(dataList) || clazz == null) {
+			return null;
+		}
+
+		PropertyDescriptor[] propertyDescriptors = new PropertyDescriptor[0];
+		try {
+			propertyDescriptors = Introspector.getBeanInfo(clazz).getPropertyDescriptors();
+		} catch (IntrospectionException e) {
+			LOG.error(e.getMessage(), e);
+		}
+
+		if (ArrayUtils.isEmpty(propertyDescriptors)) {
+			return null;
+		}
+
+		List<Object> result = new ArrayList<>();
+
+		for (Map<String, Object> rowMap : dataList) {
+			try {
+				Object object = createObject(rowMap, clazz, propertyDescriptors);
+
+				result.add(object);
+			} catch (IllegalAccessException e) {
+				LOG.error(e.getMessage(), e);
+			} catch (InstantiationException e) {
+				LOG.error(e.getMessage(), e);
+			}
+		}
+
+		return result;
+	}
+
+	private Object createObject(Map<String, Object> rowMap, Class<?> clazz, PropertyDescriptor[] propertyDescriptors)
+			throws IllegalAccessException, InstantiationException {
+		final Object object = clazz.newInstance();
+
+		rowMap.forEach((k, v) -> {
+			try {
+				setValue(object, k, v, propertyDescriptors);
+			} catch (InvocationTargetException e) {
+				LOG.error(e.getMessage(), e);
+			} catch (IllegalAccessException e) {
+				LOG.error(e.getMessage(), e);
+			}
+		});
+
+		return object;
+	}
+
+	private void setValue(Object object, String propertyName, Object propertyValue, PropertyDescriptor[]
+			propertyDescriptors) throws InvocationTargetException, IllegalAccessException {
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+			if (propertyName.equalsIgnoreCase(propertyDescriptor.getName())) {
+				Method method = propertyDescriptor.getWriteMethod();
+
+				if (propertyValue != null) {
+					propertyValue = ConvertUtils.convert(propertyValue, propertyDescriptor.getPropertyType());
+				}
+
+				method.invoke(object, propertyValue);
+			}
+		}
+
+	}
+
+	protected Query createQuery(String hql, int firstResult, int maxResults, Map<String, Object> valuesMap) {
+		if (StringUtils.isBlank(hql)) {
+			return null;
+		}
+
+		Query query = getSession().createQuery(hql);
+
+		if (!MapUtils.isEmpty(valuesMap)) {
+			for (Map.Entry<String, Object> entry : valuesMap.entrySet()) {
+				String name = entry.getKey();
+				Object value = entry.getValue();
+
+				if (value instanceof Collection) {// 集合
+					query.setParameterList(name, (Collection) value);
+				} else if (value instanceof Object[]) {// 数组
+					query.setParameterList(name, (Object[]) value);
+				} else {
+					query.setParameter(name, value);
+				}
+
+			}
+		}
+
+		if (firstResult >= 0) {
+			query.setFirstResult(firstResult);
+		}
+
+		if (maxResults >= 0) {
+			query.setMaxResults(maxResults);
+		}
+
+		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+		return query;
+	}
+
 }

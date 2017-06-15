@@ -25,9 +25,9 @@ public final class DateFormater {
 
 	public final static String STANDARD_DATETIME_PATTERN_LOCAL = "yyyy年MM月dd日 HH:mm:ss";
 
-	private final static String[] PATTERNS = new String[]{"MM/dd/yyyy h:mm:ss a", "yyyy/MM/dd HH:mm:ss", "yyyy-MM-dd "
-			+ "HH:mm:ss", "yyyyMMddHHmmss", "yyyy年MM月dd日 HH:mm:ss", "yyyy年MM月dd日 ah:mm:ss", "EEE MMM dd HH:mm:ss zzz "
-			+ "yyyy", "EEE MMM dd HH:mm:ss zzz yyyy"};
+	private final static String[] PATTERNS = new String[]{"MM/dd/yyyy h:mm:ss a", "MM/dd/yyyy", "yyyy/MM/dd HH:mm:ss",
+			"yyyy/MM/dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd", "yyyyMMddHHmmss", "yyyy年MM月dd日 HH:mm:ss", "yyyy年MM月dd日 " +
+			"ah:mm:ss", "EEE MMM dd HH:mm:ss zzz yyyy"};
 
 	private final static Locale[] LOCALES = new Locale[]{Locale.US, Locale.US, Locale.CHINA, Locale.US, Locale.CHINA,
 			Locale.CHINA, Locale.CHINA, Locale.US};

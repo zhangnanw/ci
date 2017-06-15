@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
+import org.yansou.ci.common.utils.SimpleDateUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.WinCompany;
@@ -18,7 +19,10 @@ import org.yansou.ci.storage.repository.project.WinCompanyRepository;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.WinCompanyService;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liutiejun
@@ -47,6 +51,22 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			return null;
 		}
 
+		Double winAmount = entity.getWinAmount();// 中标单位-中标金额，单位：万元
+		if (winAmount == null) {
+			entity.setWinAmount(0.0D);
+		}
+
+		Double winPrice = entity.getWinPrice();// 中标单位-中标单价 = 中标金额 / 中标容量，单位：元每瓦
+		if (winPrice == null) {
+			entity.setWinPrice(0.0D);
+		}
+
+		Double winCapacity = entity.getWinCapacity();// 中标单位-中标容量，单位：MW（兆瓦）
+		if (winCapacity == null) {
+			entity.setWinCapacity(0.0D);
+		}
+
+		entity.setStatus(AbstractModel.Status.NORMAL.getValue());
 		entity = winCompanyRepository.save(entity);
 
 		BiddingData biddingData = biddingDataService.findById(entity.getBiddingData().getId());
@@ -80,4 +100,55 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 	public WinCompany update(WinCompany entity) throws DaoException {
 		return save(entity);
 	}
+
+	@Override
+	public List<Map<String, Object>> statisticsByWinCapacity(Date startTime, Date endTime, int limit) throws
+			DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		if (limit <= 0) {
+			limit = 20;
+		}
+
+		String hql = "select bean.companyName, sum(bean.winCapacity) totalCapacity from WinCompany bean where " +
+				"bean.winTime between :startTime and :endTime group by bean.companyName order by totalCapacity desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		return winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> statisticsByWinCount(Date startTime, Date endTime, int limit) throws
+			DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		if (limit <= 0) {
+			limit = 20;
+		}
+
+		String hql = "select bean.companyName, count(bean.winCapacity) winCount from WinCompany bean where " + "bean"
+				+ ".winTime between :startTime and :endTime group by bean.companyName order by winCount desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		return winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+	}
+
 }

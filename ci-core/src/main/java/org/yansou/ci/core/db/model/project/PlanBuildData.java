@@ -1,14 +1,17 @@
 package org.yansou.ci.core.db.model.project;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.db.model.AbstractModel;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.db.model.AbstractModel;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 拟在建信息
@@ -17,7 +20,7 @@ import java.util.Date;
  * @create 2017-05-07 15:36
  */
 @Entity
-@Table(name = "ci_plan_build_data", indexes = {@Index(unique = true, columnList = "projectIdentifie")})
+@Table(name = "ci_plan_build_data", indexes = { @Index(unique = true, columnList = "projectIdentifie") })
 public class PlanBuildData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -5536829706290917695L;
@@ -29,10 +32,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 	private String projectName;// 项目名称（工程名称）
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
 	@Column
 	private String projectIdentifie;// 项目唯一标识
+	
+	@Column
+	private String projectNumber;// 項目編號，網站上抓的。
 
 	@Column
 	private Double projectScale;// 项目规模（总采购容量），单位：MW（兆瓦）
@@ -95,8 +102,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 	@Column
 	private String url;// 数据的原始地址
 
+	@Column(columnDefinition = "mediumtext")
+	private String htmlSource;// 网页源码
+
 	@Column
 	private String snapshotId;// 快照id
+
+	@Column
+	private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
 
 	public String getRowkey() {
 		return rowkey;
@@ -128,6 +141,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	public void setProjectIdentifie(String projectIdentifie) {
 		this.projectIdentifie = projectIdentifie;
+	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
 	}
 
 	public Double getProjectScale() {
@@ -282,11 +303,27 @@ public class PlanBuildData extends AbstractModel<Long> {
 		this.url = url;
 	}
 
+	public String getHtmlSource() {
+		return htmlSource;
+	}
+
+	public void setHtmlSource(String htmlSource) {
+		this.htmlSource = htmlSource;
+	}
+
 	public String getSnapshotId() {
 		return snapshotId;
 	}
 
 	public void setSnapshotId(String snapshotId) {
 		this.snapshotId = snapshotId;
+	}
+
+	public Integer getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Integer checked) {
+		this.checked = checked;
 	}
 }

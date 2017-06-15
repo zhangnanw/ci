@@ -49,4 +49,26 @@ public class CiimpScheduleTaskList {
 			e.printStackTrace();
 		}
 	}
+
+	@Scheduled(cron = "0 15,45 * * * *")
+	public void runProjectMerge() {
+		try {
+			String requestUrl = "http://" + CI_STORAGE + "/importdata/projectmerge";
+			String response = client.getForObject(requestUrl, String.class);
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Scheduled(cron = "0 50 * * * *")
+	public void runRecorvBidding() {
+		try {
+			String requestUrl = "http://" + CI_STORAGE + "/importdata/rebidding";
+			String response = client.getForObject(requestUrl, String.class);
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

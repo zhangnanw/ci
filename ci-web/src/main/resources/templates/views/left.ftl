@@ -25,6 +25,15 @@
 			</li>
 
 			<li>
+				<a href="/recordData/list"><i class="fa fa-edit"></i> <span class="nav-label">备案数据</span><span
+						class="fa arrow"></span></a>
+				<ul class="nav nav-second-level collapse">
+					<li><a href="/recordData/list">数据预览</a></li>
+					<li><a href="table_data_tables.html">数据报表</a></li>
+				</ul>
+			</li>
+
+			<li>
 				<a href="/planBuildData/list"><i class="fa fa-edit"></i> <span class="nav-label">拟在建数据</span><span
 						class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
@@ -37,35 +46,34 @@
 				<a href="/biddingData/list">
 					<i class="fa fa-diamond"></i> <span class="nav-label">招中标数据</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="/biddingData/list">数据预览</a>
-					</li>
+					<li><a href="/biddingData/list">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>
 
 			<li>
-				<a href="layouts.html"><i class="fa fa-files-o"></i> <span class="nav-label">项目追踪</span><span
+				<a href="/projectInfo/list"><i class="fa fa-files-o"></i> <span class="nav-label">项目追踪</span><span
 						class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="table_basic.html">数据预览</a></li>
+					<li><a href="/projectInfo/list">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>
 
 			<li>
-				<a href="layouts.html"><i class="fa fa-flask"></i> <span class="nav-label">价格追踪</span><span
+				<a href="/priceTrackingInfo/list"><i class="fa fa-flask"></i> <span class="nav-label">价格追踪</span><span
 						class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="table_basic.html">数据预览</a></li>
+					<li><a href="/priceTrackingInfo/list">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>
 
 			<li>
-				<a href="layouts.html"><i class="fa fa-table"></i> <span class="nav-label">竞争对手</span><span
+				<a href="/competitor/list"><i class="fa fa-table"></i> <span class="nav-label">竞争对手</span><span
 						class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="table_basic.html">数据预览</a></li>
+					<li><a href="/competitor/list">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>

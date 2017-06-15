@@ -33,6 +33,7 @@ public final class RccSource2PlanBuildDataInfo {
 
 	private static final Logger LOG = LogManager.getLogger(RccSource2PlanBuildDataInfo.class);
 	final static private Map<String, Integer> codeMap = Maps.newHashMap();
+
 	static {
 		String[] arr = "1:北京市;2:天津市;3:上海市;4:重庆市;5:安徽省;6:福建省;7:甘肃省;8:广东省;9:贵州省;10:海南省;11:河北省;12:河南省;13:湖北省;14:湖南省;15:吉林省;16:江苏省;17:江西省;18:辽宁省;19:青海省;20:山东省;21:山西省;22:陕西省;23:四川省;24:云南省;25:浙江省;26:台湾省;27:黑龙江省;28:西藏自治区;29:内蒙古自治区;30:宁夏回族自治区;31:广西壮族自治区;32:新疆维吾尔自治区;33:香港特别行政区;34:澳门特别行政区"
 				.split(";");
@@ -69,8 +70,8 @@ public final class RccSource2PlanBuildDataInfo {
 
 		String[] projectCodes = null;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
-		String projectIdentifie = proObj.getString("project_number");// 项目唯一标识
-
+		String projectIdentifie = proObj.getString("project_number");// 项目唯一标识，默認用projectNumber
+		String projectNumber = proObj.getString("project_number");// 項目編號。
 		Double projectScale = null;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 		Double projectCost = null;// 项目造价，单位：万元
@@ -88,7 +89,7 @@ public final class RccSource2PlanBuildDataInfo {
 
 		String parentCompany = null;// 项目业主、开放商、采购人的母公司
 
-		String planBuildStatus = null;// 拟在建项目阶段，由乐叶提供
+		String planBuildStatus = proObj.getString("project_stage");// 拟在建项目阶段，由乐叶提供
 		String purchaseSituation = RegexUtils.regex("设备购置情况[:：](.{5,80})", ctx.replaceAll("<[^>]*>", ""), 1);// 设备购置情况，直接从RCC中获取
 
 		String designer = getValue(proObj.getString("designing_institute"), "company");
@@ -105,7 +106,6 @@ public final class RccSource2PlanBuildDataInfo {
 		Integer status = 0;
 		// URL
 		String url = srcObj.getString("url");
-		;
 
 		Date publishTime = null;
 		try {
@@ -114,6 +114,7 @@ public final class RccSource2PlanBuildDataInfo {
 		} catch (ParseException e) {
 			LOG.info(e);
 		}
+		info.setProjectNumber(projectNumber);
 		info.setPublishTime(publishTime);
 		info.setDesigner(designer);
 		info.setOwnerType(ownerType);

@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface PlanBuildDataBusiness extends GeneralBusiness<PlanBuildData, Long> {
 
+	PlanBuildData[] findByProjectIdentifie(String projectIdentifie);
+
 }

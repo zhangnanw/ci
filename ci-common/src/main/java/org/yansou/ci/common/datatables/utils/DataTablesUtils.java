@@ -2,7 +2,10 @@ package org.yansou.ci.common.datatables.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.yansou.ci.common.datatables.mapping.Column;
 import org.yansou.ci.common.datatables.mapping.DataTablesInput;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
@@ -30,6 +33,8 @@ import java.util.stream.Collectors;
  * @create 2017-05-16 9:49
  */
 public class DataTablesUtils {
+
+	private static final Logger LOG = LogManager.getLogger(DataTablesUtils.class);
 
 	/**
 	 * 解析分页参数
@@ -69,11 +74,11 @@ public class DataTablesUtils {
 	 * @param valueType
 	 * @param searchOp
 	 */
-	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, Object value, String
+	public static void updateSearchInfo(PageCriteria pageCriteria, String propertyName, String[] values, String
 			valueType, SearchInfo.SearchOp searchOp) {
 		SearchInfo searchInfo = new SearchInfo();
 		searchInfo.setPropertyName(propertyName);
-		searchInfo.setValue(value);
+		searchInfo.setValues(values);
 		searchInfo.setValueType(valueType);
 		searchInfo.setSearchOp(searchOp);
 
@@ -119,10 +124,10 @@ public class DataTablesUtils {
 			SearchInfo searchInfo1 = columnInfo.getSearchInfo();
 
 			if (searchInfo1 != null) {// 更新查询值
-				searchInfo.setValue(searchInfo1.getValue());
+				searchInfo.setValues(searchInfo1.getValues());
 			}
 
-			if (searchInfo.getValue() != null) {
+			if (ArrayUtils.isNotEmpty(searchInfo.getValues())) {
 				columnInfo.setSearchInfo(searchInfo);
 			}
 
@@ -186,7 +191,7 @@ public class DataTablesUtils {
 		SearchInfo searchInfo = new SearchInfo();
 
 		searchInfo.setPropertyName(column.getData());
-		searchInfo.setValue(value);
+		searchInfo.setValues(new String[]{value});
 		searchInfo.setValueType(String.class.getTypeName());
 		searchInfo.setSearchOp(SearchInfo.SearchOp.LIKE);
 
@@ -358,10 +363,17 @@ public class DataTablesUtils {
 		itemList.forEach(item -> parseOrder(orderMap, item));
 
 		// 一共有多少列
-		int columnLen = orderMap.keySet().stream().mapToInt(Integer::intValue).max().getAsInt() + 1;
+		int columnLen = 0;
+
+		if (MapUtils.isNotEmpty(orderMap)) {
+			columnLen = orderMap.keySet().stream().mapToInt(Integer::intValue).max().getAsInt() + 1;
+		}
 
 		Order[] orders = new Order[columnLen];
-		orderMap.forEach((index, order) -> orders[index] = order);
+
+		if (MapUtils.isNotEmpty(orderMap)) {
+			orderMap.forEach((index, order) -> orders[index] = order);
+		}
 
 		return orders;
 	}

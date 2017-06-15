@@ -26,7 +26,10 @@
 					<h2>${(biddingData.projectName)!'招中标数据'} - 中标单位信息</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
+						</li>
+						<li>
+							<a href="/biddingData/list">招中标数据</a>
 						</li>
 						<li>
 							<a>中标单位信息</a>
@@ -44,40 +47,9 @@
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
 				<div class="ibox-content m-b-sm border-bottom">
-					<div class="row">
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="companyName">中标单位</label>
-								<input type="text" id="companyName" name="companyName" value=""
-									   placeholder="" class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="winAmount">中标金额</label>
-								<input type="text" id="winAmount" name="winAmount" value="" placeholder=""
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="winPrice">中标单价</label>
-								<input type="text" id="winPrice" name="winPrice" value="" placeholder=""
-									   class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="winCapacity">中标容量（兆瓦）</label>
-								<input type="text" id="winCapacity" name="winCapacity" value="" placeholder=""
-									   class="form-control">
-							</div>
-						</div>
-					</div>
 
 					<div class="row">
-						<div class="ibox-content">
-							<a class="btn btn-w-m btn-info" href="javascript:;">搜索</a>
+						<div class="ibox-content" style="border: 0px">
 							<a class="btn btn-w-m btn-success"
 							   href="/winCompany/add?biddingDataId=${biddingData.id}">新增</a>
 						</div>
@@ -96,8 +68,8 @@
 										<tr>
 											<th>#</th>
 											<th>中标单位</th>
-											<th>中标金额</th>
-											<th>中标单价</th>
+											<th>中标金额（万元）</th>
+											<th>中标单价（元/瓦）</th>
 											<th>中标容量（兆瓦）</th>
 											<th>编辑</th>
 											<th>删除</th>
@@ -131,10 +103,7 @@
 			"dom": '<"html5buttons"B>lTfgitp',
 			"searching": false,
 			"lengthChange": false,
-			buttons: [
-				{extend: 'csv'},
-				{extend: 'excel', title: 'ExampleFile'}
-			],
+			buttons: [],
 			"processing": false,
 			"serverSide": true,
 			"ajax": {
@@ -144,6 +113,7 @@
 					"biddingData.id": ${biddingData.id}
 				}
 			},
+			"order": [],
 			"columnDefs": [
 				{
 					"targets": 0,

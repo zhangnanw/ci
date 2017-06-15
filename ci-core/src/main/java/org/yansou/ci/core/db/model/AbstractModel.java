@@ -48,6 +48,7 @@ public abstract class AbstractModel<ID extends Serializable> implements Serializ
 	@Column
 	@ColumnDefault("0")
 	private Integer status;// 状态，0-正常，1-删除，2-更新
+	
 
 	@Column(updatable = false)
 	@CreationTimestamp

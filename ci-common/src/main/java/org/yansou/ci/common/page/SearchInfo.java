@@ -21,8 +21,15 @@ public class SearchInfo {
 	private String propertyName;
 	/**
 	 * 查询的字段值
+	 * <ul>
+	 * <li>1、用于EQ、NE、LIKE、GT、GE、LT、LE查询的时候，只有一个值</li>
+	 * <li>2、用于BETWEEN查询的时候，包含最小值、最大值</li>
+	 * <li>3、用于IN查询的时候，包含多个值</li>
+	 * <li>4、用于IS_NULL、IS_NOT_NULL查询的时候，为空</li>
+	 * </ul>
 	 */
-	private Object value;
+	private String[] values;
+
 	/**
 	 * 字段类型
 	 */
@@ -35,9 +42,9 @@ public class SearchInfo {
 	public SearchInfo() {
 	}
 
-	public SearchInfo(String propertyName, Object value, String valueType, SearchOp searchOp) {
+	public SearchInfo(String propertyName, String[] values, String valueType, SearchOp searchOp) {
 		this.propertyName = propertyName;
-		this.value = value;
+		this.values = values;
 		this.valueType = valueType;
 		this.searchOp = searchOp;
 	}
@@ -50,12 +57,12 @@ public class SearchInfo {
 		this.propertyName = propertyName;
 	}
 
-	public Object getValue() {
-		return value;
+	public String[] getValues() {
+		return values;
 	}
 
-	public void setValue(Object value) {
-		this.value = value;
+	public void setValues(String[] values) {
+		this.values = values;
 	}
 
 	public String getValueType() {
