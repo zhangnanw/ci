@@ -117,4 +117,28 @@ public final class PojoUtils {
 		return (T) destPojo;
 	}
 
+	/**
+	 * 设置 value到对象里的字段。
+	 * 
+	 * @param pojo
+	 * @param fieldName
+	 * @param val
+	 */
+	public static boolean set(Object pojo, String fieldName, String val) {
+		Class<?> clazz = pojo.getClass();
+		List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields()).stream()
+				.filter(f -> !Modifier.isFinal(f.getModifiers())).filter(f -> !Modifier.isStatic(f.getModifiers()))
+				.peek(m -> m.setAccessible(true)).collect(Collectors.toList());
+		for (Field field : fieldList) {
+			if (field.getName().equals(fieldName)) {
+				try {
+					field.set(pojo, val);
+					return true;
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					throw new IllegalStateException(e);
+				}
+			}
+		}
+		return false;
+	}
 }

@@ -1,7 +1,5 @@
 package org.yansou.ci.core.db.model.project;
 
-
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @create 2017-05-07 15:36
  */
 @Entity
-@Table(name = "ci_plan_build_data", indexes = {@Index(unique = true, columnList = "projectIdentifie")})
+@Table(name = "ci_plan_build_data", indexes = { @Index(unique = true, columnList = "projectIdentifie") })
 public class PlanBuildData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -5536829706290917695L;
@@ -39,6 +37,8 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	@Column
 	private String projectIdentifie;// 项目唯一标识
+	@Column
+	private String projectNumber;// 項目編號，網站上抓的。
 
 	@Column
 	private Double projectScale;// 项目规模（总采购容量），单位：MW（兆瓦）
@@ -134,6 +134,14 @@ public class PlanBuildData extends AbstractModel<Long> {
 
 	public void setProjectIdentifie(String projectIdentifie) {
 		this.projectIdentifie = projectIdentifie;
+	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
 	}
 
 	public Double getProjectScale() {
