@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.db.model.project.ProjectInfo;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.repository.project.ProjectInfoRepository;
 import org.yansou.ci.storage.service.project.ProjectInfoService;
+
+import java.util.List;
 
 /**
  * @author liutiejun
@@ -28,4 +31,8 @@ public class ProjectInfoServiceImpl extends GeneralServiceImpl<ProjectInfo, Long
 		this.projectInfoRepository = (ProjectInfoRepository) generalRepository;
 	}
 
+	@Override
+	public List<ProjectInfo> findByProjectIdentifie(String projectIdentifie) throws DaoException {
+		return projectInfoRepository.findByProjectIdentifie(projectIdentifie);
+	}
 }

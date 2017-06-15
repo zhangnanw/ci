@@ -463,6 +463,14 @@
 										<input type="text" class="form-control" placeholder="" name="remarks"
 											   value="${(biddingData.remarks)!''}">
 									</div>
+									<div class="form-group"><label>数据的原始链接</label>
+										<input type="text" class="form-control" placeholder="" name="url"
+											   value="${(biddingData.url)!''}">
+									</div>
+									<div class="form-group"><label>网页源码</label>
+										<textarea class="form-control" placeholder="" name="htmlSource"
+												  rows="10">${(biddingData.htmlSource)!''}</textarea>
+									</div>
 
 								</div>
 							</div>

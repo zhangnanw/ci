@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
-import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.PriceTrackingInfo;
 import org.yansou.ci.core.rest.model.IdRo;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
+import org.yansou.ci.web.business.project.PriceTrackingInfoBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2017-05-14 0:38
  */
 @Controller
-@RequestMapping(value = "/planBuildData")
-public class PlanBuildDataController {
+@RequestMapping(value = "/priceTrackingInfo")
+public class PriceTrackingInfoController {
 
-	private static final Logger LOG = LogManager.getLogger(PlanBuildDataController.class);
+	private static final Logger LOG = LogManager.getLogger(PriceTrackingInfoController.class);
 
 	@Autowired
-	private PlanBuildDataBusiness planBuildDataBusiness;
+	private PriceTrackingInfoBusiness priceTrackingInfoBusiness;
 
 	/**
 	 * 进入列表页面
@@ -42,7 +42,7 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "views/planBuildData/list";
+		return "views/priceTrackingInfo/list";
 	}
 
 	/**
@@ -56,9 +56,9 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTablesOutput<PlanBuildData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		DataTablesOutput<PlanBuildData> dataTablesOutput = planBuildDataBusiness.pagination(request);
+	public DataTablesOutput<PriceTrackingInfo> showList(ModelMap model, HttpServletRequest request,
+														HttpServletResponse response) {
+		DataTablesOutput<PriceTrackingInfo> dataTablesOutput = priceTrackingInfoBusiness.pagination(request);
 
 		return dataTablesOutput;
 	}
@@ -74,7 +74,7 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		return "views/planBuildData/add";
+		return "views/priceTrackingInfo/add";
 	}
 
 	/**
@@ -89,17 +89,17 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		PlanBuildData planBuildData = planBuildDataBusiness.findById(id);
+		PriceTrackingInfo priceTrackingInfo = priceTrackingInfoBusiness.findById(id);
 
-		model.addAttribute("planBuildData", planBuildData);
+		model.addAttribute("priceTrackingInfo", priceTrackingInfo);
 
-		return "views/planBuildData/edit";
+		return "views/priceTrackingInfo/edit";
 	}
 
 	/**
 	 * 新增
 	 *
-	 * @param planBuildData
+	 * @param priceTrackingInfo
 	 * @param model
 	 * @param request
 	 * @param response
@@ -108,13 +108,13 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse save(PlanBuildData planBuildData, ModelMap model, HttpServletRequest request,
+	public IdResponse save(PriceTrackingInfo priceTrackingInfo, ModelMap model, HttpServletRequest request,
 						   HttpServletResponse response) {
-		IdResponse restResponse = planBuildDataBusiness.save(planBuildData);
+		IdResponse restResponse = priceTrackingInfoBusiness.save(priceTrackingInfo);
 
 		IdRo idRo = restResponse.getResult();
 		if (idRo != null) {
-			idRo.setUrl("/planBuildData/list");
+			idRo.setUrl("/priceTrackingInfo/list");
 		}
 
 		return restResponse;
@@ -123,7 +123,7 @@ public class PlanBuildDataController {
 	/**
 	 * 更新
 	 *
-	 * @param planBuildData
+	 * @param priceTrackingInfo
 	 * @param model
 	 * @param request
 	 * @param response
@@ -132,13 +132,13 @@ public class PlanBuildDataController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse update(PlanBuildData planBuildData, ModelMap model, HttpServletRequest request,
+	public IdResponse update(PriceTrackingInfo priceTrackingInfo, ModelMap model, HttpServletRequest request,
 							 HttpServletResponse response) {
-		IdResponse restResponse = planBuildDataBusiness.update(planBuildData);
+		IdResponse restResponse = priceTrackingInfoBusiness.update(priceTrackingInfo);
 
 		IdRo idRo = restResponse.getResult();
 		if (idRo != null) {
-			idRo.setUrl("/planBuildData/list");
+			idRo.setUrl("/priceTrackingInfo/list");
 		}
 
 		return restResponse;
@@ -157,7 +157,7 @@ public class PlanBuildDataController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public CountResponse delete(Long[] ids, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		CountResponse restResponse = planBuildDataBusiness.deleteById(ids);
+		CountResponse restResponse = priceTrackingInfoBusiness.deleteById(ids);
 
 		return restResponse;
 	}

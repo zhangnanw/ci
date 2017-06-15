@@ -15,6 +15,8 @@ import org.yansou.ci.storage.repository.project.BiddingDataRepository;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
+import java.util.List;
+
 /**
  * @author liutiejun
  * @create 2017-05-14 0:23
@@ -83,5 +85,10 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 	public void saveDataAndSnapshotInfo(BiddingData data, SnapshotInfo snap) throws DaoException {
 		snapshotInfoService.save(snap);
 		this.save(data);
+	}
+
+	@Override
+	public List<BiddingData> findByProjectIdentifie(String projectIdentifie) throws DaoException {
+		return biddingDataRepository.findByProjectIdentifie(projectIdentifie);
 	}
 }

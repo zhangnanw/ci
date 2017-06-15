@@ -14,6 +14,8 @@ import org.yansou.ci.storage.repository.project.PlanBuildDataRepository;
 import org.yansou.ci.storage.service.project.PlanBuildDataService;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
 
+import java.util.List;
+
 /**
  * @author liutiejun
  * @create 2017-05-14 0:23
@@ -35,11 +37,6 @@ public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, 
 	}
 
 	@Override
-	public PlanBuildData findByProjectIdentifie(String projectIdentifie) {
-		return planBuildDataRepository.findByProjectIdentifie(projectIdentifie);
-	}
-
-	@Override
 	public void updateStatusUpdate(String statusUpdate, Long id) {
 		planBuildDataRepository.updateStatusUpdate(statusUpdate, id);
 	}
@@ -55,5 +52,10 @@ public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, 
 	public void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException {
 		snapshotInfoService.save(snap);
 		this.save(data);
+	}
+
+	@Override
+	public List<PlanBuildData> findByProjectIdentifie(String projectIdentifie) throws DaoException {
+		return planBuildDataRepository.findByProjectIdentifie(projectIdentifie);
 	}
 }

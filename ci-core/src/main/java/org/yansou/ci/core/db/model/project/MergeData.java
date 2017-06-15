@@ -71,6 +71,9 @@ public class MergeData extends AbstractModel<Long> {
 	@Column
 	private String url;// 数据的原始地址
 
+	@Column(columnDefinition = "mediumtext")
+	private String htmlSource;// 网页源码
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -197,5 +200,13 @@ public class MergeData extends AbstractModel<Long> {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getHtmlSource() {
+		return htmlSource;
+	}
+
+	public void setHtmlSource(String htmlSource) {
+		this.htmlSource = htmlSource;
 	}
 }
