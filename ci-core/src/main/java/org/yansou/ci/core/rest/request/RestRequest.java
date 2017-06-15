@@ -6,6 +6,7 @@ import org.yansou.ci.core.db.model.project.Competitor;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.NewsData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.PriceTrackingInfo;
 import org.yansou.ci.core.db.model.project.ProjectInfo;
 import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
@@ -45,6 +46,9 @@ public class RestRequest implements Serializable {
 
 	private PlanBuildData planBuildData;
 	private PlanBuildData[] planBuildDatas;
+
+	private PriceTrackingInfo priceTrackingInfo;
+	private PriceTrackingInfo[] priceTrackingInfos;
 
 	private ProjectInfo projectInfo;
 	private ProjectInfo[] projectInfos;
@@ -168,6 +172,22 @@ public class RestRequest implements Serializable {
 
 	public void setPlanBuildDatas(PlanBuildData[] planBuildDatas) {
 		this.planBuildDatas = planBuildDatas;
+	}
+
+	public PriceTrackingInfo getPriceTrackingInfo() {
+		return priceTrackingInfo;
+	}
+
+	public void setPriceTrackingInfo(PriceTrackingInfo priceTrackingInfo) {
+		this.priceTrackingInfo = priceTrackingInfo;
+	}
+
+	public PriceTrackingInfo[] getPriceTrackingInfos() {
+		return priceTrackingInfos;
+	}
+
+	public void setPriceTrackingInfos(PriceTrackingInfo[] priceTrackingInfos) {
+		this.priceTrackingInfos = priceTrackingInfos;
 	}
 
 	public ProjectInfo getProjectInfo() {

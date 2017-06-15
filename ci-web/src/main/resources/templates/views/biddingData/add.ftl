@@ -268,6 +268,13 @@
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks">
 									</div>
+									<div class="form-group"><label>数据的原始链接</label>
+										<input type="text" class="form-control" placeholder="" name="url">
+									</div>
+									<div class="form-group"><label>网页源码</label>
+										<textarea class="form-control" placeholder="" name="htmlSource"
+												  rows="10"></textarea>
+									</div>
 
 								</div>
 							</div>

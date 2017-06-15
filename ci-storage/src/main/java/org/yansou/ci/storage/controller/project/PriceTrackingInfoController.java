@@ -2,7 +2,6 @@ package org.yansou.ci.storage.controller.project;
 
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.PriceTrackingInfo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
-import org.yansou.ci.storage.service.project.PlanBuildDataService;
+import org.yansou.ci.storage.service.project.PriceTrackingInfoService;
 
 import java.util.List;
 
@@ -24,13 +23,13 @@ import java.util.List;
  * @create 2017-05-14 0:28
  */
 @RestController
-@RequestMapping(value = "/planBuildData")
-public class PlanBuildDataController {
+@RequestMapping(value = "/priceTrackingInfo")
+public class PriceTrackingInfoController {
 
-	private static final Logger LOG = LogManager.getLogger(PlanBuildDataController.class);
+	private static final Logger LOG = LogManager.getLogger(PriceTrackingInfoController.class);
 
 	@Autowired
-	private PlanBuildDataService planBuildDataService;
+	private PriceTrackingInfoService priceTrackingInfoService;
 
 	@ApiOperation(value = "分页获取数据详细信息")
 	@PostMapping(value = "/pagination")
@@ -41,7 +40,7 @@ public class PlanBuildDataController {
 
 		PageCriteria pageCriteria = restRequest.getPageCriteria();
 
-		Pagination<PlanBuildData> pagination = planBuildDataService.pagination(pageCriteria);
+		Pagination<PriceTrackingInfo> pagination = priceTrackingInfoService.pagination(pageCriteria);
 
 		return SimpleRestResponse.ok(pagination);
 	}
@@ -53,26 +52,19 @@ public class PlanBuildDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		PlanBuildData planBuildData = restRequest.getPlanBuildData();
+		PriceTrackingInfo priceTrackingInfo = restRequest.getPriceTrackingInfo();
 
-		if (planBuildData == null) {// 查询所有的数据
-			List<PlanBuildData> planBuildDataList = planBuildDataService.findAll();
+		if (priceTrackingInfo == null) {// 查询所有的数据
+			List<PriceTrackingInfo> priceTrackingInfoList = priceTrackingInfoService.findAll();
 
-			return SimpleRestResponse.ok(planBuildDataList.toArray(new PlanBuildData[0]));
+			return SimpleRestResponse.ok(priceTrackingInfoList.toArray(new PriceTrackingInfo[0]));
 		}
 
-		Long id = planBuildData.getId();
+		Long id = priceTrackingInfo.getId();
 		if (id != null) {// 根据ID查询
-			PlanBuildData otherPlanBuildData = planBuildDataService.findById(id);
+			PriceTrackingInfo otherPriceTrackingInfo = priceTrackingInfoService.findById(id);
 
-			return SimpleRestResponse.ok(otherPlanBuildData);
-		}
-
-		String projectIdentifie = planBuildData.getProjectIdentifie();// 项目唯一标识
-		if (StringUtils.isNotBlank(projectIdentifie)) {
-			List<PlanBuildData> planBuildDataList = planBuildDataService.findByProjectIdentifie(projectIdentifie);
-
-			return SimpleRestResponse.ok(planBuildDataList);
+			return SimpleRestResponse.ok(otherPriceTrackingInfo);
 		}
 
 		return SimpleRestResponse.exception();
@@ -85,21 +77,21 @@ public class PlanBuildDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		PlanBuildData planBuildData = restRequest.getPlanBuildData();
+		PriceTrackingInfo priceTrackingInfo = restRequest.getPriceTrackingInfo();
 
-		LOG.info("planBuildData: {}", planBuildData);
+		LOG.info("priceTrackingInfo: {}", priceTrackingInfo);
 
-		if (planBuildData != null) {// 单个新增
-			planBuildData = planBuildDataService.save(planBuildData);
+		if (priceTrackingInfo != null) {// 单个新增
+			priceTrackingInfo = priceTrackingInfoService.save(priceTrackingInfo);
 
-			return SimpleRestResponse.id(planBuildData.getId());
+			return SimpleRestResponse.id(priceTrackingInfo.getId());
 		}
 
-		PlanBuildData[] planBuildDatas = restRequest.getPlanBuildDatas();
-		if (ArrayUtils.isNotEmpty(planBuildDatas)) {// 批量新增
-			planBuildDatas = planBuildDataService.save(planBuildDatas);
+		PriceTrackingInfo[] priceTrackingInfos = restRequest.getPriceTrackingInfos();
+		if (ArrayUtils.isNotEmpty(priceTrackingInfos)) {// 批量新增
+			priceTrackingInfos = priceTrackingInfoService.save(priceTrackingInfos);
 
-			return SimpleRestResponse.ok(planBuildDatas);
+			return SimpleRestResponse.ok(priceTrackingInfos);
 		}
 
 		return SimpleRestResponse.exception();
@@ -112,18 +104,18 @@ public class PlanBuildDataController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		PlanBuildData planBuildData = restRequest.getPlanBuildData();
-		if (planBuildData != null) {// 单个更新
-			planBuildDataService.updateNotNullField(planBuildData);
+		PriceTrackingInfo priceTrackingInfo = restRequest.getPriceTrackingInfo();
+		if (priceTrackingInfo != null) {// 单个更新
+			priceTrackingInfoService.updateNotNullField(priceTrackingInfo);
 
-			return SimpleRestResponse.id(planBuildData.getId());
+			return SimpleRestResponse.id(priceTrackingInfo.getId());
 		}
 
-		PlanBuildData[] planBuildDatas = restRequest.getPlanBuildDatas();
-		if (ArrayUtils.isNotEmpty(planBuildDatas)) {// 批量更新
-			planBuildDatas = planBuildDataService.update(planBuildDatas);
+		PriceTrackingInfo[] priceTrackingInfos = restRequest.getPriceTrackingInfos();
+		if (ArrayUtils.isNotEmpty(priceTrackingInfos)) {// 批量更新
+			priceTrackingInfos = priceTrackingInfoService.update(priceTrackingInfos);
 
-			return SimpleRestResponse.ok(planBuildDatas);
+			return SimpleRestResponse.ok(priceTrackingInfos);
 		}
 
 		return SimpleRestResponse.exception();
@@ -138,7 +130,7 @@ public class PlanBuildDataController {
 
 		Long[] ids = restRequest.getIds();
 
-		int count = planBuildDataService.deleteById(ids);
+		int count = priceTrackingInfoService.deleteById(ids);
 
 		return SimpleRestResponse.ok("count", count);
 	}
