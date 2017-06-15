@@ -10,6 +10,7 @@ import org.yansou.ci.core.rest.response.SimpleRestResponse;
 import org.yansou.ci.storage.ciimp.CorvDlzbToPlanBuild;
 import org.yansou.ci.storage.ciimp.CorvToBidding;
 import org.yansou.ci.storage.ciimp.CorvToPlanBuild;
+import org.yansou.ci.storage.merge.ProjectMergeProcess;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -28,6 +29,8 @@ public class ImportDataController {
 	private CorvToPlanBuild corvPlanBuild;
 	@Autowired
 	private CorvDlzbToPlanBuild corvDlzbPlanBuild;
+	@Autowired
+	private ProjectMergeProcess projectMergeProcess;
 
 	@ApiOperation("导入招标中标数据")
 	@GetMapping("/bidding")
@@ -50,6 +53,14 @@ public class ImportDataController {
 	public SimpleRestResponse dlzbPlanBuild() {
 		corvDlzbPlanBuild.run();
 		LOG.info("imp dlzb plan build done .");
+		return SimpleRestResponse.ok();
+	}
+
+	@ApiOperation("項目關聯")
+	@GetMapping("projectmerge")
+	public SimpleRestResponse projectMerge() {
+		projectMergeProcess.run();
+		LOG.info("project merge done .");
 		return SimpleRestResponse.ok();
 	}
 }
