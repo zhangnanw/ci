@@ -72,7 +72,7 @@ public class MergeDataController {
 		if (StringUtils.isNotBlank(projectIdentifie)) {
 			List<MergeData> mergeDataList = mergeDataService.findByProjectIdentifie(projectIdentifie);
 
-			return SimpleRestResponse.ok(mergeDataList);
+			return SimpleRestResponse.ok(mergeDataList.toArray(new MergeData[0]));
 		}
 
 		return SimpleRestResponse.exception();

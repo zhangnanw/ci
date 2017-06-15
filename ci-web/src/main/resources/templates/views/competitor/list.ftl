@@ -23,13 +23,13 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>拟在建数据</h2>
+					<h2>竞争对手</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome">首页</a>
 						</li>
 						<li>
-							<a>拟在建数据</a>
+							<a>竞争对手</a>
 						</li>
 						<li class="active">
 							<strong>数据预览</strong>

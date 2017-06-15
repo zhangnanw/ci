@@ -74,7 +74,7 @@ public class BiddingDataController {
 		if (StringUtils.isNotBlank(projectIdentifie)) {
 			List<BiddingData> biddingDataList = biddingDataService.findByProjectIdentifie(projectIdentifie);
 
-			return SimpleRestResponse.ok(biddingDataList);
+			return SimpleRestResponse.ok(biddingDataList.toArray(new BiddingData[0]));
 		}
 
 		return SimpleRestResponse.exception();

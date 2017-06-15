@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface RecordDataBusiness extends GeneralBusiness<RecordData, Long> {
 
+	RecordData[] findByProjectIdentifie(String projectIdentifie);
+
 }

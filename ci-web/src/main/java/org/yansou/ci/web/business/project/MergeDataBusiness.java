@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface MergeDataBusiness extends GeneralBusiness<MergeData, Long> {
 
+	MergeData[] findByProjectIdentifie(String projectIdentifie);
+
 }

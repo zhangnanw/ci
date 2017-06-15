@@ -76,6 +76,9 @@ public class MergeData extends AbstractModel<Long> {
 	@Column(columnDefinition = "mediumtext")
 	private String htmlSource;// 网页源码
 
+	@Column
+	private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -210,5 +213,13 @@ public class MergeData extends AbstractModel<Long> {
 
 	public void setHtmlSource(String htmlSource) {
 		this.htmlSource = htmlSource;
+	}
+
+	public Integer getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Integer checked) {
+		this.checked = checked;
 	}
 }

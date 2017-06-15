@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface ProjectInfoBusiness extends GeneralBusiness<ProjectInfo, Long> {
 
+	ProjectInfo[] findByProjectIdentifie(String projectIdentifie);
+
 }

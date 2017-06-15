@@ -72,7 +72,7 @@ public class ProjectInfoController {
 		if (StringUtils.isNotBlank(projectIdentifie)) {
 			List<ProjectInfo> projectInfoList = projectInfoService.findByProjectIdentifie(projectIdentifie);
 
-			return SimpleRestResponse.ok(projectInfoList);
+			return SimpleRestResponse.ok(projectInfoList.toArray(new ProjectInfo[0]));
 		}
 
 		return SimpleRestResponse.exception();

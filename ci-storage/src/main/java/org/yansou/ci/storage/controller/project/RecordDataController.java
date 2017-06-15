@@ -72,7 +72,7 @@ public class RecordDataController {
 		if (StringUtils.isNotBlank(projectIdentifie)) {
 			List<RecordData> recordDataList = recordDataService.findByProjectIdentifie(projectIdentifie);
 
-			return SimpleRestResponse.ok(recordDataList);
+			return SimpleRestResponse.ok(recordDataList.toArray(new RecordData[0]));
 		}
 
 		return SimpleRestResponse.exception();
