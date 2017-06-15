@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     primary:
-      url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/intelligence-prod?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
-      username: hngp
-      password: hngp123
+      url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/ci-master?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
+      username: cim
+      password: yansou2016+
       driver-class-name: com.mysql.jdbc.Driver
   jpa:
     properties:
