@@ -72,7 +72,7 @@ public class PlanBuildDataController {
 		if (StringUtils.isNotBlank(projectIdentifie)) {
 			List<PlanBuildData> planBuildDataList = planBuildDataService.findByProjectIdentifie(projectIdentifie);
 
-			return SimpleRestResponse.ok(planBuildDataList);
+			return SimpleRestResponse.ok(planBuildDataList.toArray(new PlanBuildData[0]));
 		}
 
 		return SimpleRestResponse.exception();
