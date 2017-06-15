@@ -1,6 +1,7 @@
 package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,34 @@ public class RecordDataBusinessImpl implements RecordDataBusiness {
 	}
 
 	@Override
+	public RecordData[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/find";
+
+		RecordData recordData = new RecordData();
+		recordData.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setRecordData(recordData);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		RecordDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				RecordDataArrayResponse.class);
+
+		RecordData[] recordDatas = restResponse.getResult();
+
+		if (recordDatas == null) {
+			recordDatas = new RecordData[0];
+		}
+
+		return recordDatas;
+	}
+
+	@Override
 	public RecordData[] findAll() {
 		String requestUrl = "http://" + CI_STORAGE + "/recordData/find";
 
@@ -63,8 +92,7 @@ public class RecordDataBusinessImpl implements RecordDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		RecordDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
-				RecordDataArrayResponse.class);
+		RecordDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, RecordDataArrayResponse.class);
 
 		RecordData[] recordDatas = restResponse.getResult();
 

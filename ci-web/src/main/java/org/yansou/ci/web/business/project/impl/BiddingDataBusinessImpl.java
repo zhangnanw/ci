@@ -64,6 +64,34 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
+	public BiddingData[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
+
+		BiddingData biddingData = new BiddingData();
+		biddingData.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setBiddingData(biddingData);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		BiddingDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				BiddingDataArrayResponse.class);
+
+		BiddingData[] biddingDatas = restResponse.getResult();
+
+		if (biddingDatas == null) {
+			biddingDatas = new BiddingData[0];
+		}
+
+		return biddingDatas;
+	}
+
+	@Override
 	public BiddingData[] findAll() {
 		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
 

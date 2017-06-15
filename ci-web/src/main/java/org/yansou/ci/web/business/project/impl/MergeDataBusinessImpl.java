@@ -1,6 +1,7 @@
 package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,34 @@ public class MergeDataBusinessImpl implements MergeDataBusiness {
 		MergeData result = restResponse.getResult();
 
 		return result;
+	}
+
+	@Override
+	public MergeData[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/mergeData/find";
+
+		MergeData mergeData = new MergeData();
+		mergeData.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setMergeData(mergeData);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		MergeDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				MergeDataArrayResponse.class);
+
+		MergeData[] mergeDatas = restResponse.getResult();
+
+		if (mergeDatas == null) {
+			mergeDatas = new MergeData[0];
+		}
+
+		return mergeDatas;
 	}
 
 	@Override

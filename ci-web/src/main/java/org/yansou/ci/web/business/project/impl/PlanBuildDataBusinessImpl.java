@@ -64,6 +64,34 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	@Override
+	public PlanBuildData[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/find";
+
+		PlanBuildData planBuildData = new PlanBuildData();
+		planBuildData.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setPlanBuildData(planBuildData);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		PlanBuildDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				PlanBuildDataArrayResponse.class);
+
+		PlanBuildData[] planBuildDatas = restResponse.getResult();
+
+		if (planBuildDatas == null) {
+			planBuildDatas = new PlanBuildData[0];
+		}
+
+		return planBuildDatas;
+	}
+
+	@Override
 	public PlanBuildData[] findAll() {
 		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/find";
 

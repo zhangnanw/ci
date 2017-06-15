@@ -1,6 +1,7 @@
 package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,34 @@ public class ProjectInfoBusinessImpl implements ProjectInfoBusiness {
 		ProjectInfo result = restResponse.getResult();
 
 		return result;
+	}
+
+	@Override
+	public ProjectInfo[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/projectInfo/find";
+
+		ProjectInfo projectInfo = new ProjectInfo();
+		projectInfo.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setProjectInfo(projectInfo);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ProjectInfoArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				ProjectInfoArrayResponse.class);
+
+		ProjectInfo[] projectInfos = restResponse.getResult();
+
+		if (projectInfos == null) {
+			projectInfos = new ProjectInfo[0];
+		}
+
+		return projectInfos;
 	}
 
 	@Override
