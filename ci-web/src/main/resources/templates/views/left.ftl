@@ -61,10 +61,10 @@
 			</li>
 
 			<li>
-				<a href="/planBuildData/list"><i class="fa fa-flask"></i> <span class="nav-label">价格追踪</span><span
+				<a href="/priceTrackingInfo/list"><i class="fa fa-flask"></i> <span class="nav-label">价格追踪</span><span
 						class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="/planBuildData/list">数据预览</a></li>
+					<li><a href="/priceTrackingInfo/list">数据预览</a></li>
 					<li><a href="table_data_tables.html">数据报表</a></li>
 				</ul>
 			</li>

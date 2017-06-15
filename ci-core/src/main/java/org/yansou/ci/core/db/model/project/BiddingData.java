@@ -203,6 +203,9 @@ public class BiddingData extends AbstractModel<Long> {
 	@Column
 	private String snapshotId;//快照id
 
+	@Column
+	private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
+
 	public Integer getDataType() {
 		return dataType;
 	}
@@ -537,6 +540,14 @@ public class BiddingData extends AbstractModel<Long> {
 
 	public void setSnapshotId(String snapshotId) {
 		this.snapshotId = snapshotId;
+	}
+
+	public Integer getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Integer checked) {
+		this.checked = checked;
 	}
 }
 

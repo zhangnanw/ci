@@ -112,6 +112,9 @@ public class ProjectInfo extends AbstractModel<Long> {
 	@Column
 	private String remarks;// 备注
 
+	@Column
+	private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -326,6 +329,14 @@ public class ProjectInfo extends AbstractModel<Long> {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public Integer getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Integer checked) {
+		this.checked = checked;
 	}
 }
 
