@@ -16,7 +16,7 @@ public class TestPlanBuildDataDao {
 
 	@Test
 	public void testGetByID() throws Exception {
-		PlanBuildData pan = dao.findByProjectIdentifie(null);
+		PlanBuildData pan = dao.findByProjectNumber(null);
 		System.out.println(pan);
 	}
 }

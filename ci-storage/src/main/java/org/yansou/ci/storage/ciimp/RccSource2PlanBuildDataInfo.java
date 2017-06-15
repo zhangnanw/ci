@@ -70,8 +70,8 @@ public final class RccSource2PlanBuildDataInfo {
 
 		String[] projectCodes = null;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
-		String projectIdentifie = proObj.getString("project_number");// 项目唯一标识
-
+		String projectIdentifie = proObj.getString("project_number");// 项目唯一标识，默認用projectNumber
+		String projectNumber = proObj.getString("project_number");// 項目編號。
 		Double projectScale = null;// 项目规模（总采购容量），单位：MW（兆瓦）
 
 		Double projectCost = null;// 项目造价，单位：万元
@@ -106,7 +106,6 @@ public final class RccSource2PlanBuildDataInfo {
 		Integer status = 0;
 		// URL
 		String url = srcObj.getString("url");
-		;
 
 		Date publishTime = null;
 		try {
@@ -115,6 +114,7 @@ public final class RccSource2PlanBuildDataInfo {
 		} catch (ParseException e) {
 			LOG.info(e);
 		}
+		info.setProjectNumber(projectNumber);
 		info.setPublishTime(publishTime);
 		info.setDesigner(designer);
 		info.setOwnerType(ownerType);

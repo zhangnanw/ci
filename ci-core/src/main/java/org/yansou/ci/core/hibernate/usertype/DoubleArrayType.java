@@ -15,6 +15,11 @@ import java.sql.SQLException;
 
 public class DoubleArrayType implements Serializable, UserType {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1384958423252787764L;
+
 	private static final Logger LOG = LogManager.getLogger(DoubleArrayType.class);
 
 	private final Gson gson = new Gson();

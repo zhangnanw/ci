@@ -15,6 +15,8 @@ public interface PlanBuildDataService extends GeneralService<PlanBuildData, Long
 
 	List<PlanBuildData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
+	PlanBuildData findByProjectNumber(String projectNumber) throws DaoException;
+
 	void updateStatusUpdate(String statusUpdate, Long id) throws DaoException;
 
 	void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException;

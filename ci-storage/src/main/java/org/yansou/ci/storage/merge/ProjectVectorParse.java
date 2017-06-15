@@ -38,6 +38,7 @@ public class ProjectVectorParse {
 			PojoUtils.nullStringToEmpty(projectVector);
 			return projectVector;
 		}
+
 		return null;
 	}
 }

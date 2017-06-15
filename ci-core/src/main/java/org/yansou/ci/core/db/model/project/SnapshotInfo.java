@@ -1,10 +1,10 @@
 package org.yansou.ci.core.db.model.project;
 
-import org.yansou.ci.core.db.model.AbstractModel;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.yansou.ci.core.db.model.AbstractModel;
 
 /**
  * 快照信息

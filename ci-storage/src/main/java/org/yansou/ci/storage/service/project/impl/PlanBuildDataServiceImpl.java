@@ -58,4 +58,9 @@ public class PlanBuildDataServiceImpl extends GeneralServiceImpl<PlanBuildData, 
 	public List<PlanBuildData> findByProjectIdentifie(String projectIdentifie) throws DaoException {
 		return planBuildDataRepository.findByProjectIdentifie(projectIdentifie);
 	}
+
+	@Override
+	public PlanBuildData findByProjectNumber(String projectNumber) throws DaoException {
+		return planBuildDataRepository.findByProjectNumber(projectNumber);
+	}
 }

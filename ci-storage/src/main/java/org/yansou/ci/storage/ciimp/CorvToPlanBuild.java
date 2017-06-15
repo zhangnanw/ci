@@ -102,9 +102,9 @@ public class CorvToPlanBuild extends AbsStatistics {
 			data.setSnapshotId(snapshot.getSnapshotId());
 			data.setUrl(source.getString("url"));
 			// 清理一下对象
-			PojoUtils.trimAllStringField(data);
+			PojoUtils.trimAllString(data);
 			// 根据对象唯一标识查找库中数据
-			PlanBuildData rs = planBuildDataService.findByProjectIdentifie(data.getProjectIdentifie());
+			PlanBuildData rs = planBuildDataService.findByProjectNumber(data.getProjectNumber());
 			// 如果不存在，插入新数据
 			if (rs == null) {
 				System.out.println("insert plan build.");

@@ -15,13 +15,18 @@ import java.sql.SQLException;
 
 public class StringArrayType implements Serializable, UserType {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5140254191814125279L;
+
 	private static final Logger LOG = LogManager.getLogger(StringArrayType.class);
 
 	private final Gson gson = new Gson();
 
 	@Override
 	public int[] sqlTypes() {
-		return new int[]{StringType.INSTANCE.sqlType()};
+		return new int[] { StringType.INSTANCE.sqlType() };
 	}
 
 	@Override
@@ -42,8 +47,8 @@ public class StringArrayType implements Serializable, UserType {
 	}
 
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws
-			HibernateException, SQLException {
+	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+			throws HibernateException, SQLException {
 		try {
 			String value = StringType.INSTANCE.nullSafeGet(rs, names[0], session);
 
@@ -60,8 +65,8 @@ public class StringArrayType implements Serializable, UserType {
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws
-			HibernateException, SQLException {
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+			throws HibernateException, SQLException {
 		String str = null;
 		try {
 			if (value != null) {
