@@ -15,4 +15,5 @@ public interface BiddingDataRepository extends GeneralRepository<BiddingData, Lo
 
 	List<BiddingData> findByProjectIdentifie(String projectIdentifie);
 
+	List<BiddingData> findByHtmlSourceNotNull();
 }

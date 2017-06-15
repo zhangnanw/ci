@@ -91,4 +91,9 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 	public List<BiddingData> findByProjectIdentifie(String projectIdentifie) throws DaoException {
 		return biddingDataRepository.findByProjectIdentifie(projectIdentifie);
 	}
+
+	@Override
+	public List<BiddingData> findByHtmlSourceNotNull() throws DaoException {
+		return biddingDataRepository.findByHtmlSourceNotNull();
+	}
 }
