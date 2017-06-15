@@ -80,7 +80,8 @@ public final class PojoUtils {
 	}
 
 	/**
-	 * 无视Pojo类型，拷贝Pojo对象内同名同类型字段
+	 * 拷贝srcPojo里的非空值到 destPojo里同名同类型字段。 <br>
+	 * 无视类型
 	 * 
 	 * @param srcPojo
 	 * @param destPojo
@@ -105,7 +106,7 @@ public final class PojoUtils {
 			if (null != destField) {
 				try {
 					Object val = srcField.get(srcPojo);
-					if(null!=val) {
+					if (null != val) {
 						destField.set(destPojo, val);
 					}
 				} catch (IllegalArgumentException | IllegalAccessException e) {

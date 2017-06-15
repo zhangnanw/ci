@@ -20,7 +20,7 @@ import org.yansou.ci.storage.repository.project.ProjectInfoRepository;
  * Created by Administrator on 2017/6/12.
  */
 @Component
-public class ProjectMergeProcess implements Runnable {
+public class ProjectMergeProcess2 implements Runnable {
 	@Autowired
 	private PlanBuildDataRepository planBuildDataService;
 	@Autowired
@@ -34,7 +34,31 @@ public class ProjectMergeProcess implements Runnable {
 		ProjectVectorParse parse = new ProjectVectorParse();
 		List<ProjectVector> projectVectorList = Stream.concat(planBuildDataService.findAll().stream().map(parse::parse),
 				biddingDataService.findAll().stream().map(parse::parse)).collect(Collectors.toList());
-		
+		LinkedList<ProjectVector> fifo = new LinkedList<>(projectVectorList);
+		while (true) {
+			ProjectVector src = fifo.poll();
+			if (null == src) {
+				break;
+			}
+			ProjectVector dest = find(src, fifo);
+			ProjectInfo projectInfo = new ProjectInfo();
+
+			Date srcDate = ReflectUtils.get(src, "quote.publishTime");
+			Date destDate = ReflectUtils.get(dest, "quote.publishTime");
+			if (null != dest) {
+				if (null != srcDate && null != destDate && srcDate.before(destDate)) {
+					PojoUtils.copyTo(src.getQuote(), projectInfo);
+					PojoUtils.copyTo(dest.getQuote(), projectInfo);
+				} else {
+					PojoUtils.copyTo(dest.getQuote(), projectInfo);
+					PojoUtils.copyTo(src.getQuote(), projectInfo);
+				}
+			} else {
+				PojoUtils.copyTo(src.getQuote(), projectInfo);
+
+			}
+			projectInfoRepository.save(projectInfo);
+		}
 	}
 
 	public ProjectVector find(ProjectVector srcProjectVector, Collection<ProjectVector> collect) {
