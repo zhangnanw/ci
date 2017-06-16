@@ -115,23 +115,6 @@
 					</div>
 
 					<div class="row">
-						<div class="col-sm-4">
-
-							<div class="form-group" id="daterange_publishTime">
-								<label class="control-label">发布时间</label>
-
-								<div class="input-daterange input-group" id="datepicker">
-									<input type="text" class="input-sm form-control" name="publishStartTime"
-										   id="publishStartTime"/>
-									<span class="input-group-addon">到</span>
-									<input type="text" class="input-sm form-control" name="publishEndTime"
-										   id="publishEndTime"/>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
 						<div class="ibox-content">
 							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
 							<a class="btn btn-w-m btn-success" href="/projectInfo/add">新增</a>
@@ -150,7 +133,6 @@
 										<thead>
 										<tr>
 											<th>#</th>
-											<th>发布时间</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
 											<th>项目总投资（万元）</th>
@@ -233,26 +215,21 @@
 						},
 						{
 							"targets": 1,
-							"data": "publishTime",
-							"orderable": true
-						},
-						{
-							"targets": 2,
 							"data": "projectName",
 							"orderable": false
 						},
 						{
-							"targets": 3,
+							"targets": 2,
 							"data": "projectScale",
 							"orderable": false
 						},
 						{
-							"targets": 4,
+							"targets": 3,
 							"data": "projectTotalInvestment",
 							"orderable": false
 						},
 						{
-							"targets": 5,
+							"targets": 4,
 							"data": "projectProvince",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -330,22 +307,17 @@
 							}
 						},
 						{
-							"targets": 6,
+							"targets": 5,
 							"data": "projcetOwner",
 							"orderable": false
 						},
 						{
-							"targets": 7,
+							"targets": 6,
 							"data": "parentCompany",
 							"orderable": false
 						},
 						{
-							"targets": 8,
-							"data": "planBuildStatus",
-							"orderable": false
-						},
-						{
-							"targets": 9,
+							"targets": 7,
 							"data": "productType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -359,7 +331,12 @@
 							}
 						},
 						{
-							"targets": 10,
+							"targets": 8,
+							"data": "statusUpdate",
+							"orderable": false
+						},
+						{
+							"targets": 9,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -367,7 +344,7 @@
 							},
 						},
 						{
-							"targets": 11,
+							"targets": 10,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -402,25 +379,16 @@
 
 		var oTable = $('.dataTables-example').DataTable();
 
-		oTable.column(2).search(projectName)
-				.column(5).search(projectProvince)
-				.column(3).search(projectScale)
-				.column(6).search(projcetOwner)
+		oTable.column(1).search(projectName)
+				.column(4).search(projectProvince)
+				.column(2).search(projectScale)
+				.column(5).search(projcetOwner)
 				.draw();
 
 	}
 
 	$(document).ready(function () {
 		TableManaged.init();
-
-		$('#daterange_publishTime .input-daterange').datepicker({
-			clearBtn: true,
-			format: "yyyy-mm-dd",
-			todayBtn: "linked",
-			todayHighlight: true,
-			endDate: "today",
-			language: "zh-CN"
-		});
 	});
 
 </script>
