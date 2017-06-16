@@ -4,6 +4,8 @@ import org.hibernate.annotations.Type;
 import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 价格追踪信息
@@ -11,6 +13,8 @@ import javax.persistence.Column;
  * @author liutiejun
  * @create 2017-06-14 22:25
  */
+@Entity
+@Table(name = "ci_price_tracking_info")
 public class PriceTrackingInfo extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = 1414587990992246199L;
