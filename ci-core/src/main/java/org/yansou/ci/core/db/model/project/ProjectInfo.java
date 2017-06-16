@@ -1,15 +1,13 @@
 package org.yansou.ci.core.db.model.project;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.db.model.AbstractModel;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 /**
  * 项目信息
@@ -100,7 +98,7 @@ public class ProjectInfo extends AbstractModel<Long> {
 	private Integer customerType;// 客户类别，一类客户、二类客户、三类客户、互补企业、设计院、竞争对手，需要乐叶确定
 
 	@Column
-	private Integer componentType;// 组件选型，单晶硅、多晶硅
+	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
 
 	@Column
 	private String purchaseSituation;// 设备购置情况，直接从RCC中获取
@@ -293,12 +291,12 @@ public class ProjectInfo extends AbstractModel<Long> {
 		this.customerType = customerType;
 	}
 
-	public Integer getComponentType() {
-		return componentType;
+	public Integer getProductType() {
+		return productType;
 	}
 
-	public void setComponentType(Integer componentType) {
-		this.componentType = componentType;
+	public void setProductType(Integer productType) {
+		this.productType = productType;
 	}
 
 	public String getPurchaseSituation() {
