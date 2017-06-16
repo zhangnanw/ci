@@ -23,13 +23,13 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>拟在建数据</h2>
+					<h2>竞争对手</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome">首页</a>
 						</li>
 						<li>
-							<a href="/planBuildData/list">拟在建数据</a>
+							<a href="/competitor/list">竞争对手</a>
 						</li>
 						<li class="active">
 							<strong>新增</strong>
@@ -41,12 +41,16 @@
 			<div class="wrapper wrapper-content  animated fadeInRight">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" id="form" action="/planBuildData/save" method="post">
+						<form role="form" id="form" action="/competitor/save" method="post">
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>拟在建数据</h5>
+									<h5>竞争对手</h5>
 								</div>
 								<div class="ibox-content">
+									<div class="form-group"><label>公司名称</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="companyName">
+									</div>
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder=""
@@ -114,38 +118,116 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="" name="parentCompany">
 									</div>
-									<div class="form-group"><label>项目阶段</label>
-										<input type="text" class="form-control" placeholder="" name="planBuildStatus">
+									<div class="form-group"><label>产品类型</label>
+										<select class="select2_deploymentType form-control" name="productType">
+											<option></option>
+											<option value="1">单晶硅</option>
+											<option value="2">多晶硅</option>
+											<option value="3">单晶硅、多晶硅</option>
+											<option value="4">未知</option>
+										</select>
 									</div>
-									<div class="form-group"><label>设备购置情况</label>
-										<input type="text" class="form-control" placeholder=""
-											   name="purchaseSituation">
-									</div>
-									<div class="form-group"><label>设计师</label>
-										<textarea class="form-control" placeholder="" name="designer"
-												  rows="10"></textarea>
-									</div>
-									<div class="form-group"><label>状态更新</label>
-										<input type="text" class="form-control" placeholder="" name="statusUpdate">
-									</div>
-
-									<div class="form-group"><label>发布时间</label>
-										<div class="input-group date">
-											<input name="publishTime" class="form-control" type="text"
-												   value="" readonly>
-											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<div class="form-group"><label>单晶硅规格</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineSpecification"></div>
 										</div>
 									</div>
+									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="monocrystallineCapacity"></div>
+										</div>
+									</div>
+									<div class="form-group"><label>单晶硅的采购总容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="monocrystallineTotalCapacity">
+									</div>
+									<div class="form-group"><label>多晶硅规格</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconSpecification"></div>
+										</div>
+									</div>
+									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+											<div class="col-md-2"><input type="text" placeholder=""
+																		 class="form-control"
+																		 name="polysiliconCapacity"></div>
+										</div>
+									</div>
+									<div class="form-group"><label>多晶硅的采购总容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="polysiliconTotalCapacity">
+									</div>
+
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks">
 									</div>
-									<div class="form-group"><label>数据的原始链接</label>
-										<input type="text" class="form-control" placeholder="" name="url">
-									</div>
-									<div class="form-group"><label>网页源码</label>
-										<textarea class="form-control" placeholder="" name="htmlSource"
-												  rows="10"></textarea>
-									</div>
+
 
 								</div>
 							</div>
@@ -232,20 +314,8 @@
 			allowClear: true
 		});
 
-		$('.input-group.date').datepicker({
-			language: "zh-CN",
-			format: "yyyy-mm-dd",
-			todayBtn: "linked",
-			todayHighlight: true,
-			endDate: "today",
-			keyboardNavigation: false,
-			forceParse: false,
-			calendarWeeks: true,
-			autoclose: true
-		});
-
 		$('#btn_back').click(function () {
-			window.location.href = "/planBuildData/list";
+			window.location.href = "/competitor/list";
 		});
 
 		FormValidation.init();

@@ -103,13 +103,7 @@
 									   placeholder="" class="form-control">
 							</div>
 						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="planBuildStatus">项目阶段</label>
-								<input type="text" id="planBuildStatus" name="planBuildStatus" value="" placeholder=""
-									   class="form-control">
-							</div>
-						</div>
+
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="projcetOwner">采购人</label>
@@ -121,26 +115,9 @@
 					</div>
 
 					<div class="row">
-						<div class="col-sm-4">
-
-							<div class="form-group" id="daterange_publishTime">
-								<label class="control-label">发布时间</label>
-
-								<div class="input-daterange input-group" id="datepicker">
-									<input type="text" class="input-sm form-control" name="publishStartTime"
-										   id="publishStartTime"/>
-									<span class="input-group-addon">到</span>
-									<input type="text" class="input-sm form-control" name="publishEndTime"
-										   id="publishEndTime"/>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
 						<div class="ibox-content">
 							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
-							<a class="btn btn-w-m btn-success" href="/planBuildData/add">新增</a>
+							<a class="btn btn-w-m btn-success" href="/competitor/add">新增</a>
 						</div>
 					</div>
 				</div>
@@ -163,8 +140,7 @@
 											<th>项目地址（省）</th>
 											<th>采购人</th>
 											<th>母公司</th>
-											<th>项目阶段</th>
-											<th>状态更新</th>
+											<th>产品类型</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -216,7 +192,7 @@
 					"processing": false,
 					"serverSide": true,
 					"ajax": {
-						"url": "/planBuildData/showList",
+						"url": "/competitor/showList",
 						"type": "POST",
 						"data": function (d) {
 							return $.extend({}, d, {
@@ -347,29 +323,33 @@
 						},
 						{
 							"targets": 8,
-							"data": "planBuildStatus",
-							"orderable": false
+							"data": "productType",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '单晶硅';
+								} else if (data === 2) {
+									return '多晶硅';
+								} else {
+									return '未知';
+								}
+							}
 						},
 						{
 							"targets": 9,
-							"data": "statusUpdate",
-							"orderable": false
+							"data": "id",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								return '<a href="/competitor/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
+							},
 						},
 						{
 							"targets": 10,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
-								return '<a href="/planBuildData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
-							},
-						},
-						{
-							"targets": 11,
-							"data": "id",
-							"orderable": false,
-							"render": function (data, type, full, meta) {
 								return '<a href="javascript:;" onclick="deleteForDataTable(this)" ' +
-										'res="/planBuildData/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
+										'res="/competitor/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
 							},
 						}
 					],
@@ -396,7 +376,6 @@
 		var projectProvince = $("#projectProvince").val();
 		var projectScale = $("#projectScale").val();
 		var projcetOwner = $("#projcetOwner").val();
-		var planBuildStatus = $("#planBuildStatus").val();
 
 		var oTable = $('.dataTables-example').DataTable();
 
@@ -404,22 +383,12 @@
 				.column(5).search(projectProvince)
 				.column(3).search(projectScale)
 				.column(6).search(projcetOwner)
-				.column(8).search(planBuildStatus)
 				.draw();
 
 	}
 
 	$(document).ready(function () {
 		TableManaged.init();
-
-		$('#daterange_publishTime .input-daterange').datepicker({
-			clearBtn: true,
-			format: "yyyy-mm-dd",
-			todayBtn: "linked",
-			todayHighlight: true,
-			endDate: "today",
-			language: "zh-CN"
-		});
 	});
 
 </script>

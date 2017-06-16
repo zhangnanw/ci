@@ -127,13 +127,6 @@
 										<input type="text" class="form-control" placeholder="" name="statusUpdate">
 									</div>
 
-									<div class="form-group"><label>发布时间</label>
-										<div class="input-group date">
-											<input name="publishTime" class="form-control" type="text"
-												   value="" readonly>
-											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-										</div>
-									</div>
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks">
 									</div>
