@@ -93,7 +93,7 @@ public class VectorSimilarity {
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		double[] p1={1,1,1,1,2};
 		double[] p2={1,1,1,1,2};
 		double result=distance(p1,p2);
