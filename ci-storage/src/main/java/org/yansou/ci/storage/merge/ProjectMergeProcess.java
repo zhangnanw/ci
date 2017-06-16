@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yansou.ci.common.utils.PojoUtils;
@@ -27,6 +30,8 @@ import com.alibaba.fastjson.JSON;
  */
 @Component
 public class ProjectMergeProcess implements Runnable {
+
+	final static private Logger LOG = LogManager.getLogger(ProjectMergeProcess.class);
 	@Autowired
 	private PlanBuildDataRepository planBuildDataService;
 	@Autowired
@@ -43,25 +48,43 @@ public class ProjectMergeProcess implements Runnable {
 
 		for (Entry<Object, List<ProjectVector>> ent : groupMap.entrySet()) {
 			List<ProjectVector> group = ent.getValue();
-			System.out.println(group.size());
-			// 拿到所有唯一标识
-			List<String> idfList = new ArrayList<>();
-			for (ProjectVector pv : group) {
-				System.out.println(JSON.toJSONString(pv.getQuote()));
-				String projectIdentifie = ReflectUtils.get(pv.getQuote(), "projectIdentifie");
-				if (StringUtils.isNotBlank(projectIdentifie)) {
-					idfList.add(projectIdentifie);
-				}
+			List<List<ProjectVector>> groupList = Lists.newArrayList();
+
+			LOG.info("group.size:" + group.size());
+			// 如果组大于10
+			if (group.size() > 10) {
+				// 再次分组
+				group.stream().collect(Collectors.groupingBy(pv -> pv.getA2())).values().forEach(groupList::add);
+			} else {
+				groupList.add(group);
 			}
-			// 重新生成這個組的ID
-			String newProjectID = ent.getKey().toString();
-			for (ProjectVector pv : group) {
-				if (!PojoUtils.set(pv.getQuote(), "projectIdentifie", newProjectID)) {
-					System.out.println("没有找到对应字段。");
+			int groupNumber = 0;
+			for (List<ProjectVector> doneGroup : groupList) {
+				groupNumber++;
+				if (groupList.size() > 1) {
+					LOG.info("new group.size:" + group.size());
 				}
+				// 拿到所有唯一标识
+				List<String> idfList = new ArrayList<>();
+
+				for (ProjectVector pv : doneGroup) {
+					System.out.println(JSON.toJSONString(pv.getQuote()));
+					String projectIdentifie = ReflectUtils.get(pv.getQuote(), "projectIdentifie");
+					if (StringUtils.isNotBlank(projectIdentifie)) {
+						idfList.add(projectIdentifie);
+					}
+				}
+				// 重新生成這個組的ID
+				String newProjectID = ent.getKey().toString() + "_" + groupNumber;
+				for (ProjectVector pv : doneGroup) {
+					if (!PojoUtils.set(pv.getQuote(), "projectIdentifie", newProjectID)) {
+						System.out.println("没有找到对应字段。");
+					}
+				}
+				doneGroup.stream().map(pv -> pv.getQuote()).forEach(this::save);
+				System.out.println("*************************");
 			}
-			group.stream().map(pv -> pv.getQuote()).forEach(this::save);
-			System.out.println("*************************");
+
 		}
 	}
 
