@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yansou.ci.common.utils.PojoUtils;
@@ -48,7 +47,7 @@ public class ProjectMergeProcess implements Runnable {
 
 		for (Entry<Object, List<ProjectVector>> ent : groupMap.entrySet()) {
 			List<ProjectVector> group = ent.getValue();
-			List<List<ProjectVector>> groupList = Lists.newArrayList();
+			List<List<ProjectVector>> groupList = new ArrayList<>();
 
 			LOG.info("group.size:" + group.size());
 			// 如果组大于10
