@@ -121,9 +121,9 @@ public class PlanBuildDataController {
 
 		PlanBuildData[] planBuildDatas = restRequest.getPlanBuildDatas();
 		if (ArrayUtils.isNotEmpty(planBuildDatas)) {// 批量更新
-			planBuildDatas = planBuildDataService.update(planBuildDatas);
+			int count = planBuildDataService.updateNotNullField(planBuildDatas);
 
-			return SimpleRestResponse.ok(planBuildDatas);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

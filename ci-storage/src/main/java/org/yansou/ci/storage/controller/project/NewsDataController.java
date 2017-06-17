@@ -113,9 +113,9 @@ public class NewsDataController {
 
 		NewsData[] newsDatas = restRequest.getNewsDatas();
 		if (ArrayUtils.isNotEmpty(newsDatas)) {// 批量更新
-			newsDatas = newsDataService.update(newsDatas);
+			int count = newsDataService.updateNotNullField(newsDatas);
 
-			return SimpleRestResponse.ok(newsDatas);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

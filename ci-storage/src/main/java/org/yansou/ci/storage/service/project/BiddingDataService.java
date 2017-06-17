@@ -16,4 +16,7 @@ public interface BiddingDataService extends GeneralService<BiddingData, Long> {
 	void saveDataAndSnapshotInfo(BiddingData data, SnapshotInfo snap) throws DaoException;
 
 	List<BiddingData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
+
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
 }

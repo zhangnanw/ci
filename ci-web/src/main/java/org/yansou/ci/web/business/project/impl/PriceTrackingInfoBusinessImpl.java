@@ -144,6 +144,20 @@ public class PriceTrackingInfoBusinessImpl implements PriceTrackingInfoBusiness 
 	}
 
 	@Override
+	public CountResponse update(PriceTrackingInfo[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/priceTrackingInfo/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setPriceTrackingInfos(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/priceTrackingInfo/delete";
 

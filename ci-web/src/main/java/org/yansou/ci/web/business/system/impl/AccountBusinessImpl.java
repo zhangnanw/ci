@@ -141,6 +141,11 @@ public class AccountBusinessImpl implements AccountBusiness {
 	}
 
 	@Override
+	public CountResponse update(Account[] entities) {
+		return null;
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/account/delete";
 

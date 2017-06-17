@@ -14,4 +14,6 @@ public interface MergeDataService extends GeneralService<MergeData, Long> {
 
 	List<MergeData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
 }

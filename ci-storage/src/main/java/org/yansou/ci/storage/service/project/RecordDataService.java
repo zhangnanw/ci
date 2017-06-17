@@ -14,4 +14,6 @@ public interface RecordDataService extends GeneralService<RecordData, Long> {
 
 	List<RecordData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
 }

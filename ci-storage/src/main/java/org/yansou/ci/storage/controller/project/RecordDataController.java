@@ -121,9 +121,9 @@ public class RecordDataController {
 
 		RecordData[] recordDatas = restRequest.getRecordDatas();
 		if (ArrayUtils.isNotEmpty(recordDatas)) {// 批量更新
-			recordDatas = recordDataService.update(recordDatas);
+			int count = recordDataService.updateNotNullField(recordDatas);
 
-			return SimpleRestResponse.ok(recordDatas);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();
