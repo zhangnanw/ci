@@ -1,20 +1,8 @@
-# 开发环境
+#生产环境
 server:
-  port: 9998
-spring:
-  datasource:
-    primary:
-      url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/intelligence-dev?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
-      username: hngp
-      password: hngp123
-      driver-class-name: com.mysql.jdbc.Driver
-  jpa:
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: update
-        show_sql: true
+  port: 9981
+
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:11111/eureka/
+      defaultZone: http://127.0.0.1:11111/eureka/ #服务注册中心地址

@@ -1,0 +1,21 @@
+# 生产环境
+server:
+  port: 9998
+spring:
+  datasource:
+    primary:
+      url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/ci-master?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
+      username: cim
+      password: yansou2016+
+      driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:11111/eureka/

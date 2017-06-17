@@ -45,14 +45,6 @@
 							<input type="hidden" name="id" value="${projectInfo.id}">
 
 							<div class="ibox ">
-								<div class="ibox-content">
-									<div>
-										<a href="/snapshotInfo/detail/${(projectInfo.snapshotId)!''}" target="_blank">查看原文</a>
-									</div>
-								</div>
-							</div>
-
-							<div class="ibox ">
 								<div class="ibox-title">
 									<h5>项目追踪</h5>
 								</div>
@@ -243,20 +235,23 @@
 											   value="${(projectInfo.statusUpdate)!''}">
 									</div>
 
-									<div class="form-group"><label>发布时间</label>
-										<div class="input-group date">
-											<input name="publishTime" class="form-control" type="text"
-												   value="${(projectInfo.publishTime?string('yyyy-MM-dd'))!''}"
-												   readonly>
-											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-										</div>
-									</div>
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks"
 											   value="${(projectInfo.remarks)!''}">
 									</div>
 
+								</div>
+							</div>
 
+							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>备案数据</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="i-checks"><label> <input type="checkbox" value=""> <i></i> Option one
+									</label></div>
+									<div class="i-checks"><label> <input type="checkbox" value="" checked=""> <i></i>
+										Option two checked </label></div>
 								</div>
 							</div>
 

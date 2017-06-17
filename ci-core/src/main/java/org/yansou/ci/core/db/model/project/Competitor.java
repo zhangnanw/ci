@@ -90,6 +90,9 @@ public class Competitor extends AbstractModel<Long> {
 	@Column
 	private Double polysiliconTotalCapacity;// 多晶硅的总采购容量，单位：MW（兆瓦）
 
+	@Column
+	private String remarks;// 备注
+
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -264,5 +267,13 @@ public class Competitor extends AbstractModel<Long> {
 
 	public void setPolysiliconTotalCapacity(Double polysiliconTotalCapacity) {
 		this.polysiliconTotalCapacity = polysiliconTotalCapacity;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 }
