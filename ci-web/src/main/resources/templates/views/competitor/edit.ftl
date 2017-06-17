@@ -23,13 +23,13 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>拟在建数据</h2>
+					<h2>竞争对手</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome">首页</a>
 						</li>
 						<li>
-							<a href="/planBuildData/list">拟在建数据</a>
+							<a href="/competitor/list">竞争对手</a>
 						</li>
 						<li class="active">
 							<strong>编辑</strong>
@@ -41,231 +41,349 @@
 			<div class="wrapper wrapper-content  animated fadeInRight">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" id="form" action="/planBuildData/update" method="post">
-							<input type="hidden" name="id" value="${planBuildData.id}">
+						<form role="form" id="form" action="/competitor/update" method="post">
+							<input type="hidden" name="id" value="${competitor.id}">
 
 							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
-										<a href="/snapshotInfo/detail/${(planBuildData.snapshotId)!''}" target="_blank">查看原文</a>
+										<a href="/snapshotInfo/detail/${(competitor.snapshotId)!''}" target="_blank">查看原文</a>
 									</div>
 								</div>
 							</div>
 
 							<div class="ibox ">
 								<div class="ibox-title">
-									<h5>拟在建数据</h5>
+									<h5>竞争对手</h5>
 								</div>
 								<div class="ibox-content">
+									<div class="form-group"><label>公司名称</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="companyName" value="${(competitor.companyName)!''}">
+									</div>
 
 									<div class="form-group"><label>项目名称（工程名称）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="projectName" value="${(planBuildData.projectName)!''}">
+											   name="projectName" value="${(competitor.projectName)!''}">
 									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="projectScale" value="${(planBuildData.projectScale)!''}">
+											   name="projectScale" value="${(competitor.projectScale)!''}">
 									</div>
 									<div class="form-group"><label>项目总投资，单位：万元</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectTotalInvestment"
-											   value="${(planBuildData.projectTotalInvestment)!''}">
+											   value="${(competitor.projectTotalInvestment)!''}">
 									</div>
 									<div class="form-group"><label>项目描述</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectDescription"
-											   value="${(planBuildData.projectDescription)!''}">
+											   value="${(competitor.projectDescription)!''}">
 									</div>
 									<div class="form-group"><label>项目详细地址</label>
 										<input type="text" class="form-control" placeholder=""
-											   name="projectAddress" value="${(planBuildData.projectAddress)!''}">
+											   name="projectAddress" value="${(competitor.projectAddress)!''}">
 									</div>
 									<div class="form-group"><label>项目地址（省）</label>
 										<select class="select2_projectProvince form-control" name="projectProvince">
 											<option></option>
 											<option value="1"
-                                                    <#if ((planBuildData.projectProvince)!-1)==1>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==1>selected="selected"</#if>>
 												北京市
 											</option>
 											<option value="2"
-                                                    <#if ((planBuildData.projectProvince)!-1)==2>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==2>selected="selected"</#if>>
 												天津市
 											</option>
 											<option value="3"
-                                                    <#if ((planBuildData.projectProvince)!-1)==3>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==3>selected="selected"</#if>>
 												上海市
 											</option>
 											<option value="4"
-                                                    <#if ((planBuildData.projectProvince)!-1)==4>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==4>selected="selected"</#if>>
 												重庆市
 											</option>
 											<option value="5"
-                                                    <#if ((planBuildData.projectProvince)!-1)==5>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==5>selected="selected"</#if>>
 												安徽省
 											</option>
 											<option value="6"
-                                                    <#if ((planBuildData.projectProvince)!-1)==6>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==6>selected="selected"</#if>>
 												福建省
 											</option>
 											<option value="7"
-                                                    <#if ((planBuildData.projectProvince)!-1)==7>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==7>selected="selected"</#if>>
 												甘肃省
 											</option>
 											<option value="8"
-                                                    <#if ((planBuildData.projectProvince)!-1)==8>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==8>selected="selected"</#if>>
 												广东省
 											</option>
 											<option value="9"
-                                                    <#if ((planBuildData.projectProvince)!-1)==9>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==9>selected="selected"</#if>>
 												贵州省
 											</option>
 											<option value="10"
-                                                    <#if ((planBuildData.projectProvince)!-1)==10>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==10>selected="selected"</#if>>
 												海南省
 											</option>
 											<option value="11"
-                                                    <#if ((planBuildData.projectProvince)!-1)==11>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==11>selected="selected"</#if>>
 												河北省
 											</option>
 											<option value="12"
-                                                    <#if ((planBuildData.projectProvince)!-1)==12>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==12>selected="selected"</#if>>
 												河南省
 											</option>
 											<option value="13"
-                                                    <#if ((planBuildData.projectProvince)!-1)==13>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==13>selected="selected"</#if>>
 												湖北省
 											</option>
 											<option value="14"
-                                                    <#if ((planBuildData.projectProvince)!-1)==14>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==14>selected="selected"</#if>>
 												湖南省
 											</option>
 											<option value="15"
-                                                    <#if ((planBuildData.projectProvince)!-1)==15>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==15>selected="selected"</#if>>
 												吉林省
 											</option>
 											<option value="16"
-                                                    <#if ((planBuildData.projectProvince)!-1)==16>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==16>selected="selected"</#if>>
 												江苏省
 											</option>
 											<option value="17"
-                                                    <#if ((planBuildData.projectProvince)!-1)==17>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==17>selected="selected"</#if>>
 												江西省
 											</option>
 											<option value="18"
-                                                    <#if ((planBuildData.projectProvince)!-1)==18>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==18>selected="selected"</#if>>
 												辽宁省
 											</option>
 											<option value="19"
-                                                    <#if ((planBuildData.projectProvince)!-1)==19>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==19>selected="selected"</#if>>
 												青海省
 											</option>
 											<option value="20"
-                                                    <#if ((planBuildData.projectProvince)!-1)==20>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==20>selected="selected"</#if>>
 												山东省
 											</option>
 											<option value="21"
-                                                    <#if ((planBuildData.projectProvince)!-1)==21>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==21>selected="selected"</#if>>
 												山西省
 											</option>
 											<option value="22"
-                                                    <#if ((planBuildData.projectProvince)!-1)==22>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==22>selected="selected"</#if>>
 												陕西省
 											</option>
 											<option value="23"
-                                                    <#if ((planBuildData.projectProvince)!-1)==23>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==23>selected="selected"</#if>>
 												四川省
 											</option>
 											<option value="24"
-                                                    <#if ((planBuildData.projectProvince)!-1)==24>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==24>selected="selected"</#if>>
 												云南省
 											</option>
 											<option value="25"
-                                                    <#if ((planBuildData.projectProvince)!-1)==25>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==25>selected="selected"</#if>>
 												浙江省
 											</option>
 											<option value="26"
-                                                    <#if ((planBuildData.projectProvince)!-1)==26>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==26>selected="selected"</#if>>
 												台湾省
 											</option>
 											<option value="27"
-                                                    <#if ((planBuildData.projectProvince)!-1)==27>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==27>selected="selected"</#if>>
 												黑龙江省
 											</option>
 											<option value="28"
-                                                    <#if ((planBuildData.projectProvince)!-1)==28>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==28>selected="selected"</#if>>
 												西藏自治区
 											</option>
 											<option value="29"
-                                                    <#if ((planBuildData.projectProvince)!-1)==29>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==29>selected="selected"</#if>>
 												内蒙古自治区
 											</option>
 											<option value="30"
-                                                    <#if ((planBuildData.projectProvince)!-1)==30>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==30>selected="selected"</#if>>
 												宁夏回族自治区
 											</option>
 											<option value="31"
-                                                    <#if ((planBuildData.projectProvince)!-1)==31>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==31>selected="selected"</#if>>
 												广西壮族自治区
 											</option>
 											<option value="32"
-                                                    <#if ((planBuildData.projectProvince)!-1)==32>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==32>selected="selected"</#if>>
 												新疆维吾尔自治区
 											</option>
 											<option value="33"
-                                                    <#if ((planBuildData.projectProvince)!-1)==33>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==33>selected="selected"</#if>>
 												香港特别行政区
 											</option>
 											<option value="34"
-                                                    <#if ((planBuildData.projectProvince)!-1)==34>selected="selected"</#if>>
+                                                    <#if ((competitor.projectProvince)!-1)==34>selected="selected"</#if>>
 												澳门特别行政区
 											</option>
 										</select>
 									</div>
 									<div class="form-group"><label>采购人</label>
 										<textarea class="form-control" placeholder="" name="projcetOwner"
-												  rows="10">${(planBuildData.projcetOwner)!''}</textarea>
+												  rows="10">${(competitor.projcetOwner)!''}</textarea>
 									</div>
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="" name="parentCompany"
-											   value="${(planBuildData.parentCompany)!''}">
-									</div>
-									<div class="form-group"><label>项目阶段</label>
-										<input type="text" class="form-control" placeholder="" name="planBuildStatus"
-											   value="${(planBuildData.planBuildStatus)!''}">
-									</div>
-									<div class="form-group"><label>设备购置情况</label>
-										<input type="text" class="form-control" placeholder=""
-											   name="purchaseSituation" value="${(planBuildData.purchaseSituation)!''}">
-									</div>
-									<div class="form-group"><label>设计师</label>
-										<textarea class="form-control" placeholder="" name="designer"
-												  rows="10">${(planBuildData.designer)!''}</textarea>
-									</div>
-									<div class="form-group"><label>状态更新</label>
-										<input type="text" class="form-control" placeholder="" name="statusUpdate"
-											   value="${(planBuildData.statusUpdate)!''}">
+											   value="${(competitor.parentCompany)!''}">
 									</div>
 
-									<div class="form-group"><label>发布时间</label>
-										<div class="input-group date">
-											<input name="publishTime" class="form-control" type="text"
-												   value="${(planBuildData.publishTime?string('yyyy-MM-dd'))!''}"
-												   readonly>
-											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<div class="form-group"><label>产品类型</label>
+										<select class="select2_deploymentType form-control" name="productType">
+											<option></option>
+											<option value="1"
+                                                    <#if ((competitor.productType)!-1)==1>selected="selected"</#if>>单晶硅
+											</option>
+											<option value="2"
+                                                    <#if ((competitor.productType)!-1)==2>selected="selected"</#if>>多晶硅
+											</option>
+											<option value="3"
+                                                    <#if ((competitor.productType)!-1)==3>selected="selected"</#if>>
+												单晶硅、多晶硅
+											</option>
+											<option value="4"
+                                                    <#if ((competitor.productType)!-1)==4>selected="selected"</#if>>未知
+											</option>
+										</select>
+									</div>
+									<div class="form-group"><label>单晶硅规格</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(competitor.monocrystallineSpecification[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(competitor.monocrystallineSpecification[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(competitor.monocrystallineSpecification[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(competitor.monocrystallineSpecification[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(competitor.monocrystallineSpecification[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineSpecification"
+																		 value="${(competitor.monocrystallineSpecification[5])!''}">
+											</div>
 										</div>
 									</div>
+									<div class="form-group"><label>单晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(competitor.monocrystallineCapacity[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(competitor.monocrystallineCapacity[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(competitor.monocrystallineCapacity[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(competitor.monocrystallineCapacity[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(competitor.monocrystallineCapacity[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="monocrystallineCapacity"
+																		 value="${(competitor.monocrystallineCapacity[5])!''}">
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group"><label>单晶硅的采购总容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="monocrystallineTotalCapacity"
+											   value="${(competitor.monocrystallineTotalCapacity)!''}">
+									</div>
+									<div class="form-group"><label>多晶硅规格</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(competitor.polysiliconSpecification[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(competitor.polysiliconSpecification[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(competitor.polysiliconSpecification[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(competitor.polysiliconSpecification[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(competitor.polysiliconSpecification[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconSpecification"
+																		 value="${(competitor.polysiliconSpecification[5])!''}">
+											</div>
+										</div>
+
+
+									</div>
+									<div class="form-group"><label>多晶硅的采购容量，单位：MW（兆瓦）</label>
+										<div class="row">
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(competitor.polysiliconCapacity[0])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(competitor.polysiliconCapacity[1])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(competitor.polysiliconCapacity[2])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(competitor.polysiliconCapacity[3])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(competitor.polysiliconCapacity[4])!''}">
+											</div>
+											<div class="col-md-2"><input type="text" placeholder="" class="form-control"
+																		 name="polysiliconCapacity"
+																		 value="${(competitor.polysiliconCapacity[5])!''}">
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group"><label>多晶硅的采购总容量，单位：MW（兆瓦）</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="polysiliconTotalCapacity"
+											   value="${(competitor.polysiliconTotalCapacity)!''}">
+									</div>
+
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks"
-											   value="${(planBuildData.remarks)!''}">
+											   value="${(competitor.remarks)!''}">
 									</div>
-									<div class="form-group"><label>数据的原始链接</label>
-										<input type="text" class="form-control" placeholder="" name="url"
-											   value="${(planBuildData.url)!''}">
-									</div>
-									<div class="form-group"><label>网页源码</label>
-										<textarea class="form-control" placeholder="" name="htmlSource"
-												  rows="10">${(planBuildData.htmlSource)!''}</textarea>
-									</div>
+
 
 								</div>
 							</div>
@@ -352,20 +470,8 @@
 			allowClear: true
 		});
 
-		$('.input-group.date').datepicker({
-			language: "zh-CN",
-			format: "yyyy-mm-dd",
-			todayBtn: "linked",
-			todayHighlight: true,
-			endDate: "today",
-			keyboardNavigation: false,
-			forceParse: false,
-			calendarWeeks: true,
-			autoclose: true
-		});
-
 		$('#btn_back').click(function () {
-			window.location.href = "/planBuildData/list";
+			window.location.href = "/competitor/list";
 		});
 
 		FormValidation.init();
