@@ -18,4 +18,6 @@ public interface BiddingDataService extends GeneralService<BiddingData, Long> {
 	List<BiddingData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
 	List<BiddingData> findByHtmlSourceNotNull() throws DaoException;
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
 }

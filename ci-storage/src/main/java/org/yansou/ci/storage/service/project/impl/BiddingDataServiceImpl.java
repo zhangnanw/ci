@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
-import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
@@ -76,9 +75,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			entity.setProductType(productType);
 		}
 
-		entity.setStatus(AbstractModel.Status.NORMAL.getValue());
-
-		return biddingDataRepository.save(entity);
+		return super.save(entity);
 	}
 
 	@Override
@@ -95,5 +92,12 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 	@Override
 	public List<BiddingData> findByHtmlSourceNotNull() throws DaoException {
 		return biddingDataRepository.findByHtmlSourceNotNull();
+	}
+	public int updateChecked(Long[] ids, Integer checked) throws DaoException {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return -1;
+		}
+
+		return biddingDataRepository.updateChecked(ids, checked);
 	}
 }

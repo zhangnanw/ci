@@ -14,4 +14,6 @@ public interface ProjectInfoService extends GeneralService<ProjectInfo, Long> {
 
 	List<ProjectInfo> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
 }

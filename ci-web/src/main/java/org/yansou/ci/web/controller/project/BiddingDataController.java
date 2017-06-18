@@ -163,6 +163,10 @@ public class BiddingDataController {
 	public IdResponse update(BiddingData biddingData, Long[] biddingDataIds, Long[] mergeDataIds, Long[]
 			planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
+		mergeDataBusiness.updateChecked(mergeDataIds, 1);
+		planBuildDataBusiness.updateChecked(planBuildDataIds, 1);
+		recordDataBusiness.updateChecked(recordDataIds, 1);
+
 		IdResponse restResponse = biddingDataBusiness.update(biddingData);
 
 		IdRo idRo = restResponse.getResult();

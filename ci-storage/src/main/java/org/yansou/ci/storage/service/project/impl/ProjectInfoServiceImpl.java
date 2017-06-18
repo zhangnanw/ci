@@ -1,5 +1,6 @@
 package org.yansou.ci.storage.service.project.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -35,4 +36,14 @@ public class ProjectInfoServiceImpl extends GeneralServiceImpl<ProjectInfo, Long
 	public List<ProjectInfo> findByProjectIdentifie(String projectIdentifie) throws DaoException {
 		return projectInfoRepository.findByProjectIdentifie(projectIdentifie);
 	}
+
+	@Override
+	public int updateChecked(Long[] ids, Integer checked) throws DaoException {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return -1;
+		}
+
+		return projectInfoRepository.updateChecked(ids, checked);
+	}
+
 }

@@ -271,6 +271,37 @@
 							</div>
 
 							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>备案数据</h5>
+								</div>
+								<div class="ibox-content">
+                                <#if (recordDatas??)> <#if recordDatas?size gt 0> <#list recordDatas as rd>
+									<div class="i-checks"><label>
+										<input type="checkbox" name="recordDataIds" value="${rd.id}"
+                                               <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+                                    ${rd.projectName}
+									</label></div>
+                                </#list></#if></#if>
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>招中标数据</h5>
+								</div>
+								<div class="ibox-content">
+
+                                <#if (biddingDatas??)><#if biddingDatas?size gt 0><#list biddingDatas as bd>
+									<div class="i-checks"><label>
+										<input type="checkbox" name="biddingDataIds" value="${bd.id}"
+                                               <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+                                    ${pbd.projectName}
+									</label></div>
+                                </#list></#if></#if>
+								</div>
+							</div>
+
+							<div class="ibox ">
 								<div class="ibox-content">
 									<div>
 										<button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;

@@ -244,6 +244,41 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
+	public CountResponse update(BiddingData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setBiddingDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
+	public CountResponse updateChecked(Long[] ids, Integer checked) {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return null;
+		}
+
+		BiddingData[] entities = new BiddingData[ids.length];
+
+		for (int i = 0; i < ids.length; i++) {
+			Long id = ids[i];
+
+			BiddingData biddingData = new BiddingData();
+			biddingData.setId(id);
+			biddingData.setChecked(checked);
+
+			entities[i] = biddingData;
+		}
+
+		return update(entities);
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/biddingData/delete";
 

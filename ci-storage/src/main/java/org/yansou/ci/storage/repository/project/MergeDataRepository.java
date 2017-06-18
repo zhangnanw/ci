@@ -1,5 +1,7 @@
 package org.yansou.ci.storage.repository.project;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
@@ -14,5 +16,9 @@ import java.util.List;
 public interface MergeDataRepository extends GeneralRepository<MergeData, Long> {
 
 	List<MergeData> findByProjectIdentifie(String projectIdentifie);
+
+	@Modifying
+	@Query("update MergeData bean set bean.checked = ?2 where bean.id in (?1)")
+	int updateChecked(Long[] ids, Integer checked);
 
 }

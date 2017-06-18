@@ -113,9 +113,9 @@ public class PriceTrackingInfoController {
 
 		PriceTrackingInfo[] priceTrackingInfos = restRequest.getPriceTrackingInfos();
 		if (ArrayUtils.isNotEmpty(priceTrackingInfos)) {// 批量更新
-			priceTrackingInfos = priceTrackingInfoService.update(priceTrackingInfos);
+			int count = priceTrackingInfoService.updateNotNullField(priceTrackingInfos);
 
-			return SimpleRestResponse.ok(priceTrackingInfos);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

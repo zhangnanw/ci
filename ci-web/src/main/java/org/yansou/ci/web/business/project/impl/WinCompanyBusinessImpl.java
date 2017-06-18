@@ -173,6 +173,11 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 	}
 
 	@Override
+	public CountResponse update(WinCompany[] entities) {
+		return null;
+	}
+
+	@Override
 	public IdResponse update(Long biddingDataId, WinCompany entity) {
 		if (biddingDataId == null) {
 			IdResponse response = new IdResponse();

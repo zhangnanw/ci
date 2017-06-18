@@ -59,6 +59,15 @@ public interface GeneralBusiness<T extends Serializable, ID extends Serializable
 	IdResponse update(T entity);
 
 	/**
+	 * 批量更新
+	 *
+	 * @param entities
+	 *
+	 * @return
+	 */
+	CountResponse update(T[] entities);
+
+	/**
 	 * 删除
 	 *
 	 * @param ids

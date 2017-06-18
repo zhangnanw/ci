@@ -88,7 +88,7 @@ public class SimpleGeneralRepository<T, ID extends Serializable> extends SimpleJ
 	}
 
 	@Override
-	public void updateNotNullField(T entity) {
+	public int updateNotNullField(T entity) {
 		Class<T> domainType = getDomainClass();
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(domainType);
 
@@ -106,6 +106,8 @@ public class SimpleGeneralRepository<T, ID extends Serializable> extends SimpleJ
 				classMetadata.setPropertyValue(persistentObject, propertyName, value);
 			}
 		}
+
+		return 1;
 	}
 
 	@Override
