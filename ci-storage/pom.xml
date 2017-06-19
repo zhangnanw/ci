@@ -122,12 +122,6 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>eu.fbk.dh</groupId>
-            <artifactId>tint-readability</artifactId>
-            <version>0.1</version>
-        </dependency>
     </dependencies>
     <repositories>
         <repository>
