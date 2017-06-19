@@ -14,6 +14,7 @@ public class SnapshonInfoUtils {
 
 	static public void filterSnapshot(SnapshotInfo snapshot) {
 		String ctx = snapshot.getContext();
+		
 		if (StringUtils.isBlank(ctx)) {
 			return;
 		}
