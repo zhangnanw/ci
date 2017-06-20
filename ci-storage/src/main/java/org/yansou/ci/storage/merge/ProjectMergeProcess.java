@@ -44,7 +44,6 @@ public class ProjectMergeProcess implements Runnable {
 		biddingDataService.findAll().stream().map(parse::parse).forEach(list::add);
 		Map<Object, List<ProjectVector>> groupMap = list.stream()
 				.collect(Collectors.groupingBy(f -> f.getA1() + f.getMw1() + getPartya(f.getParty_a())));
-
 		for (Entry<Object, List<ProjectVector>> ent : groupMap.entrySet()) {
 			List<ProjectVector> group = ent.getValue();
 			List<List<ProjectVector>> groupList = new ArrayList<>();
