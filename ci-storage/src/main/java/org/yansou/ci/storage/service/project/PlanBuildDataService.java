@@ -20,4 +20,6 @@ public interface PlanBuildDataService extends GeneralService<PlanBuildData, Long
 	void updateStatusUpdate(String statusUpdate, Long id) throws DaoException;
 
 	void saveDataAndSnapshotInfo(PlanBuildData data, SnapshotInfo snap) throws DaoException;
+
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
 }

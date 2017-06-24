@@ -92,7 +92,8 @@ public class RecordDataBusinessImpl implements RecordDataBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		RecordDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, RecordDataArrayResponse.class);
+		RecordDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				RecordDataArrayResponse.class);
 
 		RecordData[] recordDatas = restResponse.getResult();
 
@@ -167,6 +168,41 @@ public class RecordDataBusinessImpl implements RecordDataBusiness {
 		IdResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, IdResponse.class);
 
 		return restResponse;
+	}
+
+	@Override
+	public CountResponse update(RecordData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/recordData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setRecordDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
+	public CountResponse updateChecked(Long[] ids, Integer checked) {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return null;
+		}
+
+		RecordData[] entities = new RecordData[ids.length];
+
+		for (int i = 0; i < ids.length; i++) {
+			Long id = ids[i];
+
+			RecordData recordData = new RecordData();
+			recordData.setId(id);
+			recordData.setChecked(checked);
+
+			entities[i] = recordData;
+		}
+
+		return update(entities);
 	}
 
 	@Override

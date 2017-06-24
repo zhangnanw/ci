@@ -13,6 +13,8 @@ import org.yansou.ci.common.utils.SimpleDateUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.rest.report.ReportRo;
+import org.yansou.ci.core.rest.report.ReportUtils;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.repository.project.WinCompanyRepository;
@@ -102,8 +104,7 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 	}
 
 	@Override
-	public List<Map<String, Object>> statisticsByWinCapacity(Date startTime, Date endTime, int limit) throws
-			DaoException {
+	public ReportRo statisticsByWinCapacity(Date startTime, Date endTime, int limit) throws DaoException {
 		if (startTime == null) {
 			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
 		}
@@ -123,12 +124,17 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 		valuesMap.put("startTime", startTime);
 		valuesMap.put("endTime", endTime);
 
-		return winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+		List<Map<String, Object>> dataList = winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+
+		String xKey = "companyName";
+		String yKey = null;
+		String[] serieKeys = new String[]{"totalCapacity"};
+
+		return ReportUtils.convert(dataList, xKey, yKey, serieKeys);
 	}
 
 	@Override
-	public List<Map<String, Object>> statisticsByWinCount(Date startTime, Date endTime, int limit) throws
-			DaoException {
+	public ReportRo statisticsByWinCount(Date startTime, Date endTime, int limit) throws DaoException {
 		if (startTime == null) {
 			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
 		}
@@ -148,7 +154,13 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 		valuesMap.put("startTime", startTime);
 		valuesMap.put("endTime", endTime);
 
-		return winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+		List<Map<String, Object>> dataList = winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+
+		String xKey = "companyName";
+		String yKey = null;
+		String[] serieKeys = new String[]{"winCount"};
+
+		return ReportUtils.convert(dataList, xKey, yKey, serieKeys);
 	}
 
 }

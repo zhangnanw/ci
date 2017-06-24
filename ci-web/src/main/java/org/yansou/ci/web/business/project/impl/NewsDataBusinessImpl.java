@@ -142,6 +142,20 @@ public class NewsDataBusinessImpl implements NewsDataBusiness {
 	}
 
 	@Override
+	public CountResponse update(NewsData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/newsData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setNewsDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/newsData/delete";
 

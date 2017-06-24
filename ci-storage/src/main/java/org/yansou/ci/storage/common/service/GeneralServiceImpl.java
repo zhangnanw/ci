@@ -109,6 +109,8 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	public T save(T entity) throws DaoException {
 		Assert.notNull(entity, "Entity is null");
 
+		entity.setStatus(AbstractModel.Status.NORMAL.getValue());
+
 		return generalRepository.save(entity);
 	}
 
@@ -116,6 +118,10 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	public List<T> save(List<T> entities) throws DaoException {
 		if (CollectionUtils.isEmpty(entities)) {
 			throw new IllegalArgumentException("Entities is empty");
+		}
+
+		for (T entity : entities) {
+			entity.setStatus(AbstractModel.Status.NORMAL.getValue());
 		}
 
 		return generalRepository.save(entities);
@@ -129,7 +135,9 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 
 		List<T> entityList = new ArrayList<>();
 
-		Arrays.stream(entities).forEach(entityList::add);
+		Arrays.stream(entities).forEach(entity -> {
+			entity.setStatus(AbstractModel.Status.NORMAL.getValue());
+		});
 
 		entityList = generalRepository.save(entityList);
 
@@ -200,10 +208,25 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	}
 
 	@Override
-	public void updateNotNullField(T entity) throws DaoException {
-		LOG.info("generalRepository:{}", generalRepository);
+	public int updateNotNullField(T entity) throws DaoException {
+		entity.setStatus(AbstractModel.Status.UPDATE.getValue());
 
-		generalRepository.updateNotNullField(entity);
+		return generalRepository.updateNotNullField(entity);
+	}
+
+	@Override
+	public int updateNotNullField(T[] entities) throws DaoException {
+		if (ArrayUtils.isEmpty(entities)) {
+			return 0;
+		}
+
+		int result = 0;
+
+		for (T entity : entities) {
+			result += updateNotNullField(entity);
+		}
+
+		return result;
 	}
 
 	@Override

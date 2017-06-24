@@ -218,6 +218,41 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	@Override
+	public CountResponse update(PlanBuildData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setPlanBuildDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
+	public CountResponse updateChecked(Long[] ids, Integer checked) {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return null;
+		}
+
+		PlanBuildData[] entities = new PlanBuildData[ids.length];
+
+		for (int i = 0; i < ids.length; i++) {
+			Long id = ids[i];
+
+			PlanBuildData planBuildData = new PlanBuildData();
+			planBuildData.setId(id);
+			planBuildData.setChecked(checked);
+
+			entities[i] = planBuildData;
+		}
+
+		return update(entities);
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/delete";
 

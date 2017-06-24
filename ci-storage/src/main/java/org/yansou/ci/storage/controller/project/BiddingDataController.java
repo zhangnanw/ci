@@ -123,9 +123,9 @@ public class BiddingDataController {
 
 		BiddingData[] biddingDatas = restRequest.getBiddingDatas();
 		if (ArrayUtils.isNotEmpty(biddingDatas)) {// 批量更新
-			biddingDatas = biddingDataService.update(biddingDatas);
+			int count = biddingDataService.updateNotNullField(biddingDatas);
 
-			return SimpleRestResponse.ok(biddingDatas);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

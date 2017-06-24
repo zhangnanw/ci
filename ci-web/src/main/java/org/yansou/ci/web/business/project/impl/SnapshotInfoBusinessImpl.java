@@ -183,6 +183,11 @@ public class SnapshotInfoBusinessImpl implements SnapshotInfoBusiness {
 	}
 
 	@Override
+	public CountResponse update(SnapshotInfo[] entities) {
+		return null;
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		return null;
 	}

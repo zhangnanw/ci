@@ -121,9 +121,9 @@ public class ProjectInfoController {
 
 		ProjectInfo[] projectInfos = restRequest.getProjectInfos();
 		if (ArrayUtils.isNotEmpty(projectInfos)) {// 批量更新
-			projectInfos = projectInfoService.update(projectInfos);
+			int count = projectInfoService.updateNotNullField(projectInfos);
 
-			return SimpleRestResponse.ok(projectInfos);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

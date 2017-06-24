@@ -142,6 +142,20 @@ public class CompetitorBusinessImpl implements CompetitorBusiness {
 	}
 
 	@Override
+	public CountResponse update(Competitor[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/competitor/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setCompetitors(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/competitor/delete";
 

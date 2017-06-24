@@ -1,11 +1,11 @@
 package org.yansou.ci.storage.service.project;
 
+import java.util.List;
+
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.storage.common.service.GeneralService;
-
-import java.util.List;
 
 /**
  * @author liutiejun
@@ -18,4 +18,7 @@ public interface BiddingDataService extends GeneralService<BiddingData, Long> {
 	List<BiddingData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
 	List<BiddingData> findByHtmlSourceNotNull() throws DaoException;
+
+	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
 }
