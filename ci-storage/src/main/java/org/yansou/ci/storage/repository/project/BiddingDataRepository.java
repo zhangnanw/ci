@@ -18,7 +18,6 @@ public interface BiddingDataRepository extends GeneralRepository<BiddingData, Lo
 	List<BiddingData> findByProjectIdentifie(String projectIdentifie);
 
 	List<BiddingData> findByHtmlSourceNotNull();
-
 	@Modifying
 	@Query("update BiddingData bean set bean.checked = ?2 where bean.id in (?1)")
 	int updateChecked(Long[] ids, Integer checked);
