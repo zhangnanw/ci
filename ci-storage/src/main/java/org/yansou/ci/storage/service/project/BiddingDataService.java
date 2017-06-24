@@ -3,8 +3,10 @@ package org.yansou.ci.storage.service.project;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.storage.common.service.GeneralService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,5 +20,17 @@ public interface BiddingDataService extends GeneralService<BiddingData, Long> {
 	List<BiddingData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
 	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+
+	/**
+	 * 中标产品分类
+	 *
+	 * @param startTime
+	 * @param endTime
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByProductType(Date startTime, Date endTime) throws DaoException;
 
 }

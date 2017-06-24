@@ -1,5 +1,8 @@
 package org.yansou.ci.core.rest.report;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -10,8 +13,14 @@ import java.util.Date;
  */
 public class ReportParameter {
 
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startTime;// 开始时间
+
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endTime;// 结束时间
+
 	private int limit;// 结果数限制
 
 	public Date getStartTime() {

@@ -29,8 +29,8 @@ import java.util.Map;
 		repositoryBaseClass = SimpleGeneralRepository.class)
 public class PrimaryConfigurer {
 
-	@Qualifier("primaryDataSource")
 	@Autowired
+	@Qualifier("primaryDataSource")
 	private DataSource primaryDataSource;
 
 	@Primary
