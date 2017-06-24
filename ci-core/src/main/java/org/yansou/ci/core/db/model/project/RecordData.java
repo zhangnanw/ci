@@ -1,15 +1,13 @@
 package org.yansou.ci.core.db.model.project;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.db.model.AbstractModel;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 /**
  * 备案信息
@@ -66,13 +64,13 @@ public class RecordData extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date planStartTime;// 计划开工时间
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date recordTime;// 备案时间
 
 	@Column
@@ -94,9 +92,12 @@ public class RecordData extends AbstractModel<Long> {
 	private String approvalResult;// 审批结果
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date approvalTime;// 审批时间
+
+	@Column
+	private String remarks;// 备注
 
 	@Column
 	private String url;// 数据的原始地址
@@ -289,6 +290,14 @@ public class RecordData extends AbstractModel<Long> {
 
 	public void setApprovalTime(Date approvalTime) {
 		this.approvalTime = approvalTime;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public String getUrl() {

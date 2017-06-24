@@ -23,13 +23,13 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>竞争对手</h2>
+					<h2>价格追踪</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome">首页</a>
 						</li>
 						<li>
-							<a>竞争对手</a>
+							<a>价格追踪</a>
 						</li>
 						<li class="active">
 							<strong>数据预览</strong>
@@ -117,7 +117,7 @@
 					<div class="row">
 						<div class="ibox-content">
 							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
-							<a class="btn btn-w-m btn-success" href="/competitor/add">新增</a>
+							<a class="btn btn-w-m btn-success" href="/priceTrackingInfo/add">新增</a>
 						</div>
 					</div>
 				</div>
@@ -133,7 +133,6 @@
 										<thead>
 										<tr>
 											<th>#</th>
-											<th>更新时间</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
 											<th>项目总投资（万元）</th>
@@ -192,7 +191,7 @@
 					"processing": false,
 					"serverSide": true,
 					"ajax": {
-						"url": "/competitor/showList",
+						"url": "/priceTrackingInfo/showList",
 						"type": "POST",
 						"data": function (d) {
 							return $.extend({}, d, {
@@ -213,28 +212,24 @@
 								return '<input type="checkbox" class="i-checks" name="ids" value="' + data + '">';
 							}
 						},
+
 						{
 							"targets": 1,
-							"data": "updateTime",
-							"orderable": true
-						},
-						{
-							"targets": 2,
 							"data": "projectName",
 							"orderable": false
 						},
 						{
-							"targets": 3,
+							"targets": 2,
 							"data": "projectScale",
 							"orderable": false
 						},
 						{
-							"targets": 4,
+							"targets": 3,
 							"data": "projectTotalInvestment",
 							"orderable": false
 						},
 						{
-							"targets": 5,
+							"targets": 4,
 							"data": "projectProvince",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -312,17 +307,17 @@
 							}
 						},
 						{
-							"targets": 6,
+							"targets": 5,
 							"data": "projcetOwner",
 							"orderable": false
 						},
 						{
-							"targets": 7,
+							"targets": 6,
 							"data": "parentCompany",
 							"orderable": false
 						},
 						{
-							"targets": 8,
+							"targets": 7,
 							"data": "productType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -336,20 +331,20 @@
 							}
 						},
 						{
+							"targets": 8,
+							"data": "id",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								return '<a href="/priceTrackingInfo/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
+							},
+						},
+						{
 							"targets": 9,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
-								return '<a href="/competitor/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
-							},
-						},
-						{
-							"targets": 10,
-							"data": "id",
-							"orderable": false,
-							"render": function (data, type, full, meta) {
 								return '<a href="javascript:;" onclick="deleteForDataTable(this)" ' +
-										'res="/competitor/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
+										'res="/priceTrackingInfo/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
 							},
 						}
 					],
@@ -379,10 +374,10 @@
 
 		var oTable = $('.dataTables-example').DataTable();
 
-		oTable.column(2).search(projectName)
-				.column(5).search(projectProvince)
-				.column(3).search(projectScale)
-				.column(6).search(projcetOwner)
+		oTable.column(1).search(projectName)
+				.column(4).search(projectProvince)
+				.column(2).search(projectScale)
+				.column(5).search(projcetOwner)
 				.draw();
 
 	}

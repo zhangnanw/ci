@@ -35,9 +35,6 @@ public class PriceTrackingInfo extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
-	private String winCompanyInfo;// 投标企业信息
-
-	@Column
 	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
 
 	@Column
@@ -61,6 +58,29 @@ public class PriceTrackingInfo extends AbstractModel<Long> {
 
 	@Column
 	private Double polysiliconTotalCapacity;// 多晶硅的总采购容量，单位：MW（兆瓦）
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
+	private String[] bidCompanys;// 投标企业
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] quotations;// 投标报价，单位：万元
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] winAmounts;// 中标金额，单位：万元
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] winPrices;// 中标单价 = 中标金额 / 中标容量，单位：元每瓦
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] winCapacitys;// 中标容量，单位：MW（兆瓦）
+
+	@Column
+	private String remarks;// 备注
 
 	public String getProjcetOwner() {
 		return projcetOwner;
@@ -100,14 +120,6 @@ public class PriceTrackingInfo extends AbstractModel<Long> {
 
 	public void setParentCompany(String parentCompany) {
 		this.parentCompany = parentCompany;
-	}
-
-	public String getWinCompanyInfo() {
-		return winCompanyInfo;
-	}
-
-	public void setWinCompanyInfo(String winCompanyInfo) {
-		this.winCompanyInfo = winCompanyInfo;
 	}
 
 	public Integer getProductType() {
@@ -164,5 +176,53 @@ public class PriceTrackingInfo extends AbstractModel<Long> {
 
 	public void setPolysiliconTotalCapacity(Double polysiliconTotalCapacity) {
 		this.polysiliconTotalCapacity = polysiliconTotalCapacity;
+	}
+
+	public String[] getBidCompanys() {
+		return bidCompanys;
+	}
+
+	public void setBidCompanys(String[] bidCompanys) {
+		this.bidCompanys = bidCompanys;
+	}
+
+	public Double[] getQuotations() {
+		return quotations;
+	}
+
+	public void setQuotations(Double[] quotations) {
+		this.quotations = quotations;
+	}
+
+	public Double[] getWinAmounts() {
+		return winAmounts;
+	}
+
+	public void setWinAmounts(Double[] winAmounts) {
+		this.winAmounts = winAmounts;
+	}
+
+	public Double[] getWinPrices() {
+		return winPrices;
+	}
+
+	public void setWinPrices(Double[] winPrices) {
+		this.winPrices = winPrices;
+	}
+
+	public Double[] getWinCapacitys() {
+		return winCapacitys;
+	}
+
+	public void setWinCapacitys(Double[] winCapacitys) {
+		this.winCapacitys = winCapacitys;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 }

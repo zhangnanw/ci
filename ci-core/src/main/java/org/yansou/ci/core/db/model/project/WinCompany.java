@@ -31,7 +31,7 @@ public class WinCompany extends AbstractModel<Long> {
 	private String companyName;// 单位名称
 
 	@Column
-	private Double quotation;// 投标报价
+	private Double quotation;// 投标报价，单位：万元
 
 	@Column
 	private Double winAmount;// 中标单位-中标金额，单位：万元

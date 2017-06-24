@@ -17,15 +17,19 @@ import org.yansou.ci.common.web.RequestUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.rest.report.ReportParameter;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
+import org.yansou.ci.core.rest.response.ReportResponse;
 import org.yansou.ci.core.rest.response.project.WinCompanyArrayResponse;
 import org.yansou.ci.core.rest.response.project.WinCompanyPaginationResponse;
 import org.yansou.ci.core.rest.response.project.WinCompanyResponse;
 import org.yansou.ci.web.business.project.WinCompanyBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * @author liutiejun
@@ -208,5 +212,43 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
 
 		return restResponse;
+	}
+
+	@Override
+	public ReportRo statisticsByWinCapacity(Date startTime, Date endTime, int limit) {
+		String requestUrl = "http://" + CI_STORAGE + "/winCompany/statistics/winCapacity";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setLimit(limit);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByWinCount(Date startTime, Date endTime, int limit) {
+		String requestUrl = "http://" + CI_STORAGE + "/winCompany/statistics/winCount";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setLimit(limit);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
 	}
 }

@@ -23,13 +23,13 @@
 		<div id="page-container">
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>竞争对手</h2>
+					<h2>备案数据</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="/welcome">首页</a>
 						</li>
 						<li>
-							<a>竞争对手</a>
+							<a>备案数据</a>
 						</li>
 						<li class="active">
 							<strong>数据预览</strong>
@@ -117,7 +117,7 @@
 					<div class="row">
 						<div class="ibox-content">
 							<a class="btn btn-w-m btn-info" href="javascript:;" onclick="searchAllData(this)">搜索</a>
-							<a class="btn btn-w-m btn-success" href="/competitor/add">新增</a>
+							<a class="btn btn-w-m btn-success" href="/recordData/add">新增</a>
 						</div>
 					</div>
 				</div>
@@ -133,7 +133,7 @@
 										<thead>
 										<tr>
 											<th>#</th>
-											<th>更新时间</th>
+											<th>备案时间</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
 											<th>项目总投资（万元）</th>
@@ -192,7 +192,7 @@
 					"processing": false,
 					"serverSide": true,
 					"ajax": {
-						"url": "/competitor/showList",
+						"url": "/recordData/showList",
 						"type": "POST",
 						"data": function (d) {
 							return $.extend({}, d, {
@@ -215,7 +215,7 @@
 						},
 						{
 							"targets": 1,
-							"data": "updateTime",
+							"data": "recordTime",
 							"orderable": true
 						},
 						{
@@ -340,7 +340,7 @@
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
-								return '<a href="/competitor/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
+								return '<a href="/recordData/edit?id=' + data + '" class="btn btn-primary btn-xs">编辑</a>';
 							},
 						},
 						{
@@ -349,7 +349,7 @@
 							"orderable": false,
 							"render": function (data, type, full, meta) {
 								return '<a href="javascript:;" onclick="deleteForDataTable(this)" ' +
-										'res="/competitor/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
+										'res="/recordData/delete?ids=' + data + '" class="btn btn-primary btn-xs">删除</a>';
 							},
 						}
 					],
