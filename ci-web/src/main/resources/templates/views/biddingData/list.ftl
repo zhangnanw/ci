@@ -127,7 +127,7 @@
 					<div class="row">
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="productType">公告类型</label>
+								<label class="control-label" for="dataType">公告类型</label>
 								<select name="dataType" id="dataType" class="form-control">
 									<option value="" selected>--请选择--</option>
 									<option value="1">招标公告</option>
