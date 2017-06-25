@@ -26,7 +26,7 @@
 					<h2>招中标数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a>招中标数据</a>
@@ -125,6 +125,19 @@
 						</div>
 					</div>
 					<div class="row">
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label" for="productType">公告类型</label>
+								<select name="dataType" id="dataType" class="form-control">
+									<option value="" selected>--请选择--</option>
+									<option value="1">招标公告</option>
+									<option value="2">中标公告</option>
+									<option value="3">更正公告</option>
+									<option value="4">废标公告</option>
+									<option value="5">流标公告</option>
+								</select>
+							</div>
+						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="productType">产品类型</label>
@@ -546,6 +559,7 @@
 		var parentCompany = $("#parentCompany").val();
 		var winCompanyInfo = $("#winCompanyInfo").val();
 		var agency = $("#agency").val();
+		var dataType = $("#dataType").val();
 		var productType = $("#productType").val();
 		var deploymentType = $("#deploymentType").val();
 		var purchasingMethod = $("#purchasingMethod").val();
@@ -558,6 +572,7 @@
 				.column(9).search(parentCompany)
 				.column(17).search(winCompanyInfo)
 				.column(16).search(agency)
+				.column(2).search(dataType)
 				.column(10).search(productType)
 				.column(11).search(deploymentType)
 				.column(8).search(purchasingMethod)

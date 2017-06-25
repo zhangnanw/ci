@@ -1,7 +1,5 @@
 package org.yansou.ci.common.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,6 +8,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class ReflectUtils {
 	/**
@@ -90,8 +90,8 @@ public class ReflectUtils {
 		while (searchType != null) {
 			Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods());
 			for (Method method : methods) {
-				if (name.equals(method.getName()) && (paramTypes == null || Arrays.equals(paramTypes, method
-						.getParameterTypes()))) {
+				if (name.equals(method.getName())
+						&& (paramTypes == null || Arrays.equals(paramTypes, method.getParameterTypes()))) {
 					return method;
 				}
 			}
@@ -105,13 +105,15 @@ public class ReflectUtils {
 	 *
 	 * @param object
 	 * @param findNameLike
-	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T get(Object object, String findNameLike) {
 		Object thisObj = object;
 		for (String name : StringUtils.split(findNameLike, '.')) {
+			if (null == thisObj) {
+				break;
+			}
 			Class<?> clazz = thisObj.getClass();
 			Field field = getAllFields0(clazz).get(name);
 			if (Objects.nonNull(field)) {
@@ -138,7 +140,7 @@ public class ReflectUtils {
 	private static LinkedHashMap<String, Field> getAllFields0(Class<?> clazz) {
 		LinkedHashMap<String, Field> fieldMap = new LinkedHashMap<>();
 		Class<?> thisClass = clazz;
-		for (; ; ) {
+		for (;;) {
 			Field[] fs = thisClass.getDeclaredFields();
 			Stream.of(fs).filter(f -> !fieldMap.containsKey(f.getName())).forEach(f -> fieldMap.put(f.getName(), f));
 			thisClass = thisClass.getSuperclass();

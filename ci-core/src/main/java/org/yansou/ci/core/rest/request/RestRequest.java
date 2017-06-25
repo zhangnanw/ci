@@ -1,15 +1,19 @@
 package org.yansou.ci.core.rest.request;
 
 import org.yansou.ci.common.page.PageCriteria;
+import org.yansou.ci.core.db.model.dict.ProvinceDict;
 import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.db.model.project.Competitor;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.NewsData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
+import org.yansou.ci.core.db.model.project.PriceTrackingInfo;
 import org.yansou.ci.core.db.model.project.ProjectInfo;
 import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.rest.report.ReportParameter;
 
 import java.io.Serializable;
 
@@ -27,11 +31,16 @@ public class RestRequest implements Serializable {
 
 	private PageCriteria pageCriteria;
 
+	private ReportParameter reportParameter;
+
 	private Account account;
 	private Account[] accounts;
 
 	private BiddingData biddingData;
 	private BiddingData[] biddingDatas;
+
+	private Competitor competitor;
+	private Competitor[] competitors;
 
 	private MergeData mergeData;
 	private MergeData[] mergeDatas;
@@ -41,6 +50,9 @@ public class RestRequest implements Serializable {
 
 	private PlanBuildData planBuildData;
 	private PlanBuildData[] planBuildDatas;
+
+	private PriceTrackingInfo priceTrackingInfo;
+	private PriceTrackingInfo[] priceTrackingInfos;
 
 	private ProjectInfo projectInfo;
 	private ProjectInfo[] projectInfos;
@@ -53,6 +65,9 @@ public class RestRequest implements Serializable {
 
 	private SnapshotInfo snapshotInfo;
 	private SnapshotInfo[] snapshotInfos;
+
+	private ProvinceDict provinceDict;
+	private ProvinceDict[] provinceDicts;
 
 	public Long[] getIds() {
 		return ids;
@@ -68,6 +83,14 @@ public class RestRequest implements Serializable {
 
 	public void setPageCriteria(PageCriteria pageCriteria) {
 		this.pageCriteria = pageCriteria;
+	}
+
+	public ReportParameter getReportParameter() {
+		return reportParameter;
+	}
+
+	public void setReportParameter(ReportParameter reportParameter) {
+		this.reportParameter = reportParameter;
 	}
 
 	public Account getAccount() {
@@ -100,6 +123,22 @@ public class RestRequest implements Serializable {
 
 	public void setBiddingDatas(BiddingData[] biddingDatas) {
 		this.biddingDatas = biddingDatas;
+	}
+
+	public Competitor getCompetitor() {
+		return competitor;
+	}
+
+	public void setCompetitor(Competitor competitor) {
+		this.competitor = competitor;
+	}
+
+	public Competitor[] getCompetitors() {
+		return competitors;
+	}
+
+	public void setCompetitors(Competitor[] competitors) {
+		this.competitors = competitors;
 	}
 
 	public MergeData getMergeData() {
@@ -148,6 +187,22 @@ public class RestRequest implements Serializable {
 
 	public void setPlanBuildDatas(PlanBuildData[] planBuildDatas) {
 		this.planBuildDatas = planBuildDatas;
+	}
+
+	public PriceTrackingInfo getPriceTrackingInfo() {
+		return priceTrackingInfo;
+	}
+
+	public void setPriceTrackingInfo(PriceTrackingInfo priceTrackingInfo) {
+		this.priceTrackingInfo = priceTrackingInfo;
+	}
+
+	public PriceTrackingInfo[] getPriceTrackingInfos() {
+		return priceTrackingInfos;
+	}
+
+	public void setPriceTrackingInfos(PriceTrackingInfo[] priceTrackingInfos) {
+		this.priceTrackingInfos = priceTrackingInfos;
 	}
 
 	public ProjectInfo getProjectInfo() {
@@ -212,5 +267,21 @@ public class RestRequest implements Serializable {
 
 	public void setSnapshotInfos(SnapshotInfo[] snapshotInfos) {
 		this.snapshotInfos = snapshotInfos;
+	}
+
+	public ProvinceDict getProvinceDict() {
+		return provinceDict;
+	}
+
+	public void setProvinceDict(ProvinceDict provinceDict) {
+		this.provinceDict = provinceDict;
+	}
+
+	public ProvinceDict[] getProvinceDicts() {
+		return provinceDicts;
+	}
+
+	public void setProvinceDicts(ProvinceDict[] provinceDicts) {
+		this.provinceDicts = provinceDicts;
 	}
 }

@@ -14,17 +14,22 @@ import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.rest.report.ReportParameter;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
+import org.yansou.ci.core.rest.response.ReportResponse;
 import org.yansou.ci.core.rest.response.project.WinCompanyArrayResponse;
 import org.yansou.ci.core.rest.response.project.WinCompanyPaginationResponse;
 import org.yansou.ci.core.rest.response.project.WinCompanyResponse;
 import org.yansou.ci.web.business.project.WinCompanyBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * @author liutiejun
@@ -85,6 +90,7 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
 		updateBiddingDataId(pageCriteria, request);
+		updateStatus(pageCriteria);
 
 		LOG.info("pageCriteria: {}", pageCriteria);
 
@@ -100,19 +106,28 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<WinCompany> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw
+				(), null);
 
 		LOG.info("dataTableVo: {}", dataTablesOutput);
 
 		return dataTablesOutput;
 	}
 
+	private void updateStatus(PageCriteria pageCriteria) {
+		String[] values = new String[]{AbstractModel.Status.DELETE.getValue().toString()};
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", values, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.NE);
+	}
+
 	private void updateBiddingDataId(PageCriteria pageCriteria, HttpServletRequest request) {
 		String propertyName = "biddingData.id";
 
 		String value = RequestUtils.getStringParameter(request, propertyName);
+		String[] values = new String[]{value};
 
-		DataTablesUtils.updateSearchInfo(pageCriteria, propertyName, value, Long.class.getTypeName(), SearchInfo
+		DataTablesUtils.updateSearchInfo(pageCriteria, propertyName, values, Long.class.getTypeName(), SearchInfo
 				.SearchOp.EQ);
 	}
 
@@ -162,6 +177,11 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 	}
 
 	@Override
+	public CountResponse update(WinCompany[] entities) {
+		return null;
+	}
+
+	@Override
 	public IdResponse update(Long biddingDataId, WinCompany entity) {
 		if (biddingDataId == null) {
 			IdResponse response = new IdResponse();
@@ -187,10 +207,48 @@ public class WinCompanyBusinessImpl implements WinCompanyBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setIds(ids);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
 
 		return restResponse;
+	}
+
+	@Override
+	public ReportRo statisticsByWinCapacity(Date startTime, Date endTime, int limit) {
+		String requestUrl = "http://" + CI_STORAGE + "/winCompany/statistics/winCapacity";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setLimit(limit);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByWinCount(Date startTime, Date endTime, int limit) {
+		String requestUrl = "http://" + CI_STORAGE + "/winCompany/statistics/winCount";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setLimit(limit);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
 	}
 }

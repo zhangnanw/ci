@@ -2,6 +2,7 @@ package org.yansou.ci.storage.controller.project;
 
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,13 @@ public class PlanBuildDataController {
 			return SimpleRestResponse.ok(otherPlanBuildData);
 		}
 
+		String projectIdentifie = planBuildData.getProjectIdentifie();// 项目唯一标识
+		if (StringUtils.isNotBlank(projectIdentifie)) {
+			List<PlanBuildData> planBuildDataList = planBuildDataService.findByProjectIdentifie(projectIdentifie);
+
+			return SimpleRestResponse.ok(planBuildDataList.toArray(new PlanBuildData[0]));
+		}
+
 		return SimpleRestResponse.exception();
 	}
 
@@ -113,9 +121,9 @@ public class PlanBuildDataController {
 
 		PlanBuildData[] planBuildDatas = restRequest.getPlanBuildDatas();
 		if (ArrayUtils.isNotEmpty(planBuildDatas)) {// 批量更新
-			planBuildDatas = planBuildDataService.update(planBuildDatas);
+			int count = planBuildDataService.updateNotNullField(planBuildDatas);
 
-			return SimpleRestResponse.ok(planBuildDatas);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

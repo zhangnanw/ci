@@ -35,8 +35,8 @@ public class CorvToBidding extends AbsStatistics {
 
 		try {
 			TimeStat ts = new TimeStat();
-			String sql = "select * from tab_raw_bidd where url not in(SELECT url from `intelligence-"
-					+ TmpConfigRead.getCfgName() + "`.ci_bidding_data) limit 99999999";
+			String sql = "select * from tab_raw_bidd where url not like '%d-g-%' and url not in(SELECT url from `"
+					+ TmpConfigRead.getCfgName() + "`.ci_bidding_data where url is not null) limit 99999999";
 			System.out.println(sql);
 			JSONArray arr = qr.query(sql, JSONArrayHandler.create());
 			System.out.println("tab_raw_bidd:size=" + arr.size());

@@ -26,7 +26,7 @@
 					<h2>拟在建数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a href="/planBuildData/list">拟在建数据</a>
@@ -114,7 +114,7 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="" name="parentCompany">
 									</div>
-									<div class="form-group"><label>拟在建项目阶段</label>
+									<div class="form-group"><label>项目阶段</label>
 										<input type="text" class="form-control" placeholder="" name="planBuildStatus">
 									</div>
 									<div class="form-group"><label>设备购置情况</label>
@@ -138,6 +138,13 @@
 									</div>
 									<div class="form-group"><label>备注</label>
 										<input type="text" class="form-control" placeholder="" name="remarks">
+									</div>
+									<div class="form-group"><label>数据的原始链接</label>
+										<input type="text" class="form-control" placeholder="" name="url">
+									</div>
+									<div class="form-group"><label>网页源码</label>
+										<textarea class="form-control" placeholder="" name="htmlSource"
+												  rows="10"></textarea>
 									</div>
 
 								</div>
@@ -229,6 +236,8 @@
 			language: "zh-CN",
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			keyboardNavigation: false,
 			forceParse: false,
 			calendarWeeks: true,

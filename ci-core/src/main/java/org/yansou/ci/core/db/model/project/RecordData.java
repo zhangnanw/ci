@@ -64,13 +64,13 @@ public class RecordData extends AbstractModel<Long> {
 	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date planStartTime;// 计划开工时间
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date recordTime;// 备案时间
 
 	@Column
@@ -92,12 +92,21 @@ public class RecordData extends AbstractModel<Long> {
 	private String approvalResult;// 审批结果
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date approvalTime;// 审批时间
 
 	@Column
+	private String remarks;// 备注
+
+	@Column
 	private String url;// 数据的原始地址
+
+	@Column(columnDefinition = "mediumtext")
+	private String htmlSource;// 网页源码
+
+	@Column
+	private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
 
 	public String getProjectName() {
 		return projectName;
@@ -283,12 +292,36 @@ public class RecordData extends AbstractModel<Long> {
 		this.approvalTime = approvalTime;
 	}
 
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
 	public String getUrl() {
 		return url;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getHtmlSource() {
+		return htmlSource;
+	}
+
+	public void setHtmlSource(String htmlSource) {
+		this.htmlSource = htmlSource;
+	}
+
+	public Integer getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Integer checked) {
+		this.checked = checked;
 	}
 }
 

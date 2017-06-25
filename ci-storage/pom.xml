@@ -23,7 +23,12 @@
 			<artifactId>c3p0</artifactId>
 		</dependency>
 
-		<dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+
+        <dependency>
 			<groupId>org.yansou.ci</groupId>
 			<artifactId>ci-common</artifactId>
 			<version>1.0-SNAPSHOT</version>
@@ -50,12 +55,12 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		
+
 		<!-- 监控 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -117,38 +122,15 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
 		<finalName>ci-storage</finalName>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<appendAssemblyId>false</appendAssemblyId>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>org.yansou.ci.storage.CiStorageApplication</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-
 </project>

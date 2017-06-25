@@ -26,7 +26,7 @@
 					<h2>拟在建数据</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
 						</li>
 						<li>
 							<a href="/planBuildData/list">拟在建数据</a>
@@ -229,7 +229,7 @@
 										<input type="text" class="form-control" placeholder="" name="parentCompany"
 											   value="${(planBuildData.parentCompany)!''}">
 									</div>
-									<div class="form-group"><label>拟在建项目阶段</label>
+									<div class="form-group"><label>项目阶段</label>
 										<input type="text" class="form-control" placeholder="" name="planBuildStatus"
 											   value="${(planBuildData.planBuildStatus)!''}">
 									</div>
@@ -258,7 +258,46 @@
 										<input type="text" class="form-control" placeholder="" name="remarks"
 											   value="${(planBuildData.remarks)!''}">
 									</div>
+									<div class="form-group"><label>数据的原始链接</label>
+										<input type="text" class="form-control" placeholder="" name="url"
+											   value="${(planBuildData.url)!''}">
+									</div>
+									<div class="form-group"><label>网页源码</label>
+										<textarea class="form-control" placeholder="" name="htmlSource"
+												  rows="10">${(planBuildData.htmlSource)!''}</textarea>
+									</div>
 
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>备案数据</h5>
+								</div>
+								<div class="ibox-content">
+                                <#if (recordDatas??)> <#if recordDatas?size gt 0> <#list recordDatas as rd>
+									<div class="i-checks"><label>
+										<input type="checkbox" name="recordDataIds" value="${rd.id}"
+                                               <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+                                    ${rd.projectName}
+									</label></div>
+                                </#list></#if></#if>
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>招中标数据</h5>
+								</div>
+								<div class="ibox-content">
+
+                                <#if (biddingDatas??)><#if biddingDatas?size gt 0><#list biddingDatas as bd>
+									<div class="i-checks"><label>
+										<input type="checkbox" name="biddingDataIds" value="${bd.id}"
+                                               <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+                                    ${pbd.projectName}
+									</label></div>
+                                </#list></#if></#if>
 								</div>
 							</div>
 
@@ -348,6 +387,8 @@
 			language: "zh-CN",
 			format: "yyyy-mm-dd",
 			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
 			keyboardNavigation: false,
 			forceParse: false,
 			calendarWeeks: true,

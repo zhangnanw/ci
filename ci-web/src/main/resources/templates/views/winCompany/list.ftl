@@ -26,7 +26,10 @@
 					<h2>${(biddingData.projectName)!'招中标数据'} - 中标单位信息</h2>
 					<ol class="breadcrumb">
 						<li>
-							<a href="/welcome/index">首页</a>
+							<a href="/welcome">首页</a>
+						</li>
+						<li>
+							<a href="/biddingData/list">招中标数据</a>
 						</li>
 						<li>
 							<a>中标单位信息</a>

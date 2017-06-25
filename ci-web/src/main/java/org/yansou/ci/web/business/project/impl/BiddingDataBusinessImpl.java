@@ -1,6 +1,7 @@
 package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +14,25 @@ import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.common.utils.DateFormater;
+import org.yansou.ci.common.web.RequestUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.rest.report.ReportParameter;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
+import org.yansou.ci.core.rest.response.ReportResponse;
 import org.yansou.ci.core.rest.response.project.BiddingDataArrayResponse;
 import org.yansou.ci.core.rest.response.project.BiddingDataPaginationResponse;
 import org.yansou.ci.core.rest.response.project.BiddingDataResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
+import static org.yansou.ci.common.utils.DateFormater.STANDARD_DATE_PATTERN;
 
 /**
  * @author liutiejun
@@ -58,6 +67,34 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
+	public BiddingData[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
+
+		BiddingData biddingData = new BiddingData();
+		biddingData.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setBiddingData(biddingData);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		BiddingDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				BiddingDataArrayResponse.class);
+
+		BiddingData[] biddingDatas = restResponse.getResult();
+
+		if (biddingDatas == null) {
+			biddingDatas = new BiddingData[0];
+		}
+
+		return biddingDatas;
+	}
+
+	@Override
 	public BiddingData[] findAll() {
 		String requestUrl = "http://" + CI_STORAGE + "/biddingData/find";
 
@@ -87,10 +124,12 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
 
 		updateProjectProvince(pageCriteria);
+		updateDataType(pageCriteria);
 		updateProductType(pageCriteria);
 		updateDeploymentType(pageCriteria);
 		updatePurchasingMethod(pageCriteria);
 		updateStatus(pageCriteria);
+		updatePublishTime(pageCriteria, request);
 
 		LOG.info("pageCriteria: {}", pageCriteria);
 
@@ -126,13 +165,20 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	private void updateStatus(PageCriteria pageCriteria) {
-		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
-				Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
+		String[] values = new String[]{AbstractModel.Status.DELETE.getValue().toString()};
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", values, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.NE);
 	}
 
 	private void updateProjectProvince(PageCriteria pageCriteria) {
 		DataTablesUtils.updateSearchInfo(pageCriteria, "projectProvince", null, Integer.class.getTypeName(),
 				SearchInfo.SearchOp.EQ);
+	}
+
+	private void updateDataType(PageCriteria pageCriteria) {
+		DataTablesUtils.updateSearchInfo(pageCriteria, "dataType", null, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.EQ);
 	}
 
 	private void updateProductType(PageCriteria pageCriteria) {
@@ -148,6 +194,28 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	private void updatePurchasingMethod(PageCriteria pageCriteria) {
 		DataTablesUtils.updateSearchInfo(pageCriteria, "purchasingMethod", null, Integer.class.getTypeName(),
 				SearchInfo.SearchOp.EQ);
+	}
+
+	private void updatePublishTime(PageCriteria pageCriteria, HttpServletRequest request) {
+		String publishStartTime = RequestUtils.getStringParameter(request, "publishStartTime");
+		String publishEndTime = RequestUtils.getStringParameter(request, "publishEndTime");
+
+		if (StringUtils.isBlank(publishStartTime) && StringUtils.isBlank(publishEndTime)) {
+			return;
+		}
+
+		if (StringUtils.isBlank(publishStartTime)) {
+			publishStartTime = "1970-01-01";
+		}
+
+		if (StringUtils.isBlank(publishEndTime)) {
+			publishEndTime = DateFormater.format(new Date(), STANDARD_DATE_PATTERN);
+		}
+
+		String[] values = new String[]{publishStartTime, publishEndTime};
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, "publishTime", values, Date.class.getTypeName(), SearchInfo
+				.SearchOp.BETWEEN);
 	}
 
 	@Override
@@ -179,6 +247,41 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
+	public CountResponse update(BiddingData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setBiddingDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
+	public CountResponse updateChecked(Long[] ids, Integer checked) {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return null;
+		}
+
+		BiddingData[] entities = new BiddingData[ids.length];
+
+		for (int i = 0; i < ids.length; i++) {
+			Long id = ids[i];
+
+			BiddingData biddingData = new BiddingData();
+			biddingData.setId(id);
+			biddingData.setChecked(checked);
+
+			entities[i] = biddingData;
+		}
+
+		return update(entities);
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/biddingData/delete";
 
@@ -187,10 +290,47 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setIds(ids);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
 
 		return restResponse;
 	}
+
+	@Override
+	public ReportRo statisticsByProductType(Date startTime, Date endTime) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/productType";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByProjectProvince(Date startTime, Date endTime) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectProvince";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
 }

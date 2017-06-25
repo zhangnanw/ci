@@ -9,16 +9,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
+import org.yansou.ci.common.utils.SimpleDateUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.rest.report.ReportRo;
+import org.yansou.ci.core.rest.report.ReportUtils;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.repository.project.WinCompanyRepository;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.WinCompanyService;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liutiejun
@@ -96,4 +102,67 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 	public WinCompany update(WinCompany entity) throws DaoException {
 		return save(entity);
 	}
+
+	@Override
+	public ReportRo statisticsByWinCapacity(Date startTime, Date endTime, int limit) throws DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		if (limit <= 0) {
+			limit = 20;
+		}
+
+		String hql = "select bean.companyName, sum(bean.winCapacity) totalCapacity from WinCompany bean " +
+				"where bean.winTime between :startTime and :endTime " +
+				"group by bean.companyName order by totalCapacity desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		List<Map<String, Object>> dataList = winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+
+		String xKey = "companyName";
+		String yKey = null;
+		String[] serieKeys = new String[]{"totalCapacity"};
+
+		return ReportUtils.convert(dataList, xKey, yKey, serieKeys);
+	}
+
+	@Override
+	public ReportRo statisticsByWinCount(Date startTime, Date endTime, int limit) throws DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		if (limit <= 0) {
+			limit = 20;
+		}
+
+		String hql = "select bean.companyName, count(bean.winCapacity) winCount from WinCompany bean " +
+				"where bean.winTime between :startTime and :endTime " +
+				"group by bean.companyName order by winCount desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		List<Map<String, Object>> dataList = winCompanyRepository.findByHql(hql, 0, limit, valuesMap);
+
+		String xKey = "companyName";
+		String yKey = null;
+		String[] serieKeys = new String[]{"winCount"};
+
+		return ReportUtils.convert(dataList, xKey, yKey, serieKeys);
+	}
+
 }

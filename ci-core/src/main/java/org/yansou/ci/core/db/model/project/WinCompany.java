@@ -1,5 +1,7 @@
 package org.yansou.ci.core.db.model.project;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
@@ -7,9 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
- * 中标单位信息
+ * 中标、投标单位信息
  *
  * @author liutiejun
  * @create 2017-05-14 11:25
@@ -25,6 +28,12 @@ public class WinCompany extends AbstractModel<Long> {
 	private BiddingData biddingData;
 
 	@Column
+	private String companyName;// 单位名称
+
+	@Column
+	private Double quotation;// 投标报价，单位：万元
+
+	@Column
 	private Double winAmount;// 中标单位-中标金额，单位：万元
 
 	@Column
@@ -34,7 +43,9 @@ public class WinCompany extends AbstractModel<Long> {
 	private Double winCapacity;// 中标单位-中标容量，单位：MW（兆瓦）
 
 	@Column
-	private String companyName;// 中标单位名称
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date winTime;// 中标时间
 
 	public BiddingData getBiddingData() {
 		return biddingData;
@@ -42,6 +53,22 @@ public class WinCompany extends AbstractModel<Long> {
 
 	public void setBiddingData(BiddingData biddingData) {
 		this.biddingData = biddingData;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public Double getQuotation() {
+		return quotation;
+	}
+
+	public void setQuotation(Double quotation) {
+		this.quotation = quotation;
 	}
 
 	public Double getWinAmount() {
@@ -68,11 +95,11 @@ public class WinCompany extends AbstractModel<Long> {
 		this.winCapacity = winCapacity;
 	}
 
-	public String getCompanyName() {
-		return companyName;
+	public Date getWinTime() {
+		return winTime;
 	}
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	public void setWinTime(Date winTime) {
+		this.winTime = winTime;
 	}
 }

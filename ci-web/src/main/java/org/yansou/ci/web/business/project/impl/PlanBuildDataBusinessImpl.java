@@ -1,6 +1,7 @@
 package org.yansou.ci.web.business.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
+import org.yansou.ci.common.utils.DateFormater;
+import org.yansou.ci.common.web.RequestUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
@@ -24,6 +27,9 @@ import org.yansou.ci.core.rest.response.project.PlanBuildDataResponse;
 import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
+import static org.yansou.ci.common.utils.DateFormater.STANDARD_DATE_PATTERN;
 
 /**
  * @author liutiejun
@@ -58,6 +64,34 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	@Override
+	public PlanBuildData[] findByProjectIdentifie(String projectIdentifie) {
+		if (StringUtils.isBlank(projectIdentifie)) {
+			return null;
+		}
+
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/find";
+
+		PlanBuildData planBuildData = new PlanBuildData();
+		planBuildData.setProjectIdentifie(projectIdentifie);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setPlanBuildData(planBuildData);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		PlanBuildDataArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				PlanBuildDataArrayResponse.class);
+
+		PlanBuildData[] planBuildDatas = restResponse.getResult();
+
+		if (planBuildDatas == null) {
+			planBuildDatas = new PlanBuildData[0];
+		}
+
+		return planBuildDatas;
+	}
+
+	@Override
 	public PlanBuildData[] findAll() {
 		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/find";
 
@@ -86,6 +120,7 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 		updateProjectProvince(pageCriteria);
 		updateStatus(pageCriteria);
+		updatePublishTime(pageCriteria, request);
 
 		LOG.info("pageCriteria: {}", pageCriteria);
 
@@ -121,13 +156,37 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	private void updateStatus(PageCriteria pageCriteria) {
-		DataTablesUtils.updateSearchInfo(pageCriteria, "status", AbstractModel.Status.DELETE.getValue().toString(),
-				Integer.class.getTypeName(), SearchInfo.SearchOp.NE);
+		String[] values = new String[]{AbstractModel.Status.DELETE.getValue().toString()};
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, "status", values, Integer.class.getTypeName(), SearchInfo
+				.SearchOp.NE);
 	}
 
 	private void updateProjectProvince(PageCriteria pageCriteria) {
 		DataTablesUtils.updateSearchInfo(pageCriteria, "projectProvince", null, Integer.class.getTypeName(),
 				SearchInfo.SearchOp.EQ);
+	}
+
+	private void updatePublishTime(PageCriteria pageCriteria, HttpServletRequest request) {
+		String publishStartTime = RequestUtils.getStringParameter(request, "publishStartTime");
+		String publishEndTime = RequestUtils.getStringParameter(request, "publishEndTime");
+
+		if (StringUtils.isBlank(publishStartTime) && StringUtils.isBlank(publishEndTime)) {
+			return;
+		}
+
+		if (StringUtils.isBlank(publishStartTime)) {
+			publishStartTime = "1970-01-01";
+		}
+
+		if (StringUtils.isBlank(publishEndTime)) {
+			publishEndTime = DateFormater.format(new Date(), STANDARD_DATE_PATTERN);
+		}
+
+		String[] values = new String[]{publishStartTime, publishEndTime};
+
+		DataTablesUtils.updateSearchInfo(pageCriteria, "publishTime", values, Date.class.getTypeName(), SearchInfo
+				.SearchOp.BETWEEN);
 	}
 
 	@Override
@@ -159,6 +218,41 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	@Override
+	public CountResponse update(PlanBuildData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setPlanBuildDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
+	public CountResponse updateChecked(Long[] ids, Integer checked) {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return null;
+		}
+
+		PlanBuildData[] entities = new PlanBuildData[ids.length];
+
+		for (int i = 0; i < ids.length; i++) {
+			Long id = ids[i];
+
+			PlanBuildData planBuildData = new PlanBuildData();
+			planBuildData.setId(id);
+			planBuildData.setChecked(checked);
+
+			entities[i] = planBuildData;
+		}
+
+		return update(entities);
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/planBuildData/delete";
 
@@ -167,7 +261,7 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 		RestRequest restRequest = new RestRequest();
 		restRequest.setIds(ids);
 
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<RestRequest>(restRequest);
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
 		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
 
