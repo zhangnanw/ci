@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface AccountBusiness extends GeneralBusiness<Account, Long> {
 
+	Account findByUsername(String username);
+
 }

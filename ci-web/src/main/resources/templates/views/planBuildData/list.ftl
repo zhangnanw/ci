@@ -165,6 +165,7 @@
 											<th>母公司</th>
 											<th>项目阶段</th>
 											<th>状态更新</th>
+											<th>设备购置情况</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -357,6 +358,11 @@
 						},
 						{
 							"targets": 10,
+							"data": "purchaseSituation",
+							"orderable": false
+						},
+						{
+							"targets": 11,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -364,7 +370,7 @@
 							},
 						},
 						{
-							"targets": 11,
+							"targets": 12,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {

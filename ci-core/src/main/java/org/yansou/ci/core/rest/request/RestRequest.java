@@ -16,6 +16,7 @@ import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.db.model.system.SignInLog;
 import org.yansou.ci.core.rest.report.ReportParameter;
 
 import java.io.Serializable;
@@ -38,6 +39,9 @@ public class RestRequest implements Serializable {
 
 	private Account account;
 	private Account[] accounts;
+
+	private SignInLog signInLog;
+	private SignInLog[] signInLogs;
 
 	private BiddingData biddingData;
 	private BiddingData[] biddingDatas;
@@ -119,6 +123,22 @@ public class RestRequest implements Serializable {
 
 	public void setAccounts(Account[] accounts) {
 		this.accounts = accounts;
+	}
+
+	public SignInLog getSignInLog() {
+		return signInLog;
+	}
+
+	public void setSignInLog(SignInLog signInLog) {
+		this.signInLog = signInLog;
+	}
+
+	public SignInLog[] getSignInLogs() {
+		return signInLogs;
+	}
+
+	public void setSignInLogs(SignInLog[] signInLogs) {
+		this.signInLogs = signInLogs;
 	}
 
 	public BiddingData getBiddingData() {
