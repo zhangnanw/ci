@@ -14,6 +14,7 @@ import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.rest.model.IdRo;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
@@ -21,7 +22,11 @@ import org.yansou.ci.web.business.project.MergeDataBusiness;
 import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
 import org.yansou.ci.web.business.project.RecordDataBusiness;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -244,18 +249,19 @@ public class BiddingDataController {
 	}
 	
 	/**
-	 * 图表显示Pie饼图
+	 * 图表显示Pie饼图，中标产品分类
 	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 * @throws java.text.ParseException 
 	 */
 	@RequestMapping(value = "/showPie", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Map<String,Object>> showtest (ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		List<Map<String,Object>> test=new ArrayList<Map<String,Object>>();
+	public ReportRo showtest (ModelMap model, HttpServletRequest request, HttpServletResponse response) throws java.text.ParseException {
+		/*List<Map<String,Object>> test=new ArrayList<Map<String,Object>>();
 		Map<String,Object> reJson;
 		String[] type={"单晶","多晶","单多晶未知"};
 		for(int i=0;i<3;i++){
@@ -265,7 +271,14 @@ public class BiddingDataController {
 			test.add(reJson);
 			
 		}
-		return test;
+		return test;*/
+	    String dateString = "2017-05-06 ";  
+	
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");  
+	        Date date = sdf.parse(dateString); 
+	        ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date,new Date());
+			return statisticsByProductType;
+	  	
 	}
 
 	/**
