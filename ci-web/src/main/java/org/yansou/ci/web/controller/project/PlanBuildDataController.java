@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
-import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
@@ -163,10 +162,10 @@ public class PlanBuildDataController {
 	@ResponseBody
 	public IdResponse update(PlanBuildData planBuildData, Long[] biddingDataIds, Long[] mergeDataIds, Long[]
 			planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		biddingDataBusiness.updateChecked(biddingDataIds, Checked.RIGHT);
-		mergeDataBusiness.updateChecked(mergeDataIds, Checked.RIGHT);
-		recordDataBusiness.updateChecked(recordDataIds, Checked.RIGHT);
+									 response) {
+		biddingDataBusiness.updateChecked(planBuildData.getProjectIdentifie(), biddingDataIds);
+		mergeDataBusiness.updateChecked(planBuildData.getProjectIdentifie(), mergeDataIds);
+		recordDataBusiness.updateChecked(planBuildData.getProjectIdentifie(), recordDataIds);
 
 		IdResponse restResponse = planBuildDataBusiness.update(planBuildData);
 

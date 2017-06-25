@@ -1,6 +1,5 @@
 package org.yansou.ci.web.business.project;
 
-import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -16,7 +15,7 @@ public interface BiddingDataBusiness extends GeneralBusiness<BiddingData, Long> 
 
 	BiddingData[] findByProjectIdentifie(String projectIdentifie);
 
-	CountResponse updateChecked(Long[] ids, Checked checked);
+	CountResponse updateChecked(String projectIdentifie, Long[] ids);
 
 	/**
 	 * 中标产品分类
