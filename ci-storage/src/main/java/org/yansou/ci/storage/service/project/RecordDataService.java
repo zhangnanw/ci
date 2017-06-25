@@ -2,6 +2,7 @@ package org.yansou.ci.storage.service.project;
 
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.db.model.project.RecordData;
+import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.storage.common.service.GeneralService;
 
 import java.util.List;
@@ -12,8 +13,9 @@ import java.util.List;
  */
 public interface RecordDataService extends GeneralService<RecordData, Long> {
 
-	List<RecordData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
+    List<RecordData> findByProjectIdentifie(String projectIdentifie) throws DaoException;
 
-	int updateChecked(Long[] ids, Integer checked) throws DaoException;
+    int updateChecked(Long[] ids, Integer checked) throws DaoException;
 
+    void saveDataAndSnapshotInfo(RecordData data, SnapshotInfo snap) throws DaoException;
 }

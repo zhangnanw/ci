@@ -237,7 +237,7 @@ public class RawBidd2CiBiddingData {
 	/**
 	 * 地区解析器
 	 */
-	private static AreaAnalyzer AREA_ANALYZER = new AreaAnalyzer();
+	private static AreaAnalyzer AREA_ANALYZER = AreaAnalyzer.getExamples();
 
 	private String toProvince() {
 		JSONObject res = AREA_ANALYZER.analy(srcObj);

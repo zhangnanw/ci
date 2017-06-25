@@ -37,7 +37,6 @@ public class AreaAnalyzer implements Analyzer {
 	public final static AreaAnalyzer getExamples() {
 		return AREA_ANALYZER;
 	}
-
 	public AreaAnalyzer() {
 		MysqlDataSource ds = new MysqlDataSource();
 		ds.setUrl("jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/hngp?useUnicode=true&characterEncoding=utf-8");
