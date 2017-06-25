@@ -1,11 +1,14 @@
 package org.yansou.ci.storage.ciimp;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.commons.dbutils.QueryRunner;
-
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.net.InetAddress;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbutils.QueryRunner;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * 
@@ -15,8 +18,8 @@ import java.net.InetAddress;
 public abstract class AbsStatistics {
 
 	final protected QueryRunner qr;
-
-	public AbsStatistics() {
+	final static private DataSource dataSource;
+	static {
 		ComboPooledDataSource ds = new ComboPooledDataSource(true);
 		try {
 			ds.setDriverClass(com.mysql.jdbc.Driver.class.getName());
@@ -28,7 +31,11 @@ public abstract class AbsStatistics {
 				+ ":3306/hngp?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull");
 		ds.setUser("hngp");
 		ds.setPassword("hngp123");
-		qr = new QueryRunner(ds);
+		dataSource = ds;
+	}
+
+	public AbsStatistics() {
+		qr = new QueryRunner(dataSource);
 	}
 
 	final static String getDBHost() {
