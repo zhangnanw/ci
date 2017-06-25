@@ -15,7 +15,7 @@ public interface BiddingDataBusiness extends GeneralBusiness<BiddingData, Long> 
 
 	BiddingData[] findByProjectIdentifie(String projectIdentifie);
 
-	CountResponse updateChecked(Long[] ids, Integer checked);
+	CountResponse updateChecked(String projectIdentifie, Long[] ids);
 
 	/**
 	 * 中标产品分类

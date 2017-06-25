@@ -1,6 +1,8 @@
 package org.yansou.ci.storage.service.project.impl;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.utils.SimpleDateUtils;
+import org.yansou.ci.core.db.constant.ProductType;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.core.rest.report.ReportRo;
@@ -15,6 +18,7 @@ import org.yansou.ci.core.rest.report.ReportUtils;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.repository.project.BiddingDataRepository;
+import org.yansou.ci.storage.service.dict.ProductTypeDictService;
 import org.yansou.ci.storage.service.dict.ProvinceDictService;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
@@ -32,10 +36,15 @@ import java.util.Map;
 @Transactional
 public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long> implements BiddingDataService {
 
+	private static final Logger LOG = LogManager.getLogger(BiddingDataServiceImpl.class);
+
 	private BiddingDataRepository biddingDataRepository;
 
 	@Autowired
 	private SnapshotInfoService snapshotInfoService;
+
+	@Autowired
+	private ProductTypeDictService productTypeDictService;
 
 	@Autowired
 	private ProvinceDictService provinceDictService;
@@ -85,15 +94,15 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 
 			if (monFlag == 0) {
 				if (polFlag == 1) {
-					productType = BiddingData.ProductType.POL.getValue();
+					productType = ProductType.POL.getValue();
 				} else {
-					productType = BiddingData.ProductType.UNKNOWN.getValue();
+					productType = ProductType.UNKNOWN.getValue();
 				}
 			} else {
 				if (polFlag == 0) {
-					productType = BiddingData.ProductType.MON.getValue();
+					productType = ProductType.MON.getValue();
 				} else {
-					productType = BiddingData.ProductType.MON_POL.getValue();
+					productType = ProductType.MON_POL.getValue();
 				}
 			}
 
@@ -147,7 +156,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.productType, count(*) as productTypeCount from BiddingData bean " +
+		String hql = "select bean.productType as productType, count(*) as productTypeCount from BiddingData bean " +
 				"where bean.publishTime between :startTime and :endTime group by bean.productType";
 
 		Map<String, Object> valuesMap = new HashMap<>();
@@ -156,11 +165,15 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 
 		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, valuesMap);
 
+		LOG.info("dataList: {}", dataList);
+
 		String xKey = "productType";
 		String yKey = null;
 		String[] serieKeys = new String[]{"productTypeCount"};
 
-		return ReportUtils.convert(dataList, xKey, yKey, serieKeys);
+		Map<Integer, String> productTypeMap = productTypeDictService.findAllByMap();
+
+		return ReportUtils.convert(dataList, productTypeMap, null, xKey, yKey, serieKeys);
 	}
 
 	@Override
@@ -173,7 +186,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.projectProvince, count(*) as projectProvinceCount from BiddingData bean " +
+		String hql = "select bean.projectProvince as projectProvince, count(*) as projectProvinceCount from BiddingData bean " +
 				"where bean.publishTime between :startTime and :endTime group by bean.projectProvince";
 
 		Map<String, Object> valuesMap = new HashMap<>();
@@ -201,7 +214,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.publishTimeYearMonth, count(*) as publishTimeCount, " +
+		String hql = "select bean.publishTimeYearMonth as publishTimeYearMonth, count(*) as publishTimeCount, " +
 				"sum(bean.winTotalAmount) as winTotalAmount " +
 				"from BiddingData bean where bean.publishTime between :startTime and :endTime " +
 				"group by bean.publishTimeYearMonth order by bean.publishTimeYearMonth";

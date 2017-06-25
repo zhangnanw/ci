@@ -16,6 +16,7 @@ import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.rest.report.ReportParameter;
@@ -30,7 +31,10 @@ import org.yansou.ci.core.rest.response.project.BiddingDataResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.yansou.ci.common.utils.DateFormater.STANDARD_DATE_PATTERN;
 
@@ -261,22 +265,26 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
-		if (ArrayUtils.isEmpty(ids) || checked == null) {
+	public CountResponse updateChecked(String projectIdentifie, Long[] ids) {
+		if (StringUtils.isBlank(projectIdentifie) || ArrayUtils.isEmpty(ids)) {
 			return null;
 		}
 
-		BiddingData[] entities = new BiddingData[ids.length];
-
-		for (int i = 0; i < ids.length; i++) {
-			Long id = ids[i];
-
-			BiddingData biddingData = new BiddingData();
-			biddingData.setId(id);
-			biddingData.setChecked(checked);
-
-			entities[i] = biddingData;
+		BiddingData[] entities = findByProjectIdentifie(projectIdentifie);
+		if (ArrayUtils.isEmpty(entities)) {
+			return null;
 		}
+
+		Map<Long, Integer> idMap = new HashMap<>();
+		Arrays.stream(ids).forEach(id -> idMap.put(id, 0));
+
+		Arrays.stream(entities).forEach(biddingData -> {
+			if (idMap.containsKey(biddingData.getId())) {
+				biddingData.setChecked(Checked.RIGHT.getValue());
+			} else {
+				biddingData.setChecked(Checked.WRONG.getValue());
+			}
+		});
 
 		return update(entities);
 	}

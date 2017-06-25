@@ -12,6 +12,6 @@ public interface MergeDataBusiness extends GeneralBusiness<MergeData, Long> {
 
 	MergeData[] findByProjectIdentifie(String projectIdentifie);
 
-	CountResponse updateChecked(Long[] ids, Integer checked);
+	CountResponse updateChecked(String projectIdentifie, Long[] ids);
 
 }

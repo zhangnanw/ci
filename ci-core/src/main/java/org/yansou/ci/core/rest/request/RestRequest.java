@@ -1,6 +1,9 @@
 package org.yansou.ci.core.rest.request;
 
 import org.yansou.ci.common.page.PageCriteria;
+import org.yansou.ci.core.db.model.dict.CustomerTypeDict;
+import org.yansou.ci.core.db.model.dict.DeploymentTypeDict;
+import org.yansou.ci.core.db.model.dict.ProductTypeDict;
 import org.yansou.ci.core.db.model.dict.ProvinceDict;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.Competitor;
@@ -65,6 +68,15 @@ public class RestRequest implements Serializable {
 
 	private SnapshotInfo snapshotInfo;
 	private SnapshotInfo[] snapshotInfos;
+
+	private CustomerTypeDict customerTypeDict;
+	private CustomerTypeDict[] customerTypeDicts;
+
+	private DeploymentTypeDict deploymentTypeDict;
+	private DeploymentTypeDict[] deploymentTypeDicts;
+
+	private ProductTypeDict productTypeDict;
+	private ProductTypeDict[] productTypeDicts;
 
 	private ProvinceDict provinceDict;
 	private ProvinceDict[] provinceDicts;
@@ -267,6 +279,54 @@ public class RestRequest implements Serializable {
 
 	public void setSnapshotInfos(SnapshotInfo[] snapshotInfos) {
 		this.snapshotInfos = snapshotInfos;
+	}
+
+	public CustomerTypeDict getCustomerTypeDict() {
+		return customerTypeDict;
+	}
+
+	public void setCustomerTypeDict(CustomerTypeDict customerTypeDict) {
+		this.customerTypeDict = customerTypeDict;
+	}
+
+	public CustomerTypeDict[] getCustomerTypeDicts() {
+		return customerTypeDicts;
+	}
+
+	public void setCustomerTypeDicts(CustomerTypeDict[] customerTypeDicts) {
+		this.customerTypeDicts = customerTypeDicts;
+	}
+
+	public DeploymentTypeDict getDeploymentTypeDict() {
+		return deploymentTypeDict;
+	}
+
+	public void setDeploymentTypeDict(DeploymentTypeDict deploymentTypeDict) {
+		this.deploymentTypeDict = deploymentTypeDict;
+	}
+
+	public DeploymentTypeDict[] getDeploymentTypeDicts() {
+		return deploymentTypeDicts;
+	}
+
+	public void setDeploymentTypeDicts(DeploymentTypeDict[] deploymentTypeDicts) {
+		this.deploymentTypeDicts = deploymentTypeDicts;
+	}
+
+	public ProductTypeDict getProductTypeDict() {
+		return productTypeDict;
+	}
+
+	public void setProductTypeDict(ProductTypeDict productTypeDict) {
+		this.productTypeDict = productTypeDict;
+	}
+
+	public ProductTypeDict[] getProductTypeDicts() {
+		return productTypeDicts;
+	}
+
+	public void setProductTypeDicts(ProductTypeDict[] productTypeDicts) {
+		this.productTypeDicts = productTypeDicts;
 	}
 
 	public ProvinceDict getProvinceDict() {

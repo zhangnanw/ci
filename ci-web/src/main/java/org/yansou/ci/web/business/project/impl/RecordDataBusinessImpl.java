@@ -14,6 +14,7 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -24,6 +25,9 @@ import org.yansou.ci.core.rest.response.project.RecordDataResponse;
 import org.yansou.ci.web.business.project.RecordDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author liutiejun
@@ -185,22 +189,26 @@ public class RecordDataBusinessImpl implements RecordDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
-		if (ArrayUtils.isEmpty(ids) || checked == null) {
+	public CountResponse updateChecked(String projectIdentifie, Long[] ids) {
+		if (StringUtils.isBlank(projectIdentifie) || ArrayUtils.isEmpty(ids)) {
 			return null;
 		}
 
-		RecordData[] entities = new RecordData[ids.length];
-
-		for (int i = 0; i < ids.length; i++) {
-			Long id = ids[i];
-
-			RecordData recordData = new RecordData();
-			recordData.setId(id);
-			recordData.setChecked(checked);
-
-			entities[i] = recordData;
+		RecordData[] entities = findByProjectIdentifie(projectIdentifie);
+		if (ArrayUtils.isEmpty(entities)) {
+			return null;
 		}
+
+		Map<Long, Integer> idMap = new HashMap<>();
+		Arrays.stream(ids).forEach(id -> idMap.put(id, 0));
+
+		Arrays.stream(entities).forEach(recordData -> {
+			if (idMap.containsKey(recordData.getId())) {
+				recordData.setChecked(Checked.RIGHT.getValue());
+			} else {
+				recordData.setChecked(Checked.WRONG.getValue());
+			}
+		});
 
 		return update(entities);
 	}

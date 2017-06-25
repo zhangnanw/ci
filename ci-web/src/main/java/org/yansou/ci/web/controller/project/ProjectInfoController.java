@@ -174,11 +174,11 @@ public class ProjectInfoController {
 	@ResponseBody
 	public IdResponse update(ProjectInfo projectInfo, Long[] biddingDataIds, Long[] mergeDataIds, Long[]
 			planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		biddingDataBusiness.updateChecked(biddingDataIds, 1);
-		mergeDataBusiness.updateChecked(mergeDataIds, 1);
-		planBuildDataBusiness.updateChecked(planBuildDataIds, 1);
-		recordDataBusiness.updateChecked(recordDataIds, 1);
+									 response) {
+		biddingDataBusiness.updateChecked(projectInfo.getProjectIdentifie(), biddingDataIds);
+		mergeDataBusiness.updateChecked(projectInfo.getProjectIdentifie(), mergeDataIds);
+		planBuildDataBusiness.updateChecked(projectInfo.getProjectIdentifie(), planBuildDataIds);
+		recordDataBusiness.updateChecked(projectInfo.getProjectIdentifie(), recordDataIds);
 
 		IdResponse restResponse = projectInfoBusiness.update(projectInfo);
 

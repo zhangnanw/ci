@@ -162,10 +162,10 @@ public class BiddingDataController {
 	@ResponseBody
 	public IdResponse update(BiddingData biddingData, Long[] biddingDataIds, Long[] mergeDataIds, Long[]
 			planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
-		mergeDataBusiness.updateChecked(mergeDataIds, 1);
-		planBuildDataBusiness.updateChecked(planBuildDataIds, 1);
-		recordDataBusiness.updateChecked(recordDataIds, 1);
+									 response) {
+		mergeDataBusiness.updateChecked(biddingData.getProjectIdentifie(), mergeDataIds);
+		planBuildDataBusiness.updateChecked(biddingData.getProjectIdentifie(), planBuildDataIds);
+		recordDataBusiness.updateChecked(biddingData.getProjectIdentifie(), recordDataIds);
 
 		IdResponse restResponse = biddingDataBusiness.update(biddingData);
 

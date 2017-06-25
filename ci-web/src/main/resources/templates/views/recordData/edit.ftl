@@ -42,7 +42,8 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<form role="form" id="form" action="/recordData/update" method="post">
-							<input type="hidden" name="id" value="${recordData.id}">
+							<input type="hidden" name="id" value="${(recordData.id)!''}">
+							<input type="hidden" name="projectIdentifie" value="${(recordData.projectIdentifie)!''}">
 
 							<div class="ibox ">
 								<div class="ibox-content">
@@ -429,6 +430,38 @@
 												  rows="10">${(recordData.htmlSource)!''}</textarea>
 									</div>
 
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>拟在建数据</h5>
+								</div>
+								<div class="ibox-content">
+
+								<#if (planBuildDatas??)><#if planBuildDatas?size gt 0><#list planBuildDatas as pbd>
+									<div class="i-checks"><label>
+										<input type="checkbox" name="planBuildDataIds" value="${pbd.id}"
+											   <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+									${pbd.projectName}
+									</label></div>
+								</#list></#if></#if>
+								</div>
+							</div>
+
+							<div class="ibox ">
+								<div class="ibox-title">
+									<h5>招中标数据</h5>
+								</div>
+								<div class="ibox-content">
+
+								<#if (biddingDatas??)><#if biddingDatas?size gt 0><#list biddingDatas as bd>
+									<div class="i-checks"><label>
+										<input type="checkbox" name="biddingDataIds" value="${bd.id}"
+											   <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+									${pbd.projectName}
+									</label></div>
+								</#list></#if></#if>
 								</div>
 							</div>
 

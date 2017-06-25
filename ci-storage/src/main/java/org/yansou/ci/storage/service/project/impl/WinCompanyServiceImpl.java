@@ -117,7 +117,7 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			limit = 20;
 		}
 
-		String hql = "select bean.companyName, sum(bean.winCapacity) as totalCapacity from WinCompany bean " +
+		String hql = "select bean.companyName as companyName, sum(bean.winCapacity) as totalCapacity from WinCompany bean " +
 				"where bean.winTime between :startTime and :endTime " +
 				"group by bean.companyName order by totalCapacity desc";
 
@@ -148,7 +148,7 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			limit = 20;
 		}
 
-		String hql = "select bean.companyName, count(bean.winCapacity) as winCount from WinCompany bean " +
+		String hql = "select bean.companyName as companyName, count(bean.winCapacity) as winCount from WinCompany bean " +
 				"where bean.winTime between :startTime and :endTime " +
 				"group by bean.companyName order by winCount desc";
 

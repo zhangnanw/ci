@@ -12,6 +12,6 @@ public interface RecordDataBusiness extends GeneralBusiness<RecordData, Long> {
 
 	RecordData[] findByProjectIdentifie(String projectIdentifie);
 
-	CountResponse updateChecked(Long[] ids, Integer checked);
+	CountResponse updateChecked(String projectIdentifie, Long[] ids);
 
 }

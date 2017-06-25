@@ -162,10 +162,10 @@ public class MergeDataController {
 	@ResponseBody
 	public IdResponse update(MergeData mergeData, Long[] biddingDataIds, Long[] mergeDataIds, Long[] planBuildDataIds,
 							 Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
-										 response) {
-		biddingDataBusiness.updateChecked(biddingDataIds, 1);
-		planBuildDataBusiness.updateChecked(planBuildDataIds, 1);
-		recordDataBusiness.updateChecked(recordDataIds, 1);
+									 response) {
+		biddingDataBusiness.updateChecked(mergeData.getProjectIdentifie(), biddingDataIds);
+		planBuildDataBusiness.updateChecked(mergeData.getProjectIdentifie(), planBuildDataIds);
+		recordDataBusiness.updateChecked(mergeData.getProjectIdentifie(), recordDataIds);
 
 		IdResponse restResponse = mergeDataBusiness.update(mergeData);
 

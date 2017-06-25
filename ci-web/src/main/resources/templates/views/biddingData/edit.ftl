@@ -43,6 +43,7 @@
 					<div class="col-lg-12">
 						<form role="form" id="form" action="/biddingData/update" method="post">
 							<input type="hidden" name="id" value="${(biddingData.id)!''}">
+							<input type="hidden" name="projectIdentifie" value="${(biddingData.projectIdentifie)!''}">
 
 							<div class="ibox ">
 								<div class="ibox-content">
