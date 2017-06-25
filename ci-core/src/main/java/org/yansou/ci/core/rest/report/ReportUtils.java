@@ -78,7 +78,7 @@ public class ReportUtils {
 		Object value = map.get(key);
 
 		if (value != null) {
-			return (double) value;
+			return Double.parseDouble(value.toString());
 		}
 
 		return Double.MIN_VALUE;
@@ -88,7 +88,7 @@ public class ReportUtils {
 		Object value = map.get(key);
 
 		if (value != null) {
-			return (int) value;
+			return Integer.parseInt(value.toString());
 		}
 
 		return Integer.MIN_VALUE;

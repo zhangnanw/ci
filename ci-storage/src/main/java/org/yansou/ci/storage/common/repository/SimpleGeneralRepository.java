@@ -11,7 +11,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.transform.Transformers;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
@@ -40,38 +39,56 @@ public class SimpleGeneralRepository<T, ID extends Serializable> extends SimpleJ
 
 	private final EntityManager entityManager;
 
-	private SessionFactory sessionFactory;
-
 	public SimpleGeneralRepository(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
 		super(entityInformation, entityManager);
 
 		this.entityManager = entityManager;
-
-		this.sessionFactory = getSessionFactory(entityManager);
 	}
 
 	public SimpleGeneralRepository(Class<T> domainClass, EntityManager entityManager) {
 		super(domainClass, entityManager);
 
 		this.entityManager = entityManager;
-
-		this.sessionFactory = getSessionFactory(entityManager);
 	}
 
-	private SessionFactory getSessionFactory(EntityManager entityManager) {
-		HibernateEntityManagerFactory hibernateEntityManagerFactory = (HibernateEntityManagerFactory) entityManager
-				.getEntityManagerFactory();
+	/**
+	 * Accessing Hibernate APIs from JPA
+	 *
+	 * @return
+	 */
+	private SessionFactory getSessionFactory() {
+		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 
-		return hibernateEntityManagerFactory.getSessionFactory();
+		return sessionFactory;
 	}
 
-	protected Session getSession() {
-		return sessionFactory.getCurrentSession();
+	/**
+	 * Accessing Hibernate APIs from JPA
+	 *
+	 * @return
+	 */
+	private Session getSession() {
+		Session session = entityManager.unwrap(Session.class);
+
+		return session;
+	}
+
+	/**
+	 * Accessing Hibernate APIs from JPA
+	 *
+	 * @return
+	 */
+	private SessionImplementor getSessionImplementor() {
+		SessionImplementor sessionImplementor = entityManager.unwrap(SessionImplementor.class);
+
+		return sessionImplementor;
 	}
 
 	@Override
 	public int updateStatus(Integer status, ID id) {
 		Class<T> domainType = getDomainClass();
+
+		SessionFactory sessionFactory = getSessionFactory();
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(domainType);
 
 		T persistentObject = (T) getSession().get(domainType, id);
@@ -90,11 +107,13 @@ public class SimpleGeneralRepository<T, ID extends Serializable> extends SimpleJ
 	@Override
 	public int updateNotNullField(T entity) {
 		Class<T> domainType = getDomainClass();
+
+		SessionFactory sessionFactory = getSessionFactory();
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(domainType);
 
-		SessionImplementor session = (SessionImplementor) sessionFactory.getCurrentSession();
+		SessionImplementor sessionImplementor = getSessionImplementor();
 
-		Serializable id = classMetadata.getIdentifier(entity, session);
+		Serializable id = classMetadata.getIdentifier(entity, sessionImplementor);
 		T persistentObject = (T) getSession().get(domainType, id);
 
 		String[] propertyNames = classMetadata.getPropertyNames();
