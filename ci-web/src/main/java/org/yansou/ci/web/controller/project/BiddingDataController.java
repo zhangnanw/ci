@@ -209,7 +209,7 @@ public class BiddingDataController {
 	}
 
 	/**
-	 * 进入图表页面
+	 * 进入中标图表页面
 	 * 
 	 * @author hzx
 	 * @param model
@@ -219,9 +219,25 @@ public class BiddingDataController {
 	 * @return
 	 */
 	@RequestMapping(value = "/bidChart")
-	public String showChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+	public String showBidChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 
 		return "views/biddingData/bidChart";
+	}
+	
+	/**
+	 * 进入招标图表页面
+	 * 
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/tenderChart")
+	public String showTenderChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+
+		return "views/biddingData/tenderChart";
 	}
 	
 	/**

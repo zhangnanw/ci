@@ -7,255 +7,80 @@
 <script src="/js/plugins/echart/charts.js"></script>
 <script src="/js/plugins/echart/echarts.js"></script>
 <script src="/js/jquery-2.1.1.js"></script>
+<!-- 中标企业容量前20 -->
 <script type="text/javascript">
-function refreshbar() {
-	var mychart = echarts.init(document.getElementById('flot-bar-chart'));
-	$.ajax({
-		type : "POST",
-		url : "/biddingData/showBar",
-		data : {
-			"datefrom" : 1,
-			"dateto" : 2,
-		}, 
-		async : false,
-		dataType : 'json',
-		success : function(reJson) {		
-			var option = {
-			title : {//标题
-				text : '中标企业分布',
-				x : 'center'
-			},
-			tooltip : {//鼠标悬浮
-				trigger : 'axis'
-			},
-			toolbox : {//工具栏
-				show : true,
-				orient : 'horizontal',
-				feature : {//图例
-					calculable : false,
-					dataView : {//数据视图
-						show : true,
-						title : '数据视图',
-						readOnly : true
-					},
-					magicType : {//所有图例菜单
-						show : true,
-						title : {
-							bar : '柱形图',
-							line : '折线图'
-						},
-						type : [ 'bar', 'line' ]
-					},
-					restore : {
-						show : true,
-						title : '还原',
-						color : 'black'
-					}
-				}
-			},
-			xAxis : {
-				type : 'category',
-				name:'企业名称',
-				axisLabel : {//显示所有横坐标
-					interval : 0
-				},
-				data : reJson.campany,
-				//设置字体倾斜  
-				axisLabel : {
-					interval : 0,
-					rotate : 45,//倾斜度 -90 至 90 默认为0  
-					margin : 12,
-					textStyle : {
-						/*  fontWeight:"bolder",   */
-						color : "#000000"
-					}
-				},
-			},
-			yAxis : {
-				type : 'value',
-				name:'总容量：(兆瓦)'
-			},
-			series : [ {
-				name : '值',
-				type : 'bar',
-				itemStyle : {
-					normal : {
-						color : '#60C0DD',
-						label : {//显示值
-							show : true,
-							position : 'top',
-							formatter : '{c}'
-						},
-						lineStyle : {//线条颜色
-							color : '#2932E1'
-						}
-					}
-				},
-
-				data : reJson.mount
-			} ]
-		};
-		mychart.setOption(option);
-		},
-		error : function() {
-				alert("异常！");
-			}
-		});
-	}
-</script>
-
-<script type="text/javascript">
-	function refreshpie() {
-		var mychart = echarts.init(document.getElementById('flot-pie-chart'));
+	function showcapacity() {
+		var mychart = echarts.init(document
+				.getElementById('flot-capacitybar-chart'));
 		$.ajax({
 			type : "POST",
-			url : "/biddingData/showPie",
+			url : "/biddingData/showBar",
 			data : {
 				"datefrom" : 1,
 				"dateto" : 2,
-			}, 
+			},
 			async : false,
 			dataType : 'json',
-			success : function(reJson) {	
-				/* var mount=[];
-				var type=[];
-				var remount=reJson.mount;
-				var retype=reJson.type;
-				for(var i=0;i<remount.length;i++){
-					mount.push(remount[i]);
-					type.push(retype[i]);
-				} */
+			success : function(reJson) {
 				var option = {
-				    title : {
-				        text: '中标项目单多晶占比',
-				        x:'center'
-				    },
-				    tooltip : {
-				        trigger: 'item',
-				        formatter: "{b} :{d}%"
-				    },
-				    legend: {
-				        x : 'center',
-				        y : '25',
-				        data: ['单晶硅','多晶硅','单晶硅、多晶硅','未知']				        
-				    },
-				    series : [
-				        {
-				            name: '访问来源',
-				            type: 'pie',
-				            radius : '55%',
-				            center: ['50%', '60%'],
-				            data:reJson,			      
-				            itemStyle:{
-				            normal:{
-				                  label:{
-				                    show: true,
-				                    formatter: '{d}%'
-				                  },
-				                  labelLine :{show:true}
-				                }
-				            },
-				            color: ['#FCCE10', '#E87C25', '#60C0DD','#C1CC24']
-				        }
-				    ]
-				};
-			mychart.setOption(option);
-			},
-			error : function() {
-					alert("异常！");
-				}
-			});
-		}
-</script>
-
-<script type="text/javascript">
-	function refreshmul() {
-		var mychart = echarts.init(document.getElementById('flot-line-chart-multi'));
-		$.ajax({
-			type : "POST",
-			url : "/biddingData/showMul",
-			data : {
-				"datefrom" : 1,
-				"dateto" : 2,
-			}, 
-			async : false,
-			dataType : 'json',
-			success : function(reJson) {	
-			var option = {
-			title : {//标题
-				text : '2016年1-10月份全国LED招标总览图',
-				x : 'center'
-			},
-			tooltip : {//鼠标悬浮
-				trigger : 'axis',
-			    formatter:"{a}:{c}<br/>{a1}:{c1}"
-			},
-			legend : {//标题
-				data : [ '中标数量', '中标金额' ],
-				x : 'left'
-			},
-			toolbox : {//工具栏
-				show : true,
-				orient : 'horizontal',
-				feature : {//图例
-					calculable : false,
-					dataView : {//数据视图
-						show : true,
-						title : '数据视图',
-						readOnly : true
+					title : {//标题
+						text : '中标企业分布',
+						x : 'center'
 					},
-					magicType : {//所有图例菜单
-						show : true,
-						title : {
-							line : '折线图',
-							bar : '柱形图',
-							stack : '堆积图',
-							tiled : '平铺图'
-						},
-						type : [ 'line', 'bar', 'stack', 'tiled' ]
+					tooltip : {//鼠标悬浮
+						trigger : 'axis'
 					},
-					restore : {
+					toolbox : {//工具栏
 						show : true,
-						title : '还原',
-						color : 'black'
-					}
-				}
-			},
-			xAxis : {
-				name:'月份',
-				type : 'category',
-				axisLabel : {//显示所有横坐标
-					interval : 0
-				},
-				data : reJson.xdate
-			},
-			yAxis : {
-				name:'Y轴单位',
-				type : 'value'
-			},
-			series : [
-					{
-						name : '中标数量',
-						type : 'line',
-						itemStyle : {
-							normal : {
-								color : '#333333',
-								label : {//显示值
-									show : true,
-									position : 'top',
-									formatter : '{c}'
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									bar : '柱形图',
+									line : '折线图'
 								},
-								lineStyle : {//线条颜色
-									color :'#E87C25'																		
-								}
+								type : [ 'bar', 'line' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
+						}
+					},
+					xAxis : {
+						type : 'category',
+						name : '企业名称',
+						axisLabel : {//显示所有横坐标
+							interval : 0
+						},
+						data : reJson.campany,
+						//设置字体倾斜  
+						axisLabel : {
+							interval : 0,
+							rotate : 45,//倾斜度 -90 至 90 默认为0  
+							margin : 12,
+							textStyle : {
+								/*  fontWeight:"bolder",   */
+								color : "#000000",
+								fontSize:10
 							}
 						},
-
-						data : reJson.mount
-					},{
-						name : '中标金额',
+					},
+					yAxis : {
+						type : 'value',
+						name : '总容量：(兆瓦)'
+					},
+					series : [ {
+						name : '值',
 						type : 'bar',
-						barWidth:30,
 						itemStyle : {
 							normal : {
 								color : '#60C0DD',
@@ -265,24 +90,176 @@ function refreshbar() {
 									formatter : '{c}'
 								},
 								lineStyle : {//线条颜色
-									color :'#333333'																		
+									color : '#2932E1'
 								}
 							}
 						},
 
-						data : reJson.count
-					}
-					]
-		};
-		mychart.setOption(option);
+						data : reJson.mount
+					} ]
+				};
+				mychart.setOption(option);
 			},
 			error : function() {
-					alert("异常！");
-				}
-			});
-		}
+				alert("异常！");
+			}
+		});
+	}
 </script>
+<!-- 中标企业数量前20 -->
+<script type="text/javascript">
+	function refreshbar() {
+		var mychart = echarts.init(document.getElementById('flot-bar-chart'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showBar",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
+			},
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {//标题
+						text : '中标企业分布',
+						x : 'center'
+					},
+					tooltip : {//鼠标悬浮
+						trigger : 'axis'
+					},
+					toolbox : {//工具栏
+						show : true,
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									bar : '柱形图',
+									line : '折线图'
+								},
+								type : [ 'bar', 'line' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
+						}
+					},
+					xAxis : {
+						type : 'category',
+						name : '企业名称',
+						axisLabel : {//显示所有横坐标
+							interval : 0
+						},
+						data : reJson.campany,
+						//设置字体倾斜  
+						axisLabel : {
+							interval : 0,
+							rotate : 45,//倾斜度 -90 至 90 默认为0  
+							margin : 12,
+							textStyle : {
+								/*  fontWeight:"bolder",   */
+								color : "#000000"
+							}
+						},
+					},
+					yAxis : {
+						type : 'value',
+						name : '数量：(兆瓦)'
+					},
+					series : [ {
+						name : '值',
+						type : 'bar',
+						itemStyle : {
+							normal : {
+								color : '#60C0DD',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#2932E1'
+								}
+							}
+						},
 
+						data : reJson.mount
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
+<!-- 中标产品分类 -->
+<script type="text/javascript">
+	function refreshpie() {
+		var mychart = echarts.init(document.getElementById('flot-pie-chart'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showPie",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
+			},
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {
+						text : '中标项目单多晶占比',
+						x : 'center'
+					},
+					tooltip : {
+						trigger : 'item',
+						formatter : "{b} :{d}%"
+					},
+					legend : {
+						x : 'center',
+						y : '25',
+						data : [ '单晶硅', '多晶硅', '单晶硅、多晶硅', '未知' ]
+					},
+					series : [ {
+						name : '访问来源',
+						type : 'pie',
+						radius : '55%',
+						center : [ '50%', '60%' ],
+						data : reJson,
+						itemStyle : {
+							normal : {
+								label : {
+									show : true,
+									formatter : '{d}%'
+								},
+								labelLine : {
+									show : true
+								}
+							}
+						},
+						color : [ '#FCCE10', '#E87C25', '#60C0DD', '#C1CC24' ]
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
+<!-- 晶澳投标价格 -->
 <script type="text/javascript">
 	function refreshline() {
 		var mychart = echarts.init(document.getElementById('flot-line-chart'));
@@ -292,65 +269,64 @@ function refreshbar() {
 			data : {
 				"datefrom" : 1,
 				"dateto" : 2,
-			}, 
+			},
 			async : false,
 			dataType : 'json',
 			success : function(reJson) {
-		var option = {
-			title : {//标题
-				text : '晶澳投标价格',
-				x : 'center'
-			},
-			tooltip : {//鼠标悬浮
-				trigger : 'axis',
-			    formatter:"{a}:{c}<br/>{a1}:{c1}"
-			},
-			legend : {//标题
-				data : [ '单晶', '多晶' ],
-				x : 'left'
-			},
-			toolbox : {//工具栏
-				show : true,
-				orient : 'horizontal',
-				feature : {//图例
-					calculable : false,
-					dataView : {//数据视图
-						show : true,
-						title : '数据视图',
-						readOnly : true
+				var option = {
+					title : {//标题
+						text : '晶澳投标价格',
+						x : 'center'
 					},
-					magicType : {//所有图例菜单
+					tooltip : {//鼠标悬浮
+						trigger : 'axis',
+						formatter : "{a}:{c}<br/>{a1}:{c1}"
+					},
+					legend : {//标题
+						data : [ '单晶', '多晶' ],
+						x : 'left'
+					},
+					toolbox : {//工具栏
 						show : true,
-						title : {
-							line : '折线图',
-							bar : '柱形图',
-							stack : '堆积图',
-							tiled : '平铺图'
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									line : '折线图',
+									bar : '柱形图',
+									stack : '堆积图',
+									tiled : '平铺图'
+								},
+								type : [ 'line', 'bar', 'stack', 'tiled' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
+						}
+					},
+					xAxis : {
+						name : '月份',
+						type : 'category',
+						axisLabel : {//显示所有横坐标
+							interval : 0
 						},
-						type : [ 'line', 'bar', 'stack', 'tiled' ]
+						data : reJson.xdate
 					},
-					restore : {
-						show : true,
-						title : '还原',
-						color : 'black'
-					}
-				}
-			},
-			xAxis : {
-				name:'月份',
-				type : 'category',
-				axisLabel : {//显示所有横坐标
-					interval : 0
-				},
-				data : reJson.xdate
-			},
-			yAxis : {
-				name:'万元',
-				nameRotate:-0.1,
-				type : 'value'
-			},
-			series : [
-					{
+					yAxis : {
+						name : '万元',
+						nameRotate : -0.1,
+						type : 'value'
+					},
+					series : [ {
 						name : '单晶',
 						type : 'line',
 						itemStyle : {
@@ -362,13 +338,13 @@ function refreshbar() {
 									formatter : '{c}'
 								},
 								lineStyle : {//线条颜色
-									color :'#E87C25'																		
+									color : '#E87C25'
 								}
 							}
 						},
 
 						data : reJson.single
-					},{
+					}, {
 						name : '多晶',
 						type : 'line',
 						itemStyle : {
@@ -380,232 +356,552 @@ function refreshbar() {
 									formatter : '{c}'
 								},
 								lineStyle : {//线条颜色
-									color :'#333333'																		
+									color : '#333333'
 								}
 							}
 						},
 
 						data : reJson.Multi
-					}
-					]
-		};
-		mychart.setOption(option);
+					} ]
+				};
+				mychart.setOption(option);
 			},
 			error : function() {
-					alert("异常！");
-				}
-			});
-		}
+				alert("异常！");
+			}
+		});
+	}
 </script>
-
+<!-- 2016全国LED招标总览 -->
 <script type="text/javascript">
-	function refreshlive() {
-		var mychart = echarts.init(document.getElementById('flot-line-chart-moving'));
+	function refreshmul() {
+		var mychart = echarts.init(document
+				.getElementById('flot-line-chart-multi'));
 		$.ajax({
 			type : "POST",
-			url : "/biddingData/showLive",
+			url : "/biddingData/showMul",
 			data : {
 				"datefrom" : 1,
 				"dateto" : 2,
-			}, 
+			},
 			async : false,
 			dataType : 'json',
-			success : function(reJson) {	
-		var option = {
-				title : {//标题
-					text : '区域分布',
-					x : 'center',
-					y : '25'
-				},
-			    tooltip : {
-			        trigger: 'axis',
-			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-			        },
-			        formatter:"{a4}:{c4}<br/>{a3}:{c3}<br/>{a2}:{c2}<br/>{a1}:{c1}<br/>{a}:{c}"
-			    },
-			    legend: {
-			        data: ['中国', '其他亚太地区','欧洲','北美','新兴市场']
-			    },
-			    grid: {
-			        left: '3%',
-			        right: '4%',
-			        bottom: '3%',
-			        containLabel: true
-			    },
-			    yAxis:  {
-			        type: 'value'
-			    },
-			    xAxis: {
-			        type: 'category',
-			        name:'季度',
-			        data: reJson.xdate
-			    },
-			    series: [
-			        {
-			            name: '中国',
-			            type: 'bar',
-			            stack: '总量',
-			            barWidth:40,
-			            label: {
-			                normal: {
-			                    show: true,
-			                    position: 'inside'
-			                }
-			            },
-			            data: reJson.china
-			        },
-			        {
-			            name: '其他亚太地区',
-			            type: 'bar',
-			            stack: '总量',
-			            label: {
-			                normal: {
-			                    show: true,
-			                    position: 'inside'
-			                }
-			            },
-			            data: reJson.others
-			        },
-			        {
-			            name: '欧洲',
-			            type: 'bar',
-			            stack: '总量',
-			            label: {
-			                normal: {
-			                    show: true,
-			                    position: 'inside'
-			                }
-			            },
-			            data: reJson.europe
-			        },
-			        {
-			            name: '北美',
-			            type: 'bar',
-			            stack: '总量',
-			            label: {
-			                normal: {
-			                    show: true,
-			                    position: 'inside'
-			                }
-			            },
-			            data: reJson.northAmerica
-			        },
-			        {
-			            name: '新兴市场',
-			            type: 'bar',
-			            stack: '总量',
-			            label: {
-			                normal: {
-			                    show: true,
-			                    position: 'inside'
-			                }
-			            },
-			            data: reJson.newMarket
-			        }
-			    ]
-			};
-		mychart.setOption(option);
+			success : function(reJson) {
+				var option = {
+					title : {//标题
+						text : '2016年1-10月份全国LED招标总览图',
+						x : 'center'
+					},
+					tooltip : {//鼠标悬浮
+						trigger : 'axis',
+						formatter : "{a}:{c}<br/>{a1}:{c1}"
+					},
+					legend : {//标题
+						data : [ '中标数量', '中标金额' ],
+						x : 'left'
+					},
+					toolbox : {//工具栏
+						show : true,
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									line : '折线图',
+									bar : '柱形图',
+									stack : '堆积图',
+									tiled : '平铺图'
+								},
+								type : [ 'line', 'bar', 'stack', 'tiled' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
+						}
+					},
+					xAxis : {
+						name : '月份',
+						type : 'category',
+						axisLabel : {//显示所有横坐标
+							interval : 0
+						},
+						data : reJson.xdate
+					},
+					yAxis : {
+						name : 'Y轴单位',
+						type : 'value'
+					},
+					series : [ {
+						name : '中标数量',
+						type : 'line',
+						itemStyle : {
+							normal : {
+								color : '#333333',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#E87C25'
+								}
+							}
+						},
+
+						data : reJson.mount
+					}, {
+						name : '中标金额',
+						type : 'bar',
+						barWidth : 30,
+						itemStyle : {
+							normal : {
+								color : '#60C0DD',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#333333'
+								}
+							}
+						},
+
+						data : reJson.count
+					} ]
+				};
+				mychart.setOption(option);
 			},
 			error : function() {
-					alert("异常！");
-				}
-			});
-		}
-
+				alert("异常！");
+			}
+		});
+	}
 </script>
-
+<!-- 中标前20名企业中2016全国LED招标总览 -->
 <script type="text/javascript">
-function refreshpro() {
-	var mychart = echarts.init(document.getElementById('flot-bar-chart-pro'));
-	$.ajax({
-		type : "POST",
-		url : "/biddingData/showBar",
-		data : {
-			"datefrom" : 1,
-			"dateto" : 2,
-		}, 
-		async : false,
-		dataType : 'json',
-		success : function(reJson) {		
-			var option = {
-			title : {//标题
-				text : '中标企业分布',
-				x : 'center'
+	function showd() {
+		var mychart = echarts.init(document
+				.getElementById('flot-line-chartd-multi'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showMul",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
 			},
-			tooltip : {//鼠标悬浮
-				trigger : 'axis'
-			},
-			toolbox : {//工具栏
-				show : true,
-				orient : 'horizontal',
-				feature : {//图例
-					calculable : false,
-					dataView : {//数据视图
-						show : true,
-						title : '数据视图',
-						readOnly : true
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {//标题
+						text : '2016年1-10月份全国LED招标总览图',
+						x : 'center'
 					},
-					magicType : {//所有图例菜单
-						show : true,
-						title : {
-							bar : '柱形图',
-							line : '折线图'
-						},
-						type : [ 'bar', 'line' ]
+					tooltip : {//鼠标悬浮
+						trigger : 'axis',
+						formatter : "{a}:{c}<br/>{a1}:{c1}"
 					},
-					restore : {
+					legend : {//标题
+						data : [ '中标数量', '中标金额' ],
+						x : 'left'
+					},
+					toolbox : {//工具栏
 						show : true,
-						title : '还原',
-						color : 'black'
-					}
-				}
-			},
-			xAxis : {
-				type : 'category',
-				name:'企业名称',
-				axisLabel : {//显示所有横坐标
-					interval : 0
-				},
-				data : reJson.campany,
-				//设置字体倾斜  
-				axisLabel : {
-					interval : 0,
-					rotate : 45,//倾斜度 -90 至 90 默认为0  
-					margin : 12,
-					textStyle : {
-						/*  fontWeight:"bolder",   */
-						color : "#000000"
-					}
-				},
-			},
-			yAxis : {
-				type : 'value',
-				name:'总容量：(兆瓦)'
-			},
-			series : [ {
-				name : '值',
-				type : 'bar',
-				itemStyle : {
-					normal : {
-						color : '#60C0DD',
-						label : {//显示值
-							show : true,
-							position : 'top',
-							formatter : '{c}'
-						},
-						lineStyle : {//线条颜色
-							color : '#2932E1'
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									line : '折线图',
+									bar : '柱形图',
+									stack : '堆积图',
+									tiled : '平铺图'
+								},
+								type : [ 'line', 'bar', 'stack', 'tiled' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
 						}
-					}
-				},
+					},
+					xAxis : {
+						name : '月份',
+						type : 'category',
+						axisLabel : {//显示所有横坐标
+							interval : 0
+						},
+						data : reJson.xdate
+					},
+					yAxis : {
+						name : 'Y轴单位',
+						type : 'value'
+					},
+					series : [ {
+						name : '中标数量',
+						type : 'line',
+						itemStyle : {
+							normal : {
+								color : '#333333',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#E87C25'
+								}
+							}
+						},
 
-				data : reJson.mount
-			} ]
-		};
-		mychart.setOption(option);
-		},
-		error : function() {
+						data : reJson.mount
+					}, {
+						name : '中标金额',
+						type : 'bar',
+						barWidth : 30,
+						itemStyle : {
+							normal : {
+								color : '#60C0DD',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#333333'
+								}
+							}
+						},
+
+						data : reJson.count
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
+<!-- 晶澳国内中标情况 -->
+<script type="text/javascript">
+	function showa() {
+		var mychart = echarts.init(document.getElementById('flot-bara-chart'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showBar",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
+			},
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {//标题
+						text : '晶澳国内中标情况',
+						x : 'center'
+					},
+					tooltip : {//鼠标悬浮
+						trigger : 'axis'
+					},
+					toolbox : {//工具栏
+						show : true,
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									bar : '柱形图',
+									line : '折线图'
+								},
+								type : [ 'bar', 'line' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
+						}
+					},
+					xAxis : {
+						type : 'category',
+						name : '企业名称',
+						axisLabel : {//显示所有横坐标
+							interval : 0
+						},
+						data : reJson.campany,
+						//设置字体倾斜  
+						axisLabel : {
+							interval : 0,
+							rotate : 45,//倾斜度 -90 至 90 默认为0  
+							margin : 12,
+							textStyle : {
+								/*  fontWeight:"bolder",   */
+								color : "#000000"
+							}
+						},
+					},
+					yAxis : {
+						type : 'value',
+						name : '总容量：(兆瓦)'
+					},
+					series : [ {
+						name : '值',
+						type : 'bar',
+						itemStyle : {
+							normal : {
+								color : '#60C0DD',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#2932E1'
+								}
+							}
+						},
+
+						data : reJson.mount
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
+<!-- 前20名企业中标产品分类 -->
+<script type="text/javascript">
+	function showc() {
+		var mychart = echarts.init(document.getElementById('flot-piec-chart'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showPie",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
+			},
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {
+						text : '中标项目单多晶占比',
+						x : 'center'
+					},
+					tooltip : {
+						trigger : 'item',
+						formatter : "{b} :{d}%"
+					},
+					legend : {
+						x : 'center',
+						y : '25',
+						data : [ '单晶硅', '多晶硅', '单晶硅、多晶硅', '未知' ]
+					},
+					series : [ {
+						name : '访问来源',
+						type : 'pie',
+						radius : '55%',
+						center : [ '50%', '60%' ],
+						data : reJson,
+						itemStyle : {
+							normal : {
+								label : {
+									show : true,
+									formatter : '{d}%'
+								},
+								labelLine : {
+									show : true
+								}
+							}
+						},
+						color : [ '#FCCE10', '#E87C25', '#60C0DD', '#C1CC24' ]
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
+<!-- 晶澳中标客户类型-->
+<script type="text/javascript">
+	function showb() {
+		var mychart = echarts.init(document.getElementById('flot-pieb-chart'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showPie",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
+			},
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {
+						text : '晶澳中标客户类型',
+						x : 'center'
+					},
+					tooltip : {
+						trigger : 'item',
+						formatter : "{b} :{d}%"
+					},
+					legend : {
+						x : 'center',
+						y : '25',
+						data : [ '核心用户', '重点客户', '区域客户', '其他客户' ]
+					},
+					series : [ {
+						name : '访问来源',
+						type : 'pie',
+						radius : '55%',
+						center : [ '50%', '60%' ],
+						data : reJson,
+						itemStyle : {
+							normal : {
+								label : {
+									show : true,
+									formatter : '{d}%'
+								},
+								labelLine : {
+									show : true
+								}
+							}
+						},
+						color : [ '#FCCE10', '#E87C25', '#60C0DD', '#C1CC24' ]
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
+<!-- 中标区域分布 -->
+<script type="text/javascript">
+	function refreshpro() {
+		var mychart = echarts.init(document
+				.getElementById('flot-bar-chart-pro'));
+		$.ajax({
+			type : "POST",
+			url : "/biddingData/showBar",
+			data : {
+				"datefrom" : 1,
+				"dateto" : 2,
+			},
+			async : false,
+			dataType : 'json',
+			success : function(reJson) {
+				var option = {
+					title : {//标题
+						text : '中标企业分布',
+						x : 'center'
+					},
+					tooltip : {//鼠标悬浮
+						trigger : 'axis'
+					},
+					toolbox : {//工具栏
+						show : true,
+						orient : 'horizontal',
+						feature : {//图例
+							calculable : false,
+							dataView : {//数据视图
+								show : true,
+								title : '数据视图',
+								readOnly : true
+							},
+							magicType : {//所有图例菜单
+								show : true,
+								title : {
+									bar : '柱形图',
+									line : '折线图'
+								},
+								type : [ 'bar', 'line' ]
+							},
+							restore : {
+								show : true,
+								title : '还原',
+								color : 'black'
+							}
+						}
+					},
+					xAxis : {
+						type : 'category',
+						name : '企业名称',
+						axisLabel : {//显示所有横坐标
+							interval : 0
+						},
+						data : reJson.campany,
+						//设置字体倾斜  
+						axisLabel : {
+							interval : 0,
+							rotate : 45,//倾斜度 -90 至 90 默认为0  
+							margin : 12,
+							textStyle : {
+								/*  fontWeight:"bolder",   */
+								color : "#000000"
+							}
+						},
+					},
+					yAxis : {
+						type : 'value',
+						name : '总容量：(兆瓦)'
+					},
+					series : [ {
+						name : '值',
+						type : 'bar',
+						itemStyle : {
+							normal : {
+								color : '#60C0DD',
+								label : {//显示值
+									show : true,
+									position : 'top',
+									formatter : '{c}'
+								},
+								lineStyle : {//线条颜色
+									color : '#2932E1'
+								}
+							}
+						},
+
+						data : reJson.mount
+					} ]
+				};
+				mychart.setOption(option);
+			},
+			error : function() {
 				alert("异常！");
 			}
 		});
@@ -790,7 +1086,36 @@ function refreshpro() {
 							<div class="ibox float-e-margins">
 								<div class="ibox-title">
 									<h5>
-										中标企业分布 <small>前20名</small>
+										中标企业分布 <small>容量前20名</small>
+									</h5>
+									<div class="ibox-tools">
+										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+										</a> <a class="dropdown-toggle" data-toggle="dropdown"
+											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+											<li><a href="graph_flot.html#">按中标容量</a></li>
+											<li><a href="graph_flot.html#">按中标数量</a></li>
+										</ul>
+										<a class="close-link"> <i class="fa fa-times"></i>
+										</a>
+									</div>
+								</div>
+								<div class="ibox-content">
+									<div class="flot-chart">
+										<div class="flot-chart-content" id="flot-capacitybar-chart"></div>
+										<script type="text/javascript">
+											showcapacity();
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>
+										中标企业分布 <small>数量前20名</small>
 									</h5>
 									<div class="ibox-tools">
 										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -815,10 +1140,41 @@ function refreshpro() {
 								</div>
 							</div>
 						</div>
+					</div>
+
+					<div class="row">
 						<div class="col-lg-6">
 							<div class="ibox float-e-margins">
 								<div class="ibox-title">
-									<h5>Line Cahrt Example</h5>
+									<h5>中标产品分类</h5>
+									<div class="ibox-tools">
+										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+										</a> <a class="dropdown-toggle" data-toggle="dropdown"
+											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+											<li><a href="graph_flot.html#">Config option 1</a></li>
+											<li><a href="graph_flot.html#">Config option 2</a></li>
+										</ul>
+										<a class="close-link"> <i class="fa fa-times"></i>
+										</a>
+									</div>
+								</div>
+								<div class="ibox-content">
+									<div class="flot-chart">
+										<div class="flot-chart-content" id="flot-pie-chart"></div>
+										<script type="text/javascript">
+											refreshpie();
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-6">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>晶澳投标价格</h5>
 									<div class="ibox-tools">
 										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
 										</a> <a class="dropdown-toggle" data-toggle="dropdown"
@@ -844,19 +1200,22 @@ function refreshpro() {
 							</div>
 						</div>
 					</div>
+
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="ibox float-e-margins">
 								<div class="ibox-title">
-									<h5>Pie Chart Example</h5>
+									<h5>
+										晶澳国内中标情况 <small></small>
+									</h5>
 									<div class="ibox-tools">
 										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
 										</a> <a class="dropdown-toggle" data-toggle="dropdown"
 											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
 										</a>
 										<ul class="dropdown-menu dropdown-user">
-											<li><a href="graph_flot.html#">Config option 1</a></li>
-											<li><a href="graph_flot.html#">Config option 2</a></li>
+											<li><a href="graph_flot.html#">按中标容量</a></li>
+											<li><a href="graph_flot.html#">按中标数量</a></li>
 										</ul>
 										<a class="close-link"> <i class="fa fa-times"></i>
 										</a>
@@ -864,9 +1223,9 @@ function refreshpro() {
 								</div>
 								<div class="ibox-content">
 									<div class="flot-chart">
-										<div class="flot-chart-content" id="flot-pie-chart"></div>
+										<div class="flot-chart-content" id="flot-bara-chart"></div>
 										<script type="text/javascript">
-											refreshpie();
+											showa();
 										</script>
 									</div>
 								</div>
@@ -875,7 +1234,7 @@ function refreshpro() {
 						<div class="col-lg-6">
 							<div class="ibox float-e-margins">
 								<div class="ibox-title">
-									<h5>Live Chart Example</h5>
+									<h5>晶澳中标客户类型</h5>
 									<div class="ibox-tools">
 										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
 										</a> <a class="dropdown-toggle" data-toggle="dropdown"
@@ -890,11 +1249,10 @@ function refreshpro() {
 									</div>
 								</div>
 								<div class="ibox-content">
-
 									<div class="flot-chart">
-										<div class="flot-chart-content" id="flot-line-chart-moving"></div>
+										<div class="flot-chart-content" id="flot-pieb-chart"></div>
 										<script type="text/javascript">
-											refreshlive();
+											showb();
 										</script>
 									</div>
 								</div>
@@ -903,37 +1261,7 @@ function refreshpro() {
 					</div>
 
 					<div class="row">
-						<div class="col-lg-12">
-							<div class="ibox float-e-margins">
-								<div class="ibox-title">
-									<h5>Multiple Axes Line Chart Example</h5>
-									<div class="ibox-tools">
-										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
-										</a> <a class="dropdown-toggle" data-toggle="dropdown"
-											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
-										</a>
-										<ul class="dropdown-menu dropdown-user">
-											<li><a href="graph_flot.html#">Config option 1</a></li>
-											<li><a href="graph_flot.html#">Config option 2</a></li>
-										</ul>
-										<a class="close-link"> <i class="fa fa-times"></i>
-										</a>
-									</div>
-								</div>
-								<div class="ibox-content">
-									<div class="flot-chart">
-										<div class="flot-chart-content" id="flot-line-chart-multi"></div>
-										<script type="text/javascript">
-											refreshmul();
-										</script>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-lg-6">
 							<div class="ibox float-e-margins">
 								<div class="ibox-title">
 									<h5>中标区域分布</h5>
@@ -960,17 +1288,100 @@ function refreshpro() {
 								</div>
 							</div>
 						</div>
+						<div class="col-lg-6">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>中标前20名企业中标产品分类</h5>
+									<div class="ibox-tools">
+										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+										</a> <a class="dropdown-toggle" data-toggle="dropdown"
+											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+											<li><a href="graph_flot.html#">Config option 1</a></li>
+											<li><a href="graph_flot.html#">Config option 2</a></li>
+										</ul>
+										<a class="close-link"> <i class="fa fa-times"></i>
+										</a>
+									</div>
+								</div>
+								<div class="ibox-content">
+									<div class="flot-chart">
+										<div class="flot-chart-content" id="flot-piec-chart"></div>
+										<script type="text/javascript">
+											showc();
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>2016年全国LED招标总览图</h5>
+									<div class="ibox-tools">
+										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+										</a> <a class="dropdown-toggle" data-toggle="dropdown"
+											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+											<li><a href="graph_flot.html#">Config option 1</a></li>
+											<li><a href="graph_flot.html#">Config option 2</a></li>
+										</ul>
+										<a class="close-link"> <i class="fa fa-times"></i>
+										</a>
+									</div>
+								</div>
+								<div class="ibox-content">
+									<div class="flot-chart">
+										<div class="flot-chart-content" id="flot-line-chart-multi"></div>
+										<script type="text/javascript">
+											refreshmul();
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>中标前20名企业2016年全国LED招标总览图</h5>
+									<div class="ibox-tools">
+										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+										</a> <a class="dropdown-toggle" data-toggle="dropdown"
+											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+											<li><a href="graph_flot.html#">Config option 1</a></li>
+											<li><a href="graph_flot.html#">Config option 2</a></li>
+										</ul>
+										<a class="close-link"> <i class="fa fa-times"></i>
+										</a>
+									</div>
+								</div>
+								<div class="ibox-content">
+									<div class="flot-chart">
+										<div class="flot-chart-content" id="flot-line-chartd-multi"></div>
+										<script type="text/javascript">
+											showd();
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
+				<!-- END PAGE CONTAINER-->
 
+				<#include "/views/footer.ftl"/>
 			</div>
-			<!-- END PAGE CONTAINER-->
 
-			<#include "/views/footer.ftl"/>
 		</div>
 
-	</div>
-
-	<#include "/views/plugins.ftl"/>
+		<#include "/views/plugins.ftl"/>
 </body>
 </html>
