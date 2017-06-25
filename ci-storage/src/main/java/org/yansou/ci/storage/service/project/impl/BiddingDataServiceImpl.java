@@ -143,7 +143,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.productType, count(*) productTypeCount from BiddingData bean " +
+		String hql = "select bean.productType, count(*) as productTypeCount from BiddingData bean " +
 				"where bean.publishTime between :startTime and :endTime group by bean.productType";
 
 		Map<String, Object> valuesMap = new HashMap<>();
@@ -169,7 +169,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.projectProvince, count(*) projectProvinceCount from BiddingData bean " +
+		String hql = "select bean.projectProvince, count(*) as projectProvinceCount from BiddingData bean " +
 				"where bean.publishTime between :startTime and :endTime group by bean.projectProvince";
 
 		Map<String, Object> valuesMap = new HashMap<>();
@@ -197,7 +197,8 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.publishTimeYearMonth, count(*) publishTimeCount, sum(bean.winTotalAmount) winTotalAmount " +
+		String hql = "select bean.publishTimeYearMonth, count(*) as publishTimeCount, " +
+				"sum(bean.winTotalAmount) as winTotalAmount " +
 				"from BiddingData bean where bean.publishTime between :startTime and :endTime " +
 				"group by bean.publishTimeYearMonth order by bean.publishTimeYearMonth";
 
