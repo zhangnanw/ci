@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.db.model.system.Account;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
@@ -29,8 +30,7 @@ public class AccountServiceImpl extends GeneralServiceImpl<Account, Long> implem
 	}
 
 	@Override
-	public int updateStatus(Integer status, Long id) {
-		return accountRepository.updateStatus(status, id);
+	public Account findByUsername(String username) throws DaoException {
+		return accountRepository.findAccountByUsername(username);
 	}
-
 }

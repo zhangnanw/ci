@@ -2,7 +2,6 @@ package org.yansou.ci.storage.controller.system;
 
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.db.model.AbstractModel;
-import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.db.model.system.SignInLog;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
-import org.yansou.ci.storage.service.system.AccountService;
+import org.yansou.ci.storage.service.system.SignInLogService;
 
 import java.util.List;
 
@@ -25,13 +24,13 @@ import java.util.List;
  * @create 2017-04-12 11:55
  */
 @RestController
-@RequestMapping(value = "/account")
-public class AccountController {
+@RequestMapping(value = "/signInLog")
+public class SignInLogController {
 
-	private static final Logger LOG = LogManager.getLogger(AccountController.class);
+	private static final Logger LOG = LogManager.getLogger(SignInLogController.class);
 
 	@Autowired
-	private AccountService accountService;
+	private SignInLogService signInLogService;
 
 	@ApiOperation(value = "分页获取数据详细信息")
 	@PostMapping(value = "/pagination")
@@ -42,7 +41,7 @@ public class AccountController {
 
 		PageCriteria pageCriteria = restRequest.getPageCriteria();
 
-		Pagination<Account> pagination = accountService.pagination(pageCriteria);
+		Pagination<SignInLog> pagination = signInLogService.pagination(pageCriteria);
 
 		return SimpleRestResponse.ok(pagination);
 	}
@@ -54,26 +53,19 @@ public class AccountController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		Account account = restRequest.getAccount();
+		SignInLog signInLog = restRequest.getSignInLog();
 
-		if (account == null) {// 查询所有的数据
-			List<Account> accountList = accountService.findAll();
+		if (signInLog == null) {// 查询所有的数据
+			List<SignInLog> signInLogList = signInLogService.findAll();
 
-			return SimpleRestResponse.ok(accountList.toArray(new Account[0]));
+			return SimpleRestResponse.ok(signInLogList.toArray(new SignInLog[0]));
 		}
 
-		Long id = account.getId();
+		Long id = signInLog.getId();
 		if (id != null) {// 根据ID查询
-			Account otherAccount = accountService.findById(id);
+			SignInLog otherSignInLog = signInLogService.findById(id);
 
-			return SimpleRestResponse.ok(otherAccount);
-		}
-
-		String username = account.getUsername();
-		if (StringUtils.isNotBlank(username)) {// 根据username查询
-			Account otherAccount = accountService.findByUsername(username);
-
-			return SimpleRestResponse.ok(otherAccount);
+			return SimpleRestResponse.ok(otherSignInLog);
 		}
 
 		return SimpleRestResponse.exception();
@@ -86,18 +78,18 @@ public class AccountController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		Account account = restRequest.getAccount();
-		if (account != null) {// 单个新增
-			account = accountService.save(account);
+		SignInLog signInLog = restRequest.getSignInLog();
+		if (signInLog != null) {// 单个新增
+			signInLog = signInLogService.save(signInLog);
 
-			return SimpleRestResponse.id(account.getId());
+			return SimpleRestResponse.id(signInLog.getId());
 		}
 
-		Account[] accounts = restRequest.getAccounts();
-		if (ArrayUtils.isNotEmpty(accounts)) {// 批量新增
-			accounts = accountService.save(accounts);
+		SignInLog[] signInLogs = restRequest.getSignInLogs();
+		if (ArrayUtils.isNotEmpty(signInLogs)) {// 批量新增
+			signInLogs = signInLogService.save(signInLogs);
 
-			return SimpleRestResponse.ok(accounts);
+			return SimpleRestResponse.ok(signInLogs);
 		}
 
 		return SimpleRestResponse.exception();
@@ -110,18 +102,18 @@ public class AccountController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		Account account = restRequest.getAccount();
-		if (account != null) {// 单个更新
-			account = accountService.update(account);
+		SignInLog signInLog = restRequest.getSignInLog();
+		if (signInLog != null) {// 单个更新
+			signInLog = signInLogService.update(signInLog);
 
-			return SimpleRestResponse.id(account.getId());
+			return SimpleRestResponse.id(signInLog.getId());
 		}
 
-		Account[] accounts = restRequest.getAccounts();
-		if (ArrayUtils.isNotEmpty(accounts)) {// 批量更新
-			accounts = accountService.update(accounts);
+		SignInLog[] signInLogs = restRequest.getSignInLogs();
+		if (ArrayUtils.isNotEmpty(signInLogs)) {// 批量更新
+			signInLogs = signInLogService.update(signInLogs);
 
-			return SimpleRestResponse.ok(accounts);
+			return SimpleRestResponse.ok(signInLogs);
 		}
 
 		return SimpleRestResponse.exception();
@@ -134,10 +126,10 @@ public class AccountController {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
 
-		Account account = restRequest.getAccount();
-		Long id = account.getId();
+		SignInLog signInLog = restRequest.getSignInLog();
+		Long id = signInLog.getId();
 
-		accountService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
+		signInLogService.updateStatus(AbstractModel.Status.DELETE.getValue(), id);
 
 		return SimpleRestResponse.ok();
 	}

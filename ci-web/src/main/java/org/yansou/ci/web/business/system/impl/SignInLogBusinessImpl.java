@@ -13,14 +13,14 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
-import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.db.model.system.SignInLog;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
-import org.yansou.ci.core.rest.response.system.AccountArrayResponse;
-import org.yansou.ci.core.rest.response.system.AccountPaginationResponse;
-import org.yansou.ci.core.rest.response.system.AccountResponse;
-import org.yansou.ci.web.business.system.AccountBusiness;
+import org.yansou.ci.core.rest.response.system.SignInLogArrayResponse;
+import org.yansou.ci.core.rest.response.system.SignInLogPaginationResponse;
+import org.yansou.ci.core.rest.response.system.SignInLogResponse;
+import org.yansou.ci.web.business.system.SignInLogBusiness;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,75 +28,57 @@ import javax.servlet.http.HttpServletRequest;
  * @author liutiejun
  * @create 2017-05-13 22:58
  */
-@Component("accountBusiness")
-public class AccountBusinessImpl implements AccountBusiness {
+@Component("signInLogBusiness")
+public class SignInLogBusinessImpl implements SignInLogBusiness {
 
-	private static final Logger LOG = LogManager.getLogger(AccountBusinessImpl.class);
+	private static final Logger LOG = LogManager.getLogger(SignInLogBusinessImpl.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
-	public Account findById(Long id) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
+	public SignInLog findById(Long id) {
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/find";
 
-		Account account = new Account();
-		account.setId(id);
+		SignInLog signInLog = new SignInLog();
+		signInLog.setId(id);
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(account);
+		restRequest.setSignInLog(signInLog);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountResponse.class);
-
-		Account result = restResponse.getResult();
-
-		return result;
-	}
-
-	@Override
-	public Account findByUsername(String username) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
-
-		Account account = new Account();
-		account.setUsername(username);
-
-		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(account);
-
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
-
-		AccountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountResponse.class);
-
-		Account result = restResponse.getResult();
-
-		return result;
-	}
-
-	@Override
-	public Account[] findAll() {
-		String requestUrl = "http://" + CI_STORAGE + "/account/find";
-
-		RestRequest restRequest = new RestRequest();
-
-		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
-
-		AccountArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountArrayResponse
+		SignInLogResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, SignInLogResponse
 				.class);
 
-		Account[] accounts = restResponse.getResult();
+		SignInLog result = restResponse.getResult();
 
-		if (accounts == null) {
-			accounts = new Account[0];
-		}
-
-		return accounts;
+		return result;
 	}
 
 	@Override
-	public DataTablesOutput<Account> pagination(HttpServletRequest request) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/pagination";
+	public SignInLog[] findAll() {
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/find";
+
+		RestRequest restRequest = new RestRequest();
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		SignInLogArrayResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity,
+				SignInLogArrayResponse.class);
+
+		SignInLog[] signInLogs = restResponse.getResult();
+
+		if (signInLogs == null) {
+			signInLogs = new SignInLog[0];
+		}
+
+		return signInLogs;
+	}
+
+	@Override
+	public DataTablesOutput<SignInLog> pagination(HttpServletRequest request) {
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/pagination";
 
 		DataTablesInput dataTablesInput = DataTablesUtils.parseRequest(request);
 		PageCriteria pageCriteria = DataTablesUtils.convert(dataTablesInput);
@@ -108,35 +90,36 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
-		AccountPaginationResponse restResponse = null;
+		SignInLogPaginationResponse restResponse = null;
 		try {
-			restResponse = restTemplate.postForObject(requestUrl, httpEntity, AccountPaginationResponse.class);
+			restResponse = restTemplate.postForObject(requestUrl, httpEntity, SignInLogPaginationResponse.class);
 		} catch (RestClientException e) {
 			LOG.error(e.getMessage(), e);
 		}
 
-		Pagination<Account> pagination = null;
+		Pagination<SignInLog> pagination = null;
 		if (restResponse != null) {
 			pagination = restResponse.getResult();
 		}
 
 		if (pagination == null) {
-			pagination = new Pagination<>(0L, 10, 1, new Account[0]);
+			pagination = new Pagination<>(0L, 10, 1, new SignInLog[0]);
 		}
 
 		LOG.info("pagination: {}", pagination);
 
-		DataTablesOutput<Account> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria.getDraw(), null);
+		DataTablesOutput<SignInLog> dataTablesOutput = DataTablesUtils.parseResponse(pagination, pageCriteria
+				.getDraw(), null);
 
 		return dataTablesOutput;
 	}
 
 	@Override
-	public IdResponse save(Account entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/save";
+	public IdResponse save(SignInLog entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/save";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(entity);
+		restRequest.setSignInLog(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -146,11 +129,11 @@ public class AccountBusinessImpl implements AccountBusiness {
 	}
 
 	@Override
-	public IdResponse update(Account entity) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/update";
+	public IdResponse update(SignInLog entity) {
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/update";
 
 		RestRequest restRequest = new RestRequest();
-		restRequest.setAccount(entity);
+		restRequest.setSignInLog(entity);
 
 		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
 
@@ -160,13 +143,22 @@ public class AccountBusinessImpl implements AccountBusiness {
 	}
 
 	@Override
-	public CountResponse update(Account[] entities) {
-		return null;
+	public CountResponse update(SignInLog[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setSignInLogs(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
 	}
 
 	@Override
 	public CountResponse deleteById(Long[] ids) {
-		String requestUrl = "http://" + CI_STORAGE + "/account/delete";
+		String requestUrl = "http://" + CI_STORAGE + "/signInLog/delete";
 
 		LOG.info("删除：{}", ArrayUtils.toString(ids));
 
@@ -179,5 +171,4 @@ public class AccountBusinessImpl implements AccountBusiness {
 
 		return restResponse;
 	}
-
 }

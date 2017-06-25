@@ -22,7 +22,7 @@ public class Account extends AbstractModel<Long> {
 	private String username;// 登录用户名，唯一
 
 	@Column
-	private String password;// 登录密码，保存的时候以MD5加密
+	private String password;// 登录密码
 
 	@Column
 	private String nickName;// 真实姓名

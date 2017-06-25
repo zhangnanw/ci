@@ -25,7 +25,7 @@ public class SignInLog extends AbstractModel<Long> {
 	private String username;// 登录用户名
 
 	@Column
-	private String password;// 登录密码，保存的时候以MD5加密
+	private String password;// 登录密码
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

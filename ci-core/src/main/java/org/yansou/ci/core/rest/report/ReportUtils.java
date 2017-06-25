@@ -50,7 +50,7 @@ public class ReportUtils {
 			}
 
 		}
-
+	
 		ReportRo reportRo = new ReportRo(xAxis, yAxis, series);
 
 		return reportRo;
