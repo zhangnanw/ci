@@ -45,8 +45,9 @@ public class RecordData extends AbstractModel<Long> {
     @Column
     private String projectAddress;// 项目详细地址
 
+
     @Column
-    private String projectProvince;// 项目地址，省
+    private Integer projectProvince;// 项目地址，省
 
     @Column
     private String projectCity;// 项目地址，市
@@ -184,13 +185,6 @@ public class RecordData extends AbstractModel<Long> {
         this.projectAddress = projectAddress;
     }
 
-    public String getProjectProvince() {
-        return projectProvince;
-    }
-
-    public void setProjectProvince(String projectProvince) {
-        this.projectProvince = projectProvince;
-    }
 
     public String getProjectCity() {
         return projectCity;
@@ -334,6 +328,14 @@ public class RecordData extends AbstractModel<Long> {
 
     public void setChecked(Integer checked) {
         this.checked = checked;
+    }
+
+    public Integer getProjectProvince() {
+        return projectProvince;
+    }
+
+    public void setProjectProvince(Integer projectProvince) {
+        this.projectProvince = projectProvince;
     }
 }
 
