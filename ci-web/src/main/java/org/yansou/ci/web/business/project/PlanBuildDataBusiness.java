@@ -12,6 +12,6 @@ public interface PlanBuildDataBusiness extends GeneralBusiness<PlanBuildData, Lo
 
 	PlanBuildData[] findByProjectIdentifie(String projectIdentifie);
 
-	CountResponse updateChecked(Long[] ids, Integer checked);
+	CountResponse updateChecked(String projectIdentifie, Long[] ids);
 
 }

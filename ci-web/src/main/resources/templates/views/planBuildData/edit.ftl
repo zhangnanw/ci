@@ -42,7 +42,8 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<form role="form" id="form" action="/planBuildData/update" method="post">
-							<input type="hidden" name="id" value="${planBuildData.id}">
+							<input type="hidden" name="id" value="${(planBuildData.id)!''}">
+							<input type="hidden" name="projectIdentifie" value="${(planBuildData.projectIdentifie)!''}">
 
 							<div class="ibox ">
 								<div class="ibox-content">

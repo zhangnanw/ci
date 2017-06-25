@@ -16,6 +16,7 @@ import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
@@ -27,7 +28,10 @@ import org.yansou.ci.core.rest.response.project.PlanBuildDataResponse;
 import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.yansou.ci.common.utils.DateFormater.STANDARD_DATE_PATTERN;
 
@@ -232,22 +236,26 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
-		if (ArrayUtils.isEmpty(ids) || checked == null) {
+	public CountResponse updateChecked(String projectIdentifie, Long[] ids) {
+		if (StringUtils.isBlank(projectIdentifie) || ArrayUtils.isEmpty(ids)) {
 			return null;
 		}
 
-		PlanBuildData[] entities = new PlanBuildData[ids.length];
-
-		for (int i = 0; i < ids.length; i++) {
-			Long id = ids[i];
-
-			PlanBuildData planBuildData = new PlanBuildData();
-			planBuildData.setId(id);
-			planBuildData.setChecked(checked);
-
-			entities[i] = planBuildData;
+		PlanBuildData[] entities = findByProjectIdentifie(projectIdentifie);
+		if (ArrayUtils.isEmpty(entities)) {
+			return null;
 		}
+
+		Map<Long, Integer> idMap = new HashMap<>();
+		Arrays.stream(ids).forEach(id -> idMap.put(id, 0));
+
+		Arrays.stream(entities).forEach(planBuildData -> {
+			if (idMap.containsKey(planBuildData.getId())) {
+				planBuildData.setChecked(Checked.RIGHT.getValue());
+			} else {
+				planBuildData.setChecked(Checked.WRONG.getValue());
+			}
+		});
 
 		return update(entities);
 	}

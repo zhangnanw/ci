@@ -14,6 +14,7 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -24,6 +25,9 @@ import org.yansou.ci.core.rest.response.project.MergeDataResponse;
 import org.yansou.ci.web.business.project.MergeDataBusiness;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author liutiejun
@@ -185,22 +189,26 @@ public class MergeDataBusinessImpl implements MergeDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
-		if (ArrayUtils.isEmpty(ids) || checked == null) {
+	public CountResponse updateChecked(String projectIdentifie, Long[] ids) {
+		if (StringUtils.isBlank(projectIdentifie) || ArrayUtils.isEmpty(ids)) {
 			return null;
 		}
 
-		MergeData[] entities = new MergeData[ids.length];
-
-		for (int i = 0; i < ids.length; i++) {
-			Long id = ids[i];
-
-			MergeData mergeData = new MergeData();
-			mergeData.setId(id);
-			mergeData.setChecked(checked);
-
-			entities[i] = mergeData;
+		MergeData[] entities = findByProjectIdentifie(projectIdentifie);
+		if (ArrayUtils.isEmpty(entities)) {
+			return null;
 		}
+
+		Map<Long, Integer> idMap = new HashMap<>();
+		Arrays.stream(ids).forEach(id -> idMap.put(id, 0));
+
+		Arrays.stream(entities).forEach(mergeData -> {
+			if (idMap.containsKey(mergeData.getId())) {
+				mergeData.setChecked(Checked.RIGHT.getValue());
+			} else {
+				mergeData.setChecked(Checked.WRONG.getValue());
+			}
+		});
 
 		return update(entities);
 	}

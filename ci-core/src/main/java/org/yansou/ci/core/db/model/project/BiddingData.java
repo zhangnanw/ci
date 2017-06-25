@@ -22,49 +22,6 @@ public class BiddingData extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = -8168998504697731751L;
 
-	/**
-	 * 数据类型
-	 */
-	public enum DataType {
-
-		BIDDING(1), // 1-招标公告
-		WIN(2), // 2-中标公告
-		CORRECT(3), // 3-更正公告
-		ABANDON(4), // 4-废标公告
-		FAILURE(5);// 5-流标公告
-
-		private Integer value;
-
-		DataType(Integer value) {
-			this.value = value;
-		}
-
-		public Integer getValue() {
-			return value;
-		}
-	}
-
-	/**
-	 * 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
-	 */
-	public enum ProductType {
-
-		MON(1),// 1-单晶硅
-		POL(2),// 2-多晶硅
-		MON_POL(3),// 3-单晶硅、多晶硅
-		UNKNOWN(4);// 4-未知
-
-		private Integer value;
-
-		ProductType(Integer value) {
-			this.value = value;
-		}
-
-		public Integer getValue() {
-			return value;
-		}
-	}
-
 	@Column
 	private Integer dataType;// 公告类型，1-招标公告，2-中标公告，3-更正公告，4-废标公告，5-流标公告
 
