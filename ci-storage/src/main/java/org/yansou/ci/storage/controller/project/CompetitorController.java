@@ -113,9 +113,9 @@ public class CompetitorController {
 
 		Competitor[] competitors = restRequest.getCompetitors();
 		if (ArrayUtils.isNotEmpty(competitors)) {// 批量更新
-			competitors = competitorService.update(competitors);
+			int count = competitorService.updateNotNullField(competitors);
 
-			return SimpleRestResponse.ok(competitors);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

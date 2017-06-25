@@ -133,7 +133,7 @@
 										<thead>
 										<tr>
 											<th>#</th>
-											<th>发布时间</th>
+											<th>更新时间</th>
 											<th>项目名称</th>
 											<th>项目规模（MW）</th>
 											<th>项目总投资（万元）</th>
@@ -215,7 +215,7 @@
 						},
 						{
 							"targets": 1,
-							"data": "publishTime",
+							"data": "updateTime",
 							"orderable": true
 						},
 						{

@@ -1,5 +1,6 @@
 package org.yansou.ci.storage.service.project.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,14 @@ public class MergeDataServiceImpl extends GeneralServiceImpl<MergeData, Long> im
 	@Override
 	public List<MergeData> findByProjectIdentifie(String projectIdentifie) throws DaoException {
 		return mergeDataRepository.findByProjectIdentifie(projectIdentifie);
+	}
+
+	@Override
+	public int updateChecked(Long[] ids, Integer checked) throws DaoException {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return -1;
+		}
+
+		return mergeDataRepository.updateChecked(ids, checked);
 	}
 }

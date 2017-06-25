@@ -12,6 +12,7 @@ import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.core.db.model.project.WinCompany;
 import org.yansou.ci.core.db.model.system.Account;
+import org.yansou.ci.core.rest.report.ReportParameter;
 
 import java.io.Serializable;
 
@@ -28,6 +29,8 @@ public class RestRequest implements Serializable {
 	private Long[] ids;// 用于数据的删除
 
 	private PageCriteria pageCriteria;
+
+	private ReportParameter reportParameter;
 
 	private Account account;
 	private Account[] accounts;
@@ -76,6 +79,14 @@ public class RestRequest implements Serializable {
 
 	public void setPageCriteria(PageCriteria pageCriteria) {
 		this.pageCriteria = pageCriteria;
+	}
+
+	public ReportParameter getReportParameter() {
+		return reportParameter;
+	}
+
+	public void setReportParameter(ReportParameter reportParameter) {
+		this.reportParameter = reportParameter;
 	}
 
 	public Account getAccount() {

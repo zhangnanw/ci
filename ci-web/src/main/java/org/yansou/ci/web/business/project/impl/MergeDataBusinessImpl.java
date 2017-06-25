@@ -171,6 +171,41 @@ public class MergeDataBusinessImpl implements MergeDataBusiness {
 	}
 
 	@Override
+	public CountResponse update(MergeData[] entities) {
+		String requestUrl = "http://" + CI_STORAGE + "/mergeData/update";
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setMergeDatas(entities);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		CountResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, CountResponse.class);
+
+		return restResponse;
+	}
+
+	@Override
+	public CountResponse updateChecked(Long[] ids, Integer checked) {
+		if (ArrayUtils.isEmpty(ids) || checked == null) {
+			return null;
+		}
+
+		MergeData[] entities = new MergeData[ids.length];
+
+		for (int i = 0; i < ids.length; i++) {
+			Long id = ids[i];
+
+			MergeData mergeData = new MergeData();
+			mergeData.setId(id);
+			mergeData.setChecked(checked);
+
+			entities[i] = mergeData;
+		}
+
+		return update(entities);
+	}
+
+	@Override
 	public CountResponse deleteById(Long[] ids) {
 		String requestUrl = "http://" + CI_STORAGE + "/mergeData/delete";
 

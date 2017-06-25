@@ -121,9 +121,9 @@ public class MergeDataController {
 
 		MergeData[] mergeDatas = restRequest.getMergeDatas();
 		if (ArrayUtils.isNotEmpty(mergeDatas)) {// 批量更新
-			mergeDatas = mergeDataService.update(mergeDatas);
+			int count = mergeDataService.updateNotNullField(mergeDatas);
 
-			return SimpleRestResponse.ok(mergeDatas);
+			return SimpleRestResponse.ok("count", count);
 		}
 
 		return SimpleRestResponse.exception();

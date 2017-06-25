@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.rest.report.ReportParameter;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
 import org.yansou.ci.storage.service.project.WinCompanyService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -133,6 +136,42 @@ public class WinCompanyController {
 		int count = winCompanyService.deleteById(ids);
 
 		return SimpleRestResponse.ok("count", count);
+	}
+
+	@ApiOperation(value = "报表统计")
+	@PostMapping(value = "/statistics/winCapacity")
+	public SimpleRestResponse statisticsByWinCapacity(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		int limit = reportParameter.getLimit();
+
+		ReportRo ReportRo = winCompanyService.statisticsByWinCapacity(startTime, endTime, limit);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计")
+	@PostMapping(value = "/statistics/winCount")
+	public SimpleRestResponse statisticsByWinCount(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		int limit = reportParameter.getLimit();
+
+		ReportRo ReportRo = winCompanyService.statisticsByWinCount(startTime, endTime, limit);
+
+		return SimpleRestResponse.ok(ReportRo);
 	}
 
 }

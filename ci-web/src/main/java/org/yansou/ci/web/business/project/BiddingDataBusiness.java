@@ -1,6 +1,7 @@
 package org.yansou.ci.web.business.project;
 
 import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.web.business.GeneralBusiness;
 
 /**
@@ -10,5 +11,7 @@ import org.yansou.ci.web.business.GeneralBusiness;
 public interface BiddingDataBusiness extends GeneralBusiness<BiddingData, Long> {
 
 	BiddingData[] findByProjectIdentifie(String projectIdentifie);
+
+	CountResponse updateChecked(Long[] ids, Integer checked);
 
 }

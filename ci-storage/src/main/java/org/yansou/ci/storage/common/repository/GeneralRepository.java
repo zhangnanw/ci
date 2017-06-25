@@ -30,8 +30,10 @@ public interface GeneralRepository<T, ID extends Serializable> extends JpaReposi
 	 * 更新非空字段
 	 *
 	 * @param entity
+	 *
+	 * @return
 	 */
-	void updateNotNullField(T entity);
+	int updateNotNullField(T entity);
 
 	/**
 	 * 条件查询，主要用于自定义查询

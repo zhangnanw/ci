@@ -79,13 +79,13 @@
 				<version>portable-1.3.3</version>
 			</dependency>
 
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>1.9.3</version>
-            </dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>1.9.3</version>
+			</dependency>
 
-            <dependency>
+			<dependency>
 				<groupId>commons-dbutils</groupId>
 				<artifactId>commons-dbutils</artifactId>
 				<version>1.6</version>
@@ -162,6 +162,11 @@
 				<artifactId>je</artifactId>
 				<version>5.0.84</version>
 			</dependency>
+			<dependency>
+				<groupId>com.orientechnologies</groupId>
+				<artifactId>spring-data-orientdb-parent</artifactId>
+				<version>0.14</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
@@ -169,6 +174,16 @@
 		<repository>
 			<id>boundlessgeo</id>
 			<url>https://repo.boundlessgeo.com/main/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>springplugins</id>
+			<url>http://repo.spring.io/plugins-release/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -225,7 +240,37 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="make 随便打印一点东西..." />
+							</tasks>
+						</configuration>
+					</execution>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="make 做个清理操作 ..." />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

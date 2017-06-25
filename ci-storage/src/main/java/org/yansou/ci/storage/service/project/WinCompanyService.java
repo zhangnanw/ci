@@ -2,11 +2,10 @@ package org.yansou.ci.storage.service.project;
 
 import org.yansou.ci.common.exception.DaoException;
 import org.yansou.ci.core.db.model.project.WinCompany;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.storage.common.service.GeneralService;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author liutiejun
@@ -25,7 +24,7 @@ public interface WinCompanyService extends GeneralService<WinCompany, Long> {
 	 *
 	 * @throws DaoException
 	 */
-	List<Map<String, Object>> statisticsByWinCapacity(Date startTime, Date endTime, int limit) throws DaoException;
+	ReportRo statisticsByWinCapacity(Date startTime, Date endTime, int limit) throws DaoException;
 
 	/**
 	 * 企业中标数量排名
@@ -38,6 +37,6 @@ public interface WinCompanyService extends GeneralService<WinCompany, Long> {
 	 *
 	 * @throws DaoException
 	 */
-	List<Map<String, Object>> statisticsByWinCount(Date startTime, Date endTime, int limit) throws DaoException;
+	ReportRo statisticsByWinCount(Date startTime, Date endTime, int limit) throws DaoException;
 
 }

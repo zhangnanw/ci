@@ -18,4 +18,9 @@ public interface PlanBuildDataRepository extends GeneralRepository<PlanBuildData
 	int updateStatusUpdate(String statusUpdate, Long id);
 
 	PlanBuildData findByProjectNumber(String projectNumber);
+
+	@Modifying
+	@Query("update PlanBuildData bean set bean.checked = ?2 where bean.id in (?1)")
+	int updateChecked(Long[] ids, Integer checked);
+
 }

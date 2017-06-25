@@ -118,6 +118,11 @@ public class ProjectInfoController {
 		PlanBuildData[] planBuildDatas = planBuildDataBusiness.findByProjectIdentifie(projectIdentifie);
 		RecordData[] recordDatas = recordDataBusiness.findByProjectIdentifie(projectIdentifie);
 
+		LOG.info("projectIdentifie:{}, biddingDatas:{}", projectIdentifie, biddingDatas.length);
+		LOG.info("projectIdentifie:{}, mergeDatas:{}", projectIdentifie, mergeDatas.length);
+		LOG.info("projectIdentifie:{}, planBuildDatas:{}", projectIdentifie, planBuildDatas.length);
+		LOG.info("projectIdentifie:{}, recordDatas:{}", projectIdentifie, recordDatas.length);
+
 		model.addAttribute("projectInfo", projectInfo);
 		model.addAttribute("biddingDatas", biddingDatas);
 		model.addAttribute("mergeDatas", mergeDatas);
@@ -170,6 +175,11 @@ public class ProjectInfoController {
 	public IdResponse update(ProjectInfo projectInfo, Long[] biddingDataIds, Long[] mergeDataIds, Long[]
 			planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
 			response) {
+		biddingDataBusiness.updateChecked(biddingDataIds, 1);
+		mergeDataBusiness.updateChecked(mergeDataIds, 1);
+		planBuildDataBusiness.updateChecked(planBuildDataIds, 1);
+		recordDataBusiness.updateChecked(recordDataIds, 1);
+
 		IdResponse restResponse = projectInfoBusiness.update(projectInfo);
 
 		IdRo idRo = restResponse.getResult();
