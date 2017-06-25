@@ -314,4 +314,23 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		return restResponse.getResult();
 	}
+
+	@Override
+	public ReportRo statisticsByProjectProvince(Date startTime, Date endTime) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectProvince";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
 }

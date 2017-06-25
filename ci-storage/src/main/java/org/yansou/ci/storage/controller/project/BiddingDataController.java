@@ -165,4 +165,21 @@ public class BiddingDataController {
 		return SimpleRestResponse.ok(ReportRo);
 	}
 
+	@ApiOperation(value = "报表统计")
+	@PostMapping(value = "/statistics/projectProvince")
+	public SimpleRestResponse statisticsByProjectProvince(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+
+		ReportRo ReportRo = biddingDataService.statisticsByProjectProvince(startTime, endTime);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
 }

@@ -27,4 +27,14 @@ public interface BiddingDataBusiness extends GeneralBusiness<BiddingData, Long> 
 	 */
 	ReportRo statisticsByProductType(Date startTime, Date endTime);
 
+	/**
+	 * 中标区域分布
+	 *
+	 * @param startTime
+	 * @param endTime
+	 *
+	 * @return
+	 */
+	ReportRo statisticsByProjectProvince(Date startTime, Date endTime);
+
 }

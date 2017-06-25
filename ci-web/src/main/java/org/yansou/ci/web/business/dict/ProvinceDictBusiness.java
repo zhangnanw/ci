@@ -9,4 +9,6 @@ import org.yansou.ci.web.business.GeneralBusiness;
  */
 public interface ProvinceDictBusiness extends GeneralBusiness<ProvinceDict, Long> {
 
+	ProvinceDict findByCode(Integer code);
+
 }

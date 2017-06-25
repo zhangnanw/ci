@@ -57,6 +57,26 @@ public class ProvinceDictBusinessImpl implements ProvinceDictBusiness {
 	}
 
 	@Override
+	public ProvinceDict findByCode(Integer code) {
+		String requestUrl = "http://" + CI_STORAGE + "/provinceDict/find";
+
+		ProvinceDict provinceDict = new ProvinceDict();
+		provinceDict.setCode(code);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setProvinceDict(provinceDict);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ProvinceDictResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ProvinceDictResponse
+				.class);
+
+		ProvinceDict result = restResponse.getResult();
+
+		return result;
+	}
+
+	@Override
 	public ProvinceDict[] findAll() {
 		String requestUrl = "http://" + CI_STORAGE + "/provinceDict/find";
 

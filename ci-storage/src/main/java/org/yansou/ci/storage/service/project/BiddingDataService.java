@@ -33,4 +33,28 @@ public interface BiddingDataService extends GeneralService<BiddingData, Long> {
 	 */
 	ReportRo statisticsByProductType(Date startTime, Date endTime) throws DaoException;
 
+	/**
+	 * 中标区域分布
+	 *
+	 * @param startTime
+	 * @param endTime
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByProjectProvince(Date startTime, Date endTime) throws DaoException;
+
+	/**
+	 * 中标总量分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByWinTotalAmount(Date startTime, Date endTime) throws DaoException;
+
 }

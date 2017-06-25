@@ -1,16 +1,14 @@
 package org.yansou.ci.core.db.model.project;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 招标、中标信息
@@ -146,16 +144,6 @@ public class BiddingData extends AbstractModel<Long> {
 	private Integer deploymentType;// 产品的部署类型（可能会发生变化），1-分布式、2-集中式、3-渔光、4-农光，需要乐叶确定
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date biddingTime;// 招标时间
-
-	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date winTime;// 中标时间
-
-	@Column
 	private Double biddingBudget;// 招标预算，单位：万元
 
 	@Column
@@ -194,7 +182,26 @@ public class BiddingData extends AbstractModel<Long> {
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date biddingTime;// 招标时间
+
+	@Column
+	private String biddingTimeYearMonth;// 招标时间-年月
+
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date winTime;// 中标时间
+
+	@Column
+	private String winTimeYearMonth;// 中标时间-年月
+
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date publishTime;// 发布时间
+
+	@Column
+	private String publishTimeYearMonth;// 发布时间-年月
 
 	@Column
 	private String url;// 数据的原始地址
@@ -400,22 +407,6 @@ public class BiddingData extends AbstractModel<Long> {
 		this.deploymentType = deploymentType;
 	}
 
-	public Date getBiddingTime() {
-		return biddingTime;
-	}
-
-	public void setBiddingTime(Date biddingTime) {
-		this.biddingTime = biddingTime;
-	}
-
-	public Date getWinTime() {
-		return winTime;
-	}
-
-	public void setWinTime(Date winTime) {
-		this.winTime = winTime;
-	}
-
 	public Double getBiddingBudget() {
 		return biddingBudget;
 	}
@@ -512,12 +503,52 @@ public class BiddingData extends AbstractModel<Long> {
 		this.remarks = remarks;
 	}
 
+	public Date getBiddingTime() {
+		return biddingTime;
+	}
+
+	public void setBiddingTime(Date biddingTime) {
+		this.biddingTime = biddingTime;
+	}
+
+	public String getBiddingTimeYearMonth() {
+		return biddingTimeYearMonth;
+	}
+
+	public void setBiddingTimeYearMonth(String biddingTimeYearMonth) {
+		this.biddingTimeYearMonth = biddingTimeYearMonth;
+	}
+
+	public Date getWinTime() {
+		return winTime;
+	}
+
+	public void setWinTime(Date winTime) {
+		this.winTime = winTime;
+	}
+
+	public String getWinTimeYearMonth() {
+		return winTimeYearMonth;
+	}
+
+	public void setWinTimeYearMonth(String winTimeYearMonth) {
+		this.winTimeYearMonth = winTimeYearMonth;
+	}
+
 	public Date getPublishTime() {
 		return publishTime;
 	}
 
 	public void setPublishTime(Date publishTime) {
 		this.publishTime = publishTime;
+	}
+
+	public String getPublishTimeYearMonth() {
+		return publishTimeYearMonth;
+	}
+
+	public void setPublishTimeYearMonth(String publishTimeYearMonth) {
+		this.publishTimeYearMonth = publishTimeYearMonth;
 	}
 
 	public String getUrl() {
