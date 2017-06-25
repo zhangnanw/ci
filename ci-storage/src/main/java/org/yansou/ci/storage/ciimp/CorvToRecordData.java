@@ -21,12 +21,10 @@ public class CorvToRecordData extends AbsStatistics {
 
     public void run() {
         try {
-            JSONArray arr = qr.query("SELECT * FROM tab_put_on_record WHERE   url not in(SELECT url FROM  `" + TmpConfigRead.getCfgName() + "`.ci_record_data)", JSONArrayHandler.create());
+            JSONArray arr = qr.query("SELECT * FROM tab_put_on_record WHERE url not in(SELECT url FROM `" + TmpConfigRead.getCfgName() + "`.ci_record_data)", JSONArrayHandler.create());
             for (int i = 0; i < arr.size(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 RecordData rd = new PutIn2RecordData(obj).get();
-
-
                 SnapshotInfo snap = new SnapshotInfo();
                 String snapshotId = UUID.randomUUID().toString();
                 snap.setSnapshotId(snapshotId);
