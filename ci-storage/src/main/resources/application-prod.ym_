@@ -8,6 +8,11 @@ spring:
       username: cim
       password: yansou2016+
       driver-class-name: com.mysql.jdbc.Driver
+      max-wait: 10000
+      max-idle: 100
+      max-active: 100
+      test-while-idle: true
+      test-on-borrow: true
   jpa:
     properties:
       hibernate:

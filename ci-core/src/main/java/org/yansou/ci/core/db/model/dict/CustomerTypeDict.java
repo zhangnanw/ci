@@ -7,22 +7,23 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 产品类型
+ * 客户类别
  * <ul>
- * <li>1-单晶硅</li>
- * <li>2-多晶硅</li>
- * <li>3-单晶硅、多晶硅</li>
- * <li>4-未知</li>
+ * <li>1-大客户</li>
+ * <li>2-央企</li>
+ * <li>3-地方国企</li>
+ * <li>4-竞争对手</li>
+ * <li>5-其他</li>
  * </ul>
  *
  * @author liutiejun
- * @create 2017-06-25 14:23
+ * @create 2017-06-25 17:01
  */
 @Entity
-@Table(name = "ci_product_type_dict")
-public class ProductTypeDict extends AbstractModel<Long> {
+@Table(name = "ci_customer_type_dict")
+public class CustomerTypeDict extends AbstractModel<Long> {
 
-	private static final long serialVersionUID = -4708502104252902637L;
+	private static final long serialVersionUID = -6288038991139516197L;
 
 	@Column
 	private Integer code;
