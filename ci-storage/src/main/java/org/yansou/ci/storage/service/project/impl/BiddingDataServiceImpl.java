@@ -15,6 +15,7 @@ import org.yansou.ci.core.rest.report.ReportUtils;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.repository.project.BiddingDataRepository;
+import org.yansou.ci.storage.service.dict.ProductTypeDictService;
 import org.yansou.ci.storage.service.dict.ProvinceDictService;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 import org.yansou.ci.storage.service.project.SnapshotInfoService;
@@ -36,6 +37,9 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 
 	@Autowired
 	private SnapshotInfoService snapshotInfoService;
+
+	@Autowired
+	private ProductTypeDictService productTypeDictService;
 
 	@Autowired
 	private ProvinceDictService provinceDictService;
@@ -156,7 +160,9 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 		String yKey = null;
 		String[] serieKeys = new String[]{"productTypeCount"};
 
-		return ReportUtils.convert(dataList, xKey, yKey, serieKeys);
+		Map<Integer, String> productTypeMap = productTypeDictService.findAllByMap();
+
+		return ReportUtils.convert(dataList, productTypeMap, null, xKey, yKey, serieKeys);
 	}
 
 	@Override
