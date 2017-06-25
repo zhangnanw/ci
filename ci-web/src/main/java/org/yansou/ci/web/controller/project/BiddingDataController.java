@@ -14,12 +14,22 @@ import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.rest.model.IdRo;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
 import org.yansou.ci.web.business.project.MergeDataBusiness;
 import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
 import org.yansou.ci.web.business.project.RecordDataBusiness;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,6 +70,8 @@ public class BiddingDataController {
 		return "views/biddingData/list";
 	}
 
+
+
 	/**
 	 * 显示列表页数据
 	 *
@@ -71,8 +83,8 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
-	public DataTablesOutput<BiddingData> showList(ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
+	public DataTablesOutput<BiddingData> showList(ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
 		DataTablesOutput<BiddingData> dataTablesOutput = biddingDataBusiness.pagination(request);
 
 		return dataTablesOutput;
@@ -132,8 +144,8 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request, HttpServletResponse
-			response) {
+	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
 		IdResponse restResponse = biddingDataBusiness.save(biddingData);
 
 		IdRo idRo = restResponse.getResult();
@@ -160,9 +172,9 @@ public class BiddingDataController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public IdResponse update(BiddingData biddingData, Long[] biddingDataIds, Long[] mergeDataIds, Long[]
-			planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request, HttpServletResponse
-									 response) {
+	public IdResponse update(BiddingData biddingData, Long[] biddingDataIds, Long[] mergeDataIds,
+			Long[] planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
 		mergeDataBusiness.updateChecked(biddingData.getProjectIdentifie(), mergeDataIds);
 		planBuildDataBusiness.updateChecked(biddingData.getProjectIdentifie(), planBuildDataIds);
 		recordDataBusiness.updateChecked(biddingData.getProjectIdentifie(), recordDataIds);
@@ -195,4 +207,203 @@ public class BiddingDataController {
 		return restResponse;
 	}
 
+	/**
+	 * 进入中标图表页面
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/bidChart")
+	public String showBidChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+
+		return "views/biddingData/bidChart";
+	}
+
+	/**
+	 * 进入招标图表页面
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/tenderChart")
+	public String showTenderChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+
+		return "views/biddingData/tenderChart";
+	}
+
+	/**
+	 * 图表显示Bar柱状图
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showBar", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showBar(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> reJson = new HashMap<String, Object>();
+		List<String> campany = new ArrayList<>();
+		for (int i = 1; i <= 20; i++) {
+			campany.add("公司" + i);
+		}
+		List<Integer> mount = new ArrayList<>();
+		for (int i = 1; i <= 20; i++) {
+			mount.add((int) Math.round(Math.random() * 30));
+		}
+		reJson.put("campany", campany);
+		reJson.put("mount", mount);
+		return reJson;
+	}
+
+	/**
+	 * 图表显示Pie饼图，中标产品分类
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 * @throws java.text.ParseException
+	 */
+	@RequestMapping(value = "/showPie", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String,Object>> showtest(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws java.text.ParseException {
+		String dateString = "2017-05-06 ";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		Date date = sdf.parse(dateString);
+		ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date, new Date());
+		double[] series = statisticsByProductType.getSeries()[0].getData();
+		String[] xdata = statisticsByProductType.getxAxis()[0].getData();
+
+		List<Map<String, Object>> test = new ArrayList<Map<String, Object>>();
+		Map<String, Object> reJson;
+		for (int i = 0; i < series.length; i++) {
+			reJson = new HashMap<String, Object>();
+			reJson.put("name", xdata[i]);
+			reJson.put("value", series[i]);
+			test.add(reJson);
+
+		}
+		return test;
+
+	}
+
+	/**
+	 * 图表显示Mul混合图
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showMul", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showMul(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> reJson = new HashMap<String, Object>();
+		List<Integer> count = new ArrayList<>();
+		for (int i = 1; i <= 10; i++) {
+			count.add((int) Math.round(Math.random() * 100));
+		}
+		List<Integer> xdate = new ArrayList<>();
+		for (int i = 1; i <= 10; i++) {
+			xdate.add(i);
+		}
+
+		List<Integer> mount = new ArrayList<>();
+		for (int i = 1; i <= 10; i++) {
+			mount.add((int) Math.round(Math.random() * 100));
+		}
+		reJson.put("count", count);
+		reJson.put("xdate", xdate);
+		reJson.put("mount", mount);
+		return reJson;
+	}
+
+	/**
+	 * 图表显示Line折线图
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showLine", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showLine(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> reJson = new HashMap<String, Object>();
+		List<Integer> single = new ArrayList<>();
+		for (int i = 1; i <= 10; i++) {
+			single.add((int) Math.round(Math.random() * 5));
+		}
+		List<Integer> xdate = new ArrayList<>();
+		for (int i = 1; i <= 10; i++) {
+			xdate.add(i);
+		}
+
+		List<Integer> Multi = new ArrayList<>();
+		for (int i = 1; i <= 10; i++) {
+			Multi.add((int) Math.round(Math.random() * 5));
+		}
+		reJson.put("single", single);
+		reJson.put("xdate", xdate);
+		reJson.put("Multi", Multi);
+		return reJson;
+	}
+
+	/**
+	 * 图表显示Live堆积图
+	 *
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 * @throws java.text.ParseException
+	 */
+	@RequestMapping(value = "/showLive", method = RequestMethod.POST)
+	@ResponseBody
+	public ReportRo showLive(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws java.text.ParseException {
+		/*
+		 * Map<String,Object> reJson=new HashMap<String,Object>(); List<Integer>
+		 * china=new ArrayList<>(); List<Integer> europe=new ArrayList<>();
+		 * List<Integer> northAmerica=new ArrayList<>(); List<Integer>
+		 * newMarket=new ArrayList<>(); List<Integer> others=new ArrayList<>();
+		 * for(int i=1;i<=5;i++){ china.add(30+(int) Math.round(Math.random() *
+		 * 10)); europe.add(20+(int) Math.round(Math.random() * 10));
+		 * northAmerica.add(15+(int) Math.round(Math.random() * 10));
+		 * newMarket.add(20+(int) Math.round(Math.random() * 10));
+		 * others.add(10+(int) Math.round(Math.random() * 10)); } List<String>
+		 * xdate=new ArrayList<>(); for(int i=1;i<=5;i++){ xdate.add("Q"+i); }
+		 * reJson.put("xdate", xdate); reJson.put("china", china);
+		 * reJson.put("europe", europe); reJson.put("northAmerica",
+		 * northAmerica); reJson.put("newMarket", newMarket);
+		 * reJson.put("others", others); return reJson;
+		 */
+		String dateString = "2017-05-06 ";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		Date date = sdf.parse(dateString);
+		ReportRo statisticsByProjectProvince = biddingDataBusiness.statisticsByProjectProvince(date, new Date());
+		statisticsByProjectProvince.getSeries()[0].getData();
+		return statisticsByProjectProvince;
+	}
 }
