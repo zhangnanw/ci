@@ -14,6 +14,7 @@ import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
 import org.yansou.ci.common.datatables.utils.DataTablesUtils;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -185,7 +186,7 @@ public class MergeDataBusinessImpl implements MergeDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
+	public CountResponse updateChecked(Long[] ids, Checked checked) {
 		if (ArrayUtils.isEmpty(ids) || checked == null) {
 			return null;
 		}
@@ -197,7 +198,7 @@ public class MergeDataBusinessImpl implements MergeDataBusiness {
 
 			MergeData mergeData = new MergeData();
 			mergeData.setId(id);
-			mergeData.setChecked(checked);
+			mergeData.setChecked(checked.getValue());
 
 			entities[i] = mergeData;
 		}

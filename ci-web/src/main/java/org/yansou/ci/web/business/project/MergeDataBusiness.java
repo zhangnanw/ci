@@ -1,5 +1,6 @@
 package org.yansou.ci.web.business.project;
 
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.web.business.GeneralBusiness;
@@ -12,6 +13,6 @@ public interface MergeDataBusiness extends GeneralBusiness<MergeData, Long> {
 
 	MergeData[] findByProjectIdentifie(String projectIdentifie);
 
-	CountResponse updateChecked(Long[] ids, Integer checked);
+	CountResponse updateChecked(Long[] ids, Checked checked);
 
 }

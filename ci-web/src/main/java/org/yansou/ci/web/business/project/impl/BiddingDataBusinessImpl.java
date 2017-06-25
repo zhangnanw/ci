@@ -16,6 +16,7 @@ import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.rest.report.ReportParameter;
@@ -261,7 +262,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
+	public CountResponse updateChecked(Long[] ids, Checked checked) {
 		if (ArrayUtils.isEmpty(ids) || checked == null) {
 			return null;
 		}
@@ -273,7 +274,7 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 			BiddingData biddingData = new BiddingData();
 			biddingData.setId(id);
-			biddingData.setChecked(checked);
+			biddingData.setChecked(checked.getValue());
 
 			entities[i] = biddingData;
 		}
