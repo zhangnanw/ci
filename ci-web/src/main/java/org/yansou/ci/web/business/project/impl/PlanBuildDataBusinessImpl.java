@@ -16,6 +16,7 @@ import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.web.RequestUtils;
+import org.yansou.ci.core.db.constant.Checked;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.core.rest.request.RestRequest;
@@ -232,7 +233,7 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 	}
 
 	@Override
-	public CountResponse updateChecked(Long[] ids, Integer checked) {
+	public CountResponse updateChecked(Long[] ids, Checked checked) {
 		if (ArrayUtils.isEmpty(ids) || checked == null) {
 			return null;
 		}
@@ -244,7 +245,7 @@ public class PlanBuildDataBusinessImpl implements PlanBuildDataBusiness {
 
 			PlanBuildData planBuildData = new PlanBuildData();
 			planBuildData.setId(id);
-			planBuildData.setChecked(checked);
+			planBuildData.setChecked(checked.getValue());
 
 			entities[i] = planBuildData;
 		}
