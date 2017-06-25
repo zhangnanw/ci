@@ -117,8 +117,9 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			limit = 20;
 		}
 
-		String hql = "select bean.companyName, sum(bean.winCapacity) totalCapacity from WinCompany bean where " +
-				"bean.winTime between :startTime and :endTime group by bean.companyName order by totalCapacity desc";
+		String hql = "select bean.companyName, sum(bean.winCapacity) as totalCapacity from WinCompany bean " +
+				"where bean.winTime between :startTime and :endTime " +
+				"group by bean.companyName order by totalCapacity desc";
 
 		Map<String, Object> valuesMap = new HashMap<>();
 		valuesMap.put("startTime", startTime);
@@ -147,8 +148,9 @@ public class WinCompanyServiceImpl extends GeneralServiceImpl<WinCompany, Long> 
 			limit = 20;
 		}
 
-		String hql = "select bean.companyName, count(bean.winCapacity) winCount from WinCompany bean where " + "bean"
-				+ ".winTime between :startTime and :endTime group by bean.companyName order by winCount desc";
+		String hql = "select bean.companyName, count(bean.winCapacity) as winCount from WinCompany bean " +
+				"where bean.winTime between :startTime and :endTime " +
+				"group by bean.companyName order by winCount desc";
 
 		Map<String, Object> valuesMap = new HashMap<>();
 		valuesMap.put("startTime", startTime);

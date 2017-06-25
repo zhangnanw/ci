@@ -18,9 +18,12 @@ import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.web.RequestUtils;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.rest.report.ReportParameter;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
+import org.yansou.ci.core.rest.response.ReportResponse;
 import org.yansou.ci.core.rest.response.project.BiddingDataArrayResponse;
 import org.yansou.ci.core.rest.response.project.BiddingDataPaginationResponse;
 import org.yansou.ci.core.rest.response.project.BiddingDataResponse;
@@ -293,4 +296,41 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 
 		return restResponse;
 	}
+
+	@Override
+	public ReportRo statisticsByProductType(Date startTime, Date endTime) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/productType";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByProjectProvince(Date startTime, Date endTime) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectProvince";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
 }

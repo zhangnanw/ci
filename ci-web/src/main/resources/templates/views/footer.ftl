@@ -3,6 +3,6 @@
 		&nbsp;
 	</div>
 	<div>
-		<strong>Copyright</strong> Example Company &copy; 2014-2015
+		<strong>Copyright</strong> 北京研搜科技有限公司
 	</div>
 </div>

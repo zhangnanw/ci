@@ -24,13 +24,14 @@ import java.util.Map;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryPrimary", transactionManagerRef =
-		"transactionManagerPrimary", basePackages = {"org.yansou.ci.storage.repository"},//设置Repository所在位置
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryPrimary",
+		transactionManagerRef = "transactionManagerPrimary",
+		basePackages = {"org.yansou.ci.storage.repository"},//设置Repository所在位置
 		repositoryBaseClass = SimpleGeneralRepository.class)
 public class PrimaryConfigurer {
 
-	@Qualifier("primaryDataSource")
 	@Autowired
+	@Qualifier("primaryDataSource")
 	private DataSource primaryDataSource;
 
 	@Primary
@@ -42,8 +43,9 @@ public class PrimaryConfigurer {
 	@Primary
 	@Bean(name = "entityManagerFactoryPrimary")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary(EntityManagerFactoryBuilder builder) {
-		return builder.dataSource(primaryDataSource).properties(getVendorProperties(primaryDataSource)).packages("org" +
-				".yansou.ci.core.db.model") //设置实体类所在位置
+		return builder.dataSource(primaryDataSource)
+				.properties(getVendorProperties(primaryDataSource))
+				.packages("org.yansou.ci.core.db.model") //设置实体类所在位置
 				.persistenceUnit("primaryPersistenceUnit").build();
 	}
 

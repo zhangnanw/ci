@@ -66,6 +66,13 @@
 										<input type="text" class="form-control" placeholder=""
 											   name="winCapacity">
 									</div>
+									<div class="form-group"><label>中标时间</label>
+										<div class="input-group date">
+											<input name="winTime" class="form-control" type="text"
+												   value="" readonly>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -138,9 +145,19 @@
 	}();
 
 	$(document).ready(function () {
+		$('.input-group.date').datepicker({
+			language: "zh-CN",
+			format: "yyyy-mm-dd",
+			todayBtn: "linked",
+			todayHighlight: true,
+			endDate: "today",
+			keyboardNavigation: false,
+			forceParse: false,
+			calendarWeeks: true,
+			autoclose: true
+		});
 
 		FormValidation.init();
-
 	});
 </script>
 </body>
