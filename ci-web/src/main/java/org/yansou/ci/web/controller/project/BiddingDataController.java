@@ -15,6 +15,11 @@ import org.yansou.ci.core.rest.response.CountResponse;
 import org.yansou.ci.core.rest.response.IdResponse;
 import org.yansou.ci.web.business.project.BiddingDataBusiness;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,17 +52,20 @@ public class BiddingDataController {
 
 	/**
 	 * 进入图表页面
-	 *
+	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
 	 */
-	@RequestMapping(value = "/chart", method = RequestMethod.GET)
+	@RequestMapping(value = "/chart")
 	public String showChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+			
 		return "views/biddingData/chart";
 	}
+	
+	
 	
 	/**
 	 * 显示列表页数据
@@ -177,5 +185,157 @@ public class BiddingDataController {
 
 		return restResponse;
 	}
+	
+	/**
+	 * 图表显示Bar柱状图
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showBar", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showBar(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> reJson=new HashMap<String,Object>();
+		List<String> campany=new ArrayList<>();
+		for(int i=1;i<=20;i++){
+			campany.add("公司"+i);
+		}
+		List<Integer> mount=new ArrayList<>();
+		for(int i=1;i<=20;i++){
+			mount.add((int) Math.round(Math.random() * 30));
+		}		
+		reJson.put("campany", campany);
+		reJson.put("mount", mount);		
+		return reJson;
+	}
+	
+	/**
+	 * 图表显示Pie饼图
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showPie", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String,Object>> showtest (ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		List<Map<String,Object>> test=new ArrayList<Map<String,Object>>();
+		Map<String,Object> reJson;
+		String[] type={"单晶","多晶","单多晶未知"};
+		for(int i=0;i<3;i++){
+			reJson=new HashMap<String,Object>();
+			reJson.put("name", type[i]);
+			reJson.put("value", (int) Math.round(Math.random() * 100));
+			test.add(reJson);
+			
+		}
+		return test;
+	}
 
+	/**
+	 * 图表显示Mul混合图
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showMul", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showMul(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> reJson=new HashMap<String,Object>();
+		List<Integer> count=new ArrayList<>();
+		for(int i=1;i<=10;i++){
+			count.add((int) Math.round(Math.random() * 100));
+		}
+		List<Integer> xdate=new ArrayList<>();
+		for(int i=1;i<=10;i++){
+			xdate.add(i);
+		}
+		
+		List<Integer> mount=new ArrayList<>();
+		for(int i=1;i<=10;i++){
+			mount.add((int) Math.round(Math.random() * 100));
+		}		
+		reJson.put("count", count);
+		reJson.put("xdate", xdate);
+		reJson.put("mount", mount);		
+		return reJson;
+	}
+
+	/**
+	 * 图表显示Line折线图
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showLine", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showLine(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> reJson=new HashMap<String,Object>();
+		List<Integer> single=new ArrayList<>();
+		for(int i=1;i<=10;i++){
+			single.add((int) Math.round(Math.random() * 5));
+		}
+		List<Integer> xdate=new ArrayList<>();
+		for(int i=1;i<=10;i++){
+			xdate.add(i);
+		}
+		
+		List<Integer> Multi=new ArrayList<>();
+		for(int i=1;i<=10;i++){
+			Multi.add((int) Math.round(Math.random() * 5));
+		}		
+		reJson.put("single", single);
+		reJson.put("xdate", xdate);
+		reJson.put("Multi", Multi);		
+		return reJson;
+	}
+	
+	/**
+	 * 图表显示Live堆积图
+	 * @author hzx
+	 * @param model
+	 * @param request
+	 * @param response
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/showLive", method = RequestMethod.POST)
+	@ResponseBody
+	public Map showLive(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> reJson=new HashMap<String,Object>();
+		List<Integer> china=new ArrayList<>();
+		List<Integer> europe=new ArrayList<>();
+		List<Integer> northAmerica=new ArrayList<>();
+		List<Integer> newMarket=new ArrayList<>();
+		List<Integer> others=new ArrayList<>();
+		for(int i=1;i<=5;i++){
+			china.add(30+(int) Math.round(Math.random() * 10));
+			europe.add(20+(int) Math.round(Math.random() * 10));
+			northAmerica.add(15+(int) Math.round(Math.random() * 10));
+			newMarket.add(20+(int) Math.round(Math.random() * 10));
+			others.add(10+(int) Math.round(Math.random() * 10));
+		}
+		List<String> xdate=new ArrayList<>();
+		for(int i=1;i<=5;i++){
+			xdate.add("Q"+i);
+		}
+		reJson.put("xdate", xdate);
+		reJson.put("china", china);		
+		reJson.put("europe", europe);
+		reJson.put("northAmerica", northAmerica);
+		reJson.put("newMarket", newMarket);
+		reJson.put("others", others);
+		return reJson;
+	}
 }

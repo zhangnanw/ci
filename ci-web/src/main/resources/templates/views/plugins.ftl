@@ -73,3 +73,6 @@
 
 
 <script src="/js/manage.js"></script>
+<!-- echart -->
+<script src="/js/plugins/echart/charts.js"></script>
+<script src="/js/plugins/echart/echarts.js"></script>
