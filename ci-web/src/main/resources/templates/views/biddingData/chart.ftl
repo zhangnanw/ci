@@ -514,6 +514,103 @@ function refreshbar() {
 		}
 
 </script>
+
+<script type="text/javascript">
+function refreshpro() {
+	var mychart = echarts.init(document.getElementById('flot-bar-chart-pro'));
+	$.ajax({
+		type : "POST",
+		url : "/biddingData/showBar",
+		data : {
+			"datefrom" : 1,
+			"dateto" : 2,
+		}, 
+		async : false,
+		dataType : 'json',
+		success : function(reJson) {		
+			var option = {
+			title : {//标题
+				text : '中标企业分布',
+				x : 'center'
+			},
+			tooltip : {//鼠标悬浮
+				trigger : 'axis'
+			},
+			toolbox : {//工具栏
+				show : true,
+				orient : 'horizontal',
+				feature : {//图例
+					calculable : false,
+					dataView : {//数据视图
+						show : true,
+						title : '数据视图',
+						readOnly : true
+					},
+					magicType : {//所有图例菜单
+						show : true,
+						title : {
+							bar : '柱形图',
+							line : '折线图'
+						},
+						type : [ 'bar', 'line' ]
+					},
+					restore : {
+						show : true,
+						title : '还原',
+						color : 'black'
+					}
+				}
+			},
+			xAxis : {
+				type : 'category',
+				name:'企业名称',
+				axisLabel : {//显示所有横坐标
+					interval : 0
+				},
+				data : reJson.campany,
+				//设置字体倾斜  
+				axisLabel : {
+					interval : 0,
+					rotate : 45,//倾斜度 -90 至 90 默认为0  
+					margin : 12,
+					textStyle : {
+						/*  fontWeight:"bolder",   */
+						color : "#000000"
+					}
+				},
+			},
+			yAxis : {
+				type : 'value',
+				name:'总容量：(兆瓦)'
+			},
+			series : [ {
+				name : '值',
+				type : 'bar',
+				itemStyle : {
+					normal : {
+						color : '#60C0DD',
+						label : {//显示值
+							show : true,
+							position : 'top',
+							formatter : '{c}'
+						},
+						lineStyle : {//线条颜色
+							color : '#2932E1'
+						}
+					}
+				},
+
+				data : reJson.mount
+			} ]
+		};
+		mychart.setOption(option);
+		},
+		error : function() {
+				alert("异常！");
+			}
+		});
+	}
+</script>
 </head>
 
 <body>
@@ -693,7 +790,7 @@ function refreshbar() {
 							<div class="ibox float-e-margins">
 								<div class="ibox-title">
 									<h5>
-										中标企业分布 <small>With custom colors.</small>
+										中标企业分布 <small>前20名</small>
 									</h5>
 									<div class="ibox-tools">
 										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -701,8 +798,8 @@ function refreshbar() {
 											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
 										</a>
 										<ul class="dropdown-menu dropdown-user">
-											<li><a href="graph_flot.html#">Config option 1</a></li>
-											<li><a href="graph_flot.html#">Config option 2</a></li>
+											<li><a href="graph_flot.html#">按中标容量</a></li>
+											<li><a href="graph_flot.html#">按中标数量</a></li>
 										</ul>
 										<a class="close-link"> <i class="fa fa-times"></i>
 										</a>
@@ -828,6 +925,36 @@ function refreshbar() {
 										<div class="flot-chart-content" id="flot-line-chart-multi"></div>
 										<script type="text/javascript">
 											refreshmul();
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>中标区域分布</h5>
+									<div class="ibox-tools">
+										<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+										</a> <a class="dropdown-toggle" data-toggle="dropdown"
+											href="graph_flot.html#"> <i class="fa fa-wrench"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+											<li><a href="graph_flot.html#">Config option 1</a></li>
+											<li><a href="graph_flot.html#">Config option 2</a></li>
+										</ul>
+										<a class="close-link"> <i class="fa fa-times"></i>
+										</a>
+									</div>
+								</div>
+								<div class="ibox-content">
+									<div class="flot-chart">
+										<div class="flot-chart-content" id="flot-bar-chart-pro"></div>
+										<script type="text/javascript">
+											refreshpro();
 										</script>
 									</div>
 								</div>

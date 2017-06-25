@@ -277,6 +277,7 @@ public class BiddingDataController {
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");  
 	        Date date = sdf.parse(dateString); 
 	        ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date,new Date());
+	        double[] data = statisticsByProductType.getSeries()[0].getData();
 			return statisticsByProductType;
 	  	
 	}
@@ -353,11 +354,12 @@ public class BiddingDataController {
 	 * @param response
 	 *
 	 * @return
+	 * @throws java.text.ParseException 
 	 */
 	@RequestMapping(value = "/showLive", method = RequestMethod.POST)
 	@ResponseBody
-	public Map showLive(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		Map<String,Object> reJson=new HashMap<String,Object>();
+	public ReportRo showLive(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws java.text.ParseException {
+		/*Map<String,Object> reJson=new HashMap<String,Object>();
 		List<Integer> china=new ArrayList<>();
 		List<Integer> europe=new ArrayList<>();
 		List<Integer> northAmerica=new ArrayList<>();
@@ -380,6 +382,13 @@ public class BiddingDataController {
 		reJson.put("northAmerica", northAmerica);
 		reJson.put("newMarket", newMarket);
 		reJson.put("others", others);
-		return reJson;
+		return reJson;*/
+		 String dateString = "2017-05-06 ";  
+			
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");  
+	        Date date = sdf.parse(dateString); 
+	        ReportRo statisticsByProjectProvince = biddingDataBusiness.statisticsByProjectProvince(date, new Date());
+	        statisticsByProjectProvince.getSeries()[0].getData();
+			return statisticsByProjectProvince;
 	}
 }

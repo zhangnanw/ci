@@ -7,16 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 省份字典表
+ * 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
  *
  * @author liutiejun
- * @create 2017-06-24 12:24
+ * @create 2017-06-25 14:23
  */
 @Entity
-@Table(name = "ci_province_dict")
-public class ProvinceDict extends AbstractModel<Long> {
+@Table(name = "ci_product_type_dict")
+public class ProductTypeDict extends AbstractModel<Long> {
 
-	private static final long serialVersionUID = -3221357699491661981L;
+	private static final long serialVersionUID = -4708502104252902637L;
 
 	@Column
 	private Integer code;
