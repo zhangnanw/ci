@@ -1,6 +1,7 @@
 package org.yansou.ci.core.rest.request;
 
 import org.yansou.ci.common.page.PageCriteria;
+import org.yansou.ci.core.db.model.dict.ProvinceDict;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.Competitor;
 import org.yansou.ci.core.db.model.project.MergeData;
@@ -64,6 +65,9 @@ public class RestRequest implements Serializable {
 
 	private SnapshotInfo snapshotInfo;
 	private SnapshotInfo[] snapshotInfos;
+
+	private ProvinceDict provinceDict;
+	private ProvinceDict[] provinceDicts;
 
 	public Long[] getIds() {
 		return ids;
@@ -263,5 +267,21 @@ public class RestRequest implements Serializable {
 
 	public void setSnapshotInfos(SnapshotInfo[] snapshotInfos) {
 		this.snapshotInfos = snapshotInfos;
+	}
+
+	public ProvinceDict getProvinceDict() {
+		return provinceDict;
+	}
+
+	public void setProvinceDict(ProvinceDict provinceDict) {
+		this.provinceDict = provinceDict;
+	}
+
+	public ProvinceDict[] getProvinceDicts() {
+		return provinceDicts;
+	}
+
+	public void setProvinceDicts(ProvinceDict[] provinceDicts) {
+		this.provinceDicts = provinceDicts;
 	}
 }

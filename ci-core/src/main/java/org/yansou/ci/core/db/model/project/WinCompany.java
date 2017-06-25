@@ -43,8 +43,8 @@ public class WinCompany extends AbstractModel<Long> {
 	private Double winCapacity;// 中标单位-中标容量，单位：MW（兆瓦）
 
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date winTime;// 中标时间
 
 	public BiddingData getBiddingData() {

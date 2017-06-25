@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yansou.ci.common.page.PageCriteria;
 import org.yansou.ci.common.page.Pagination;
 import org.yansou.ci.core.db.model.project.BiddingData;
+import org.yansou.ci.core.rest.report.ReportParameter;
+import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.request.RestRequest;
 import org.yansou.ci.core.rest.response.SimpleRestResponse;
 import org.yansou.ci.storage.service.project.BiddingDataService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -143,6 +146,40 @@ public class BiddingDataController {
 		int count = biddingDataService.deleteById(ids);
 
 		return SimpleRestResponse.ok("count", count);
+	}
+
+	@ApiOperation(value = "报表统计")
+	@PostMapping(value = "/statistics/productType")
+	public SimpleRestResponse statisticsByProductType(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+
+		ReportRo ReportRo = biddingDataService.statisticsByProductType(startTime, endTime);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计")
+	@PostMapping(value = "/statistics/projectProvince")
+	public SimpleRestResponse statisticsByProjectProvince(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+
+		ReportRo ReportRo = biddingDataService.statisticsByProjectProvince(startTime, endTime);
+
+		return SimpleRestResponse.ok(ReportRo);
 	}
 
 }

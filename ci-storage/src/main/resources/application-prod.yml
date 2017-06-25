@@ -1,13 +1,16 @@
-# 生产环境
 server:
   port: 9998
 spring:
   datasource:
     primary:
-      url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/ci-master?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
-      username: cim
-      password: yansou2016+
-      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/intelligence-prod?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
+      username: hngp
+      password: hngp123
+      max-wait: 10000
+      max-idle: 100
+      max-active: 100
+      test-while-idle: true
+      test-on-borrow: true
   jpa:
     properties:
       hibernate:
