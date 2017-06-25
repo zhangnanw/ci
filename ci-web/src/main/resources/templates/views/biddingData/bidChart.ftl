@@ -137,7 +137,7 @@ function refreshbar() {
 				    legend: {
 				        x : 'center',
 				        y : '25',
-				        data: ['单晶','多晶','单多晶未知']				        
+				        data: ['单晶硅','多晶硅','单晶硅、多晶硅','未知']				        
 				    },
 				    series : [
 				        {
@@ -155,7 +155,7 @@ function refreshbar() {
 				                  labelLine :{show:true}
 				                }
 				            },
-				            color: ['#FCCE10', '#E87C25', '#60C0DD']
+				            color: ['#FCCE10', '#E87C25', '#60C0DD','#C1CC24']
 				        }
 				    ]
 				};
@@ -624,10 +624,10 @@ function refreshpro() {
 			<div id="page-container">
 				<div class="row wrapper border-bottom white-bg page-heading">
 					<div class="col-lg-10">
-						<h2>招中标数据</h2>
+						<h2>中标数据</h2>
 						<ol class="breadcrumb">
 							<li><a href="/welcome/index">首页</a></li>
-							<li><a>招中标数据</a></li>
+							<li><a>中标数据</a></li>
 							<li class="active"><strong>数据报表</strong></li>
 						</ol>
 					</div>
