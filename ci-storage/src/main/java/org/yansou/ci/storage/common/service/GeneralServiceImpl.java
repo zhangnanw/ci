@@ -283,10 +283,8 @@ public abstract class GeneralServiceImpl<T extends AbstractModel<ID>, ID extends
 	public Pagination<T> pagination(PageCriteria pageCriteria) throws DaoException {
 		Integer currentPageNo = pageCriteria.getCurrentPageNo();
 		Integer pageSize = pageCriteria.getPageSize();
-
 		Specification<T> specification = createSpecification(pageCriteria);
 		Sort sort = createSort(pageCriteria);
-
 		return pagination(currentPageNo, pageSize, specification, sort);
 	}
 

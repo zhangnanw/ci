@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yansou.ci.common.utils.JSONArrayHandler;
 import org.yansou.ci.common.utils.JSONUtils;
+import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.db.model.project.RecordData;
 import org.yansou.ci.core.db.model.project.SnapshotInfo;
 import org.yansou.ci.data.mining.analyzer.impl.AreaAnalyzer;
 import org.yansou.ci.storage.service.project.RecordDataService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -32,7 +36,6 @@ public class CorvToRecordData extends AbsStatistics {
                 String snapshotId = UUID.randomUUID().toString();
                 snap.setSnapshotId( snapshotId );
                 snap.setDataType( 3 );
-
                 snap.setContext( obj.getString( "context" ) );
                 rd.setSnapshotId( snapshotId );
                 recordDataService.saveDataAndSnapshotInfo( rd, snap );
@@ -64,6 +67,7 @@ public class CorvToRecordData extends AbsStatistics {
                             rd.setProjectProvince( codeMap.get( key ) );
                         } );
             }
+            rd.setApprovalTime( toApprovalTime() );
             rd.setProjectCity( toCity() );
             rd.setProjectDistrict( toDistrict() );
             return rd;
@@ -109,6 +113,26 @@ public class CorvToRecordData extends AbsStatistics {
                 return null;
             }
             return arr.getString( 2 );
+        }
+
+        /**
+         * 获得审批时间
+         *
+         * @return
+         */
+        private Date toApprovalTime() {
+            String ctx = srcObj.getString( "context" );
+            java.text.SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" );
+            JSONObject t = RegexUtils.regexToJSONObject( "(?<yyyy>(?:20)[0-9]{2})[-/年](?<MM>[0-1]?[0-9])[-/月](?<dd>[0-3]?[0-9])", ctx );
+            if (!t.isEmpty()) {
+                try {
+                    return sdf.parse( t.getString( "yyyy" ) + '-' + t.getString( "MM" ) + '-' + t.getString( "dd" ) );
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            return null;
         }
     }
 
