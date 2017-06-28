@@ -268,7 +268,7 @@
                                 <#if (planBuildDatas??)><#if planBuildDatas?size gt 0><#list planBuildDatas as pbd>
 									<div class="i-checks"><label>
 										<input type="checkbox" name="planBuildDataIds" value="${pbd.id}"
-                                               <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+											   <#if ((pbd.checked)!-1)==1>checked=""</#if>> <i></i>
                                     ${pbd.projectName}
 									</label></div>
                                 </#list></#if></#if>
@@ -284,8 +284,13 @@
                                 <#if (biddingDatas??)><#if biddingDatas?size gt 0><#list biddingDatas as bd>
 									<div class="i-checks"><label>
 										<input type="checkbox" name="biddingDataIds" value="${bd.id}"
-                                               <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
-                                    ${pbd.projectName}
+											   <#if ((bd.checked)!-1)==1>checked=""</#if>> <i></i>
+										【<#if ((biddingData.dataType)!-1)==1>招标公告
+									<#elseif ((biddingData.dataType)!-1)==2>中标公告
+									<#elseif ((biddingData.dataType)!-1)==3>更正公告
+									<#elseif ((biddingData.dataType)!-1)==4>废标公告
+									<#elseif ((biddingData.dataType)!-1)==5>流标公告
+									<#else></#if>】${bd.projectName}
 									</label></div>
                                 </#list></#if></#if>
 								</div>

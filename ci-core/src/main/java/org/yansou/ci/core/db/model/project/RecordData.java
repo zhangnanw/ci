@@ -1,6 +1,7 @@
 package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
@@ -24,8 +25,10 @@ public class RecordData extends AbstractModel<Long> {
     @Column
     private String projectName;// 项目名称（工程名称）
 
-    @Column
-    private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
+ 
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
+	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
     @Column
     private String projectIdentifie;// 项目唯一标识
@@ -45,6 +48,7 @@ public class RecordData extends AbstractModel<Long> {
     @Column
     private String projectAddress;// 项目详细地址
 
+ 
 
     @Column
     private Integer projectProvince;// 项目地址，省
@@ -54,16 +58,43 @@ public class RecordData extends AbstractModel<Long> {
 
     @Column
     private String projectDistrict;// 项目地址，区县
+	@Column(length = 2000)
+	private String projcetOwner;// 甲方、项目业主、开发商、采购人、项目法人
 
-    @Column
-    private String projcetOwner;// 甲方、项目业主、开发商、采购人、项目法人
+    
 
     @Column
     private Integer ownerType;// 业主类型
+	@Column
+	private String parentCompany;// 项目业主、开放商、采购人的母公司
 
-    @Column
-    private String parentCompany;// 项目业主、开放商、采购人的母公司
+	@Column
+	private Integer productType;// 产品类型，1-单晶硅，2-多晶硅，3-单晶硅、多晶硅，4-未知
 
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
+	private String[] monocrystallineSpecification;// 单晶硅规格，可能有多个值
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] monocrystallineCapacity;// 单晶硅的采购容量，单位：MW（兆瓦）
+
+	@Column
+	private Double monocrystallineTotalCapacity;// 单晶硅的总采购容量，单位：MW（兆瓦）
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
+	private String[] polysiliconSpecification;// 多晶硅规格，可能有多个值
+
+	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.DoubleArrayType")
+	private Double[] polysiliconCapacity;// 多晶硅的采购容量，单位：MW（兆瓦）
+
+	@Column
+	private Double polysiliconTotalCapacity;// 多晶硅的总采购容量，单位：MW（兆瓦）
+
+	@Column
+	private Integer deploymentType;// 产品的部署方式（可能会发生变化）
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -102,9 +133,11 @@ public class RecordData extends AbstractModel<Long> {
 
     @Column
     private String url;// 数据的原始地址
+	@Column(columnDefinition = "mediumtext")
+	private String htmlSource;// 网页源码
 
-    @Column(columnDefinition = "mediumtext")
-    private String htmlSource;// 网页源码
+
+ 
 
     @Column
     private Integer checked;// 人工检查状态，0-没有检查，1-检查为识别正确的数据，2-检查为识别错误的数据
@@ -112,231 +145,295 @@ public class RecordData extends AbstractModel<Long> {
     @Column
     private String snapshotId;// 快照ID
 
-    public String getSnapshotId() {
-        return snapshotId;
-    }
+	public final String getProjectName() {
+		return projectName;
+	}
 
-    public void setSnapshotId(String snapshotId) {
-        this.snapshotId = snapshotId;
-    }
+	public final void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
+	public final String[] getProjectCodes() {
+		return projectCodes;
+	}
 
-    public String getProjectName() {
-        return projectName;
-    }
+	public final void setProjectCodes(String[] projectCodes) {
+		this.projectCodes = projectCodes;
+	}
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+	public final String getProjectIdentifie() {
+		return projectIdentifie;
+	}
 
-    public String[] getProjectCodes() {
-        return projectCodes;
-    }
+	public final void setProjectIdentifie(String projectIdentifie) {
+		this.projectIdentifie = projectIdentifie;
+	}
 
-    public void setProjectCodes(String[] projectCodes) {
-        this.projectCodes = projectCodes;
-    }
+	public final Double getProjectScale() {
+		return projectScale;
+	}
 
-    public String getProjectIdentifie() {
-        return projectIdentifie;
-    }
+	public final void setProjectScale(Double projectScale) {
+		this.projectScale = projectScale;
+	}
 
-    public void setProjectIdentifie(String projectIdentifie) {
-        this.projectIdentifie = projectIdentifie;
-    }
+	public final Double getProjectCost() {
+		return projectCost;
+	}
 
-    public Double getProjectScale() {
-        return projectScale;
-    }
+	public final void setProjectCost(Double projectCost) {
+		this.projectCost = projectCost;
+	}
 
-    public void setProjectScale(Double projectScale) {
-        this.projectScale = projectScale;
-    }
+	public final Double getProjectTotalInvestment() {
+		return projectTotalInvestment;
+	}
 
-    public Double getProjectCost() {
-        return projectCost;
-    }
+	public final void setProjectTotalInvestment(Double projectTotalInvestment) {
+		this.projectTotalInvestment = projectTotalInvestment;
+	}
 
-    public void setProjectCost(Double projectCost) {
-        this.projectCost = projectCost;
-    }
+	public final String getProjectDescription() {
+		return projectDescription;
+	}
 
-    public Double getProjectTotalInvestment() {
-        return projectTotalInvestment;
-    }
+	public final void setProjectDescription(String projectDescription) {
+		this.projectDescription = projectDescription;
+	}
 
-    public void setProjectTotalInvestment(Double projectTotalInvestment) {
-        this.projectTotalInvestment = projectTotalInvestment;
-    }
+	public final String getProjectAddress() {
+		return projectAddress;
+	}
 
-    public String getProjectDescription() {
-        return projectDescription;
-    }
+	public final void setProjectAddress(String projectAddress) {
+		this.projectAddress = projectAddress;
+	}
 
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
+	public final Integer getProjectProvince() {
+		return projectProvince;
+	}
 
-    public String getProjectAddress() {
-        return projectAddress;
-    }
+	public final void setProjectProvince(Integer projectProvince) {
+		this.projectProvince = projectProvince;
+	}
 
-    public void setProjectAddress(String projectAddress) {
-        this.projectAddress = projectAddress;
-    }
+	public final String getProjectCity() {
+		return projectCity;
+	}
 
+	public final void setProjectCity(String projectCity) {
+		this.projectCity = projectCity;
+	}
 
-    public String getProjectCity() {
-        return projectCity;
-    }
+	public final String getProjectDistrict() {
+		return projectDistrict;
+	}
 
-    public void setProjectCity(String projectCity) {
-        this.projectCity = projectCity;
-    }
+	public final void setProjectDistrict(String projectDistrict) {
+		this.projectDistrict = projectDistrict;
+	}
 
-    public String getProjectDistrict() {
-        return projectDistrict;
-    }
+	public final String getProjcetOwner() {
+		return projcetOwner;
+	}
 
-    public void setProjectDistrict(String projectDistrict) {
-        this.projectDistrict = projectDistrict;
-    }
+	public final void setProjcetOwner(String projcetOwner) {
+		this.projcetOwner = projcetOwner;
+	}
 
-    public String getProjcetOwner() {
-        return projcetOwner;
-    }
+	public final Integer getOwnerType() {
+		return ownerType;
+	}
 
-    public void setProjcetOwner(String projcetOwner) {
-        this.projcetOwner = projcetOwner;
-    }
+	public final void setOwnerType(Integer ownerType) {
+		this.ownerType = ownerType;
+	}
 
-    public Integer getOwnerType() {
-        return ownerType;
-    }
+	public final String getParentCompany() {
+		return parentCompany;
+	}
 
-    public void setOwnerType(Integer ownerType) {
-        this.ownerType = ownerType;
-    }
+	public final void setParentCompany(String parentCompany) {
+		this.parentCompany = parentCompany;
+	}
 
-    public String getParentCompany() {
-        return parentCompany;
-    }
+	public final Integer getProductType() {
+		return productType;
+	}
 
-    public void setParentCompany(String parentCompany) {
-        this.parentCompany = parentCompany;
-    }
+	public final void setProductType(Integer productType) {
+		this.productType = productType;
+	}
 
-    public Date getPlanStartTime() {
-        return planStartTime;
-    }
+	public final String[] getMonocrystallineSpecification() {
+		return monocrystallineSpecification;
+	}
 
-    public void setPlanStartTime(Date planStartTime) {
-        this.planStartTime = planStartTime;
-    }
+	public final void setMonocrystallineSpecification(String[] monocrystallineSpecification) {
+		this.monocrystallineSpecification = monocrystallineSpecification;
+	}
 
-    public Date getRecordTime() {
-        return recordTime;
-    }
+	public final Double[] getMonocrystallineCapacity() {
+		return monocrystallineCapacity;
+	}
 
-    public void setRecordTime(Date recordTime) {
-        this.recordTime = recordTime;
-    }
+	public final void setMonocrystallineCapacity(Double[] monocrystallineCapacity) {
+		this.monocrystallineCapacity = monocrystallineCapacity;
+	}
 
-    public String getContactInformation() {
-        return contactInformation;
-    }
+	public final Double getMonocrystallineTotalCapacity() {
+		return monocrystallineTotalCapacity;
+	}
 
-    public void setContactInformation(String contactInformation) {
-        this.contactInformation = contactInformation;
-    }
+	public final void setMonocrystallineTotalCapacity(Double monocrystallineTotalCapacity) {
+		this.monocrystallineTotalCapacity = monocrystallineTotalCapacity;
+	}
 
-    public String getDesignInstitute() {
-        return designInstitute;
-    }
+	public final String[] getPolysiliconSpecification() {
+		return polysiliconSpecification;
+	}
 
-    public void setDesignInstitute(String designInstitute) {
-        this.designInstitute = designInstitute;
-    }
+	public final void setPolysiliconSpecification(String[] polysiliconSpecification) {
+		this.polysiliconSpecification = polysiliconSpecification;
+	}
 
-    public String getApprovalNumber() {
-        return approvalNumber;
-    }
+	public final Double[] getPolysiliconCapacity() {
+		return polysiliconCapacity;
+	}
 
-    public void setApprovalNumber(String approvalNumber) {
-        this.approvalNumber = approvalNumber;
-    }
+	public final void setPolysiliconCapacity(Double[] polysiliconCapacity) {
+		this.polysiliconCapacity = polysiliconCapacity;
+	}
 
-    public String getApprovalDepartment() {
-        return approvalDepartment;
-    }
+	public final Double getPolysiliconTotalCapacity() {
+		return polysiliconTotalCapacity;
+	}
 
-    public void setApprovalDepartment(String approvalDepartment) {
-        this.approvalDepartment = approvalDepartment;
-    }
+	public final void setPolysiliconTotalCapacity(Double polysiliconTotalCapacity) {
+		this.polysiliconTotalCapacity = polysiliconTotalCapacity;
+	}
 
-    public String getApprovalMatters() {
-        return approvalMatters;
-    }
+	public final Integer getDeploymentType() {
+		return deploymentType;
+	}
 
-    public void setApprovalMatters(String approvalMatters) {
-        this.approvalMatters = approvalMatters;
-    }
+	public final void setDeploymentType(Integer deploymentType) {
+		this.deploymentType = deploymentType;
+	}
 
-    public String getApprovalResult() {
-        return approvalResult;
-    }
+	public final Date getPlanStartTime() {
+		return planStartTime;
+	}
 
-    public void setApprovalResult(String approvalResult) {
-        this.approvalResult = approvalResult;
-    }
+	public final void setPlanStartTime(Date planStartTime) {
+		this.planStartTime = planStartTime;
+	}
 
-    public Date getApprovalTime() {
-        return approvalTime;
-    }
+	public final Date getRecordTime() {
+		return recordTime;
+	}
 
-    public void setApprovalTime(Date approvalTime) {
-        this.approvalTime = approvalTime;
-    }
+	public final void setRecordTime(Date recordTime) {
+		this.recordTime = recordTime;
+	}
 
-    public String getRemarks() {
-        return remarks;
-    }
+	public final String getContactInformation() {
+		return contactInformation;
+	}
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
+	public final void setContactInformation(String contactInformation) {
+		this.contactInformation = contactInformation;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public final String getDesignInstitute() {
+		return designInstitute;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public final void setDesignInstitute(String designInstitute) {
+		this.designInstitute = designInstitute;
+	}
 
-    public String getHtmlSource() {
-        return htmlSource;
-    }
+	public final String getApprovalNumber() {
+		return approvalNumber;
+	}
 
-    public void setHtmlSource(String htmlSource) {
-        this.htmlSource = htmlSource;
-    }
+	public final void setApprovalNumber(String approvalNumber) {
+		this.approvalNumber = approvalNumber;
+	}
 
-    public Integer getChecked() {
-        return checked;
-    }
+	public final String getApprovalDepartment() {
+		return approvalDepartment;
+	}
 
-    public void setChecked(Integer checked) {
-        this.checked = checked;
-    }
+	public final void setApprovalDepartment(String approvalDepartment) {
+		this.approvalDepartment = approvalDepartment;
+	}
 
-    public Integer getProjectProvince() {
-        return projectProvince;
-    }
+	public final String getApprovalMatters() {
+		return approvalMatters;
+	}
 
-    public void setProjectProvince(Integer projectProvince) {
-        this.projectProvince = projectProvince;
-    }
+	public final void setApprovalMatters(String approvalMatters) {
+		this.approvalMatters = approvalMatters;
+	}
+
+	public final String getApprovalResult() {
+		return approvalResult;
+	}
+
+	public final void setApprovalResult(String approvalResult) {
+		this.approvalResult = approvalResult;
+	}
+
+	public final Date getApprovalTime() {
+		return approvalTime;
+	}
+
+	public final void setApprovalTime(Date approvalTime) {
+		this.approvalTime = approvalTime;
+	}
+
+	public final String getRemarks() {
+		return remarks;
+	}
+
+	public final void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public final String getUrl() {
+		return url;
+	}
+
+	public final void setUrl(String url) {
+		this.url = url;
+	}
+
+	public final String getHtmlSource() {
+		return htmlSource;
+	}
+
+	public final void setHtmlSource(String htmlSource) {
+		this.htmlSource = htmlSource;
+	}
+
+	public final Integer getChecked() {
+		return checked;
+	}
+
+	public final void setChecked(Integer checked) {
+		this.checked = checked;
+	}
+
+	public final String getSnapshotId() {
+		return snapshotId;
+	}
+
+	public final void setSnapshotId(String snapshotId) {
+		this.snapshotId = snapshotId;
+	}
+    
+    
 }
 
 

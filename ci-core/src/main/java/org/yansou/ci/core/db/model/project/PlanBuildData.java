@@ -64,7 +64,7 @@ public class PlanBuildData extends AbstractModel<Long> {
 	@Column
 	private String projectDistrict;// 项目地址，区县
 
-	@Column
+	@Column(length = 2000)
 	private String projcetOwner;// 甲方、项目业主、开发商、采购人、项目法人
 
 	@Column

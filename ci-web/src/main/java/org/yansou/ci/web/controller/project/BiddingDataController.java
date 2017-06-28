@@ -1,5 +1,6 @@
 package org.yansou.ci.web.controller.project;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
+import org.yansou.ci.common.utils.SimpleDateUtils;
+import org.yansou.ci.core.db.constant.DataType;
+import org.yansou.ci.core.db.constant.ReportType;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
@@ -22,17 +26,15 @@ import org.yansou.ci.web.business.project.MergeDataBusiness;
 import org.yansou.ci.web.business.project.PlanBuildDataBusiness;
 import org.yansou.ci.web.business.project.RecordDataBusiness;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author liutiejun
@@ -70,8 +72,6 @@ public class BiddingDataController {
 		return "views/biddingData/list";
 	}
 
-
-
 	/**
 	 * 显示列表页数据
 	 *
@@ -84,7 +84,7 @@ public class BiddingDataController {
 	@RequestMapping(value = "/showList", method = RequestMethod.POST)
 	@ResponseBody
 	public DataTablesOutput<BiddingData> showList(ModelMap model, HttpServletRequest request,
-			HttpServletResponse response) {
+												  HttpServletResponse response) {
 		DataTablesOutput<BiddingData> dataTablesOutput = biddingDataBusiness.pagination(request);
 
 		return dataTablesOutput;
@@ -120,11 +120,23 @@ public class BiddingDataController {
 
 		String projectIdentifie = biddingData.getProjectIdentifie();// 项目唯一标识
 
+		BiddingData[] biddingDatas = biddingDataBusiness.findByProjectIdentifie(projectIdentifie);
 		MergeData[] mergeDatas = mergeDataBusiness.findByProjectIdentifie(projectIdentifie);
 		PlanBuildData[] planBuildDatas = planBuildDataBusiness.findByProjectIdentifie(projectIdentifie);
 		RecordData[] recordDatas = recordDataBusiness.findByProjectIdentifie(projectIdentifie);
 
+		// 去掉dataType一样的数据
+		List<BiddingData> biddingDataList = new ArrayList<>();
+		if (ArrayUtils.isNotEmpty(biddingDatas)) {
+			Arrays.stream(biddingDatas).forEach(biddingData1 -> {
+				if (!biddingData1.getDataType().equals(biddingData.getDataType())) {
+					biddingDataList.add(biddingData1);
+				}
+			});
+		}
+
 		model.addAttribute("biddingData", biddingData);
+		model.addAttribute("biddingDatas", biddingDataList.toArray(new BiddingData[0]));
 		model.addAttribute("mergeDatas", mergeDatas);
 		model.addAttribute("planBuildDatas", planBuildDatas);
 		model.addAttribute("recordDatas", recordDatas);
@@ -145,7 +157,7 @@ public class BiddingDataController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public IdResponse save(BiddingData biddingData, ModelMap model, HttpServletRequest request,
-			HttpServletResponse response) {
+						   HttpServletResponse response) {
 		IdResponse restResponse = biddingDataBusiness.save(biddingData);
 
 		IdRo idRo = restResponse.getResult();
@@ -173,8 +185,8 @@ public class BiddingDataController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public IdResponse update(BiddingData biddingData, Long[] biddingDataIds, Long[] mergeDataIds,
-			Long[] planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request,
-			HttpServletResponse response) {
+							 Long[] planBuildDataIds, Long[] recordDataIds, ModelMap model, HttpServletRequest request,
+							 HttpServletResponse response) {
 		mergeDataBusiness.updateChecked(biddingData.getProjectIdentifie(), mergeDataIds);
 		planBuildDataBusiness.updateChecked(biddingData.getProjectIdentifie(), planBuildDataIds);
 		recordDataBusiness.updateChecked(biddingData.getProjectIdentifie(), recordDataIds);
@@ -210,12 +222,13 @@ public class BiddingDataController {
 	/**
 	 * 进入中标图表页面
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/bidChart")
 	public String showBidChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -226,12 +239,13 @@ public class BiddingDataController {
 	/**
 	 * 进入招标图表页面
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/tenderChart")
 	public String showTenderChart(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -242,12 +256,13 @@ public class BiddingDataController {
 	/**
 	 * 图表显示Bar柱状图
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/showBar", method = RequestMethod.POST)
 	@ResponseBody
@@ -269,47 +284,50 @@ public class BiddingDataController {
 	/**
 	 * 图表显示Pie饼图，中标产品分类
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
 	 * @throws java.text.ParseException
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/showPie", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Map<String,Object>> showtest(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+	public List<Map<String, Object>> showtest(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws java.text.ParseException {
-		String dateString = "2017-05-06 ";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-		Date date = sdf.parse(dateString);
-		ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date, new Date());
-		double[] series = statisticsByProductType.getSeries()[0].getData();
-		String[] xdata = statisticsByProductType.getxAxis()[0].getData();
+		//		String dateString = "2017-05-06 ";
+		//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		//		Date date = sdf.parse(dateString);
+		//		ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date, new Date());
+		//		double[] series = statisticsByProductType.getSeries()[0].getData();
+		//		String[] xdata = statisticsByProductType.getxAxis()[0].getData();
+		//
+		//		List<Map<String, Object>> test = new ArrayList<Map<String, Object>>();
+		//		Map<String, Object> reJson;
+		//		for (int i = 0; i < series.length; i++) {
+		//			reJson = new HashMap<String, Object>();
+		//			reJson.put("name", xdata[i]);
+		//			reJson.put("value", series[i]);
+		//			test.add(reJson);
+		//
+		//		}
+		//		return test;
 
-		List<Map<String, Object>> test = new ArrayList<Map<String, Object>>();
-		Map<String, Object> reJson;
-		for (int i = 0; i < series.length; i++) {
-			reJson = new HashMap<String, Object>();
-			reJson.put("name", xdata[i]);
-			reJson.put("value", series[i]);
-			test.add(reJson);
-
-		}
-		return test;
-
+		return null;
 	}
 
 	/**
 	 * 图表显示Mul混合图
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/showMul", method = RequestMethod.POST)
 	@ResponseBody
@@ -337,12 +355,13 @@ public class BiddingDataController {
 	/**
 	 * 图表显示Line折线图
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/showLine", method = RequestMethod.POST)
 	@ResponseBody
@@ -370,13 +389,14 @@ public class BiddingDataController {
 	/**
 	 * 图表显示Live堆积图
 	 *
-	 * @author hzx
 	 * @param model
 	 * @param request
 	 * @param response
 	 *
 	 * @return
+	 *
 	 * @throws java.text.ParseException
+	 * @author hzx
 	 */
 	@RequestMapping(value = "/showLive", method = RequestMethod.POST)
 	@ResponseBody
@@ -402,7 +422,14 @@ public class BiddingDataController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
 		Date date = sdf.parse(dateString);
-		ReportRo statisticsByProjectProvince = biddingDataBusiness.statisticsByProjectProvince(date, new Date());
+
+		Date startTime = SimpleDateUtils.getADate(2017, 5, 6, 0, 0, 0);
+		Date endTime = new Date();
+		DataType dataType = DataType.BIDDING;
+		ReportType reportType = ReportType.MONTHLY;
+
+		ReportRo statisticsByProjectProvince = biddingDataBusiness.statisticsByCountAndProjectProvince(startTime,
+				endTime, dataType, reportType);
 		statisticsByProjectProvince.getSeries()[0].getData();
 		return statisticsByProjectProvince;
 	}

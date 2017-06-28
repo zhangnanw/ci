@@ -1,5 +1,7 @@
 package org.yansou.ci.web.business.project;
 
+import org.yansou.ci.core.db.constant.DataType;
+import org.yansou.ci.core.db.constant.ReportType;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.rest.report.ReportRo;
 import org.yansou.ci.core.rest.response.CountResponse;
@@ -18,23 +20,87 @@ public interface BiddingDataBusiness extends GeneralBusiness<BiddingData, Long> 
 	CountResponse updateChecked(String projectIdentifie, Long[] ids);
 
 	/**
-	 * 中标产品分类
+	 * 招标总量分析
 	 *
 	 * @param startTime
 	 * @param endTime
+	 * @param dataType
+	 * @param reportType
 	 *
 	 * @return
 	 */
-	ReportRo statisticsByProductType(Date startTime, Date endTime);
+	ReportRo statisticsByProjectScaleAndPublishTime(Date startTime, Date endTime, DataType dataType, ReportType reportType);
 
 	/**
-	 * 中标区域分布
+	 * 招标总量（MW）公司排名
 	 *
 	 * @param startTime
 	 * @param endTime
+	 * @param dataType
+	 * @param reportType
 	 *
 	 * @return
 	 */
-	ReportRo statisticsByProjectProvince(Date startTime, Date endTime);
+	ReportRo statisticsByProjectScaleAndParentCompany(Date startTime, Date endTime, DataType dataType, ReportType reportType, Integer limit);
+
+	/**
+	 * 招标总量（MW）区域排名
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 */
+	ReportRo statisticsByProjectScaleAndProjectProvince(Date startTime, Date endTime, DataType dataType, ReportType reportType, Integer limit);
+
+	/**
+	 * 招标数量区域排名
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 */
+	ReportRo statisticsByCountAndProjectProvince(Date startTime, Date endTime, DataType dataType, ReportType reportType);
+
+	/**
+	 * 招标产品部署类型分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 */
+	ReportRo statisticsByCountAndDeploymentType(Date startTime, Date endTime, DataType dataType, ReportType reportType);
+
+	/**
+	 * 招标产品类型分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 */
+	ReportRo statisticsByCountAndProductType(Date startTime, Date endTime, DataType dataType, ReportType reportType);
+
+	/**
+	 * 招标客户类型分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 */
+	ReportRo statisticsByCountAndCustomerType(Date startTime, Date endTime, DataType dataType, ReportType reportType);
 
 }
