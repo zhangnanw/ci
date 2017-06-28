@@ -1,5 +1,6 @@
 package org.yansou.ci.web.controller.project;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -115,11 +117,23 @@ public class BiddingDataController {
 
 		String projectIdentifie = biddingData.getProjectIdentifie();// 项目唯一标识
 
+		BiddingData[] biddingDatas = biddingDataBusiness.findByProjectIdentifie(projectIdentifie);
 		MergeData[] mergeDatas = mergeDataBusiness.findByProjectIdentifie(projectIdentifie);
 		PlanBuildData[] planBuildDatas = planBuildDataBusiness.findByProjectIdentifie(projectIdentifie);
 		RecordData[] recordDatas = recordDataBusiness.findByProjectIdentifie(projectIdentifie);
 
+		// 去掉dataType一样的数据
+		List<BiddingData> biddingDataList = new ArrayList<>();
+		if (ArrayUtils.isNotEmpty(biddingDatas)) {
+			Arrays.stream(biddingDatas).forEach(biddingData1 -> {
+				if (!biddingData1.getDataType().equals(biddingData.getDataType())) {
+					biddingDataList.add(biddingData1);
+				}
+			});
+		}
+
 		model.addAttribute("biddingData", biddingData);
+		model.addAttribute("biddingDatas", biddingDataList.toArray(new BiddingData[0]));
 		model.addAttribute("mergeDatas", mergeDatas);
 		model.addAttribute("planBuildDatas", planBuildDatas);
 		model.addAttribute("recordDatas", recordDatas);
