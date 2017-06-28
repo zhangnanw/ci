@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.yansou.ci.common.datatables.mapping.DataTablesOutput;
+import org.yansou.ci.common.utils.SimpleDateUtils;
+import org.yansou.ci.core.db.constant.DataType;
+import org.yansou.ci.core.db.constant.ReportType;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.MergeData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
@@ -294,24 +297,25 @@ public class BiddingDataController {
 	@ResponseBody
 	public List<Map<String, Object>> showtest(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws java.text.ParseException {
-		String dateString = "2017-05-06 ";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-		Date date = sdf.parse(dateString);
-		ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date, new Date());
-		double[] series = statisticsByProductType.getSeries()[0].getData();
-		String[] xdata = statisticsByProductType.getxAxis()[0].getData();
+		//		String dateString = "2017-05-06 ";
+		//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		//		Date date = sdf.parse(dateString);
+		//		ReportRo statisticsByProductType = biddingDataBusiness.statisticsByProductType(date, new Date());
+		//		double[] series = statisticsByProductType.getSeries()[0].getData();
+		//		String[] xdata = statisticsByProductType.getxAxis()[0].getData();
+		//
+		//		List<Map<String, Object>> test = new ArrayList<Map<String, Object>>();
+		//		Map<String, Object> reJson;
+		//		for (int i = 0; i < series.length; i++) {
+		//			reJson = new HashMap<String, Object>();
+		//			reJson.put("name", xdata[i]);
+		//			reJson.put("value", series[i]);
+		//			test.add(reJson);
+		//
+		//		}
+		//		return test;
 
-		List<Map<String, Object>> test = new ArrayList<Map<String, Object>>();
-		Map<String, Object> reJson;
-		for (int i = 0; i < series.length; i++) {
-			reJson = new HashMap<String, Object>();
-			reJson.put("name", xdata[i]);
-			reJson.put("value", series[i]);
-			test.add(reJson);
-
-		}
-		return test;
-
+		return null;
 	}
 
 	/**
@@ -418,7 +422,14 @@ public class BiddingDataController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
 		Date date = sdf.parse(dateString);
-		ReportRo statisticsByProjectProvince = biddingDataBusiness.statisticsByProjectProvince(date, new Date());
+
+		Date startTime = SimpleDateUtils.getADate(2017, 5, 6, 0, 0, 0);
+		Date endTime = new Date();
+		DataType dataType = DataType.BIDDING;
+		ReportType reportType = ReportType.MONTHLY;
+
+		ReportRo statisticsByProjectProvince = biddingDataBusiness.statisticsByCountAndProjectProvince(startTime,
+				endTime, dataType, reportType);
 		statisticsByProjectProvince.getSeries()[0].getData();
 		return statisticsByProjectProvince;
 	}

@@ -22,39 +22,117 @@ public interface BiddingDataService extends GeneralService<BiddingData, Long> {
 	int updateChecked(Long[] ids, Integer checked) throws DaoException;
 
 	/**
-	 * 中标产品分类
+	 * 招标总量分析
 	 *
 	 * @param startTime
 	 * @param endTime
+	 * @param dataType
+	 * @param reportType
 	 *
 	 * @return
 	 *
 	 * @throws DaoException
 	 */
-	ReportRo statisticsByProductType(Date startTime, Date endTime) throws DaoException;
+	ReportRo statisticsByProjectScaleAndPublishTime(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException;
 
 	/**
-	 * 中标区域分布
+	 * 招标总量（MW）公司排名
 	 *
 	 * @param startTime
 	 * @param endTime
+	 * @param dataType
+	 * @param reportType
 	 *
 	 * @return
 	 *
 	 * @throws DaoException
 	 */
-	ReportRo statisticsByProjectProvince(Date startTime, Date endTime) throws DaoException;
+	ReportRo statisticsByProjectScaleAndParentCompany(Date startTime, Date endTime, Integer dataType, Integer
+			reportType, Integer limit) throws DaoException;
+
+	/**
+	 * 招标总量（MW）区域排名
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByProjectScaleAndProjectProvince(Date startTime, Date endTime, Integer dataType, Integer
+			reportType, Integer limit) throws DaoException;
+
+	/**
+	 * 招标数量区域排名
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByCountAndProjectProvince(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException;
+
+	/**
+	 * 招标产品部署类型分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByCountAndDeploymentType(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException;
+
+	/**
+	 * 招标产品类型分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByCountAndProductType(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException;
+
+	/**
+	 * 招标客户类型分析
+	 *
+	 * @param startTime
+	 * @param endTime
+	 * @param dataType
+	 * @param reportType
+	 *
+	 * @return
+	 *
+	 * @throws DaoException
+	 */
+	ReportRo statisticsByCountAndCustomerType(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException;
 
 	/**
 	 * 中标总量分析
 	 *
 	 * @param startTime
 	 * @param endTime
+	 * @param dataType
+	 * @param reportType
 	 *
 	 * @return
 	 *
 	 * @throws DaoException
 	 */
-	ReportRo statisticsByWinTotalAmount(Date startTime, Date endTime) throws DaoException;
+	ReportRo statisticsByWinTotalAmount(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException;
 
 }

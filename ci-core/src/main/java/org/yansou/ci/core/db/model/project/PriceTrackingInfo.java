@@ -19,7 +19,7 @@ public class PriceTrackingInfo extends AbstractModel<Long> {
 
 	private static final long serialVersionUID = 1414587990992246199L;
 
-	@Column
+	@Column(length = 2000)
 	private String projcetOwner;// 甲方、项目业主、开发商、采购人、项目法人
 
 	@Column
