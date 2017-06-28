@@ -277,7 +277,7 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group"><label>产品部署类型</label>
+									<div class="form-group"><label>产品部署方式</label>
 										<select class="select2_deploymentType form-control" name="deploymentType">
 											<option></option>
 											<option value="1"
@@ -295,7 +295,7 @@
 										</select>
 									</div>
 									<div class="form-group"><label>产品类型</label>
-										<select class="select2_deploymentType form-control" name="productType">
+										<select class="select2_productType form-control" name="productType">
 											<option></option>
 											<option value="1"
 													<#if ((biddingData.productType)!-1)==1>selected="selected"</#if>>单晶硅
@@ -584,6 +584,11 @@
 	}();
 
 	$(document).ready(function () {
+		$(".select2_dataType").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
 		$(".select2_projectProvince").select2({
 			placeholder: "--请选择--",
 			allowClear: true
@@ -595,6 +600,11 @@
 		});
 
 		$(".select2_deploymentType").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$(".select2_productType").select2({
 			placeholder: "--请选择--",
 			allowClear: true
 		});

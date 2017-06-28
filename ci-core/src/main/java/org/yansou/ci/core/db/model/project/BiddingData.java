@@ -98,7 +98,7 @@ public class BiddingData extends AbstractModel<Long> {
 	private Double polysiliconTotalCapacity;// 多晶硅的总采购容量，单位：MW（兆瓦）
 
 	@Column
-	private Integer deploymentType;// 产品的部署类型（可能会发生变化），1-分布式、2-集中式、3-渔光、4-农光，需要乐叶确定
+	private Integer deploymentType;// 产品的部署方式（可能会发生变化）
 
 	@Column
 	private Double biddingBudget;// 招标预算，单位：万元

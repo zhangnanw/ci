@@ -1,6 +1,7 @@
 package org.yansou.ci.core.db.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.yansou.ci.core.db.model.AbstractModel;
 
@@ -25,6 +26,7 @@ public class ProjectInfo extends AbstractModel<Long> {
 	private String projectName;// 项目名称（工程名称）
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
 	@Column
@@ -92,7 +94,7 @@ public class ProjectInfo extends AbstractModel<Long> {
 	private Date mergeTime;// 并网时间
 
 	@Column
-	private Integer deploymentType;// 产品的部署类型，分布式、集中式、渔光、农光，需要乐叶确定
+	private Integer deploymentType;// 产品的部署方式
 
 	@Column
 	private Integer customerType;// 客户类别，一类客户、二类客户、三类客户、互补企业、设计院、竞争对手，需要乐叶确定

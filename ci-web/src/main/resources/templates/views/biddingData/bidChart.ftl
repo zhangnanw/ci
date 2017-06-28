@@ -1029,7 +1029,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="deploymentType">产品部署类型</label>
+								<label class="control-label" for="deploymentType">产品部署方式</label>
 								<select name="deploymentType" id="deploymentType"
 										class="form-control">
 									<option value="" selected>--请选择--</option>

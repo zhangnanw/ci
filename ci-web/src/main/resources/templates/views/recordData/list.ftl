@@ -135,12 +135,15 @@
 											<th>#</th>
 											<th>备案时间</th>
 											<th>项目名称</th>
+											<th>项目编码</th>
 											<th>项目规模（MW）</th>
 											<th>项目总投资（万元）</th>
 											<th>项目地址（省）</th>
 											<th>采购人</th>
 											<th>母公司</th>
 											<th>产品类型</th>
+											<th>产品部署方式</th>
+											<th>审批部门</th>
 											<th>编辑</th>
 											<th>删除</th>
 										</tr>
@@ -225,16 +228,21 @@
 						},
 						{
 							"targets": 3,
-							"data": "projectScale",
+							"data": "projectCodes",
 							"orderable": false
 						},
 						{
 							"targets": 4,
-							"data": "projectTotalInvestment",
+							"data": "projectScale",
 							"orderable": false
 						},
 						{
 							"targets": 5,
+							"data": "projectTotalInvestment",
+							"orderable": false
+						},
+						{
+							"targets": 6,
 							"data": "projectProvince",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -312,17 +320,17 @@
 							}
 						},
 						{
-							"targets": 6,
+							"targets": 7,
 							"data": "projcetOwner",
 							"orderable": false
 						},
 						{
-							"targets": 7,
+							"targets": 8,
 							"data": "parentCompany",
 							"orderable": false
 						},
 						{
-							"targets": 8,
+							"targets": 9,
 							"data": "productType",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -336,7 +344,26 @@
 							}
 						},
 						{
-							"targets": 9,
+							"targets": 10,
+							"data": "deploymentType",
+							"orderable": false,
+							"render": function (data, type, full, meta) {
+								if (data === 1) {
+									return '分布式';
+								} else if (data === 2) {
+									return '地面电站';
+								} else {
+									return '未知';
+								}
+							}
+						},
+						{
+							"targets": 11,
+							"data": "approvalDepartment",
+							"orderable": false
+						},
+						{
+							"targets": 12,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -344,7 +371,7 @@
 							},
 						},
 						{
-							"targets": 10,
+							"targets": 13,
 							"data": "id",
 							"orderable": false,
 							"render": function (data, type, full, meta) {
@@ -380,9 +407,9 @@
 		var oTable = $('.dataTables-example').DataTable();
 
 		oTable.column(2).search(projectName)
-				.column(5).search(projectProvince)
-				.column(3).search(projectScale)
-				.column(6).search(projcetOwner)
+				.column(6).search(projectProvince)
+				.column(4).search(projectScale)
+				.column(7).search(projcetOwner)
 				.draw();
 
 	}
