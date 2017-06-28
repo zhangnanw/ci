@@ -17,6 +17,8 @@ import org.yansou.ci.common.page.SearchInfo;
 import org.yansou.ci.common.utils.DateFormater;
 import org.yansou.ci.common.web.RequestUtils;
 import org.yansou.ci.core.db.constant.Checked;
+import org.yansou.ci.core.db.constant.DataType;
+import org.yansou.ci.core.db.constant.ReportType;
 import org.yansou.ci.core.db.model.AbstractModel;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.rest.report.ReportParameter;
@@ -306,12 +308,15 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public ReportRo statisticsByProductType(Date startTime, Date endTime) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/productType";
+	public ReportRo statisticsByProjectScaleAndPublishTime(Date startTime, Date endTime, DataType dataType, ReportType
+			reportType) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectScale/publishTime";
 
 		ReportParameter reportParameter = new ReportParameter();
 		reportParameter.setStartTime(startTime);
 		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
 
 		RestRequest restRequest = new RestRequest();
 		restRequest.setReportParameter(reportParameter);
@@ -324,12 +329,15 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 	}
 
 	@Override
-	public ReportRo statisticsByProjectProvince(Date startTime, Date endTime) {
-		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectProvince";
+	public ReportRo statisticsByProjectScaleAndParentCompany(Date startTime, Date endTime, DataType dataType, ReportType reportType, Integer limit) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectScale/parentCompany";
 
 		ReportParameter reportParameter = new ReportParameter();
 		reportParameter.setStartTime(startTime);
 		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
+		reportParameter.setLimit(limit);
 
 		RestRequest restRequest = new RestRequest();
 		restRequest.setReportParameter(reportParameter);
@@ -341,4 +349,104 @@ public class BiddingDataBusinessImpl implements BiddingDataBusiness {
 		return restResponse.getResult();
 	}
 
+	@Override
+	public ReportRo statisticsByProjectScaleAndProjectProvince(Date startTime, Date endTime, DataType dataType, ReportType reportType, Integer limit) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectScale/projectProvince";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
+		reportParameter.setLimit(limit);
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndProjectProvince(Date startTime, Date endTime, DataType dataType, ReportType reportType) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/projectProvince";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndDeploymentType(Date startTime, Date endTime, DataType dataType, ReportType reportType) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/deploymentType";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndProductType(Date startTime, Date endTime, DataType dataType, ReportType reportType) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/productType";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndCustomerType(Date startTime, Date endTime, DataType dataType, ReportType reportType) {
+		String requestUrl = "http://" + CI_STORAGE + "/biddingData/statistics/customerType";
+
+		ReportParameter reportParameter = new ReportParameter();
+		reportParameter.setStartTime(startTime);
+		reportParameter.setEndTime(endTime);
+		reportParameter.setDataType(dataType.getValue());
+		reportParameter.setReportType(reportType.getValue());
+
+		RestRequest restRequest = new RestRequest();
+		restRequest.setReportParameter(reportParameter);
+
+		HttpEntity<RestRequest> httpEntity = new HttpEntity<>(restRequest);
+
+		ReportResponse restResponse = restTemplate.postForObject(requestUrl, httpEntity, ReportResponse.class);
+
+		return restResponse.getResult();
+	}
 }

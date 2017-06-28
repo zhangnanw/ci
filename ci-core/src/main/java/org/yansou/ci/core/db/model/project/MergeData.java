@@ -1,15 +1,14 @@
 package org.yansou.ci.core.db.model.project;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yansou.ci.core.db.model.AbstractModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.yansou.ci.core.db.model.AbstractModel;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 /**
  * 并网信息
@@ -27,6 +26,7 @@ public class MergeData extends AbstractModel<Long> {
 	private String projectName;// 项目名称（工程名称）
 
 	@Column
+	@Type(type = "org.yansou.ci.core.hibernate.usertype.StringArrayType")
 	private String[] projectCodes;// 项目编码，由于备案信息、招中标信息中的项目编码可能不一致，可能有多个值
 
 	@Column
@@ -48,7 +48,7 @@ public class MergeData extends AbstractModel<Long> {
 	private String projectAddress;// 项目详细地址
 
 	@Column
-	private String projectProvince;// 项目地址，省
+	private Integer projectProvince;// 项目地址，省
 
 	@Column
 	private String projectCity;// 项目地址，市
@@ -56,7 +56,7 @@ public class MergeData extends AbstractModel<Long> {
 	@Column
 	private String projectDistrict;// 项目地址，区县
 
-	@Column
+	@Column(length = 2000)
 	private String projcetOwner;// 甲方、项目业主、开发商、采购人、项目法人
 
 	@Column
@@ -143,11 +143,11 @@ public class MergeData extends AbstractModel<Long> {
 		this.projectAddress = projectAddress;
 	}
 
-	public String getProjectProvince() {
+	public Integer getProjectProvince() {
 		return projectProvince;
 	}
 
-	public void setProjectProvince(String projectProvince) {
+	public void setProjectProvince(Integer projectProvince) {
 		this.projectProvince = projectProvince;
 	}
 

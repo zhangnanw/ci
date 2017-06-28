@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 产品部署类型
+ * 产品部署方式
  * <ul>
  * <li>1-分布式</li>
  * <li>2-地面电站</li>

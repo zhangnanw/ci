@@ -152,7 +152,7 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="deploymentType">产品部署类型</label>
+								<label class="control-label" for="deploymentType">产品部署方式</label>
 								<select name="deploymentType" id="deploymentType" class="form-control">
 									<option value="" selected>--请选择--</option>
 									<option value="1">分布式</option>
@@ -220,7 +220,7 @@
 											<th>采购方式</th>
 											<th>母公司</th>
 											<th>产品类型</th>
-											<th>产品部署类型</th>
+											<th>产品部署方式</th>
 											<th>单晶硅规格</th>
 											<th>单晶硅采购容量（MW）</th>
 											<th>多晶硅规格</th>
@@ -467,11 +467,7 @@
 								if (data === 1) {
 									return '分布式';
 								} else if (data === 2) {
-									return '集中式';
-								} else if (data === 3) {
-									return '渔光';
-								} else if (data === 4) {
-									return '农光';
+									return '地面电站';
 								} else {
 									return '未知';
 								}

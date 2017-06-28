@@ -148,9 +148,9 @@ public class BiddingDataController {
 		return SimpleRestResponse.ok("count", count);
 	}
 
-	@ApiOperation(value = "报表统计")
-	@PostMapping(value = "/statistics/productType")
-	public SimpleRestResponse statisticsByProductType(@RequestBody RestRequest restRequest) throws Exception {
+	@ApiOperation(value = "报表统计-招标总量分析")
+	@PostMapping(value = "/statistics/projectScale/publishTime")
+	public SimpleRestResponse statisticsByProjectScaleAndPublishTime(@RequestBody RestRequest restRequest) throws Exception {
 		if (restRequest == null) {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
@@ -159,15 +159,18 @@ public class BiddingDataController {
 
 		Date startTime = reportParameter.getStartTime();
 		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
 
-		ReportRo ReportRo = biddingDataService.statisticsByProductType(startTime, endTime);
+		ReportRo ReportRo = biddingDataService.statisticsByProjectScaleAndPublishTime(startTime, endTime,
+				dataType, reportType);
 
 		return SimpleRestResponse.ok(ReportRo);
 	}
 
-	@ApiOperation(value = "报表统计")
-	@PostMapping(value = "/statistics/projectProvince")
-	public SimpleRestResponse statisticsByProjectProvince(@RequestBody RestRequest restRequest) throws Exception {
+	@ApiOperation(value = "报表统计-招标总量（MW）公司排名")
+	@PostMapping(value = "/statistics/projectScale/parentCompany")
+	public SimpleRestResponse statisticsByProjectScaleAndParentCompany(@RequestBody RestRequest restRequest) throws Exception {
 		if (restRequest == null) {
 			return SimpleRestResponse.exception("请求参数为空");
 		}
@@ -176,8 +179,113 @@ public class BiddingDataController {
 
 		Date startTime = reportParameter.getStartTime();
 		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
+		Integer limit = reportParameter.getLimit();
 
-		ReportRo ReportRo = biddingDataService.statisticsByProjectProvince(startTime, endTime);
+		ReportRo ReportRo = biddingDataService.statisticsByProjectScaleAndParentCompany(startTime, endTime,
+				dataType, reportType, limit);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计-招标总量（MW）区域排名")
+	@PostMapping(value = "/statistics/projectScale/projectProvince")
+	public SimpleRestResponse statisticsByProjectScaleAndProjectProvince(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
+		Integer limit = reportParameter.getLimit();
+
+		ReportRo ReportRo = biddingDataService.statisticsByProjectScaleAndProjectProvince(startTime, endTime,
+				dataType, reportType, limit);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计-招标数量区域排名")
+	@PostMapping(value = "/statistics/projectProvince")
+	public SimpleRestResponse statisticsByCountAndProjectProvince(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
+
+		ReportRo ReportRo = biddingDataService.statisticsByCountAndProjectProvince(startTime, endTime,
+				dataType, reportType);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计-招标产品部署类型分析")
+	@PostMapping(value = "/statistics/deploymentType")
+	public SimpleRestResponse statisticsByCountAndDeploymentType(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
+
+		ReportRo ReportRo = biddingDataService.statisticsByCountAndDeploymentType(startTime, endTime,
+				dataType, reportType);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计-招标产品类型分析")
+	@PostMapping(value = "/statistics/productType")
+	public SimpleRestResponse statisticsByCountAndProductType(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
+
+		ReportRo ReportRo = biddingDataService.statisticsByCountAndProductType(startTime, endTime,
+				dataType, reportType);
+
+		return SimpleRestResponse.ok(ReportRo);
+	}
+
+	@ApiOperation(value = "报表统计-招标客户类型分析")
+	@PostMapping(value = "/statistics/customerType")
+	public SimpleRestResponse statisticsByCountAndCustomerType(@RequestBody RestRequest restRequest) throws Exception {
+		if (restRequest == null) {
+			return SimpleRestResponse.exception("请求参数为空");
+		}
+
+		ReportParameter reportParameter = restRequest.getReportParameter();
+
+		Date startTime = reportParameter.getStartTime();
+		Date endTime = reportParameter.getEndTime();
+		Integer dataType = reportParameter.getDataType();
+		Integer reportType = reportParameter.getReportType();
+
+		ReportRo ReportRo = biddingDataService.statisticsByCountAndCustomerType(startTime, endTime,
+				dataType, reportType);
 
 		return SimpleRestResponse.ok(ReportRo);
 	}

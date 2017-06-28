@@ -18,6 +18,8 @@ import org.yansou.ci.core.rest.report.ReportUtils;
 import org.yansou.ci.storage.common.repository.GeneralRepository;
 import org.yansou.ci.storage.common.service.GeneralServiceImpl;
 import org.yansou.ci.storage.repository.project.BiddingDataRepository;
+import org.yansou.ci.storage.service.dict.CustomerTypeDictService;
+import org.yansou.ci.storage.service.dict.DeploymentTypeDictService;
 import org.yansou.ci.storage.service.dict.ProductTypeDictService;
 import org.yansou.ci.storage.service.dict.ProvinceDictService;
 import org.yansou.ci.storage.service.project.BiddingDataService;
@@ -42,6 +44,12 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 
 	@Autowired
 	private SnapshotInfoService snapshotInfoService;
+
+	@Autowired
+	private CustomerTypeDictService customerTypeDictService;
+
+	@Autowired
+	private DeploymentTypeDictService deploymentTypeDictService;
 
 	@Autowired
 	private ProductTypeDictService productTypeDictService;
@@ -147,7 +155,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 	}
 
 	@Override
-	public ReportRo statisticsByProductType(Date startTime, Date endTime) throws DaoException {
+	public ReportRo statisticsByProjectScaleAndPublishTime(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException {
 		if (startTime == null) {
 			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
 		}
@@ -156,28 +164,27 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.productType as productType, count(*) as productTypeCount from BiddingData bean " +
-				"where bean.publishTime between :startTime and :endTime group by bean.productType";
+		String hql = "select bean.publishTimeYearMonth as publishTimeYearMonth, sum(bean.projectScale) as projectScale " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.publishTimeYearMonth order by bean.publishTimeYearMonth";
 
 		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
 		valuesMap.put("startTime", startTime);
 		valuesMap.put("endTime", endTime);
 
 		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, valuesMap);
 
-		LOG.info("dataList: {}", dataList);
-
-		String xKey = "productType";
+		String xKey = "publishTimeYearMonth";
 		String yKey = null;
-		String[] serieKeys = new String[]{"productTypeCount"};
+		String[] serieKeys = new String[]{"projectScale"};
 
-		Map<Integer, String> productTypeMap = productTypeDictService.findAllByMap();
-
-		return ReportUtils.convert(dataList, productTypeMap, null, xKey, yKey, serieKeys);
+		return ReportUtils.convert(dataList, null, null, xKey, yKey, serieKeys);
 	}
 
 	@Override
-	public ReportRo statisticsByProjectProvince(Date startTime, Date endTime) throws DaoException {
+	public ReportRo statisticsByProjectScaleAndParentCompany(Date startTime, Date endTime, Integer dataType,
+															 Integer reportType, Integer limit) throws DaoException {
 		if (startTime == null) {
 			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
 		}
@@ -186,10 +193,71 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.projectProvince as projectProvince, count(*) as projectProvinceCount from BiddingData bean " +
-				"where bean.publishTime between :startTime and :endTime group by bean.projectProvince";
+		String hql = "select bean.parentCompany as parentCompany, sum(bean.projectScale) as projectScale " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.parentCompany order by projectScale desc";
 
 		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, 0, limit, valuesMap);
+
+		String xKey = "parentCompany";
+		String yKey = null;
+		String[] serieKeys = new String[]{"projectScale"};
+
+		return ReportUtils.convert(dataList, null, null, xKey, yKey, serieKeys);
+	}
+
+	@Override
+	public ReportRo statisticsByProjectScaleAndProjectProvince(Date startTime, Date endTime, Integer dataType,
+															   Integer reportType, Integer limit) throws DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		String hql = "select bean.projectProvince as projectProvince, sum(bean.projectScale) as projectScale " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.projectProvince order by projectScale desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, 0, limit, valuesMap);
+
+		String xKey = "projectProvince";
+		String yKey = null;
+		String[] serieKeys = new String[]{"projectScale"};
+
+		Map<Integer, String> provinceMap = provinceDictService.findAllByMap();
+
+		return ReportUtils.convert(dataList, provinceMap, null, xKey, yKey, serieKeys);
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndProjectProvince(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		String hql = "select bean.projectProvince as projectProvince, count(*) as projectProvinceCount " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.projectProvince order by projectProvinceCount desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
 		valuesMap.put("startTime", startTime);
 		valuesMap.put("endTime", endTime);
 
@@ -205,7 +273,7 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 	}
 
 	@Override
-	public ReportRo statisticsByWinTotalAmount(Date startTime, Date endTime) throws DaoException {
+	public ReportRo statisticsByCountAndDeploymentType(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException {
 		if (startTime == null) {
 			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
 		}
@@ -214,23 +282,88 @@ public class BiddingDataServiceImpl extends GeneralServiceImpl<BiddingData, Long
 			endTime = SimpleDateUtils.getCurrDate();
 		}
 
-		String hql = "select bean.publishTimeYearMonth as publishTimeYearMonth, count(*) as publishTimeCount, " +
-				"sum(bean.winTotalAmount) as winTotalAmount " +
-				"from BiddingData bean where bean.publishTime between :startTime and :endTime " +
-				"group by bean.publishTimeYearMonth order by bean.publishTimeYearMonth";
+		String hql = "select bean.deploymentType as deploymentType, count(*) as deploymentTypeCount " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.deploymentType order by deploymentTypeCount desc";
 
 		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
 		valuesMap.put("startTime", startTime);
 		valuesMap.put("endTime", endTime);
 
 		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, valuesMap);
 
-		String xKey = "publishTimeYearMonth";
+		String xKey = "deploymentType";
 		String yKey = null;
-		String[] serieKeys = new String[]{"publishTimeCount", "winTotalAmount"};
+		String[] serieKeys = new String[]{"deploymentTypeCount"};
 
-		Map<Integer, String> provinceMap = provinceDictService.findAllByMap();
+		Map<Integer, String> deploymentTypeMap = deploymentTypeDictService.findAllByMap();
 
-		return ReportUtils.convert(dataList, provinceMap, null, xKey, yKey, serieKeys);
+		return ReportUtils.convert(dataList, deploymentTypeMap, null, xKey, yKey, serieKeys);
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndProductType(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		String hql = "select bean.productType as productType, count(*) as productTypeCount " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.productType order by productTypeCount desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, valuesMap);
+
+		String xKey = "productType";
+		String yKey = null;
+		String[] serieKeys = new String[]{"productTypeCount"};
+
+		Map<Integer, String> productTypeMap = productTypeDictService.findAllByMap();
+
+		return ReportUtils.convert(dataList, productTypeMap, null, xKey, yKey, serieKeys);
+	}
+
+	@Override
+	public ReportRo statisticsByCountAndCustomerType(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException {
+		if (startTime == null) {
+			startTime = SimpleDateUtils.getADate(1970, 01, 01, 0, 0, 0);
+		}
+
+		if (endTime == null) {
+			endTime = SimpleDateUtils.getCurrDate();
+		}
+
+		String hql = "select bean.customerType as customerType, count(*) as customerTypeCount " +
+				"from BiddingData bean where bean.dataType = :dataType and bean.publishTime between :startTime and :endTime " +
+				"group by bean.customerType order by customerTypeCount desc";
+
+		Map<String, Object> valuesMap = new HashMap<>();
+		valuesMap.put("dataType", dataType);
+		valuesMap.put("startTime", startTime);
+		valuesMap.put("endTime", endTime);
+
+		List<Map<String, Object>> dataList = biddingDataRepository.findByHql(hql, valuesMap);
+
+		String xKey = "customerType";
+		String yKey = null;
+		String[] serieKeys = new String[]{"customerTypeCount"};
+
+		Map<Integer, String> customerTypeMap = customerTypeDictService.findAllByMap();
+
+		return ReportUtils.convert(dataList, customerTypeMap, null, xKey, yKey, serieKeys);
+	}
+
+	@Override
+	public ReportRo statisticsByWinTotalAmount(Date startTime, Date endTime, Integer dataType, Integer reportType) throws DaoException {
+		return null;
 	}
 }

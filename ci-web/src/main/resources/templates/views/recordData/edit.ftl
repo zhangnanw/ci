@@ -63,6 +63,10 @@
 										<input type="text" class="form-control" placeholder=""
 											   name="projectName" value="${(recordData.projectName)!''}">
 									</div>
+									<div class="form-group"><label>项目编码</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectCodes" value="${(recordData.projectCodes)!''}">
+									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale" value="${(recordData.projectScale)!''}">
@@ -229,6 +233,24 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="" name="parentCompany"
 											   value="${(recordData.parentCompany)!''}">
+									</div>
+
+									<div class="form-group"><label>产品部署方式</label>
+										<select class="select2_deploymentType form-control" name="deploymentType">
+											<option></option>
+											<option value="1"
+													<#if ((recordData.deploymentType)!-1)==1>selected="selected"</#if>>
+												分布式
+											</option>
+											<option value="2"
+													<#if ((recordData.deploymentType)!-1)==2>selected="selected"</#if>>
+												地面电站
+											</option>
+											<option value="3"
+													<#if ((recordData.deploymentType)!-1)==3>selected="selected"</#if>>
+												未知
+											</option>
+										</select>
 									</div>
 
 									<div class="form-group"><label>产品类型</label>
@@ -442,7 +464,7 @@
 								<#if (planBuildDatas??)><#if planBuildDatas?size gt 0><#list planBuildDatas as pbd>
 									<div class="i-checks"><label>
 										<input type="checkbox" name="planBuildDataIds" value="${pbd.id}"
-											   <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
+											   <#if ((pbd.checked)!-1)==1>checked=""</#if>> <i></i>
 									${pbd.projectName}
 									</label></div>
 								</#list></#if></#if>
@@ -458,8 +480,13 @@
 								<#if (biddingDatas??)><#if biddingDatas?size gt 0><#list biddingDatas as bd>
 									<div class="i-checks"><label>
 										<input type="checkbox" name="biddingDataIds" value="${bd.id}"
-											   <#if ((rd.checked)!-1)==1>checked=""</#if>> <i></i>
-									${pbd.projectName}
+											   <#if ((bd.checked)!-1)==1>checked=""</#if>> <i></i>
+										【<#if ((biddingData.dataType)!-1)==1>招标公告
+									<#elseif ((biddingData.dataType)!-1)==2>中标公告
+									<#elseif ((biddingData.dataType)!-1)==3>更正公告
+									<#elseif ((biddingData.dataType)!-1)==4>废标公告
+									<#elseif ((biddingData.dataType)!-1)==5>流标公告
+									<#else></#if>】${bd.projectName}
 									</label></div>
 								</#list></#if></#if>
 								</div>
@@ -543,6 +570,16 @@
 
 	$(document).ready(function () {
 		$(".select2_projectProvince").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$(".select2_deploymentType").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$(".select2_productType").select2({
 			placeholder: "--请选择--",
 			allowClear: true
 		});

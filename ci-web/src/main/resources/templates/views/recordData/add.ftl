@@ -52,6 +52,10 @@
 										<input type="text" class="form-control" placeholder=""
 											   name="projectName">
 									</div>
+									<div class="form-group"><label>项目编码</label>
+										<input type="text" class="form-control" placeholder=""
+											   name="projectCodes">
+									</div>
 									<div class="form-group"><label>项目规模（兆瓦）</label>
 										<input type="text" class="form-control" placeholder=""
 											   name="projectScale">
@@ -114,8 +118,16 @@
 									<div class="form-group"><label>母公司</label>
 										<input type="text" class="form-control" placeholder="" name="parentCompany">
 									</div>
+									<div class="form-group"><label>产品部署方式</label>
+										<select class="select2_deploymentType form-control" name="deploymentType">
+											<option></option>
+											<option value="1">分布式</option>
+											<option value="2">地面电站</option>
+											<option value="3">未知</option>
+										</select>
+									</div>
 									<div class="form-group"><label>产品类型</label>
-										<select class="select2_deploymentType form-control" name="productType">
+										<select class="select2_productType form-control" name="productType">
 											<option></option>
 											<option value="1">单晶硅</option>
 											<option value="2">多晶硅</option>
@@ -123,6 +135,7 @@
 											<option value="4">未知</option>
 										</select>
 									</div>
+
 									<div class="form-group"><label>单晶硅规格</label>
 										<div class="row">
 											<div class="col-md-2"><input type="text" placeholder=""
@@ -348,6 +361,16 @@
 
 	$(document).ready(function () {
 		$(".select2_projectProvince").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$(".select2_deploymentType").select2({
+			placeholder: "--请选择--",
+			allowClear: true
+		});
+
+		$(".select2_productType").select2({
 			placeholder: "--请选择--",
 			allowClear: true
 		});
