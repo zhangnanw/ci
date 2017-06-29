@@ -7,7 +7,6 @@ spring:
       url: jdbc:mysql://biaoshuking.mysql.rds.aliyuncs.com:3306/ci-master?useUnicode=true&rewriteBatchedStatements=true&characterEncoding=utf-8
       username: cim
       password: yansou2016+
-      driver-class-name: com.mysql.jdbc.Driver
       max-wait: 10000
       max-idle: 100
       max-active: 100
