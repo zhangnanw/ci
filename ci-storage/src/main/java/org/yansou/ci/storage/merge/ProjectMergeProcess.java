@@ -1,15 +1,6 @@
 package org.yansou.ci.storage.merge;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yansou.ci.common.utils.PojoUtils;
 import org.yansou.ci.common.utils.ReflectUtils;
-import org.yansou.ci.common.utils.RegexUtils;
 import org.yansou.ci.core.db.model.project.BiddingData;
 import org.yansou.ci.core.db.model.project.PlanBuildData;
 import org.yansou.ci.storage.repository.project.BiddingDataRepository;
-import org.yansou.ci.storage.repository.project.PlanBuildDataRepository;
+import org.yansou.ci.storage.service.project.BiddingDataService;
+import org.yansou.ci.storage.service.project.PlanBuildDataService;
 
-import com.alibaba.fastjson.JSON;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2017/6/12.
@@ -33,18 +27,22 @@ public class ProjectMergeProcess implements Runnable {
 
     final static private Logger LOG = LogManager.getLogger( ProjectMergeProcess.class );
     @Autowired
-    private PlanBuildDataRepository planBuildDataService;
+    private PlanBuildDataService planBuildDataService;
     @Autowired
-    private BiddingDataRepository biddingDataService;
+    private BiddingDataService biddingDataService;
 
     @Override
     public void run() {
         ProjectVectorParse parse = new ProjectVectorParse();
         List<ProjectVector> list = new ArrayList<>();
-        planBuildDataService.findAll().stream().map( parse::parse ).forEach( list::add );
-        biddingDataService.findAll().stream().map( parse::parse ).forEach( list::add );
+        try {
+            planBuildDataService.findAll().stream().map( parse::parse ).filter( Objects::nonNull ).forEach( list::add );
+            biddingDataService.findAll().stream().map( parse::parse ).filter( Objects::nonNull ).forEach( list::add );
+        } catch (Exception e) {
+            throw new IllegalStateException( e );
+        }
         Map<Object, List<ProjectVector>> groupMap = list.stream()
-                .collect( Collectors.groupingBy( f -> f.getA1() + f.getMw1() + getPartya( f.getParty_a() ) ) );
+                .collect( Collectors.groupingBy( this::groupId ) );
         for (Entry<Object, List<ProjectVector>> ent : groupMap.entrySet()) {
             List<ProjectVector> group = ent.getValue();
             List<List<ProjectVector>> groupList = new ArrayList<>();
@@ -73,7 +71,7 @@ public class ProjectMergeProcess implements Runnable {
                         idfList.add( projectIdentifie );
                     }
                 }
-                // 重新生成這個組的ID
+                //重新生成这个组的ID
                 String newProjectID = ent.getKey().toString() + "_" + groupNumber;
                 for (ProjectVector pv : doneGroup) {
                     if (!PojoUtils.set( pv.getQuote(), "projectIdentifie", newProjectID )) {
@@ -83,17 +81,29 @@ public class ProjectMergeProcess implements Runnable {
                 doneGroup.stream().map( pv -> pv.getQuote() ).forEach( this::save );
                 System.out.println( "*************************" );
             }
-
         }
     }
 
+    private String groupId(ProjectVector f) {
+
+        String partya = getPartya( f.getParty_a() );
+
+        String gid = f.getA1() + ':' + f.getMw1() + ';' + partya;
+        System.out.println( gid );
+        return gid;
+    }
+
     private void save(Object pojo) {
-        if (pojo instanceof BiddingData) {
-            biddingDataService.save( (BiddingData) pojo );
-        } else if (pojo instanceof PlanBuildData) {
-            planBuildDataService.save( (PlanBuildData) pojo );
-        } else {
-            throw new IllegalStateException( "不能保存的類型" );
+        try {
+            if (pojo instanceof BiddingData) {
+                biddingDataService.save( (BiddingData) pojo );
+            } else if (pojo instanceof PlanBuildData) {
+                planBuildDataService.save( (PlanBuildData) pojo );
+            } else {
+                throw new IllegalStateException( "不能保存的類型" );
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException( e );
         }
     }
 
@@ -132,11 +142,6 @@ public class ProjectMergeProcess implements Runnable {
     }
 
     String getPartya(String val) {
-        if (null == val) {
-            return "";
-        }
-        val = val.replaceAll( "\r", "" );
-        val = RegexUtils.regex( "公司：(.+)", val, 1 );
         if (null == val) {
             return "";
         }
